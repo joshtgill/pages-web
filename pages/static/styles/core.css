@@ -19,6 +19,7 @@ body {
 }
 
 .top-nav .left {
+    display: none;
     margin: 0 0 0 10px;
 }
 
@@ -52,17 +53,17 @@ body {
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+    display: block;
 }
 
-@media only screen and (max-width: 580px) {
+@media only screen and (min-width: 580px) {
     .top-nav .left {
-        display: none;
+        display: block;
     }
 
     .content {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
     }
 }
