@@ -1,0 +1,15 @@
+.content .header {
+    width: 100vw;
+    height: 15vmax;
+    min-height: 200px;
+    display: flex;
+    align-items: flex-end;
+    background-color: rgb(230, 217, 198);
+}
+
+.content .header h1 {
+    margin: 0 0 15px 15px;
+    font-size: 12vmin;
+    font-weight: normal;
+    color: rgb(50, 50, 50);
+}

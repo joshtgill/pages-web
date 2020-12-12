@@ -1,0 +1,17 @@
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" />
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/core.css' %}">
+
+<div class="top-nav">
+    <div class="left">
+        <a href="{% url 'home' %}">Pages</a>
+    </div>
+    <div class="center">
+        <a href="{% url 'home' %}">Create</a>
+        <a href="{% url 'home' %}">Pricing</a>
+    </div>
+    <div class="right">
+        <a href="{% url 'home' %}">Account</a>
+    </div>
+</div>
