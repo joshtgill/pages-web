@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Create account</title>
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/login_create_account.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <div class="login-container">
+                <h1>Hello there.</h1>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ createAccountForm }}
+                    <button type="submit">Create account</button>
+                </form>
+                <div class="help">
+                    <a href="{% url 'login' %}">Login</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
