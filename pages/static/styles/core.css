@@ -1,6 +1,6 @@
 body {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -12,6 +12,7 @@ body {
 .top-nav {
     width: 100vw;
     height: 50px;
+    z-index: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -53,17 +54,17 @@ body {
 }
 
 .content {
-    display: block;
+    position: relative;
+    width: 100vw;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: auto;
 }
 
 @media only screen and (min-width: 580px) {
     .top-nav .left {
         display: block;
-    }
-
-    .content {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
     }
 }
