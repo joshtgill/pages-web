@@ -3,9 +3,15 @@ from django import forms
 
 class CreateAccountForm(forms.Form):
 
-    fullName = forms.CharField(label='',
-                               widget=forms.TextInput(attrs={'id': 'fullNameInput',
-                                                             'placeholder': 'Full name',
+    firstName = forms.CharField(label='',
+                                widget=forms.TextInput(attrs={'id': 'fullNameInput',
+                                                              'placeholder': 'First name',
+                                                              'autocomplete': 'off'}),
+                                max_length=100)
+
+    lastName = forms.CharField(label='',
+                               widget=forms.TextInput(attrs={'id': 'lastNameInput',
+                                                             'placeholder': 'Last name',
                                                              'autocomplete': 'off'}),
                                max_length=100)
 

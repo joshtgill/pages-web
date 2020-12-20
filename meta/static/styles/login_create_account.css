@@ -21,8 +21,13 @@
     margin: 0;
 }
 
+.content .login-container form .first-last-name {
+    display: flex;
+    flex-direction: column;
+}
+
 .content .login-container form input {
-    margin: 1.5vh 0 1.5vh 0;
+    margin: 1vh 0 1vh 0;
     padding: 10px 12px 10px 12px;
     font-size: 25px;
     border: none;
@@ -57,5 +62,18 @@
 @media only screen and (min-width: 580px) {
     .content .login-container {
         top: 12vh;
+    }
+
+    .content .login-container form input {
+        margin: 1.5vh 0 1.5vh 0;
+    }
+
+    .content .login-container form .first-last-name {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .content .login-container form .first-last-name input {
+        width: 48%;
     }
 }

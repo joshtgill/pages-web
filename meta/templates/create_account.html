@@ -13,7 +13,14 @@
                 <h1>Hello there.</h1>
                 <form action="" method="POST">
                     {% csrf_token %}
-                    {{ createAccountForm }}
+                    <div class="first-last-name">
+                        {{ createAccountForm.firstName }}
+                        {{ createAccountForm.lastName }}
+                    </div>
+                    {{ createAccountForm.email }}
+                    {{ createAccountForm.password }}
+                    {{ createAccountForm.repeatPassword }}
+
                     <button type="submit">Create account</button>
                 </form>
                 <div class="help">
