@@ -12,6 +12,12 @@
         <a href="{% url 'home' %}">Pricing</a>
     </div>
     <div class="right">
-        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'login' %}">
+            {% if request.user.first_name %}
+                {{ request.user.first_name }}
+            {% else %}
+                Login
+            {% endif %}
+        </a>
     </div>
 </div>
