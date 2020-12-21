@@ -9,7 +9,7 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <div id="loginContainer" class="login-container">
+            <div class="login-container">
                 <h1>Hello there.</h1>
                 {% if errorInfo %}
                     <h2>
@@ -20,7 +20,7 @@
                 <form action="" method="POST">
                     {% csrf_token %}
                     {{ loginForm }}
-                    <button id="goButton" type="submit">Login</button>
+                    <button type="submit">Login</button>
                 </form>
                 <div class="help">
                     {% if errorInfo.linkAddress != 'home' %}
