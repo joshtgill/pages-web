@@ -1,0 +1,24 @@
+<html>
+    {% load static %}
+    <head>
+        <title>Profile</title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/profile.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <div class="profile">
+                <img src="{% static 'images/profile.png' %}" alt="profile">
+                <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
+                <h2>{{ request.user.email }}</h2>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <button id="logoutButton" type="submit" name="action" value="LOGOUT">Logout</button>
+                    <button id="deleteAccountButton" type="submit" name="action" value="DELETE_ACCOUNT">Delete account</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

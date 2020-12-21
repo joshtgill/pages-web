@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import CreateAccountForm, LoginForm
+from .forms import CreateAccountForm, LoginForm, ProfileForm
 import uuid
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -7,8 +7,6 @@ import django.contrib.auth as djangoAuth
 
 
 def home(request):
-    djangoAuth.logout(request)
-
     return render(request, 'home.html')
 
 
@@ -75,3 +73,21 @@ def login(request):
     djangoAuth.login(request, loginUser)
 
     return render(request, 'home.html')
+
+
+def profile(request):
+    if request.method == 'GET':
+        return render(request, 'profile.html')
+
+    submittedProfileForm = ProfileForm(request.POST)
+    if not submittedProfileForm.is_valid():
+        return render(request, 'profile.html')
+
+    if submittedProfileForm.cleaned_data['action'] == 'LOGOUT':
+        djangoAuth.logout(request)
+    else: # DELETE_ACCOUNT
+        deleteUsername = request.user.username
+        djangoAuth.logout(request)
+        User.objects.get(username=deleteUsername).delete()
+
+    return render(request, 'login.html', {'loginForm': LoginForm()})

@@ -30,3 +30,8 @@ class LoginForm(forms.Form):
 
     password = forms.CharField(label='',
                                widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+
+
+class ProfileForm(forms.Form):
+
+    action = forms.CharField()
