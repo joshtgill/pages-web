@@ -46,13 +46,13 @@ def login(request):
         loginUser = User.objects.get(email=submittedLoginForm.cleaned_data['email'])
     except ObjectDoesNotExist:
         return render(request, 'login.html', {'loginForm': emptyLoginForm, 'errorInfo': {'message': 'Email not found.',
-                                                                                         'linkText': 'Need an account?',
+                                                                                         'linkText': 'Create an account',
                                                                                          'linkAddress': 'create_account'}})
 
-    # Check if form password matches user's password
+    # Verify form password matches user's password
     if not loginUser.check_password(submittedLoginForm.cleaned_data['password']):
         return render(request, 'login.html', {'loginForm': submittedLoginForm, 'errorInfo': {'message': 'Incorrect password.',
-                                                                                             'linkText': 'Need a new one?',
+                                                                                             'linkText': 'Reset password',
                                                                                              'linkAddress': 'home'}})
 
     return render(request, 'home.html')

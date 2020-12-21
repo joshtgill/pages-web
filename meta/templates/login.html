@@ -14,7 +14,7 @@
                 {% if errorInfo %}
                     <h2>
                         {{ errorInfo.message }}
-                        <a href="{% url errorInfo.linkAddress %}">{{ errorInfo.linkText }}</a>
+                        <a href="{% url errorInfo.linkAddress %}">{{ errorInfo.linkText }}</a>?
                     </h2>
                 {% endif %}
                 <form action="" method="POST">
