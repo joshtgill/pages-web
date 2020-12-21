@@ -20,12 +20,24 @@ def createAccount(request):
     if not submittedCreateAccountForm.is_valid():
         return render(request, 'create_account.html', {'createAccountForm': emptyCreateAccountForm})
 
+    # Verify that form email is not already registered
+    email = submittedCreateAccountForm.cleaned_data['email']
+    if User.objects.filter(email=email):
+        return render(request, 'create_account.html', {'createAccountForm': submittedCreateAccountForm,
+                                                       'errorInfo': {'message': 'Account with this email already exists.',
+                                                                     'linkText': 'Login',
+                                                                     'linkAddress': 'login'}})
+
+    # Verify that form passwords match
     password = submittedCreateAccountForm.cleaned_data['password']
-    if password == submittedCreateAccountForm.cleaned_data['repeatPassword']:
-        createUser = User.objects.create_user(uuid.uuid4(), submittedCreateAccountForm.cleaned_data['email'], password)
-        createUser.first_name = submittedCreateAccountForm.cleaned_data['firstName']
-        createUser.last_name = submittedCreateAccountForm.cleaned_data['lastName']
-        createUser.save()
+    if password != submittedCreateAccountForm.cleaned_data['repeatPassword']:
+        return render(request, 'create_account.html', {'createAccountForm': submittedCreateAccountForm,
+                                                       'errorInfo': {'message': 'Passwords did not match. Try again.'}})
+
+    createUser = User.objects.create_user(uuid.uuid4(), email, password)
+    createUser.first_name = submittedCreateAccountForm.cleaned_data['firstName']
+    createUser.last_name = submittedCreateAccountForm.cleaned_data['lastName']
+    createUser.save()
 
     return render(request, 'home.html')
 
