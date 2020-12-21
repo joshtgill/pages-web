@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .forms import CreateAccountForm, LoginForm
 import uuid
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate
 
 
@@ -39,10 +40,19 @@ def login(request):
     if not submittedLoginForm.is_valid():
         return render(request, 'login.html', {'loginForm': emptyLoginForm})
 
-    username = User.objects.get(email=submittedLoginForm.cleaned_data['email']).username
-    loginUser = authenticate(username=username, password=submittedLoginForm.cleaned_data['password'])
+    # Attempt to get user by form email
+    loginUser = None
+    try:
+        loginUser = User.objects.get(email=submittedLoginForm.cleaned_data['email'])
+    except ObjectDoesNotExist:
+        return render(request, 'login.html', {'loginForm': emptyLoginForm, 'errorInfo': {'message': 'Email not found.',
+                                                                                         'linkText': 'Need an account?',
+                                                                                         'linkAddress': 'create_account'}})
 
-    if loginUser:
-        return render(request, 'home.html')
-    else:
-        return render(request, 'login.html', {'loginForm': emptyLoginForm})
+    # Check if form password matches user's password
+    if not loginUser.check_password(submittedLoginForm.cleaned_data['password']):
+        return render(request, 'login.html', {'loginForm': submittedLoginForm, 'errorInfo': {'message': 'Incorrect password.',
+                                                                                             'linkText': 'Need a new one?',
+                                                                                             'linkAddress': 'home'}})
+
+    return render(request, 'home.html')

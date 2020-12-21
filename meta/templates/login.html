@@ -11,14 +11,24 @@
         <div class="content">
             <div id="loginContainer" class="login-container">
                 <h1>Hello there.</h1>
+                {% if errorInfo %}
+                    <h2>
+                        {{ errorInfo.message }}
+                        <a href="{% url errorInfo.linkAddress %}">{{ errorInfo.linkText }}</a>
+                    </h2>
+                {% endif %}
                 <form action="" method="POST">
                     {% csrf_token %}
                     {{ loginForm }}
                     <button id="goButton" type="submit">Login</button>
                 </form>
                 <div class="help">
-                    <a href="{% url 'home' %}">Forgot password</a>
-                    <a href="{% url 'create_account' %}">Create account</a>
+                    {% if errorInfo.linkAddress != 'home' %}
+                        <a href="{% url 'home' %}">Reset password</a>
+                    {% endif %}
+                    {% if errorInfo.linkAddress != 'create_account' %}
+                        <a href="{% url 'create_account' %}">Create account</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
