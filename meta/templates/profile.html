@@ -13,12 +13,15 @@
                 <img src="{% static 'images/profile.png' %}" alt="profile">
                 <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
                 <h2>{{ request.user.email }}</h2>
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <button id="logoutButton" type="submit" name="action" value="LOGOUT">Logout</button>
-                    <button id="deleteAccountButton" type="submit" name="action" value="DELETE_ACCOUNT">Delete account</button>
-                </form>
+                <div class="account-actions">
+                    {{ logoutConfirmationData|json_script:logoutConfirmationData.action }}
+                    <button id="logoutButton" onclick="displayConfirmationPopup('{{ logoutConfirmationData.action }}')">Logout</button>
+                    {{ createAccountConfirmationData|json_script:createAccountConfirmationData.action }}
+                    <button id="deleteAccountButton" onclick="displayConfirmationPopup('{{ createAccountConfirmationData.action }}')">Delete account</button>
+                </div>
             </div>
         </div>
+
+        {% include 'confirmation_popup.html' %}
     </body>
 </html>

@@ -1,0 +1,57 @@
+.popup-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 2;
+    display: none;
+    color: rgb(30, 30, 30);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-container .confirmation-popup {
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 4vh 0 4vh 0;
+    border-radius: 20px 20px 0 0;
+    background-color: rgb(255, 255, 255);
+}
+
+.popup-container .confirmation-popup form {
+    margin: 4vh 0 2vh 0;
+}
+
+.popup-container .confirmation-popup h1 {
+    width: 95vw;
+    max-width: 800px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: normal;
+    text-align: center;
+}
+
+.popup-container .confirmation-popup button {
+    width: 95vw;
+    max-width: 350px;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(255, 255, 255);
+    outline: none;
+    cursor: pointer;
+}
+
+.popup-container .confirmation-popup form #confirmButton {
+    color: rgb(235, 70, 70);
+    border: 2px solid rgb(235, 70, 70);
+}
+
+.popup-container .confirmation-popup #cancelButton {
+    color: rgb(30, 30, 30);
+    border: 2px solid rgb(30, 30, 30);
+}

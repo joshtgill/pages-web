@@ -76,16 +76,25 @@ def login(request):
 
 
 def profile(request):
+    content = {'logoutConfirmationData': {'message': 'Logout of <b>{}</b>?'.format(request.user.email),
+                                          'buttonText': 'Yes, logout',
+                                          'action': 'LOGOUT'},
+               'createAccountConfirmationData': {'message': '''This will permanently delete the account associated
+                                                               with <br><br><b>{}</b><br><br> All data will be lost
+                                                               and this action cannot be undone.'''.format(request.user.email),
+                                                'buttonText': 'Okay, delete my account',
+                                                'action': 'DELETE_ACCOUNT'}}
+
     if request.method == 'GET':
-        return render(request, 'profile.html')
+        return render(request, 'profile.html', content)
 
     submittedProfileForm = ProfileForm(request.POST)
     if not submittedProfileForm.is_valid():
-        return render(request, 'profile.html')
+        return render(request, 'profile.html', content)
 
     if submittedProfileForm.cleaned_data['action'] == 'LOGOUT':
         djangoAuth.logout(request)
-    else: # DELETE_ACCOUNT
+    elif submittedProfileForm.cleaned_data['action'] == 'DELETE_ACCOUNT':
         deleteUsername = request.user.username
         djangoAuth.logout(request)
         User.objects.get(username=deleteUsername).delete()

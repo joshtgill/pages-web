@@ -31,7 +31,7 @@
     text-align: center;
 }
 
-.content .profile form {
+.content .profile .account-actions {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -39,7 +39,7 @@
     margin: 4vh 0 0 0;
 }
 
-.content .profile form button {
+.content .profile .account-actions button {
     width: 100%;
     min-width: 250px;
     height: 50px;
@@ -47,21 +47,22 @@
     font-size: 20px;
     border: none;
     border-radius: 50px;
+    outline: none;
     cursor: pointer;
 }
 
-.content .profile form #logoutButton {
+.content .profile .account-actions #logoutButton {
     color: rgb(255, 255, 255);
     background-color: rgb(30, 30, 30);
 }
 
-.content .profile form #deleteAccountButton {
+.content .profile .account-actions #deleteAccountButton {
     color: rgb(255, 255, 255);
     background-color: rgb(240, 55, 55);
 }
 
 @media only screen and (min-width: 580px) {
-    .content .profile form button {
+    .content .profile .account-actions button {
         width: 47%;
         margin-left: 5px;
         margin-right: 5px;
