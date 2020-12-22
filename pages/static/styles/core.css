@@ -53,6 +53,10 @@ body {
     text-decoration: none;
 }
 
+.top-nav .right a img {
+    height: 65%;
+}
+
 .content {
     position: relative;
     width: 100vw;

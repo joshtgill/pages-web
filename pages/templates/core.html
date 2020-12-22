@@ -15,7 +15,9 @@
         {% if request.user.is_anonymous %}
             <a href="{% url 'login' %}">Login</a>
         {% else %}
-            <a href="{% url 'profile' %}">{{ request.user.first_name }}</a>
+            <a href="{% url 'profile' %}">
+                <img src="{% static 'images/profile.png' %}" alt="profile">
+            </a>
         {% endif %}
     </div>
 </div>
