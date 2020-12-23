@@ -82,8 +82,8 @@ def profile(request):
                'createAccountConfirmationData': {'message': '''This will permanently delete the account associated
                                                                with <br><br><b>{}</b><br><br> All data will be lost
                                                                and this action cannot be undone.'''.format(request.user.email),
-                                                'buttonText': 'Okay, delete my account',
-                                                'action': 'DELETE_ACCOUNT'}}
+                                                 'buttonText': 'Okay, delete my account',
+                                                 'action': 'DELETE_ACCOUNT'}}
 
     if request.method == 'GET':
         return render(request, 'profile.html', content)
