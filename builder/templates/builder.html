@@ -8,6 +8,17 @@
     <body>
         {% include 'core.html' %}
 
-        <div class="content"></div>
+        <div class="content">
+            <div class="pages-bar">
+                {% for page in pages %}
+                    <a href="{% url 'home' %}">
+                        <div class="page-item">
+                            <img src="{% static 'images/profile.png' %}" alt="profile">
+                            <h1>{{ page.name }}</h1>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </body>
 </html>
