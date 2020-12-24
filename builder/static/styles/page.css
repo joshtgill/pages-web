@@ -1,0 +1,20 @@
+.content .header {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    background-color: rgb(240, 240, 240);
+}
+
+.content .header h1 {
+    margin: 2vh 15px 15px 15px;
+    font-size: 10vmin;
+    font-weight: normal;
+    color: rgb(50, 50, 50);
+}
+
+@media only screen and (min-width: 580px) {
+    .content .header {
+        justify-content: left;
+    }
+}

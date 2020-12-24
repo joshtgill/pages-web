@@ -10,11 +10,11 @@
 
         <div class="content">
             <div class="pages-bar">
-                {% for page in pages %}
-                    <a href="{% url 'home' %}">
+                {% for pageName in pageNames %}
+                    <a href="{% url 'page' %}?name={{ pageName }}">
                         <div class="page-item">
                             <img src="{% static 'images/profile.png' %}" alt="profile">
-                            <h1>{{ page.name }}</h1>
+                            <h1>{{ pageName }}</h1>
                         </div>
                     </a>
                 {% endfor %}
