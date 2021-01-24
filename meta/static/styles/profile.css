@@ -9,16 +9,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 10vmin 0 0 0;
+    margin: 5vmin 0 0 0;
     color: rgb(30, 30, 30);
 }
 
 .content .profile img {
-    width: 150px;
+    width: 10vw;
+    max-width: 150px;
+    min-width: 100px;
 }
 
 .content .profile h1 {
-    margin: 5vh 0 0 0;
+    margin: 2vh 0 0 0;
     font-size: 30px;
     font-weight: normal;
     text-align: center;
@@ -29,6 +31,43 @@
     font-size: 20px;
     font-weight: normal;
     text-align: center;
+}
+
+.content .profile .details {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 4vh 0 0 0;
+    border-radius: 10px;
+}
+
+.content .profile .details .detail {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0 10px 0;
+    padding: 10px 30px;
+    border-radius: 40px;
+    background-color: rgb(240, 240, 240);
+}
+
+.content .profile .details .detail h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: normal;
+    color: rgb(30, 30, 30);
+}
+
+.content .profile .details .detail h4 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: normal;
+    color: rgb(70, 70, 70);
+}
+
+.content .profile .details a {
+    color: rgb(31, 141, 231);
 }
 
 .content .profile .account-actions {

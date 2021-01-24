@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from .forms import CreateAccountForm, LoginForm, ProfileForm
-import uuid
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
+import uuid
 import django.contrib.auth as djangoAuth
+from django.core.exceptions import ObjectDoesNotExist
+from builder.models import CreatorUser
 
 
 def home(request):
@@ -76,7 +77,8 @@ def login(request):
 
 
 def profile(request):
-    content = {'logoutConfirmationData': {'message': 'Logout of <b>{}</b>?'.format(request.user.email),
+    content = {'creatorAccountType': creatorAccountType(request.user),
+               'logoutConfirmationData': {'message': 'Logout of <b>{}</b>?'.format(request.user.email),
                                           'buttonText': 'Yes, logout',
                                           'action': 'LOGOUT'},
                'createAccountConfirmationData': {'message': '''This will permanently delete the account associated
@@ -100,3 +102,12 @@ def profile(request):
         User.objects.get(username=deleteUsername).delete()
 
     return render(request, 'login.html', {'loginForm': LoginForm()})
+
+
+def creatorAccountType(user):
+    try:
+        user.creatoruser
+    except Exception:
+        return False
+
+    return True
