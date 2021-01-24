@@ -77,8 +77,7 @@ def login(request):
 
 
 def profile(request):
-    content = {'isCreatorAccountType': isCreatorAccountType(request.user),
-               'logoutConfirmationData': {'message': 'Logout of <b>{}</b>?'.format(request.user.email),
+    content = {'logoutConfirmationData': {'message': 'Logout of <b>{}</b>?'.format(request.user.email),
                                           'buttonText': 'Yes, logout',
                                           'action': 'LOGOUT'},
                'createAccountConfirmationData': {'message': '''This will permanently delete the account associated
@@ -102,12 +101,3 @@ def profile(request):
         User.objects.get(username=deleteUsername).delete()
 
     return redirect('/login/')
-
-
-def isCreatorAccountType(user):
-    try:
-        user.creatoruser
-    except Exception:
-        return False
-
-    return True

@@ -17,16 +17,22 @@
                         <h3>Email</h3>
                         <h4>{{ request.user.email }}</h4>
                     </div>
-                    <div class="detail">
-                        <h3>Account type</h3>
-                        {% if isCreatorAccountType %}
+                    {% if request.user.creatoruser %}
+                        <div class="detail">
+                            <h3>Account type</h3>
                             <h4>Creator</h4>
-                    </div>
-                        {% else %}
+                        </div>
+                        <div class="detail">
+                            <h3>Organization</h3>
+                            <h4>{{ request.user.creatoruser.organization }}</h4>
+                        </div>
+                    {% else %}
+                        <div class="detail">
+                            <h3>Account type</h3>
                             <h4>Customer</h4>
-                    </div>
-                    <a href="{% url 'home' %}">Upgrade to Creator</a>
-                        {% endif %}
+                        </div>
+                        <a href="{% url 'home' %}">Upgrade to Creator</a>
+                    {% endif %}
                 </div>
                 <div class="account-actions">
                     {{ logoutConfirmationData|json_script:logoutConfirmationData.action }}
