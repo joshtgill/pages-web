@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import CreateAccountForm, LoginForm, ProfileForm
 from django.contrib.auth.models import User
 import uuid
@@ -42,7 +42,7 @@ def createAccount(request):
 
     djangoAuth.login(request, createUser)
 
-    return render(request, 'home.html')
+    return redirect('/profile/')
 
 
 def login(request):
@@ -73,11 +73,11 @@ def login(request):
 
     djangoAuth.login(request, loginUser)
 
-    return render(request, 'home.html')
+    return redirect('/profile/')
 
 
 def profile(request):
-    content = {'creatorAccountType': creatorAccountType(request.user),
+    content = {'isCreatorAccountType': isCreatorAccountType(request.user),
                'logoutConfirmationData': {'message': 'Logout of <b>{}</b>?'.format(request.user.email),
                                           'buttonText': 'Yes, logout',
                                           'action': 'LOGOUT'},
@@ -101,10 +101,10 @@ def profile(request):
         djangoAuth.logout(request)
         User.objects.get(username=deleteUsername).delete()
 
-    return render(request, 'login.html', {'loginForm': LoginForm()})
+    return redirect('/login/')
 
 
-def creatorAccountType(user):
+def isCreatorAccountType(user):
     try:
         user.creatoruser
     except Exception:
