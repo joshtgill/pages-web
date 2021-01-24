@@ -19,11 +19,14 @@
                     </div>
                     <div class="detail">
                         <h3>Account type</h3>
-                        <h4>Customer</h4>
+                        {% if creatorAccountType %}
+                            <h4>Creator</h4>
                     </div>
-                    {% if creatorAccountType is not True %}
-                        <a href="{% url 'home' %}">Upgrade to Creator</a>
-                    {% endif %}
+                        {% else %}
+                            <h4>Customer</h4>
+                    </div>
+                    <a href="{% url 'home' %}">Upgrade to Creator</a>
+                        {% endif %}
                 </div>
                 <div class="account-actions">
                     {{ logoutConfirmationData|json_script:logoutConfirmationData.action }}
