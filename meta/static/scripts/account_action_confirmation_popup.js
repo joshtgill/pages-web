@@ -8,6 +8,14 @@ function displayConfirmationPopup(arg) {
     document.getElementById('confirmMessage').innerHTML = confirmationData['message'];
     confirmButton.innerHTML = confirmationData['buttonText']
     confirmButton.value = confirmationData['action'];
+    if (confirmButton.value == 'LOGOUT') {
+        confirmButton.style.backgroundColor = 'rgb(30, 30, 30)'
+        confirmButton.style.border = '2px solid rgb(30, 30, 30)'
+    }
+    else {
+        confirmButton.style.backgroundColor = 'rgb(235, 70, 70)'
+        confirmButton.style.border = '2px solid rgb(235, 70, 70)'
+    }
     popupContainer.style.display = 'flex';
 }
 

@@ -47,8 +47,7 @@
 }
 
 .popup-container .confirmation-popup form #confirmButton {
-    color: rgb(235, 70, 70);
-    border: 2px solid rgb(235, 70, 70);
+    color: rgb(255, 255, 255);
 }
 
 .popup-container .confirmation-popup #cancelButton {
