@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Login</title>
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/creator_upgrade.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <div class="creator-container">
+                <h1>Let's create some Pages.</h1>
+                <h2>As a creator, you'll be able to reach your customers easier than ever.<br>
+                    But first, we need some info.</h2>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ creatorForm }}
+                    <button type="submit">Upgrade</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

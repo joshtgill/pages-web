@@ -35,3 +35,10 @@ class LoginForm(forms.Form):
 class ProfileForm(forms.Form):
 
     action = forms.CharField()
+
+
+class CreatorUpgradeForm(forms.Form):
+
+    organization = forms.CharField(label='',
+                                   widget=forms.TextInput(attrs={'placeholder': 'Organization', 'autocomplete': 'off'}),
+                                   max_length=100)

@@ -8,7 +8,11 @@
         <a href="{% url 'home' %}">Pages</a>
     </div>
     <div class="center">
-        <a href="{% url 'builder' %}">Create</a>
+        {% if request.user.creatoruser %}
+            <a href="{% url 'builder' %}">Create</a>
+        {% else %}
+            <a href="{% url 'creator_upgrade' %}">Create</a>
+        {% endif %}
         <a href="{% url 'home' %}">Pricing</a>
     </div>
     <div class="right">

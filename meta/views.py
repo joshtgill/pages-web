@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CreateAccountForm, LoginForm, ProfileForm
+from .forms import CreateAccountForm, LoginForm, ProfileForm, CreatorUpgradeForm
 from django.contrib.auth.models import User
 import uuid
 import django.contrib.auth as djangoAuth
@@ -101,3 +101,20 @@ def profile(request):
         User.objects.get(username=deleteUsername).delete()
 
     return redirect('/login/')
+
+
+def creatorUpgrade(request):
+    emptyCreatorForm = CreatorUpgradeForm()
+
+    if request.method == 'GET':
+        return render(request, 'creator_upgrade.html', {'creatorForm': emptyCreatorForm})
+
+    submittedCreatorForm = CreatorUpgradeForm(request.POST)
+    if not submittedCreatorForm.is_valid():
+        return render(request, 'creator_upgrade.html', content)
+
+    creatorUser = CreatorUser(organization=submittedCreatorForm.cleaned_data['organization'])
+    creatorUser.user = request.user
+    creatorUser.save()
+
+    return redirect('/profile/')
