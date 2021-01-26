@@ -77,7 +77,10 @@ def login(request):
 
 
 def profile(request):
-    content = {'logoutConfirmationData': {'message': 'Logout of <b>{}</b>?'.format(request.user.email),
+    content = {'customerDowngradeData': {'message': 'Downgrade <b>{}</b> from Creator to Customer?'.format(request.user.email),
+                                         'buttonText': 'Yes, downgrade',
+                                         'action': 'DOWNGRADE'},
+               'logoutConfirmationData': {'message': 'Logout of <b>{}</b>?'.format(request.user.email),
                                           'buttonText': 'Yes, logout',
                                           'action': 'LOGOUT'},
                'createAccountConfirmationData': {'message': '''This will permanently delete the account associated
@@ -99,6 +102,9 @@ def profile(request):
         deleteUsername = request.user.username
         djangoAuth.logout(request)
         User.objects.get(username=deleteUsername).delete()
+    elif submittedProfileForm.cleaned_data['action'] == 'DOWNGRADE':
+        request.user.creatoruser.delete()
+        return redirect('/profile/')
 
     return redirect('/login/')
 

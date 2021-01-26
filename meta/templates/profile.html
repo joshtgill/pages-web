@@ -22,6 +22,8 @@
                             <h3>Account type</h3>
                             <h4>Creator</h4>
                         </div>
+                        {{ customerDowngradeData|json_script:customerDowngradeData.action }}
+                        <a onclick="displayConfirmationPopup('{{ customerDowngradeData.action }}')">Downgrade to Customer</a>
                         <div class="detail">
                             <h3>Organization</h3>
                             <h4>{{ request.user.creatoruser.organization }}</h4>
