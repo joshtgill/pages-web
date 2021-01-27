@@ -1,6 +1,25 @@
 from .models import *
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import *
+
+
+def creatorUpgrade(request):
+    organizations = Organization.objects.all()
+    content = {'organizationForm': OrganizationForm(organizations=organizations)}
+
+    if request.method == 'GET':
+        return render(request, 'creator_upgrade.html', content)
+
+    submittedOrganizationForm = OrganizationForm(request.POST, organizations=organizations)
+    if not submittedOrganizationForm.is_valid():
+        return render(request, 'creator_upgrade.html', content)
+
+    creatorUser = CreatorUser()
+    creatorUser.user = request.user
+    creatorUser.organization = Organization.objects.get(id=submittedOrganizationForm.cleaned_data['names'])
+    creatorUser.save()
+
+    return redirect('/profile/')
 
 
 def builder(request):

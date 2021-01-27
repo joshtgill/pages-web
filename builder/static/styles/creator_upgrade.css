@@ -29,14 +29,10 @@
     margin: 5vh 0 0 0;
 }
 
-.content .creator-container form input {
-    margin: 0;
-    padding: 10px 12px 10px 12px;
+.content .creator-container form select {
+    padding: 5px;
     font-size: 25px;
-    border: none;
-    border-radius: 7px;
-    background-color: rgb(235, 235, 235);
-    outline: none;
+    color: rgb(30, 30, 30);
 }
 
 .content .creator-container form button {

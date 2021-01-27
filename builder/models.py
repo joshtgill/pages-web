@@ -11,6 +11,10 @@ class Page(models.Model):
     iconFileName = models.CharField(max_length=LENGTH_SHORT)
 
 
+class Organization(models.Model):
+    name = models.CharField(max_length=LENGTH_SHORT)
+
+
 class CreatorUser(models.Model):
-    organization = models.CharField(max_length=LENGTH_MEDIUM)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)

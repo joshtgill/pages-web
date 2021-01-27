@@ -107,20 +107,3 @@ def profile(request):
         return redirect('/profile/')
 
     return redirect('/login/')
-
-
-def creatorUpgrade(request):
-    emptyCreatorForm = CreatorUpgradeForm()
-
-    if request.method == 'GET':
-        return render(request, 'creator_upgrade.html', {'creatorForm': emptyCreatorForm})
-
-    submittedCreatorForm = CreatorUpgradeForm(request.POST)
-    if not submittedCreatorForm.is_valid():
-        return render(request, 'creator_upgrade.html', content)
-
-    creatorUser = CreatorUser(organization=submittedCreatorForm.cleaned_data['organization'])
-    creatorUser.user = request.user
-    creatorUser.save()
-
-    return redirect('/profile/')

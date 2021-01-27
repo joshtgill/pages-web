@@ -26,7 +26,7 @@
                         <a onclick="displayConfirmationPopup('{{ customerDowngradeData.action }}')">Downgrade to Customer</a>
                         <div class="detail">
                             <h3>Organization</h3>
-                            <h4>{{ request.user.creatoruser.organization }}</h4>
+                            <h4>{{ request.user.creatoruser.organization.name }}</h4>
                         </div>
                     {% else %}
                         <div class="detail">
