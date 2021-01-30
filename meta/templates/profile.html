@@ -10,7 +10,11 @@
 
         <div class="content">
             <div class="profile">
-                <img src="{% static 'images/profile.png' %}" alt="profile">
+                {% if request.user.creatoruser %}
+                    <img src="{% static 'images/earth.png' %}" alt="earth">
+                {% else %}
+                    <img src="{% static 'images/cliff.png' %}" alt="cliff">
+                {% endif %}
                 <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
                 <div class="details">
                     <div class="detail" style="margin-top: 0">
