@@ -35,43 +35,51 @@
 
 .content .profile .details {
     width: 100%;
-    max-width: 500px;
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin: 4vh 0 0 0;
+    margin: 2vh 0 0 0;
     border-radius: 10px;
 }
 
-.content .profile .details .detail {
+.content .profile .details .detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0 10px 0;
+}
+
+.content .profile .details .detail-container a {
+    width: 100px;
+    margin: 10px 0 0 0;
+    color: rgb(0, 123, 224);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.content .profile .details .detail-container .detail {
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    margin: 10px 0 10px 0;
-    padding: 10px 30px;
+    padding: 10px 0;
     border-radius: 40px;
     background-color: rgb(240, 240, 240);
 }
 
-.content .profile .details .detail h3 {
-    margin: 0;
+.content .profile .details .detail-container .detail h3 {
+    margin: 0 0 0 20px;
     font-size: 20px;
     font-weight: normal;
     color: rgb(30, 30, 30);
 }
 
-.content .profile .details .detail h4 {
-    margin: 0;
+.content .profile .details .detail-container .detail h4 {
+    margin: 0 20px 0 0;
     font-size: 20px;
     font-weight: normal;
     color: rgb(70, 70, 70);
 }
 
-.content .profile .details a {
-    margin: 0 0 5px 0;
-    color: rgb(0, 123, 224);
-    cursor: pointer;
-    text-decoration: underline;
-}
 
 .content .profile .account-actions {
     width: 100%;
@@ -103,6 +111,14 @@
 }
 
 @media only screen and (min-width: 580px) {
+    .content .profile .details .detail-container {
+        flex-direction: row;
+    }
+
+    .content .profile .details .detail-container a {
+        margin: 0 0 0 10px;
+    }
+
     .content .profile .account-actions button {
         width: 47%;
         margin-left: 5px;

@@ -17,25 +17,36 @@
                 {% endif %}
                 <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
                 <div class="details">
-                    <div class="detail" style="margin-top: 0">
-                        <h3>Email</h3>
-                        <h4>{{ request.user.email }}</h4>
+                    <div class="detail-container">
+                        <div class="detail" style="margin-top: 0">
+                            <h3>Email</h3>
+                            <h4>{{ request.user.email }}</h4>
+                        </div>
                     </div>
                     {% if request.user.creatoruser %}
-                        <div class="detail">
-                            <h3>Account type</h3>
-                            <h4>Creator</h4>
+                        <div class="detail-container">
+                            <div class="detail">
+                                <h3>Account type</h3>
+                                <h4>Creator</h4>
+                            </div>
+                            {{ customerDowngradeData|json_script:customerDowngradeData.action }}
+                            <a onclick="displayConfirmationPopup('{{ customerDowngradeData.action }}')">Downgrade</a>
                         </div>
-                        {{ customerDowngradeData|json_script:customerDowngradeData.action }}
-                        <a onclick="displayConfirmationPopup('{{ customerDowngradeData.action }}')">Downgrade to Customer</a>
-                        <div class="detail">
-                            <h3>Organization</h3>
-                            <h4>{{ request.user.creatoruser.organization.name }}</h4>
+                        <div class="links">
+
+                        </div>
+                        <div class="detail-container">
+                            <div class="detail">
+                                <h3>Organization</h3>
+                                <h4>{{ request.user.creatoruser.organization.name }}</h4>
+                            </div>
                         </div>
                     {% else %}
-                        <div class="detail">
-                            <h3>Account type</h3>
-                            <h4>Customer</h4>
+                        <div class="detail-container">
+                            <div class="detail">
+                                <h3>Account type</h3>
+                                <h4>Customer</h4>
+                            </div>
                         </div>
                         <a href="{% url 'creator_upgrade' %}">Upgrade to Creator</a>
                     {% endif %}
