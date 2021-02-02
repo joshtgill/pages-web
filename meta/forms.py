@@ -32,13 +32,24 @@ class LoginForm(forms.Form):
                                widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
 
 
-class ProfileForm(forms.Form):
-
-    action = forms.CharField()
-
-
 class CreatorUpgradeForm(forms.Form):
 
     organization = forms.CharField(label='',
                                    widget=forms.TextInput(attrs={'placeholder': 'Organization', 'autocomplete': 'off'}),
                                    max_length=100)
+
+
+class ChangeEmailForm(forms.Form):
+
+    newEmail = forms.CharField(label='',
+                               widget=forms.TextInput(attrs={'placeholder': 'New email', 'autocomplete': 'off'}),
+                               max_length=100)
+
+    newEmailConfirm = forms.CharField(label='',
+                                      widget=forms.TextInput(attrs={'placeholder': 'Confirm new email', 'autocomplete': 'off'}),
+                                      max_length=100)
+
+
+class ConfirmationForm(forms.Form):
+
+    action = forms.CharField()

@@ -1,0 +1,80 @@
+.popup-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 2;
+    display: none;
+    color: rgb(30, 30, 30);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-container .popup {
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    display: none;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 4vh 0 3vh 0;
+    border-radius: 20px 20px 0 0;
+    background-color: rgb(255, 255, 255);
+}
+
+.popup-container .popup h1 {
+    width: 95vw;
+    max-width: 800px;
+    margin: 0 0 3vh 0;
+    font-size: 20px;
+    font-weight: normal;
+    text-align: center;
+}
+
+.popup-container .popup input {
+    width: 95vw;
+    max-width: 500px;
+    margin: 0 0 2vh 0;
+    padding: 10px 20px;
+    font-size: 20px;
+    border: none;
+    border-radius: 40px;
+    background-color: rgb(240, 240, 240);
+}
+
+.popup-container .popup input:focus {
+    outline: none;
+}
+
+.popup-container .popup form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+.popup-container .popup button {
+    width: 95vw;
+    max-width: 350px;
+    height: 50px;
+    margin: 1vh 0 1vh 0;
+    font-size: 20px;
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(0, 0, 0);
+    outline: none;
+    cursor: pointer;
+}
+
+.popup-container .popup form button {
+    color: rgb(255, 255, 255);
+}
+
+.popup-container .popup form #changeEmailButton {
+    margin-top: 3vh;
+}
+
+.popup-container .popup #cancelButton {
+    color: rgb(30, 30, 30);
+    border: 2px solid rgb(30, 30, 30);
+    background-color: rgb(255, 255, 255);
+}

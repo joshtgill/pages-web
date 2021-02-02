@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CreateAccountForm, LoginForm, ProfileForm, CreatorUpgradeForm
+from .forms import *
 from django.contrib.auth.models import User
 import uuid
 import django.contrib.auth as djangoAuth
@@ -77,33 +77,40 @@ def login(request):
 
 
 def profile(request):
-    content = {'customerDowngradeData': {'message': 'Downgrade <b>{}</b> from Creator to Customer?'.format(request.user.email),
-                                         'buttonText': 'Yes, downgrade',
+    content = {'changeEmailForm': ChangeEmailForm(),
+               'customerDowngradeData': {'prompt': 'Downgrade <b>{}</b> from Creator to Customer?'.format(request.user.email),
+                                         'confirmText': 'Downgrade',
                                          'action': 'DOWNGRADE'},
-               'logoutConfirmationData': {'message': 'Logout of <b>{}</b>?'.format(request.user.email),
-                                          'buttonText': 'Yes, logout',
+               'logoutConfirmationData': {'prompt': 'Logout of <b>{}</b>?'.format(request.user.email),
+                                          'confirmText': 'Logout',
                                           'action': 'LOGOUT'},
-               'createAccountConfirmationData': {'message': '''This will permanently delete the account associated
-                                                               with <br><br><b>{}</b><br><br> All data will be lost
-                                                               and this action cannot be undone.'''.format(request.user.email),
-                                                 'buttonText': 'Okay, delete my account',
+               'createAccountConfirmationData': {'prompt': '''This will permanently delete the account associated
+                                                              with <br><br><b>{}</b><br><br> All data will be lost
+                                                              and this action cannot be undone.'''.format(request.user.email),
+                                                 'confirmText': 'Delete account',
                                                  'action': 'DELETE_ACCOUNT'}}
 
     if request.method == 'GET':
         return render(request, 'profile.html', content)
 
-    submittedProfileForm = ProfileForm(request.POST)
-    if not submittedProfileForm.is_valid():
-        return render(request, 'profile.html', content)
+    submittedConfirmationForm = ConfirmationForm(request.POST)
+    submittedChangeEmailForm = ChangeEmailForm(request.POST)
+    if submittedConfirmationForm.is_valid():
+        if submittedConfirmationForm.cleaned_data['action'] == 'LOGOUT':
+            djangoAuth.logout(request)
+            return redirect('/login/')
+        elif submittedConfirmationForm.cleaned_data['action'] == 'DELETE_ACCOUNT':
+            deleteUsername = request.user.username
+            djangoAuth.logout(request)
+            User.objects.get(username=deleteUsername).delete()
+            return redirect('/login/')
+        elif submittedConfirmationForm.cleaned_data['action'] == 'DOWNGRADE':
+            request.user.creatoruser.delete()
+    elif submittedChangeEmailForm.is_valid():
+        newEmail = submittedChangeEmailForm.cleaned_data['newEmail']
+        newEmailConfirm = submittedChangeEmailForm.cleaned_data['newEmailConfirm']
+        if newEmail == newEmailConfirm:
+            request.user.email = newEmail
+            request.user.save()
 
-    if submittedProfileForm.cleaned_data['action'] == 'LOGOUT':
-        djangoAuth.logout(request)
-    elif submittedProfileForm.cleaned_data['action'] == 'DELETE_ACCOUNT':
-        deleteUsername = request.user.username
-        djangoAuth.logout(request)
-        User.objects.get(username=deleteUsername).delete()
-    elif submittedProfileForm.cleaned_data['action'] == 'DOWNGRADE':
-        request.user.creatoruser.delete()
-        return redirect('/profile/')
-
-    return redirect('/login/')
+    return redirect('/profile/')
