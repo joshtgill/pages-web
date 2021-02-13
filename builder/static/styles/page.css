@@ -1,21 +1,33 @@
+.content {
+    align-items: center;
+}
+
 .content .header {
-    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(240, 240, 240);
 }
 
-.content .header img {
-    height: 8vmin;
-    margin: 0 0 0 30px;
-}
-
-.content .header h1 {
-    margin: 0 30px 0 1.5vmax;
-    font-size: 10vmin;
+.content h1 {
+    margin: 5vh 0 1vh 0;
+    font-size: 50px;
     font-weight: normal;
     color: rgb(50, 50, 50);
+}
+
+.content hr {
+    width: 200px;
+}
+
+.content h2 {
+    width: 95vw;
+    max-width: 1200px;
+    margin: 1vh 0 0 0;
+    text-align: center;
+    font-size: 25px;
+    line-height: 40px;
+    font-weight: normal;
+    color: rgb(60, 60, 60);
 }
 
 @media only screen and (min-width: 580px) {

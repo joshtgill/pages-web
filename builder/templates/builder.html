@@ -9,11 +9,13 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <div class="pages-bar">
+            <div class="organization-bar">
+                <h1><b>Organization</b>: {{ request.user.creatoruser.organization.name }}</h1>
+            </div>
+            <div class="pages">
                 {% for pageName in pageNames %}
                     <a href="{% url 'page' %}?name={{ pageName }}">
-                        <div class="page-item">
-                            <img src="{% static 'images/page.png' %}" alt="page">
+                        <div class="page">
                             <h1>{{ pageName }}</h1>
                         </div>
                     </a>

@@ -9,10 +9,9 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <div class="header">
-                <img src="{% static 'images/page.png' %}" alt="page">
-                <h1>{{ page.name }}</h1>
-            </div>
+            <h1>Create a <i>{{ page.name }}</i></h1>
+            <hr>
+            <h2>{{ page.description }}</h2>
         </div>
     </body>
 </html>
