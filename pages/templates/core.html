@@ -5,17 +5,11 @@
 
 <div class="top-nav">
     <div class="left">
-        <a href="{% url 'home' %}">Pages</a>
+        <a href="{% url 'home' %}">P</a>
     </div>
     <div class="center">
-        {% if request.user.creatoruser %}
-            <a href="{% url 'builder' %}">Create</a>
-        {% elif not request.user.is_anonymous %}
-            <a href="{% url 'creator_upgrade' %}">Create</a>
-        {% else %}
-            <a href="{% url 'login' %}">Create</a>
-        {% endif %}
-        <a href="{% url 'home' %}">Pricing</a>
+        <a href="{% url 'builder' %}">Create</a>
+        <a href="{% url 'create' %}">Pricing</a>
     </div>
     <div class="right">
         {% if request.user.is_anonymous %}
