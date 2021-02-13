@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>Creator</title>
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/create.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <h1>Let's create.</h1>
+            <h2>We handle the technology, you handle the content.</h2>
+            <h2>Reach your audience easier with the apps you want.</h2>
+            {% if request.user.creatoruser %}
+                <a href="{% url 'builder' %}">Get started</a>
+            {% elif not request.user.is_anonymous %}
+                <a href="{% url 'creator_upgrade' %}">Get started</a>
+            {% else %}
+                <a href="{% url 'login' %}">Get started</a>
+            {% endif %}
+            <div class="examples">
+                <div class="example">
+                    <h1>Business</h1>
+                    <hr>
+                    <ul>
+                        <li>Display menus, inventory, and contact information.</li>
+                        <li>Place pickup and takeout orders.</li>
+                        <li>Seamless remote and in-person payment with supported digital wallets.</li>
+                    </ul>
+                </div>
+                <div class="example">
+                    <h1>Enterprise</h1>
+                    <hr>
+                    <ul>
+                        <li>Fluid communication to your employees with alerts, messaging, and polls.</li>
+                        <li>Secure remote and physical authentication including badge access.</li>
+                        <li>Plan and facilitate remote and in-person meetings.</li>
+                    </ul>
+                </div>
+                <div class="example">
+                    <h1>University</h1>
+                    <hr>
+                    <ul>
+                        <li>Offer robust pages for majors, classes, and clubs.</li>
+                        <li>Display academic status' and standing.</li>
+                        <li>Immediately communicate events and information.</li>
+                    </ul>
+                </div>
+                <div class="example">
+                    <h1>Community</h1>
+                    <hr>
+                    <ul>
+                        <li>Advertise local events and small businesses.</li>
+                        <li>Communicate vital information affecting your community.</li>
+                        <li>Easily gather census results.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

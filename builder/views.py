@@ -22,6 +22,10 @@ def creatorUpgrade(request):
     return redirect('/profile/')
 
 
+def create(request):
+    return render(request, 'create.html')
+
+
 def builder(request):
     return render(request, 'builder.html', {'pageNames': [page.name for page in Page.objects.all()]})
 
