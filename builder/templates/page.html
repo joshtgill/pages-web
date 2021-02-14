@@ -9,9 +9,18 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <h1>Create a <i>{{ page.name }}</i></h1>
-            <hr>
-            <h2>{{ page.description }}</h2>
+            <h1>Build a {{ page.name }}</h1>
+            <form id="sheetForm" method="POST">
+                <input id="sheetNameInput" name="name" placeholder="Sheet name (i.e Menu, Products)", autocomplete="off">
+                {% csrf_token %}
+                <div id="items" class="items"></div>
+                <div class="buttons">
+                    <button id="addItemButton" type="button" onclick="displayEmptySheetItem()">Add an item</button>
+                    <button id="saveSheetButton" type="submit">Create this Sheet</button>
+                </div>
+            </form>
         </div>
     </body>
+
+    <script src="{% static 'scripts/page.js' %}"></script>
 </html>

@@ -9,25 +9,96 @@
 }
 
 .content h1 {
-    margin: 5vh 0 1vh 0;
+    margin: 5vh 0 3vh 0;
     font-size: 50px;
     font-weight: normal;
     color: rgb(50, 50, 50);
 }
 
-.content hr {
-    width: 200px;
+.content form {
+    width: 95vw;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 10vh 0;
 }
 
-.content h2 {
-    width: 95vw;
-    max-width: 1200px;
-    margin: 1vh 0 0 0;
-    text-align: center;
+.content form input, textarea {
+    width: 100%;
+    margin: 1vh 0 1vh 0;
+    padding: 1vh;
     font-size: 25px;
-    line-height: 40px;
-    font-weight: normal;
+    font-family: Roboto;
     color: rgb(60, 60, 60);
+    border-radius: 10px;
+    background-color: rgb(240, 240, 240);
+    border: none;
+    outline: none;
+}
+
+.content form #sheetNameInput {
+    max-width: 600px;
+}
+
+.content form .items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4vh 0 5vh 0;
+}
+
+.content form .items .item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content form .items .item #sheetItemTitle {
+    max-width: 600px;
+}
+
+.content form .items .item #sheetItemPrice {
+    max-width: 200px;
+}
+
+.content form .items hr {
+    width: 85vw;
+    max-width: 400px;
+    margin: 4vh auto 4vh auto;
+}
+
+.content form .buttons {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.content form .buttons button {
+    width: 95vw;
+    max-width: 350px;
+    height: 50px;
+    margin: 0 1vw 3vh 1vw;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(30, 30, 30);
+    outline: none;
+    cursor: pointer;
+}
+
+.content form .buttons #addItemButton {
+    color: rgb(70, 70, 70);
+    background-color: rgb(230, 230, 230);
+}
+
+.content form .buttons #saveSheetButton {
+    display: none;
+    color: rgb(255, 255, 255);
+    background-color: rgb(30, 30, 30);
 }
 
 @media only screen and (min-width: 580px) {

@@ -27,17 +27,28 @@ def create(request):
 
 
 def builder(request):
-    return render(request, 'builder.html', {'pages': Page.objects.all()})
-
-
-def page(request):
     if request.method == 'GET':
+        pages = Page.objects.all()
+
         pageForm = PageForm(request.GET)
         if not pageForm.is_valid():
-            render(request, 'page.html')
+            return render(request, 'builder.html', {'pages': pages})
 
-        page = Page.objects.get(name=pageForm.cleaned_data['name'])
+        return render(request, 'page.html', {'page': pages.get(name=pageForm.cleaned_data['name'])})
 
-        return render(request, 'page.html', {'page': page})
+    sheetsPostData = dict(request.POST)
 
-    return render(request, 'page.html')
+    name = sheetsPostData.get('name')[0]
+    sheet = Sheet(name=name)
+    sheet.organization = request.user.creatoruser.organization
+    sheet.save()
+
+    itemTitles = sheetsPostData.get('title')
+    itemDescriptions = sheetsPostData.get('description')
+    itemPrices = sheetsPostData.get('price')
+    for i in range(len(itemTitles)):
+        sheetItem = SheetItem(title=itemTitles[i], description=itemDescriptions[i], price=itemPrices[i])
+        sheetItem.sheet = sheet
+        sheetItem.save()
+
+    return redirect('/create/')
