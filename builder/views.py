@@ -27,7 +27,7 @@ def create(request):
 
 
 def builder(request):
-    return render(request, 'builder.html', {'pageNames': [page.name for page in Page.objects.all()]})
+    return render(request, 'builder.html', {'pages': Page.objects.all()})
 
 
 def page(request):

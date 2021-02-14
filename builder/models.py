@@ -8,7 +8,7 @@ LENGTH_MEDIUM = 100
 
 class Page(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
-    iconFileName = models.CharField(max_length=LENGTH_SHORT)
+    description = models.CharField(max_length=LENGTH_MEDIUM)
 
 
 class Organization(models.Model):
