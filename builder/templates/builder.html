@@ -9,14 +9,14 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <div class="organization-bar">
-                <h1><b>Organization</b>: {{ request.user.creatoruser.organization.name }}</h1>
-            </div>
+            <h1>Select a Page</h1>
             <div class="pages">
-                {% for pageName in pageNames %}
-                    <a href="{% url 'page' %}?name={{ pageName }}">
+                {% for page in pages %}
+                    <a href="{% url 'page' %}?name={{ page.name }}">
                         <div class="page">
-                            <h1>{{ pageName }}</h1>
+                            <h1>{{ page.name }}</h1>
+            <hr>
+                            <p>{{ page.description }}</p>
                         </div>
                     </a>
                 {% endfor %}
