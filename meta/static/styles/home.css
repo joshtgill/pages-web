@@ -1,15 +1,2 @@
-.content .header {
-    width: 100vw;
-    height: 15vmax;
-    min-height: 200px;
-    display: flex;
-    align-items: flex-end;
-    background-color: rgb(240, 240, 240);
-}
-
-.content .header h1 {
-    margin: 0 0 15px 15px;
-    font-size: 12vmin;
-    font-weight: normal;
-    color: rgb(45, 45, 45);
+.content .test {
 }
