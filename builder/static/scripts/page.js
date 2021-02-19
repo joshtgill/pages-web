@@ -3,16 +3,16 @@ function displayEmptySheetItem()
     var items = document.getElementById('items');
 
     if (items.childElementCount)
-    {
         items.appendChild(document.createElement('hr'));
-    }
-    else
-    {
-        document.getElementById('saveSheetButton').style.display = 'inline-block';
-    }
 
     var item = document.createElement('div');
     item.className = 'item';
+
+    idInput = document.createElement('input');
+    idInput.id = 'hidden';
+    idInput.name = 'id';
+    idInput.value = '-1';
+    item.appendChild(idInput);
 
     titleInput = document.createElement('input');
     titleInput.id = 'sheetItemTitle';

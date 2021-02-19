@@ -1,0 +1,27 @@
+<html>
+    {% load static %}
+    <head>
+        <title>Pages</title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/pages.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <h1>Active Pages</h1>
+            <h2>View and edit your organization's pages.</h2>
+            <div class="pages">
+                {% for sheet in sheets %}
+                    <a href="{% url 'builder' %}?typee=Sheet&idd={{ sheet.id }}">
+                        <div class="page" type="submit">
+                            <h1 name="name">{{ sheet.name }}</h1>
+                            <hr>
+                            <h2><b>Type:</b> Sheet</h2>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>
