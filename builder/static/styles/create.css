@@ -46,7 +46,7 @@
 }
 
 .content .examples .example h1 {
-    margin: 20px 0 10px 0;
+    margin: 20px 0 0 0;
     font-size: 25px;
 }
 
@@ -56,11 +56,12 @@
 }
 
 .content .examples .example ul {
+    margin-top: 15px;
     margin-right: 2vh;
     font-size: 18px;
 }
 
 .content .examples .example ul li {
-    margin-top: 1vh;
+    margin-top: 10px;
     line-height: 28px;
 }

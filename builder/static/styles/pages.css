@@ -30,8 +30,7 @@
 
 .content .pages a .page {
     width: 90vw;
-    max-width: 800px;
-    height: 200px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,8 +45,8 @@
 }
 
 .content .pages a .page h1 {
-    margin: 15px 0 0 0;
-    font-size: 40px;
+    margin: 20px 0 0 0;
+    font-size: 30px;
     font-weight: normal;
     color: rgb(60, 60, 60);
 }
@@ -58,7 +57,7 @@
 }
 
 .content .pages a .page h2 {
-    margin: 15px 0 0 0;
+    margin: 10px 40px 20px 40px;
     font-size: 20px;
     font-weight: normal;
     color: rgb(60, 60, 60);

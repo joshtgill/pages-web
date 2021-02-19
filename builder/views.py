@@ -68,7 +68,7 @@ def builder(request):
             sheetItem.sheet = sheet
         sheetItem.save()
 
-    return redirect('/create/')
+    return redirect('/create/pages/')
 
 
 def buildSheetData(idd):

@@ -27,8 +27,7 @@
 
 .content .pages a .page {
     width: 90vw;
-    max-width: 500px;
-    height: 200px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     margin: 1vh 0 1vh 0;
@@ -38,7 +37,7 @@
 }
 
 .content .pages a .page h1 {
-    margin: 20px 0 10px 0;
+    margin: 20px 0 0 0;
     text-align: center;
     font-size: 30px;
     font-weight: normal;
@@ -47,12 +46,11 @@
 
 .content .pages a .page hr {
     width: 50px;
-    margin: 0 auto 0 auto;
     color: rgb(220, 220, 220);
 }
 
 .content .pages a .page p {
-    margin: 20px 20px 0 20px;
+    margin: 10px 40px 20px 40px;
     font-size: 20px;
     line-height: 28px;
     color: rgb(60, 60, 60);
