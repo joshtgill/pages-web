@@ -12,7 +12,7 @@
             <h1>Select a Page</h1>
             <div class="pages">
                 {% for page in pages %}
-                    <a href="{% url 'builder' %}?name={{ page.name }}">
+                    <a href="{% url 'builder' %}?typee={{ page.name }}">
                         <div class="page">
                             <h1>{{ page.name }}</h1>
                             <hr>

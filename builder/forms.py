@@ -1,8 +1,9 @@
 from django import forms
 
 
-class PageForm(forms.Form):
-    name = forms.CharField()
+class BuilderForm(forms.Form):
+    typee = forms.CharField()
+    idd = forms.IntegerField(required=False)
 
 
 class OrganizationForm(forms.Form):

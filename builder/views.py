@@ -1,6 +1,7 @@
 from .models import *
 from django.shortcuts import render, redirect
 from .forms import *
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def creatorUpgrade(request):
@@ -30,25 +31,60 @@ def builder(request):
     if request.method == 'GET':
         pages = Page.objects.all()
 
-        pageForm = PageForm(request.GET)
-        if not pageForm.is_valid():
+        builderForm = BuilderForm(request.GET)
+        if not builderForm.is_valid():
             return render(request, 'builder.html', {'pages': pages})
 
-        return render(request, 'page.html', {'page': pages.get(name=pageForm.cleaned_data['name'])})
+        pageType = builderForm.cleaned_data['typee']
+        sheetId = builderForm.cleaned_data['idd']
+        if sheetId:
+            return render(request, 'page.html', {'page': pages.get(name=pageType), 'sheetData': buildSheetData(sheetId)})
+        else:
+            return render(request, 'page.html', {'page': pages.get(name=pageType)})
 
     sheetsPostData = dict(request.POST)
 
-    name = sheetsPostData.get('name')[0]
-    sheet = Sheet(name=name)
-    sheet.organization = request.user.creatoruser.organization
-    sheet.save()
+    sheetId = sheetsPostData.get('sheetId')[0]
+    sheet = None
+    try:
+        sheet = Sheet.objects.get(id=sheetId)
+    except ObjectDoesNotExist:
+        sheet = Sheet(name=sheetsPostData.get('sheetName')[0])
+        sheet.organization = request.user.creatoruser.organization
+        sheet.save()
 
-    itemTitles = sheetsPostData.get('title')
-    itemDescriptions = sheetsPostData.get('description')
-    itemPrices = sheetsPostData.get('price')
-    for i in range(len(itemTitles)):
-        sheetItem = SheetItem(title=itemTitles[i], description=itemDescriptions[i], price=itemPrices[i])
-        sheetItem.sheet = sheet
-        sheetItem.save()
+    sheetItemIds = sheetsPostData.get('id')
+    sheetItemTitles = sheetsPostData.get('title')
+    sheetItemDescriptions = sheetsPostData.get('description')
+    sheetItemPrices = sheetsPostData.get('price')
+    for i in range(len(sheetItemTitles)):
+        if sheetItemIds[i]:
+            SheetItem.objects.filter(id=int(sheetItemIds[i])).update(title=sheetItemTitles[i],
+                                                                     description=sheetItemDescriptions[i],
+                                                                     price=sheetItemPrices[i])
+        else:
+            sheetItem = SheetItem(title=sheetItemTitles[i], description=sheetItemDescriptions[i], price=sheetItemPrices[i])
+            sheetItem.sheet = sheet
+            sheetItem.save()
 
     return redirect('/create/')
+
+
+def buildSheetData(idd):
+    sheet = Sheet.objects.get(id=idd)
+    sheetData = {'name': sheet.name, 'id': sheet.id, 'items': SheetItem.objects.filter(sheet=sheet)}
+
+    return sheetData
+
+
+def pages(request):
+    if request.method == 'GET':
+        return render(request, 'pages.html', {'sheets': Sheet.objects.filter(organization=request.user.creatoruser.organization.id)})
+
+    builderForm = BuilderForm(request.POST)
+    if not builderForm.is_valid():
+        return render(request, 'home.html')
+
+    sheetId = builderForm.cleaned_data['name']
+
+    return redirect('/create/builder/?name=Sheet?id={}'.format(sheetId))
