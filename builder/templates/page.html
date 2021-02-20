@@ -30,9 +30,18 @@
                         </div>
                     {% endfor %}
                 </div>
+                <button id="addItemButton" type="button" onclick="displayEmptySheetItem()">Add an item</button>
                 <div class="buttons">
-                    <button id="addItemButton" type="button" onclick="displayEmptySheetItem()">Add an item</button>
-                    <button id="saveSheetButton" type="submit">Save this Sheet</button>
+                    <button id="saveSheetButton" type="submit">
+                        {% if sheetData %}
+                            Save changes
+                        {% else %}
+                            Create Sheet
+                        {% endif %}
+                    </button>
+                    {% if sheetData %}
+                        <button id="deleteSheetButton" type="button" onclick="createAndSubmitDeleteForm({{ sheetData.id }}, -1)">Delete this Sheet</button>
+                    {% endif %}
                 </div>
             </form>
             <form id="deleteForm" method="POST">

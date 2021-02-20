@@ -44,8 +44,15 @@ def builder(request):
 
     deleteSheetItemForm = DeleteSheetItemForm(request.POST)
     if deleteSheetItemForm.is_valid():
-        SheetItem.objects.get(id=deleteSheetItemForm.cleaned_data['sheetItemId']).delete()
-        return redirect('/create/builder/?typee=Sheet&idd={}'.format(deleteSheetItemForm.cleaned_data['sheetId']))
+        sheetId = deleteSheetItemForm.cleaned_data['sheetId']
+        sheetItemId = deleteSheetItemForm.cleaned_data['sheetItemId']
+        if sheetItemId == -1:
+            Sheet.objects.get(id=sheetId).delete()
+            return redirect('/create/pages/')
+        else:
+            print(sheetItemId)
+            SheetItem.objects.get(id=sheetItemId).delete()
+            return redirect('/create/builder/?typee=Sheet&idd={}'.format(sheetId))
 
     sheetsPostData = dict(request.POST)
 
@@ -53,7 +60,7 @@ def builder(request):
     try:
         sheet = Sheet.objects.get(id=sheetsPostData.get('sheetId')[0])
         sheet.name = sheetsPostData.get('sheetName')[0]
-    except ObjectDoesNotExist:
+    except ValueError:
         sheet = Sheet(name=sheetsPostData.get('sheetName')[0])
         sheet.organization = request.user.creatoruser.organization
     sheet.save()
