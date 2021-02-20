@@ -42,19 +42,16 @@ def builder(request):
         else:
             return render(request, 'page.html', {'page': pages.get(name=pageType)})
 
-    deleteSheetItemForm = DeleteSheetItemForm(request.POST)
-    if deleteSheetItemForm.is_valid():
-        sheetId = deleteSheetItemForm.cleaned_data['sheetId']
-        sheetItemId = deleteSheetItemForm.cleaned_data['sheetItemId']
-        if sheetItemId == -1:
-            Sheet.objects.get(id=sheetId).delete()
-            return redirect('/create/pages/')
-        else:
-            print(sheetItemId)
-            SheetItem.objects.get(id=sheetItemId).delete()
-            return redirect('/create/builder/?typee=Sheet&idd={}'.format(sheetId))
+    deleteSheetForm = DeleteSheetForm(request.POST)
+    if deleteSheetForm.is_valid():
+        Sheet.objects.get(id=deleteSheetForm.cleaned_data['deleteSheetId']).delete()
+        return redirect('/create/pages/')
 
     sheetsPostData = dict(request.POST)
+    sheetItemsToDelete = [int(sheetItemId) for sheetItemId in sheetsPostData.get('sheetItemsToDelete')[0].split('|')]
+    for sheetItemId in sheetItemsToDelete:
+        SheetItem.objects.get(id=sheetItemId).delete()
+        return redirect('/create/pages/')
 
     sheet = None
     try:

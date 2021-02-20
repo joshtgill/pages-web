@@ -39,9 +39,20 @@ function displayEmptySheetItem()
     items.appendChild(item);
 }
 
-function createAndSubmitDeleteForm(sheetId, sheetItemId)
+function markSheetItemToDelete(itemId)
+{
+    var sheetItem = document.getElementById(`${itemId}_sheetItem`);
+    sheetItem.style.display = 'none';
+
+    var sheetItemsToDelete = document.getElementById('sheetItemsToDelete');
+    if (sheetItemsToDelete.value == '')
+        sheetItemsToDelete.value = itemId;
+    else
+        sheetItemsToDelete.value = sheetItemsToDelete.value += `|${itemId}`;
+}
+
+function submitDeleteSheetForm(sheetId)
 {
     document.getElementById('deleteSheetIdInput').setAttribute('value', sheetId);
-    document.getElementById('deleteSheetItemIdInput').setAttribute('value', sheetItemId);
     document.getElementById('deleteForm').submit();
 }
