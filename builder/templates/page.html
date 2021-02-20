@@ -13,17 +13,20 @@
             <form id="sheetForm" method="POST">
                 {% csrf_token %}
                 <input id="sheetNameInput" name="sheetName" placeholder="Sheet name (i.e Menu, Products)" autocomplete="off" value="{{ sheetData.name }}">
-                <input id="hidden" name="sheetId" value="{{ sheetData.id }}"></input>
+                <input class="hidden" name="sheetId" value="{{ sheetData.id }}"></input>
                 <div id="items" class="items">
                     {% for sheetItem in sheetData.items %}
                         {% if forloop.counter0 %}
                             <hr>
                         {% endif %}
                         <div class="item">
-                            <input id="hidden" name="id" value="{{ sheetItem.id }}">
+                            <input class="hidden" name="id" value="{{ sheetItem.id }}">
                             <input id="sheetItemTitle" type="text" autocomplete="off" name="title" value="{{ sheetItem.title }}">
                             <textarea rows=3 name="description" value="">{{ sheetItem.description }}</textarea>
-                            <input id="sheetItemPrice" type="number" step="0.01" name="price" value="{{ sheetItem.price }}">
+                            <div class="row-three">
+                                <input id="sheetItemPrice" type="number" step="0.01" name="price" value="{{ sheetItem.price }}">
+                                <button type="button" onclick="createAndSubmitDeleteForm({{ sheetData.id }}, {{ sheetItem.id }})"><u>Delete item</u></button>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
@@ -31,6 +34,11 @@
                     <button id="addItemButton" type="button" onclick="displayEmptySheetItem()">Add an item</button>
                     <button id="saveSheetButton" type="submit">Save this Sheet</button>
                 </div>
+            </form>
+            <form id="deleteForm" method="POST">
+                {% csrf_token %}
+                <input class="hidden" id="deleteSheetIdInput" name="sheetId">
+                <input class="hidden" id="deleteSheetItemIdInput" name="sheetItemId">
             </form>
         </div>
     </body>

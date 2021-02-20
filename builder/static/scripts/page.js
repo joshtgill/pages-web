@@ -9,7 +9,7 @@ function displayEmptySheetItem()
     item.className = 'item';
 
     idInput = document.createElement('input');
-    idInput.id = 'hidden';
+    idInput.className = 'hidden';
     idInput.name = 'id';
     idInput.value = '-1';
     item.appendChild(idInput);
@@ -37,4 +37,11 @@ function displayEmptySheetItem()
     item.appendChild(priceInput);
 
     items.appendChild(item);
+}
+
+function createAndSubmitDeleteForm(sheetId, sheetItemId)
+{
+    document.getElementById('deleteSheetIdInput').setAttribute('value', sheetId);
+    document.getElementById('deleteSheetItemIdInput').setAttribute('value', sheetItemId);
+    document.getElementById('deleteForm').submit();
 }

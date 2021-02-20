@@ -42,6 +42,11 @@ def builder(request):
         else:
             return render(request, 'page.html', {'page': pages.get(name=pageType)})
 
+    deleteSheetItemForm = DeleteSheetItemForm(request.POST)
+    if deleteSheetItemForm.is_valid():
+        SheetItem.objects.get(id=deleteSheetItemForm.cleaned_data['sheetItemId']).delete()
+        return redirect('/create/builder/?typee=Sheet&idd={}'.format(deleteSheetItemForm.cleaned_data['sheetId']))
+
     sheetsPostData = dict(request.POST)
 
     sheet = None

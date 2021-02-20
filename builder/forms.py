@@ -1,11 +1,6 @@
 from django import forms
 
 
-class BuilderForm(forms.Form):
-    typee = forms.CharField()
-    idd = forms.IntegerField(required=False)
-
-
 class OrganizationForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
@@ -13,3 +8,13 @@ class OrganizationForm(forms.Form):
         super(OrganizationForm, self).__init__(*args, **kwargs)
 
         self.fields['names'] = forms.ChoiceField(label='', choices=self.choices, required=True)
+
+
+class BuilderForm(forms.Form):
+    typee = forms.CharField()
+    idd = forms.IntegerField(required=False)
+
+
+class DeleteSheetItemForm(forms.Form):
+    sheetId = forms.IntegerField()
+    sheetItemId = forms.IntegerField()

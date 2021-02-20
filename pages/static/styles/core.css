@@ -63,7 +63,7 @@ body {
     overflow: auto;
 }
 
-#hidden {
+.hidden {
     display: none;
 }
 
