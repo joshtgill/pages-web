@@ -48,10 +48,12 @@ def builder(request):
         return redirect('/create/pages/')
 
     sheetsPostData = dict(request.POST)
-    sheetItemsToDelete = [int(sheetItemId) for sheetItemId in sheetsPostData.get('sheetItemsToDelete')[0].split('|')]
-    for sheetItemId in sheetItemsToDelete:
-        SheetItem.objects.get(id=sheetItemId).delete()
+    try:
+        for sheetItemId in sheetsPostData.get('sheetItemsToDelete')[0].split('|'):
+            SheetItem.objects.get(id=int(sheetItemId)).delete()
         return redirect('/create/pages/')
+    except ValueError:
+        pass
 
     sheet = None
     try:
