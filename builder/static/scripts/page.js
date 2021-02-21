@@ -2,11 +2,10 @@ function displayEmptySheetItem()
 {
     var items = document.getElementById('items');
 
-    if (items.childElementCount)
-        items.appendChild(document.createElement('hr'));
-
     var item = document.createElement('div');
     item.className = 'item';
+
+    item.appendChild(document.createElement('hr'));
 
     idInput = document.createElement('input');
     idInput.className = 'hidden';
@@ -36,23 +35,33 @@ function displayEmptySheetItem()
     priceInput.placeholder = 'Price';
     item.appendChild(priceInput);
 
+    removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.onclick = function() { removeSheetItem(this); }
+    removeButton.textContent = 'Remove item'
+    item.appendChild(removeButton);
+
     items.appendChild(item);
 }
 
-function markSheetItemToDelete(itemId)
+function removeAndRecordSheetItemForDeletion(sheetItemId, sourceButton)
 {
-    var sheetItem = document.getElementById(`${itemId}_sheetItem`);
-    sheetItem.style.display = 'none';
+    removeSheetItem(sourceButton);
 
-    var sheetItemsToDelete = document.getElementById('sheetItemsToDelete');
-    if (sheetItemsToDelete.value == '')
-        sheetItemsToDelete.value = itemId;
-    else
-        sheetItemsToDelete.value = sheetItemsToDelete.value += `|${itemId}`;
+    // Record Sheet ID to be deleted on Sheet save
+    var sheetItemIdsToDelete = document.getElementById('sheetItemIdsToDelete');
+    sheetItemIdsToDelete.value += !sheetItemIdsToDelete.value ? sheetItemId
+                                                              : sheetItemIdsToDelete.value += `|${sheetItemId}`;
 }
 
-function submitDeleteSheetForm(sheetId)
+function removeSheetItem(sourceButton)
 {
-    document.getElementById('deleteSheetIdInput').setAttribute('value', sheetId);
-    document.getElementById('deleteForm').submit();
+    // Remove Sheet item from page
+    // TODO: Removing the first Sheet item causes an unwanted <hr>
+    sourceButton.parentNode.remove();
+}
+
+function submitSheetDeleteForm()
+{
+    document.getElementById('sheetDeleteForm').submit();
 }

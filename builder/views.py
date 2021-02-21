@@ -42,19 +42,20 @@ def builder(request):
         else:
             return render(request, 'page.html', {'page': pages.get(name=pageType)})
 
-    deleteSheetForm = DeleteSheetForm(request.POST)
-    if deleteSheetForm.is_valid():
-        Sheet.objects.get(id=deleteSheetForm.cleaned_data['deleteSheetId']).delete()
+    sheetDeleteForm = SheetDeleteForm(request.POST)
+    if sheetDeleteForm.is_valid():
+        Sheet.objects.get(id=sheetDeleteForm.cleaned_data['sheetIdToDelete']).delete()
         return redirect('/create/pages/')
 
     sheetsPostData = dict(request.POST)
-    try:
-        for sheetItemId in sheetsPostData.get('sheetItemsToDelete')[0].split('|'):
-            SheetItem.objects.get(id=int(sheetItemId)).delete()
-        return redirect('/create/pages/')
-    except ValueError:
-        pass
+    sheet = handleSheetUpdate(request, sheetsPostData)
+    handleSheetItemsUpdates(sheetsPostData, sheet)
 
+    return redirect('/create/pages/')
+
+
+def handleSheetUpdate(request, sheetsPostData):
+    # If the Sheet exists, update its name. Otherwise create it.
     sheet = None
     try:
         sheet = Sheet.objects.get(id=sheetsPostData.get('sheetId')[0])
@@ -64,11 +65,26 @@ def builder(request):
         sheet.organization = request.user.creatoruser.organization
     sheet.save()
 
+    return sheet
+
+
+def handleSheetItemsUpdates(sheetsPostData, sheet):
+    # Delete appropiate Sheet Items
+    try:
+        for sheetItemId in sheetsPostData.get('sheetItemIdsToDelete')[0].split('|'):
+            SheetItem.objects.get(id=int(sheetItemId)).delete()
+    except ValueError:
+        pass
+
+    # For each Sheet Item, update its attributes if it exists. Otherwise create it.
     sheetItemIds = sheetsPostData.get('id')
+    if not sheetItemIds:
+        return
+
     sheetItemTitles = sheetsPostData.get('title')
     sheetItemDescriptions = sheetsPostData.get('description')
     sheetItemPrices = sheetsPostData.get('price')
-    for i in range(len(sheetItemTitles)):
+    for i in range(len(sheetItemIds)):
         try:
             sheetItem = SheetItem.objects.get(id=int(sheetItemIds[i]))
             sheetItem.title = sheetItemTitles[i]
@@ -78,8 +94,6 @@ def builder(request):
             sheetItem = SheetItem(title=sheetItemTitles[i], description=sheetItemDescriptions[i], price=sheetItemPrices[i])
             sheetItem.sheet = sheet
         sheetItem.save()
-
-    return redirect('/create/pages/')
 
 
 def buildSheetData(idd):
