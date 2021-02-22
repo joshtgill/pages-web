@@ -17,6 +17,7 @@ class Organization(models.Model):
 
 class Sheet(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
+    dateCreated = models.DateField()
 
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 

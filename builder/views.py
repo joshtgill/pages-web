@@ -1,6 +1,7 @@
 from .models import *
 from django.shortcuts import render, redirect
 from .forms import *
+import datetime
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -68,7 +69,7 @@ def handleSheetUpdate(request, sheetsPostData):
         sheet = Sheet.objects.get(id=sheetsPostData.get('sheetId')[0])
         sheet.name = sheetsPostData.get('sheetName')[0]
     except ValueError:
-        sheet = Sheet(name=sheetsPostData.get('sheetName')[0])
+        sheet = Sheet(name=sheetsPostData.get('sheetName')[0], dateCreated=datetime.date.today())
         sheet.organization = request.user.creatoruser.organization
     sheet.save()
 
@@ -112,7 +113,7 @@ def buildSheetData(idd):
 
 def pages(request):
     if request.method == 'GET':
-        return render(request, 'pages.html', {'sheets': Sheet.objects.filter(organization=request.user.creatoruser.organization.id)})
+        return render(request, 'pages.html', {'sheetsData': buildSheetsData(request)})
 
     builderForm = BuilderForm(request.POST)
     if not builderForm.is_valid():
@@ -121,3 +122,13 @@ def pages(request):
     sheetId = builderForm.cleaned_data['name']
 
     return redirect('/create/builder/?name=Sheet?id={}'.format(sheetId))
+
+
+def buildSheetsData(request):
+    sheetsData = []
+    for sheet in Sheet.objects.filter(organization=request.user.creatoruser.organization):
+        sheetData = {'id': sheet.id, 'name': sheet.name, 'dateCreated': sheet.dateCreated,
+                     'numItems': len(SheetItem.objects.filter(sheet=sheet))}
+        sheetsData.append(sheetData)
+
+    return sheetsData
