@@ -37,7 +37,8 @@
                         {% endif %}
                     </button>
                     {% if sheetData %}
-                        <button id="deleteSheetButton" type="button" onclick="submitSheetDeleteForm()">Delete this Sheet</button>
+                        {{ sheetDeletePopupData|json_script:"sheetDeletePopupData" }}
+                        <button id="deleteSheetButton" type="button" onclick="displayConfirmationPopup('sheetDeletePopupData')">Delete this Sheet</button>
                     {% endif %}
                 </div>
 
@@ -51,5 +52,6 @@
         </div>
     </body>
 
+    {% include 'confirmation_popup.html' %}
     <script src="{% static 'scripts/page.js' %}"></script>
 </html>

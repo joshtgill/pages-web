@@ -1,0 +1,15 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/confirmation_popup.css' %}">
+
+<div id="popupContainer" class="popup-container">
+    <div id="confirmationPopup" class="popup">
+        <h1 id="prompt"></h1>
+        <form id="confirmationForm" action="" method="POST">
+            {% csrf_token %}
+            <button id="confirmButton" name="action" value="" onclick="submitConfirmationForm()"></button>
+        </form>
+        <button id="cancelButton">Cancel</button>
+    </div>
+</div>
+
+<script src="{% static 'scripts/confirmation_popup.js' %}"></script>

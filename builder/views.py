@@ -35,12 +35,19 @@ def builder(request):
         if not builderForm.is_valid():
             return render(request, 'builder.html', {'pages': pages})
 
-        pageType = builderForm.cleaned_data['typee']
+        content = {'page': pages.get(name=builderForm.cleaned_data['typee'])}
+
         sheetId = builderForm.cleaned_data['idd']
         if sheetId:
-            return render(request, 'page.html', {'page': pages.get(name=pageType), 'sheetData': buildSheetData(sheetId)})
-        else:
-            return render(request, 'page.html', {'page': pages.get(name=pageType)})
+            sheetData = buildSheetData(sheetId)
+            content.update({'sheetDeletePopupData': {'prompt': 'Permanently delete <b>{}</b> from {}?'.format(sheetData.get('name'),
+                                                                                                              request.user.creatoruser.organization.name),
+                                                     'confirmButtonText': 'Delete',
+                                                     'formName': 'sheetIdToDelete',
+                                                     'formValue': sheetData.get('id')},
+                            'sheetData': sheetData})
+
+        return render(request, 'page.html', content)
 
     sheetDeleteForm = SheetDeleteForm(request.POST)
     if sheetDeleteForm.is_valid():
