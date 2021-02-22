@@ -22,8 +22,7 @@
                             <h3>Email</h3>
                             <h4>{{ request.user.email }}</h4>
                         </div>
-                        {{ customerDowngradeData|json_script:customerDowngradeData.action }}
-                        <a onclick="displayChangeEmailPopup('{{ customerDowngradeData.action }}')">Change email</a>
+                        <a onclick="displayChangeEmailPopup()">Change email</a>
                     </div>
                     {% if request.user.creatoruser %}
                         <div class="detail-container">
@@ -31,8 +30,8 @@
                                 <h3>Account type</h3>
                                 <h4>Creator</h4>
                             </div>
-                            {{ customerDowngradeData|json_script:customerDowngradeData.action }}
-                            <a onclick="displayConfirmationPopup('{{ customerDowngradeData.action }}')">Downgrade</a>
+                            {{ downgradeToCustomerData|json_script:"downgradeToCustomerData" }}
+                            <a onclick="displayConfirmationPopup('downgradeToCustomerData')">Downgrade</a>
                         </div>
                         <div class="links">
 
@@ -54,14 +53,15 @@
                     {% endif %}
                 </div>
                 <div class="account-actions">
-                    {{ logoutConfirmationData|json_script:logoutConfirmationData.action }}
-                    <button id="logoutButton" onclick="displayConfirmationPopup('{{ logoutConfirmationData.action }}')">Logout</button>
-                    {{ createAccountConfirmationData|json_script:createAccountConfirmationData.action }}
-                    <button id="deleteAccountButton" onclick="displayConfirmationPopup('{{ createAccountConfirmationData.action }}')">Delete account</button>
+                    {{ logoutPopupData|json_script:"logoutPopupData" }}
+                    <button id="logoutButton" onclick="displayConfirmationPopup('logoutPopupData')">Logout</button>
+                    {{ deleteAccountPopupData|json_script:"deleteAccountPopupData" }}
+                    <button id="deleteAccountButton" onclick="displayConfirmationPopup('deleteAccountPopupData')">Delete account</button>
                 </div>
             </div>
         </div>
 
-        {% include 'popup.html' %}
+        {% include 'change_email_popup.html' %}
+        {% include 'confirmation_popup.html' %}
     </body>
 </html>

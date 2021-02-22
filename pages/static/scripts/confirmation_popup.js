@@ -11,8 +11,8 @@ function dismissPopup() {
 
 var confirmationPopup = document.getElementById('confirmationPopup');
 
-function displayConfirmationPopup(formName) {
-    confirmationData = JSON.parse(document.getElementById(formName).textContent);
+function displayConfirmationPopup(dataIdentifier) {
+    confirmationData = JSON.parse(document.getElementById(dataIdentifier).textContent);
 
     document.getElementById('prompt').innerHTML = confirmationData['prompt'];
 

@@ -78,37 +78,45 @@ def login(request):
 
 def profile(request):
     content = {'changeEmailForm': ChangeEmailForm(),
-               'customerDowngradeData': {'prompt': 'Downgrade <b>{}</b> from Creator to Customer?'.format(request.user.email),
-                                         'confirmText': 'Downgrade',
-                                         'action': 'DOWNGRADE'},
-               'logoutConfirmationData': {'prompt': 'Logout of <b>{}</b>?'.format(request.user.email),
-                                          'confirmText': 'Logout',
-                                          'action': 'LOGOUT'},
-               'createAccountConfirmationData': {'prompt': '''This will permanently delete the account associated
-                                                              with <br><br><b>{}</b><br><br> All data will be lost
-                                                              and this action cannot be undone.'''.format(request.user.email),
-                                                 'confirmText': 'Delete account',
-                                                 'action': 'DELETE_ACCOUNT'}}
+               'downgradeToCustomerPopupData': {'prompt': 'Downgrade <b>{}</b> from Creator to Customer?'.format(request.user.email),
+                                                'confirmButtonText': 'Downgrade',
+                                                'formName': 'downgradeToCustomer',
+                                                'formValue': True},
+               'logoutPopupData': {'prompt': 'Logout of <b>{}</b>?'.format(request.user.email),
+                                   'confirmButtonText': 'Logout',
+                                   'formName': 'logout',
+                                   'formValue': True},
+               'deleteAccountPopupData': {'prompt': '''This will permanently delete the account associated
+                                                       with <br><br><b>{}</b><br><br> All data will be lost
+                                                       and this action cannot be undone.'''.format(request.user.email),
+                                          'confirmButtonText': 'Delete',
+                                          'formName': 'deleteAccount',
+                                          'formValue': True}}
 
     if request.method == 'GET':
         return render(request, 'profile.html', content)
 
-    submittedConfirmationForm = ConfirmationForm(request.POST)
-    submittedChangeEmailForm = ChangeEmailForm(request.POST)
-    if submittedConfirmationForm.is_valid():
-        if submittedConfirmationForm.cleaned_data['action'] == 'LOGOUT':
-            djangoAuth.logout(request)
-            return redirect('/login/')
-        elif submittedConfirmationForm.cleaned_data['action'] == 'DELETE_ACCOUNT':
-            deleteUsername = request.user.username
-            djangoAuth.logout(request)
-            User.objects.get(username=deleteUsername).delete()
-            return redirect('/login/')
-        elif submittedConfirmationForm.cleaned_data['action'] == 'DOWNGRADE':
-            request.user.creatoruser.delete()
-    elif submittedChangeEmailForm.is_valid():
-        newEmail = submittedChangeEmailForm.cleaned_data['newEmail']
-        newEmailConfirm = submittedChangeEmailForm.cleaned_data['newEmailConfirm']
+    downgradeToCustomerForm = DowngradeToCustomerForm(request.POST)
+    if downgradeToCustomerForm.is_valid():
+        request.user.creatoruser.delete()
+        return redirect('/profile/')
+
+    logoutForm = LogoutForm(request.POST)
+    if logoutForm.is_valid():
+        djangoAuth.logout(request)
+        return redirect('/')
+
+    deleteAccountForm = DeleteAccountForm(request.POST)
+    if deleteAccountForm.is_valid():
+        deleteUsername = request.user.username
+        djangoAuth.logout(request)
+        User.objects.get(username=deleteUsername).delete()
+        return redirect('/login/')
+
+    changeEmailForm = ChangeEmailForm(request.POST)
+    if changeEmailForm.is_valid():
+        newEmail = changeEmailForm.cleaned_data['newEmail']
+        newEmailConfirm = changeEmailForm.cleaned_data['newEmailConfirm']
         if newEmail == newEmailConfirm:
             request.user.email = newEmail
             request.user.save()

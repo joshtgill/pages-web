@@ -2,7 +2,6 @@ from django import forms
 
 
 class CreateAccountForm(forms.Form):
-
     firstName = forms.CharField(label='',
                                 widget=forms.TextInput(attrs={'placeholder': 'First name', 'autocomplete': 'off'}),
                                 max_length=100)
@@ -23,7 +22,6 @@ class CreateAccountForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-
     email = forms.CharField(label='',
                             widget=forms.TextInput(attrs={'placeholder': 'Email', 'autocomplete': 'off'}),
                             max_length=100)
@@ -33,14 +31,12 @@ class LoginForm(forms.Form):
 
 
 class CreatorUpgradeForm(forms.Form):
-
     organization = forms.CharField(label='',
                                    widget=forms.TextInput(attrs={'placeholder': 'Organization', 'autocomplete': 'off'}),
                                    max_length=100)
 
 
 class ChangeEmailForm(forms.Form):
-
     newEmail = forms.CharField(label='',
                                widget=forms.TextInput(attrs={'placeholder': 'New email', 'autocomplete': 'off'}),
                                max_length=100)
@@ -50,6 +46,13 @@ class ChangeEmailForm(forms.Form):
                                       max_length=100)
 
 
-class ConfirmationForm(forms.Form):
+class DowngradeToCustomerForm(forms.Form):
+    downgradeToCustomer = forms.BooleanField()
 
-    action = forms.CharField()
+
+class LogoutForm(forms.Form):
+    logout = forms.BooleanField()
+
+
+class DeleteAccountForm(forms.Form):
+    deleteAccount = forms.BooleanField()
