@@ -9,7 +9,11 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <h1>Build a {{ page.name }}</h1>
+            {% if sheetData %}
+                <h1>Edit this {{ page.name }}</h1>
+            {% else %}
+                <h1>Build a {{ page.name }}</h1>
+            {% endif %}
             <form id="sheetForm" method="POST">
                 {% csrf_token %}
                 <input id="sheetNameInput" name="sheetName" placeholder="Sheet name (i.e Menu, Products)" autocomplete="off" value="{{ sheetData.name }}">
@@ -27,7 +31,7 @@
                         </div>
                     {% endfor %}
                 </div>
-                <button id="addItemButton" type="button" onclick="displayEmptySheetItem()">Add an item</button>
+                <button id="addItemButton" type="button" onclick="displayEmptySheetItem()">+</button>
                 <div class="buttons">
                     <button id="saveSheetButton" type="submit">
                         {% if sheetData %}

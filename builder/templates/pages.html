@@ -1,5 +1,6 @@
 <html>
     {% load static %}
+    {% load pages %}
     <head>
         <title>Pages</title>
 
@@ -9,7 +10,7 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <h1>{{ request.user.creatoruser.organization.name }}' Pages</h1>
+            <h1>{{ request.user.creatoruser.organization.name|pluralize }} Pages</h1>
             <h2>View and edit your organization's pages.</h2>
             <div class="pages">
                 {% for sheetData in sheetsData %}
