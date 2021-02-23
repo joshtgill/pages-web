@@ -5,7 +5,8 @@ function displayEmptySheetItem()
     var item = document.createElement('div');
     item.className = 'item';
 
-    item.appendChild(document.createElement('hr'));
+    if (items.childElementCount)
+        item.appendChild(document.createElement('hr'));
 
     idInput = document.createElement('input');
     idInput.className = 'hidden';
