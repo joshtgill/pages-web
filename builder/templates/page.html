@@ -1,7 +1,7 @@
 <html>
     {% load static %}
     <head>
-        <title>{{ pageType }}</title>
+        <title>{{ pageData.type }} Builder</title>
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/page.css' %}">
     </head>
@@ -9,40 +9,43 @@
         {% include 'core.html' %}
 
         <div class="content">
-            {% if pageData %}
-                <h1>Edit this {{ pageType }}</h1>
+            {% if pageData.id %}
+                <h1>Edit this {{ pageData.type }}</h1>
             {% else %}
-                <h1>Build a {{ pageType }}</h1>
+                <h1>Create a {{ pageData.type }}</h1>
             {% endif %}
             <form id="pageForm" method="POST">
                 {% csrf_token %}
                 <input id="pageNameInput" name="pageName" placeholder="Page name (i.e Menu, Products)" autocomplete="off" value="{{ pageData.name }}">
+                <input class="hidden" name="pageType" value="{{ pageData.type }}">
                 <div id="items" class="items">
-                    {% for pageItem in pageData.items %}
-                        <div class="item">
-                            {% if forloop.counter0 %}
-                                <hr>
-                            {% endif %}
-                            <input class="hidden" name="id" value="{{ pageItem.id }}">
-                            <input id="sheetItemTitle" type="text" autocomplete="off" name="title" value="{{ pageItem.title }}">
-                            <textarea rows=3 name="description" value="">{{ pageItem.description }}</textarea>
-                            <input id="sheetItemPrice" type="number" step="0.01" name="price" value="{{ pageItem.price }}">
-                            <button type="button" onclick="removeAndRecordPageItemForDeletion({{ pageItem.id }}, this)">Delete item</button>
-                        </div>
-                    {% endfor %}
+                    {% if pageData.id %}
+                        {% for pageItem in pageData.items %}
+                            <div class="item">
+                                {% if forloop.counter0 %}
+                                    <hr>
+                                {% endif %}
+                                <input class="hidden" name="id" value="{{ pageItem.id }}">
+                                <input id="sheetItemTitle" type="text" autocomplete="off" name="title" value="{{ pageItem.title }}">
+                                <textarea rows=3 name="description" value="">{{ pageItem.description }}</textarea>
+                                <input id="sheetItemPrice" type="number" step="0.01" name="price" value="{{ pageItem.price }}">
+                                <button type="button" onclick="removeAndRecordPageItemForDeletion({{ pageItem.id }}, this)">Delete item</button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <button id="addItemButton" type="button" onclick="displayEmptySheetItem()">+</button>
                 <div class="buttons">
                     <button id="savePageButton" type="submit">
-                        {% if pageData %}
+                        {% if pageData.id %}
                             Save changes
                         {% else %}
                             Create Page
                         {% endif %}
                     </button>
-                    {% if pageData %}
-                        {{ pageDeletePopupData|json_script:"pageDeletePopupData" }}
-                        <button id="deletePageButton" type="button" onclick="displayConfirmationPopup('pageDeletePopupData')">Delete this Page</button>
+                    {% if pageData.id %}
+                        {{ pageDeleteConfirmationPopupData|json_script:"pageDeleteConfirmationPopupData" }}
+                        <button id="deletePageButton" type="button" onclick="displayConfirmationPopup('pageDeleteConfirmationPopupData')">Delete this Page</button>
                     {% endif %}
                 </div>
 

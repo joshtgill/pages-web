@@ -30,23 +30,35 @@ def create(request):
 
 def builder(request):
     if request.method == 'GET':
-        pageListings = PageListing.objects.all()
-
+        pageListings = PageListing.objects
         builderForm = BuilderForm(request.GET)
+
+        # If a Page type isn't provided, list available Pages
         if not builderForm.is_valid():
-            return render(request, 'builder.html', {'pageListings': pageListings})
+            return render(request, 'builder.html', {'pageListings': pageListings.all()})
 
-        content = {'pageType': builderForm.cleaned_data['typee']}
+        # If the provided Page type doesn't exist, list available Pages
+        pageType = builderForm.cleaned_data['typee']
+        if not pageListings.filter(name=pageType).count():
+            return render(request, 'builder.html', {'pageListings': pageListings.all()})
 
+        # If a Page ID is provided that also belongs to the active organization, load existing data
+        # If only a Page ID is provided, redirect to a new Page
+        # Otherwise only provide the type of Page
+        content = {}
         pageId = builderForm.cleaned_data['idd']
-        if pageId:
+        if pageId and Page.objects.filter(organization=request.user.creatoruser.organization, id=pageId).count():
             pageData = buildPageData(pageId)
             content.update({'pageData': pageData,
-                            'pageDeletePopupData': {'prompt': 'Permanently delete <b>{}</b> from {}?'.format(pageData.get('name'),
-                                                                                                             request.user.creatoruser.organization.name),
-                                                    'confirmButtonText': 'Delete',
-                                                    'formName': 'pageIdToDelete',
-                                                    'formValue': pageData.get('id')}})
+                            'pageDeleteConfirmationPopupData': {'prompt': 'Permanently delete <b>{}</b> from {}?'.format(pageData.get('name'),
+                                                                                                                         request.user.creatoruser.organization.name),
+                                                                'confirmButtonText': 'Delete',
+                                                                'formName': 'pageIdToDelete',
+                                                                'formValue': pageData.get('id')}})
+        elif pageId:
+            return redirect('/create/builder/?typee={}'.format(pageType))
+        else:
+            content.update({'pageData': {'type': pageType}})
 
         return render(request, 'page.html', content)
 
@@ -62,6 +74,11 @@ def builder(request):
     return redirect('/create/pages/')
 
 
+def buildPageData(idd):
+    page = Page.objects.get(id=idd)
+    return {'id': page.id, 'name': page.name, 'type': page.typee, 'items': SheetItem.objects.filter(page=page)}
+
+
 def handlePageUpdate(request, pagePostData):
     # If the Page exists, update its name. Otherwise create it.
     page = None
@@ -69,7 +86,7 @@ def handlePageUpdate(request, pagePostData):
         page = Page.objects.get(id=pagePostData.get('pageId')[0])
         page.name = pagePostData.get('pageName')[0]
     except ValueError:
-        page = Page(name=pagePostData.get('pageName')[0], dateCreated=datetime.date.today())
+        page = Page(name=pagePostData.get('pageName')[0], typee=pagePostData.get('pageType')[0], dateCreated=datetime.date.today())
         page.organization = request.user.creatoruser.organization
     page.save()
 
@@ -102,11 +119,6 @@ def handleSheetItemsUpdates(pagePostData, page):
             sheetItem = SheetItem(title=sheetItemTitles[i], description=sheetItemDescriptions[i], price=sheetItemPrices[i])
             sheetItem.page = page
         sheetItem.save()
-
-
-def buildPageData(idd):
-    page = Page.objects.get(id=idd)
-    return {'id': page.id, 'name': page.name, 'items': SheetItem.objects.filter(page=page)}
 
 
 def pages(request):
