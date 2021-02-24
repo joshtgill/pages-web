@@ -6,7 +6,7 @@ LENGTH_SHORT = 30
 LENGTH_MEDIUM = 100
 
 
-class Page(models.Model):
+class PageListing(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     description = models.CharField(max_length=LENGTH_MEDIUM)
 
@@ -15,9 +15,10 @@ class Organization(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
 
 
-class Sheet(models.Model):
+class Page(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     dateCreated = models.DateField()
+    typee = models.CharField(max_length=LENGTH_SHORT)
 
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
@@ -27,7 +28,7 @@ class SheetItem(models.Model):
     description = models.CharField(max_length=LENGTH_MEDIUM)
     price = models.FloatField()
 
-    sheet = models.ForeignKey(Sheet, on_delete=models.CASCADE)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 
 class CreatorUser(models.Model):

@@ -30,68 +30,68 @@ def create(request):
 
 def builder(request):
     if request.method == 'GET':
-        pages = Page.objects.all()
+        pageListings = PageListing.objects.all()
 
         builderForm = BuilderForm(request.GET)
         if not builderForm.is_valid():
-            return render(request, 'builder.html', {'pages': pages})
+            return render(request, 'builder.html', {'pageListings': pageListings})
 
-        content = {'page': pages.get(name=builderForm.cleaned_data['typee'])}
+        content = {'pageType': builderForm.cleaned_data['typee']}
 
-        sheetId = builderForm.cleaned_data['idd']
-        if sheetId:
-            sheetData = buildSheetData(sheetId)
-            content.update({'sheetDeletePopupData': {'prompt': 'Permanently delete <b>{}</b> from {}?'.format(sheetData.get('name'),
-                                                                                                              request.user.creatoruser.organization.name),
-                                                     'confirmButtonText': 'Delete',
-                                                     'formName': 'sheetIdToDelete',
-                                                     'formValue': sheetData.get('id')},
-                            'sheetData': sheetData})
+        pageId = builderForm.cleaned_data['idd']
+        if pageId:
+            pageData = buildPageData(pageId)
+            content.update({'pageData': pageData,
+                            'pageDeletePopupData': {'prompt': 'Permanently delete <b>{}</b> from {}?'.format(pageData.get('name'),
+                                                                                                             request.user.creatoruser.organization.name),
+                                                    'confirmButtonText': 'Delete',
+                                                    'formName': 'pageIdToDelete',
+                                                    'formValue': pageData.get('id')}})
 
         return render(request, 'page.html', content)
 
-    sheetDeleteForm = SheetDeleteForm(request.POST)
-    if sheetDeleteForm.is_valid():
-        Sheet.objects.get(id=sheetDeleteForm.cleaned_data['sheetIdToDelete']).delete()
+    pageDeleteForm = PageDeleteForm(request.POST)
+    if pageDeleteForm.is_valid():
+        Page.objects.get(id=pageDeleteForm.cleaned_data['pageIdToDelete']).delete()
         return redirect('/create/pages/')
 
-    sheetsPostData = dict(request.POST)
-    sheet = handleSheetUpdate(request, sheetsPostData)
-    handleSheetItemsUpdates(sheetsPostData, sheet)
+    pagePostData = dict(request.POST)
+    page = handlePageUpdate(request, pagePostData)
+    handleSheetItemsUpdates(pagePostData, page)
 
     return redirect('/create/pages/')
 
 
-def handleSheetUpdate(request, sheetsPostData):
-    # If the Sheet exists, update its name. Otherwise create it.
-    sheet = None
+def handlePageUpdate(request, pagePostData):
+    # If the Page exists, update its name. Otherwise create it.
+    page = None
     try:
-        sheet = Sheet.objects.get(id=sheetsPostData.get('sheetId')[0])
-        sheet.name = sheetsPostData.get('sheetName')[0]
+        page = Page.objects.get(id=pagePostData.get('pageId')[0])
+        page.name = pagePostData.get('pageName')[0]
     except ValueError:
-        sheet = Sheet(name=sheetsPostData.get('sheetName')[0], dateCreated=datetime.date.today())
-        sheet.organization = request.user.creatoruser.organization
-    sheet.save()
+        page = Page(name=pagePostData.get('pageName')[0], dateCreated=datetime.date.today())
+        page.organization = request.user.creatoruser.organization
+    page.save()
 
-    return sheet
+    return page
 
 
-def handleSheetItemsUpdates(sheetsPostData, sheet):
+def handleSheetItemsUpdates(pagePostData, page):
     # Delete appropiate Sheet Items
     try:
-        for sheetItemId in sheetsPostData.get('sheetItemIdsToDelete')[0].split('|'):
+        for sheetItemId in pagePostData.get('pageItemIdsToDelete')[0].split('|'):
             SheetItem.objects.get(id=int(sheetItemId)).delete()
     except ValueError:
         pass
 
     # For each Sheet Item, update its attributes if it exists. Otherwise create it.
-    sheetItemIds = sheetsPostData.get('id')
+    sheetItemIds = pagePostData.get('id')
     if not sheetItemIds:
         return
 
-    sheetItemTitles = sheetsPostData.get('title')
-    sheetItemDescriptions = sheetsPostData.get('description')
-    sheetItemPrices = sheetsPostData.get('price')
+    sheetItemTitles = pagePostData.get('title')
+    sheetItemDescriptions = pagePostData.get('description')
+    sheetItemPrices = pagePostData.get('price')
     for i in range(len(sheetItemIds)):
         try:
             sheetItem = SheetItem.objects.get(id=int(sheetItemIds[i]))
@@ -100,35 +100,32 @@ def handleSheetItemsUpdates(sheetsPostData, sheet):
             sheetItem.price = sheetItemPrices[i]
         except ObjectDoesNotExist:
             sheetItem = SheetItem(title=sheetItemTitles[i], description=sheetItemDescriptions[i], price=sheetItemPrices[i])
-            sheetItem.sheet = sheet
+            sheetItem.page = page
         sheetItem.save()
 
 
-def buildSheetData(idd):
-    sheet = Sheet.objects.get(id=idd)
-    sheetData = {'name': sheet.name, 'id': sheet.id, 'items': SheetItem.objects.filter(sheet=sheet)}
-
-    return sheetData
+def buildPageData(idd):
+    page = Page.objects.get(id=idd)
+    return {'id': page.id, 'name': page.name, 'items': SheetItem.objects.filter(page=page)}
 
 
 def pages(request):
     if request.method == 'GET':
-        return render(request, 'pages.html', {'sheetsData': buildSheetsData(request)})
+        return render(request, 'pages.html', {'pagesData': buildPagesData(request)})
 
     builderForm = BuilderForm(request.POST)
     if not builderForm.is_valid():
         return render(request, 'home.html')
 
-    sheetId = builderForm.cleaned_data['name']
+    pageId = builderForm.cleaned_data['name']
 
-    return redirect('/create/builder/?name=Sheet?id={}'.format(sheetId))
+    return redirect('/create/builder/?name=Sheet?id={}'.format(pageId))
 
 
-def buildSheetsData(request):
-    sheetsData = []
-    for sheet in Sheet.objects.filter(organization=request.user.creatoruser.organization):
-        sheetData = {'id': sheet.id, 'name': sheet.name, 'dateCreated': sheet.dateCreated,
-                     'numItems': len(SheetItem.objects.filter(sheet=sheet))}
-        sheetsData.append(sheetData)
+def buildPagesData(request):
+    pagesData = []
+    for page in Page.objects.filter(organization=request.user.creatoruser.organization):
+        pagesData.append({'id': page.id, 'name': page.name, 'dateCreated': page.dateCreated,
+                          'numItems': len(SheetItem.objects.filter(page=page))})
 
-    return sheetsData
+    return pagesData

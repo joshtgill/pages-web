@@ -38,31 +38,31 @@ function displayEmptySheetItem()
 
     removeButton = document.createElement('button');
     removeButton.type = 'button';
-    removeButton.onclick = function() { removeSheetItem(this); }
+    removeButton.onclick = function() { removePageItem(this); }
     removeButton.textContent = 'Remove item'
     item.appendChild(removeButton);
 
     items.appendChild(item);
 }
 
-function removeAndRecordSheetItemForDeletion(sheetItemId, sourceButton)
+function removeAndRecordPageItemForDeletion(pageItemId, sourceButton)
 {
-    removeSheetItem(sourceButton);
+    removePageItem(sourceButton);
 
-    // Record Sheet ID to be deleted on Sheet save
-    var sheetItemIdsToDelete = document.getElementById('sheetItemIdsToDelete');
-    sheetItemIdsToDelete.value += !sheetItemIdsToDelete.value ? sheetItemId
-                                                              : sheetItemIdsToDelete.value += `|${sheetItemId}`;
+    // Record Page ID to be deleted on Page save
+    var pageItemIdsToDelete = document.getElementById('pageItemIdsToDelete');
+    pageItemIdsToDelete.value += !pageItemIdsToDelete.value ? pageItemId
+                                                            : pageItemIdsToDelete.value += `|${pageItemId}`;
 }
 
-function removeSheetItem(sourceButton)
+function removePageItem(sourceButton)
 {
-    // Remove Sheet item from page
-    // TODO: Removing the first Sheet item causes an unwanted <hr>
+    // Remove Page item from page
+    // TODO: Removing the first Page item causes an unwanted <hr>
     sourceButton.parentNode.remove();
 }
 
-function submitSheetDeleteForm()
+function submitPageDeleteForm()
 {
-    document.getElementById('sheetDeleteForm').submit();
+    document.getElementById('pageDeleteForm').submit();
 }

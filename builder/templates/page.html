@@ -1,7 +1,7 @@
 <html>
     {% load static %}
     <head>
-        <title>{{ page.name }}</title>
+        <title>{{ pageType }}</title>
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/page.css' %}">
     </head>
@@ -9,49 +9,49 @@
         {% include 'core.html' %}
 
         <div class="content">
-            {% if sheetData %}
-                <h1>Edit this {{ page.name }}</h1>
+            {% if pageData %}
+                <h1>Edit this {{ pageType }}</h1>
             {% else %}
-                <h1>Build a {{ page.name }}</h1>
+                <h1>Build a {{ pageType }}</h1>
             {% endif %}
-            <form id="sheetForm" method="POST">
+            <form id="pageForm" method="POST">
                 {% csrf_token %}
-                <input id="sheetNameInput" name="sheetName" placeholder="Sheet name (i.e Menu, Products)" autocomplete="off" value="{{ sheetData.name }}">
+                <input id="pageNameInput" name="pageName" placeholder="Page name (i.e Menu, Products)" autocomplete="off" value="{{ pageData.name }}">
                 <div id="items" class="items">
-                    {% for sheetItem in sheetData.items %}
+                    {% for pageItem in pageData.items %}
                         <div class="item">
                             {% if forloop.counter0 %}
                                 <hr>
                             {% endif %}
-                            <input class="hidden" name="id" value="{{ sheetItem.id }}">
-                            <input id="sheetItemTitle" type="text" autocomplete="off" name="title" value="{{ sheetItem.title }}">
-                            <textarea rows=3 name="description" value="">{{ sheetItem.description }}</textarea>
-                            <input id="sheetItemPrice" type="number" step="0.01" name="price" value="{{ sheetItem.price }}">
-                            <button type="button" onclick="removeAndRecordSheetItemForDeletion({{ sheetItem.id }}, this)">Delete item</button>
+                            <input class="hidden" name="id" value="{{ pageItem.id }}">
+                            <input id="sheetItemTitle" type="text" autocomplete="off" name="title" value="{{ pageItem.title }}">
+                            <textarea rows=3 name="description" value="">{{ pageItem.description }}</textarea>
+                            <input id="sheetItemPrice" type="number" step="0.01" name="price" value="{{ pageItem.price }}">
+                            <button type="button" onclick="removeAndRecordPageItemForDeletion({{ pageItem.id }}, this)">Delete item</button>
                         </div>
                     {% endfor %}
                 </div>
                 <button id="addItemButton" type="button" onclick="displayEmptySheetItem()">+</button>
                 <div class="buttons">
-                    <button id="saveSheetButton" type="submit">
-                        {% if sheetData %}
+                    <button id="savePageButton" type="submit">
+                        {% if pageData %}
                             Save changes
                         {% else %}
-                            Create Sheet
+                            Create Page
                         {% endif %}
                     </button>
-                    {% if sheetData %}
-                        {{ sheetDeletePopupData|json_script:"sheetDeletePopupData" }}
-                        <button id="deleteSheetButton" type="button" onclick="displayConfirmationPopup('sheetDeletePopupData')">Delete this Sheet</button>
+                    {% if pageData %}
+                        {{ pageDeletePopupData|json_script:"pageDeletePopupData" }}
+                        <button id="deletePageButton" type="button" onclick="displayConfirmationPopup('pageDeletePopupData')">Delete this Page</button>
                     {% endif %}
                 </div>
 
-                <input class="hidden" name="sheetId" value="{{ sheetData.id }}"></input>
-                <input class="hidden" id="sheetItemIdsToDelete" name="sheetItemIdsToDelete" value=""></input>
+                <input class="hidden" name="pageId" value="{{ pageData.id }}"></input>
+                <input class="hidden" id="pageItemIdsToDelete" name="pageItemIdsToDelete" value=""></input>
             </form>
-            <form id="sheetDeleteForm" method="POST">
+            <form id="pageDeleteForm" method="POST">
                 {% csrf_token %}
-                <input class="hidden" name="sheetIdToDelete" value="{{ sheetData.id }}">
+                <input class="hidden" name="pageIdToDelete" value="{{ pageData.id }}">
             </form>
         </div>
     </body>

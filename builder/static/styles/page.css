@@ -37,7 +37,7 @@
     outline: none;
 }
 
-.content form #sheetNameInput {
+.content form #pageNameInput {
     max-width: 600px;
 }
 
@@ -116,12 +116,12 @@
     background-color: rgb(230, 230, 230);
 }
 
-.content form .buttons #saveSheetButton {
+.content form .buttons #savePageButton {
     color: rgb(255, 255, 255);
     background-color: rgb(30, 30, 30);
 }
 
-.content form .buttons #deleteSheetButton {
+.content form .buttons #deletePageButton {
     background-color: rgb(235, 70, 70);
 }
 

@@ -13,15 +13,15 @@
             <h1>{{ request.user.creatoruser.organization.name|pluralize }} Pages</h1>
             <h2>View and edit your organization's pages.</h2>
             <div class="pages">
-                {% for sheetData in sheetsData %}
-                    <a href="{% url 'builder' %}?typee=Sheet&idd={{ sheetData.id }}">
+                {% for pageData in pagesData %}
+                    <a href="{% url 'builder' %}?typee=Sheet&idd={{ pageData.id }}">
                         <div class="page" type="submit">
-                            <h1 name="name">{{ sheetData.name }}</h1>
+                            <h1 name="name">{{ pageData.name }}</h1>
                             <hr>
                             <div class="page-details">
                                 <h3><b>Type:</b> Sheet</h3>
-                                <h3><b>Date created:</b> {{ sheetData.dateCreated }}</h3>
-                                <h3><b>Number of items:</b> {{ sheetData.numItems }}</h3>
+                                <h3><b>Date created:</b> {{ pageData.dateCreated }}</h3>
+                                <h3><b>Number of items:</b> {{ pageData.numItems }}</h3>
                             </div>
                         </div>
                     </a>

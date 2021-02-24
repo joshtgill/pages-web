@@ -11,12 +11,12 @@
         <div class="content">
             <h1>Select a Page</h1>
             <div class="pages">
-                {% for page in pages %}
-                    <a href="{% url 'builder' %}?typee={{ page.name }}">
+                {% for pageListing in pageListings %}
+                    <a href="{% url 'builder' %}?typee={{ pageListing.name }}">
                         <div class="page">
-                            <h1>{{ page.name }}</h1>
+                            <h1>{{ pageListing.name }}</h1>
                             <hr>
-                            <p>{{ page.description }}</p>
+                            <p>{{ pageListing.description }}</p>
                         </div>
                     </a>
                 {% endfor %}

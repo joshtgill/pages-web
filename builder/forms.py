@@ -15,5 +15,5 @@ class BuilderForm(forms.Form):
     idd = forms.IntegerField(required=False)
 
 
-class SheetDeleteForm(forms.Form):
-    sheetIdToDelete = forms.IntegerField()
+class PageDeleteForm(forms.Form):
+    pageIdToDelete = forms.IntegerField()

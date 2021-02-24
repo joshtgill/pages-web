@@ -13,6 +13,7 @@ var confirmationPopup = document.getElementById('confirmationPopup');
 
 function displayConfirmationPopup(dataIdentifier) {
     confirmationData = JSON.parse(document.getElementById(dataIdentifier).textContent);
+    console.log(confirmationData);
 
     document.getElementById('prompt').innerHTML = confirmationData['prompt'];
 
