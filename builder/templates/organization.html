@@ -2,9 +2,9 @@
     {% load static %}
     {% load pages %}
     <head>
-        <title>Pages</title>
+        <title>Organization</title>
 
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/pages.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/organization.css' %}">
     </head>
     <body>
         {% include 'core.html' %}
@@ -19,7 +19,7 @@
                             <h1 name="name">{{ pageData.name }}</h1>
                             <hr>
                             <div class="page-details">
-                                <h3><b>Type:</b> Sheet</h3>
+                                <h3><b>Type:</b> {{ pageData.type }}</h3>
                                 <h3><b>Date created:</b> {{ pageData.dateCreated }}</h3>
                                 <h3><b>Number of items:</b> {{ pageData.numItems }}</h3>
                             </div>

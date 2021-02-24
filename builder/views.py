@@ -65,13 +65,13 @@ def builder(request):
     pageDeleteForm = PageDeleteForm(request.POST)
     if pageDeleteForm.is_valid():
         Page.objects.get(id=pageDeleteForm.cleaned_data['pageIdToDelete']).delete()
-        return redirect('/create/pages/')
+        return redirect('/create/organization/')
 
     pagePostData = dict(request.POST)
     page = handlePageUpdate(request, pagePostData)
     handleSheetItemsUpdates(pagePostData, page)
 
-    return redirect('/create/pages/')
+    return redirect('/create/organization/')
 
 
 def buildPageData(idd):
@@ -121,23 +121,15 @@ def handleSheetItemsUpdates(pagePostData, page):
         sheetItem.save()
 
 
-def pages(request):
-    if request.method == 'GET':
-        return render(request, 'pages.html', {'pagesData': buildPagesData(request)})
-
-    builderForm = BuilderForm(request.POST)
-    if not builderForm.is_valid():
-        return render(request, 'home.html')
-
-    pageId = builderForm.cleaned_data['name']
-
-    return redirect('/create/builder/?name=Sheet?id={}'.format(pageId))
+def organization(request):
+    return render(request, 'organization.html', {'pagesData': buildOrganizationsPagesData(request.user.creatoruser.organization)})
 
 
-def buildPagesData(request):
-    pagesData = []
-    for page in Page.objects.filter(organization=request.user.creatoruser.organization):
-        pagesData.append({'id': page.id, 'name': page.name, 'dateCreated': page.dateCreated,
-                          'numItems': len(SheetItem.objects.filter(page=page))})
+def buildOrganizationsPagesData(organization):
+    organizationsPagesData = []
+    for page in Page.objects.filter(organization=organization):
+        organizationsPagesData.append({'id': page.id, 'name': page.name, 'type': page.typee,
+                                       'dateCreated': page.dateCreated.strftime("%B %d, %Y"),
+                                       'numItems': len(SheetItem.objects.filter(page=page))})
 
-    return pagesData
+    return organizationsPagesData
