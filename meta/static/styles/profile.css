@@ -38,8 +38,13 @@
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin: 4vmin 0 0 0;
+    margin: 4vmin 0 1vh 0;
     border-radius: 10px;
+}
+
+.content .profile .details a:visited {
+    text-decoration: none;
+    color: rgb(0, 123, 224);
 }
 
 .content .profile .details .detail-container {
@@ -113,6 +118,10 @@
 @media only screen and (min-width: 820px) {
     .content .profile .details {
         margin-left: 110px;
+    }
+
+    .content .profile .details a {
+        margin-right: 110px;
     }
 
     .content .profile .details .detail-container .detail {
