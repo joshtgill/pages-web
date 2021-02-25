@@ -47,11 +47,12 @@
 
 .content .pages a .page hr {
     width: 50px;
+    margin: 15px auto 0 auto;
     color: rgb(220, 220, 220);
 }
 
 .content .pages a .page p {
-    margin: 10px 40px 20px 40px;
+    margin: 25px 40px 20px 40px;
     font-size: 20px;
     line-height: 28px;
     color: rgb(60, 60, 60);
