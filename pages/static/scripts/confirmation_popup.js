@@ -1,31 +1,30 @@
-var popupContainer = document.getElementById('popupContainer');
+class ConfirmationPopup extends BasePopup
+{
+    constructor(popupContainer, popup, confirmationForm)
+    {
+        super(popupContainer, popup, confirmationForm);
+    }
 
-popupContainer.onclick = function() {
-    dismissPopup();
+    display(dataIdentifier)
+    {
+        var confirmationData = JSON.parse(document.getElementById(dataIdentifier).textContent);
+
+        document.getElementById('prompt').innerHTML = confirmationData['prompt'];
+
+        var confirmButton = document.getElementById('confirmButton');
+        confirmButton.innerHTML = confirmationData['confirmButtonText']
+        confirmButton.name = confirmationData['formName'];
+        confirmButton.value = confirmationData['formValue'];
+
+        super.display();
+    }
+
+    dismiss()
+    {
+        super.dismiss();
+    }
 }
 
-function dismissPopup() {
-    popupContainer.style.display = 'none';
-    confirmationPopup.style.display = 'none';
-}
-
-var confirmationPopup = document.getElementById('confirmationPopup');
-
-function displayConfirmationPopup(dataIdentifier) {
-    confirmationData = JSON.parse(document.getElementById(dataIdentifier).textContent);
-    console.log(confirmationData);
-
-    document.getElementById('prompt').innerHTML = confirmationData['prompt'];
-
-    var confirmButton = document.getElementById('confirmButton');
-    confirmButton.innerHTML = confirmationData['confirmButtonText']
-    confirmButton.name = confirmationData['formName'];
-    confirmButton.value = confirmationData['formValue'];
-
-    popupContainer.style.display = 'flex';
-    confirmationPopup.style.display = 'flex';
-}
-
-function submitConfirmationForm() {
-    document.getElementById('confirmationForm').submit();
-}
+confirmationPopup = new ConfirmationPopup(document.getElementById('popupContainer'),
+                                          document.getElementById('popup'),
+                                          document.getElementById('confirmationForm'));

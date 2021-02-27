@@ -22,7 +22,7 @@
                             <h3>Email</h3>
                             <h4>{{ request.user.email }}</h4>
                         </div>
-                        <a onclick="displayChangeEmailPopup()">Change email</a>
+                        <a onclick="changeEmailPopup.display()">Change email</a>
                     </div>
                     {% if request.user.creatoruser %}
                         <div class="detail-container">
@@ -30,8 +30,8 @@
                                 <h3>Account type</h3>
                                 <h4>Creator</h4>
                             </div>
-                            {{ downgradeToCustomerData|json_script:"downgradeToCustomerData" }}
-                            <a onclick="displayConfirmationPopup('downgradeToCustomerData')">Downgrade</a>
+                            {{ downgradeToCustomerPopupData|json_script:"downgradeToCustomerPopupData" }}
+                            <a onclick="confirmationPopup.display('downgradeToCustomerPopupData')">Downgrade</a>
                         </div>
                         <div class="links">
 
@@ -55,14 +55,15 @@
                 </div>
                 <div class="account-actions">
                     {{ logoutPopupData|json_script:"logoutPopupData" }}
-                    <button id="logoutButton" onclick="displayConfirmationPopup('logoutPopupData')">Logout</button>
+                    <button id="logoutButton" onclick="confirmationPopup.display('logoutPopupData')">Logout</button>
                     {{ deleteAccountPopupData|json_script:"deleteAccountPopupData" }}
-                    <button id="deleteAccountButton" onclick="displayConfirmationPopup('deleteAccountPopupData')">Delete account</button>
+                    <button id="deleteAccountButton" onclick="confirmationPopup.display('deleteAccountPopupData')">Delete account</button>
                 </div>
             </div>
         </div>
 
-        {% include 'change_email_popup.html' %}
+        {% include 'base_popup.html' %}
         {% include 'confirmation_popup.html' %}
+        {% include 'change_email_popup.html' %}
     </body>
 </html>
