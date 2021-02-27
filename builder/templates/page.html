@@ -45,7 +45,7 @@
                     </button>
                     {% if pageData.id %}
                         {{ pageDeleteConfirmationPopupData|json_script:"pageDeleteConfirmationPopupData" }}
-                        <button id="deletePageButton" type="button" onclick="displayConfirmationPopup('pageDeleteConfirmationPopupData')">Delete this Page</button>
+                        <button id="deletePageButton" type="button" onclick="confirmationPopup.display('pageDeleteConfirmationPopupData')">Delete this Page</button>
                     {% endif %}
                 </div>
 
@@ -59,6 +59,7 @@
         </div>
     </body>
 
+    {% include 'base_popup.html' %}
     {% include 'confirmation_popup.html' %}
     <script src="{% static 'scripts/page.js' %}"></script>
 </html>
