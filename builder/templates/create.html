@@ -12,13 +12,17 @@
             <h1>Let's create.</h1>
             <h2>We handle the technology, you handle the content.</h2>
             <h2>Reach your audience easier with the apps you want.</h2>
-            {% if request.user.creatoruser %}
-                <a href="{% url 'builder' %}">Get started</a>
-            {% elif not request.user.is_anonymous %}
-                <a href="{% url 'creator_upgrade' %}">Get started</a>
-            {% else %}
-                <a href="{% url 'login' %}">Get started</a>
-            {% endif %}
+            <div class="create-options">
+                {% if request.user.creatoruser %}
+                    <a href="{% url 'builder' %}">Get started</a>
+                    <h3>- or -</h3>
+                    <a href="{% url 'organization' %}">View existing page</a>
+                {% elif not request.user.is_anonymous %}
+                    <a href="{% url 'creator_upgrade' %}">Get started</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Get started</a>
+                {% endif %}
+            </div>
             <div class="examples">
                 <div class="example">
                     <h1>Business</h1>
