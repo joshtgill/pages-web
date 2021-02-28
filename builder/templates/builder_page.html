@@ -3,20 +3,16 @@
     <head>
         <title>{{ pageData.type }} Builder</title>
 
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/page.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/builder_page.css' %}">
     </head>
     <body>
         {% include 'core.html' %}
 
         <div class="content">
-            {% if pageData.id %}
-                <h1>Edit this {{ pageData.type }}</h1>
-            {% else %}
-                <h1>Create a {{ pageData.type }}</h1>
-            {% endif %}
+            <h1>Build a {{ pageData.type }}</h1>
             <form id="pageForm" method="POST">
                 {% csrf_token %}
-                <input id="pageNameInput" name="pageName" placeholder="Page name (i.e Menu, Products)" autocomplete="off" value="{{ pageData.name }}">
+                <input id="pageNameInput" name="pageName" placeholder="Page name (i.e Menu, Products)" autocomplete="off" value="{{ pageData.name }}" required>
                 <input class="hidden" name="pageType" value="{{ pageData.type }}">
                 <div id="items" class="items">
                     {% if pageData.id %}
@@ -36,13 +32,7 @@
                 </div>
                 <button id="addItemButton" type="button" onclick="displayEmptySheetItem()">+</button>
                 <div class="buttons">
-                    <button id="savePageButton" type="submit">
-                        {% if pageData.id %}
-                            Save changes
-                        {% else %}
-                            Create Page
-                        {% endif %}
-                    </button>
+                    <button id="savePageButton" type="submit">Save Page</button>
                     {% if pageData.id %}
                         {{ pageDeleteConfirmationPopupData|json_script:"pageDeleteConfirmationPopupData" }}
                         <button id="deletePageButton" type="button" onclick="confirmationPopup.display('pageDeleteConfirmationPopupData')">Delete this Page</button>
@@ -61,5 +51,5 @@
 
     {% include 'base_popup.html' %}
     {% include 'confirmation_popup.html' %}
-    <script src="{% static 'scripts/page.js' %}"></script>
+    <script src="{% static 'scripts/builder_page.js' %}"></script>
 </html>

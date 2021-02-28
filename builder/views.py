@@ -25,7 +25,7 @@ def creatorUpgrade(request):
 
 
 def create(request):
-    return render(request, 'create.html')
+    return render(request, 'create_pitch.html')
 
 
 def builder(request):
@@ -33,9 +33,9 @@ def builder(request):
         pageListings = PageListing.objects
         builderForm = BuilderForm(request.GET)
 
-        # If a Page type isn't provided, list available Pages
+        # If a Page type isn't provided, list available Page types
         if not builderForm.is_valid():
-            return render(request, 'builder.html', {'pageListings': pageListings.all()})
+            return render(request, 'builder_select_type.html', {'pageListings': pageListings.all()})
 
         # If the provided Page type doesn't exist, list available Pages
         pageType = builderForm.cleaned_data['typee']
@@ -60,18 +60,18 @@ def builder(request):
         else:
             content.update({'pageData': {'type': pageType}})
 
-        return render(request, 'page.html', content)
+        return render(request, 'builder_page.html', content)
 
     pageDeleteForm = PageDeleteForm(request.POST)
     if pageDeleteForm.is_valid():
         Page.objects.get(id=pageDeleteForm.cleaned_data['pageIdToDelete']).delete()
-        return redirect('/create/organization/')
+        return redirect('/create/manage/')
 
     pagePostData = dict(request.POST)
     page = handlePageUpdate(request, pagePostData)
     handleSheetItemsUpdates(pagePostData, page)
 
-    return redirect('/create/organization/')
+    return redirect('/create/manage/')
 
 
 def buildPageData(idd):
@@ -121,8 +121,8 @@ def handleSheetItemsUpdates(pagePostData, page):
         sheetItem.save()
 
 
-def organization(request):
-    return render(request, 'organization.html', {'pagesData': buildOrganizationsPagesData(request.user.creatoruser.organization)})
+def manage(request):
+    return render(request, 'manage.html', {'pagesData': buildOrganizationsPagesData(request.user.creatoruser.organization)})
 
 
 def buildOrganizationsPagesData(organization):

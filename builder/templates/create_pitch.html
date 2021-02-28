@@ -3,7 +3,7 @@
         <title>Creator</title>
 
         {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/create.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/create_pitch.css' %}">
     </head>
     <body>
         {% include 'core.html' %}
@@ -11,12 +11,12 @@
         <div class="content">
             <h1>Let's create.</h1>
             <h2>We handle the technology, you handle the content.</h2>
-            <h2>Reach your audience easier with the apps you want.</h2>
+            <h2>Reach your audience easier than ever with the apps you want.</h2>
             <div class="create-options">
                 {% if request.user.creatoruser %}
                     <a href="{% url 'builder' %}">Get started</a>
                     <h3>- or -</h3>
-                    <a href="{% url 'organization' %}">View existing page</a>
+                    <a href="{% url 'manage' %}">Manage existing pages</a>
                 {% elif not request.user.is_anonymous %}
                     <a href="{% url 'creator_upgrade' %}">Get started</a>
                 {% else %}
