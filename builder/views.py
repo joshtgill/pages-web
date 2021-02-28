@@ -122,7 +122,7 @@ def handleSheetItemsUpdates(pagePostData, page):
 
 
 def manage(request):
-    return render(request, 'manage.html', {'pagesData': buildOrganizationsPagesData(request.user.creatoruser.organization)})
+    return render(request, 'manage_organization.html', {'pagesData': buildOrganizationsPagesData(request.user.creatoruser.organization)})
 
 
 def buildOrganizationsPagesData(organization):
