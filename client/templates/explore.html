@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Explore</title>
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/explore.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <h1>Time to explore.</h1>
+            <h2>Pages make your life simpler.</h2>
+            <h2>View the Pages that an organization has to offer.</h2>
+            <form class="search-container" method="GET">
+                {{ organizationSearchForm }}
+                <button type="submit">></button>
+            </form>
+        </div>
+    </body>
+</html>

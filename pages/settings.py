@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'meta',
-    'builder'
+    'builder',
+    'client'
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,8 @@ TEMPLATES = [
         'DIRS': [
             BASE_DIR / 'pages/templates/',
             BASE_DIR / 'meta/templates/',
-            BASE_DIR / 'builder/templates/'
+            BASE_DIR / 'builder/templates/',
+            BASE_DIR / 'client/templates/'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -128,5 +130,6 @@ STATIC_ROOT = 'static'
 STATICFILES_DIRS = [
     BASE_DIR / 'pages/static/',
     BASE_DIR / 'meta/static/',
-    BASE_DIR / 'builder/static/'
+    BASE_DIR / 'builder/static/',
+    BASE_DIR / 'client/static/'
 ]

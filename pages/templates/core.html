@@ -9,7 +9,11 @@
     </div>
     <div class="center">
         <a href="{% url 'create' %}">Create</a>
-        <a href="{% url 'home' %}">Explore</a>
+        {% if request.user.is_anonymous %}
+            <a href="{% url 'login' %}">Explore</a>
+        {% else %}
+            <a href="{% url 'explore' %}">Explore</a>
+        {% endif %}
     </div>
     <div class="right">
         {% if request.user.is_anonymous %}
