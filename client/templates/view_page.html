@@ -1,0 +1,14 @@
+<html>
+    {% load static %}
+    <head>
+        <title>{{ page.name }}</title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/view_page.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+        </div>
+    </body>
+</html>

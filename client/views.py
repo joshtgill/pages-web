@@ -1,21 +1,35 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from builder.models import Organization
+from builder.models import Organization, Page
 from django.core.exceptions import ObjectDoesNotExist
 
 
 def explore(request):
-    if request.method == 'GET':
-        organizationSearchForm = OrganizationSearchForm(request.GET)
+    organizationForm = OrganizationForm(request.GET)
+    pageForm = PageForm(request.GET)
 
-        # If no search text is provided, go to explore page
-        if not organizationSearchForm.is_valid():
-            return render(request, 'explore.html', {'organizationSearchForm': OrganizationSearchForm()})
-
-        # If the searched organization name does not exist, return to explore page
+    if pageForm.is_valid():
+        # On valid Page Form, render Page page.
+        return render(request, 'view_page.html', {'page': Page.objects.get(id=pageForm.cleaned_data['page'])})
+    elif organizationForm.is_valid():
+        # On valid Organization Form, show organization's Pages if the organization exists.
+        # Otherwise, go to the organization search page
+        organiation = None
         try:
-            organization = Organization.objects.get(name__iexact=organizationSearchForm.cleaned_data['organizationName'])
+            organization = Organization.objects.get(name__iexact=organizationForm.cleaned_data['organization'])
         except ObjectDoesNotExist:
             return redirect('/explore/')
 
-        return render(request, 'home.html')
+        return render(request, 'view_organization.html', {'organization': organization,
+                                                          'pagesData': buildOrganizationPagesData(organization)})
+
+    # Neither forms were submitted, render organization search page
+    return render(request, 'explore.html', {'organizationForm': OrganizationForm()})
+
+
+def buildOrganizationPagesData(organization):
+    organizationPagesData = []
+    for page in Page.objects.filter(organization=organization):
+        organizationPagesData.append({'id': page.id, 'name': page.name})
+
+    return organizationPagesData
