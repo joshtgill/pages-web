@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from builder.models import Organization, Page
+from builder.models import Organization, Page, SheetItem
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -10,7 +10,7 @@ def explore(request):
 
     if pageForm.is_valid():
         # On valid Page Form, render Page page.
-        return render(request, 'view_page.html', {'page': Page.objects.get(id=pageForm.cleaned_data['page'])})
+        return render(request, 'view_page.html', {'pageData': buildPageData(pageForm.cleaned_data['page'])})
     elif organizationForm.is_valid():
         # On valid Organization Form, show organization's Pages if the organization exists.
         # Otherwise, go to the organization search page
@@ -25,6 +25,13 @@ def explore(request):
 
     # Neither forms were submitted, render organization search page
     return render(request, 'explore.html', {'organizationForm': OrganizationForm()})
+
+
+def buildPageData(pageId):
+    page = Page.objects.get(id=pageId)
+    pageData = {'name': page.name, 'sheetItems': SheetItem.objects.filter(page=page)}
+
+    return pageData
 
 
 def buildOrganizationPagesData(organization):

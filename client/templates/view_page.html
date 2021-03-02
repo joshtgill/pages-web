@@ -1,7 +1,8 @@
 <html>
     {% load static %}
+    {% load view_page %}
     <head>
-        <title>{{ page.name }}</title>
+        <title>View {{ pageData.name }}</title>
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/view_page.css' %}">
     </head>
@@ -9,6 +10,20 @@
         {% include 'core.html' %}
 
         <div class="content">
+            <h1>{{ pageData.name }}<h1>
+            <div class="items">
+                {% for sheetItem in pageData.sheetItems %}
+                    <div class="sheet-item">
+                        <div class="title-price">
+                            <h2>{{ sheetItem.title }}</h2><h3>${{ sheetItem.price|formatPrice }}</h3>
+                        </div>
+                        <p>{{ sheetItem.description }}</p>
+                    </div>
+                    {% if forloop.counter < pageData.sheetItems|length %}
+                        <hr>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </body>
 </html>

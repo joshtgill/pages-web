@@ -1,0 +1,55 @@
+.content {
+    align-items: center;
+}
+
+.content h1 {
+    margin: 5vmin 0 3vh 0;
+    text-align: center;
+    font-size: 50px;
+    font-weight: normal;
+    color: rgb(50, 50, 50);
+}
+
+.content .items {
+    width: 90vw;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content .items .sheet-item {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.content .items .sheet-item .title-price {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.content .items .sheet-item .title-price h2 {
+    margin: 0;
+    text-align: left;
+    font-size: 35px;
+    font-weight: normal;
+}
+
+.content .items .sheet-item .title-price h3 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: normal;
+}
+
+.content .items .sheet-item p {
+    font-size: 25px;
+    margin-bottom: 0;
+}
+
+.content .items hr {
+    width: 85%;
+    max-width: 500px;
+    margin: 4vh auto 4vh auto;
+}
