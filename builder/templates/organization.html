@@ -1,0 +1,38 @@
+<html>
+    {% load static %}
+    <head>
+        <title>{{ request.user.creatoruser.organization.name }}</title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/organization.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <h1>{{ request.user.creatoruser.organization.name }}</h1>
+
+            <div class="info">
+                <div class="active-pages-container">
+                    <h2>Active pages</h2>
+                    <div class="active-pages">
+                        {% for activePageData in activePagesData %}
+                            <a href="{% url 'builder' %}?typee=Sheet&idd={{ activePageData.id }}">
+                                <div class="active-page">
+                                    <h1>{{ activePageData.name }}</h1>
+                                    <div class="details">
+                                        <h2><b>Type:</b> {{ activePageData.type }}</h2>
+                                        <h2><b>Created:</b> {{ activePageData.dateCreated }}</h2>
+                                        <h2><b>Items:</b> {{ activePageData.numItems }}</h2>
+                                    </div>
+                                </div>
+                            </a>
+                            {% if forloop.counter < activePagesData|length %}
+                                <hr>
+                            {% endif %}
+                        {% endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

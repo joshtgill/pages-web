@@ -65,13 +65,13 @@ def builder(request):
     pageDeleteForm = PageDeleteForm(request.POST)
     if pageDeleteForm.is_valid():
         Page.objects.get(id=pageDeleteForm.cleaned_data['pageIdToDelete']).delete()
-        return redirect('/create/manage/')
+        return redirect('/create/organization/')
 
     pagePostData = dict(request.POST)
     page = handlePageUpdate(request, pagePostData)
     handleSheetItemsUpdates(pagePostData, page)
 
-    return redirect('/create/manage/')
+    return redirect('/create/organization/')
 
 
 def buildPageData(idd):
@@ -121,8 +121,8 @@ def handleSheetItemsUpdates(pagePostData, page):
         sheetItem.save()
 
 
-def manage(request):
-    return render(request, 'manage_organization.html', {'pagesData': buildOrganizationsPagesData(request.user.creatoruser.organization)})
+def organization(request):
+    return render(request, 'organization.html', {'activePagesData': buildOrganizationsPagesData(request.user.creatoruser.organization)})
 
 
 def buildOrganizationsPagesData(organization):

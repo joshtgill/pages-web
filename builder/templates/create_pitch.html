@@ -16,7 +16,7 @@
                 {% if request.user.creatoruser %}
                     <a href="{% url 'builder' %}">Get started</a>
                     <h3>- or -</h3>
-                    <a href="{% url 'manage' %}">Manage existing pages</a>
+                    <a href="{% url 'organization' %}">View organization</a>
                 {% elif not request.user.is_anonymous %}
                     <a href="{% url 'creator_upgrade' %}">Get started</a>
                 {% else %}

@@ -1,0 +1,58 @@
+.content {
+    align-items: center;
+}
+
+.content .info {
+    width: 100vw;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.content .info .active-pages-container {
+    width: 92vw;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    margin: 5vh 0 5vh 0;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 15px;
+}
+
+.content .info .active-pages-container h2 {
+    margin: 20px 0 0 20px;
+    font-size: 25px;
+    color: rgb(60, 60, 60);
+}
+
+.content .info .active-pages-container .active-pages {
+    margin: 30px 20px 40px 20px;
+}
+
+.content .info .active-pages-container .active-pages a {
+    text-decoration: none;
+}
+
+.content .info .active-pages-container .active-pages a .active-page h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: normal;
+    color: rgb(60, 60, 60);
+}
+
+.content .info .active-pages-container .active-pages a .active-page .details {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content .info .active-pages-container .active-pages a .active-page .details h2 {
+    margin: 10px 10px 0 0;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.content .info .active-pages-container .active-pages hr {
+    width: 95%;
+    margin: 25px auto 25px auto;
+    border-top: 1px solid rgb(200, 200, 200);
+}

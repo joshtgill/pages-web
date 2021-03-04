@@ -62,6 +62,13 @@ body {
     overflow: auto;
 }
 
+.content h1 {
+    margin: 5vh 0 0 0;
+    font-size: 50px;
+    font-weight: normal;
+    color: rgb(60, 60, 60);
+}
+
 .hidden {
     display: none;
 }
