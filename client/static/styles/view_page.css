@@ -2,14 +2,6 @@
     align-items: center;
 }
 
-.content h1 {
-    margin: 5vmin 0 3vh 0;
-    text-align: center;
-    font-size: 50px;
-    font-weight: normal;
-    color: rgb(50, 50, 50);
-}
-
 .content .items {
     width: 90vw;
     max-width: 800px;
