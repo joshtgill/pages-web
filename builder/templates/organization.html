@@ -17,16 +17,22 @@
                     <h3>Active pages</h3>
                     <div class="active-pages">
                         {% for activePageData in activePagesData %}
-                            <a href="{% url 'builder' %}?typee=Sheet&idd={{ activePageData.id }}">
-                                <div class="active-page">
-                                    <h4>{{ activePageData.name }}</h4>
-                                    <div class="details">
-                                        <h5><b>Type:</b> {{ activePageData.type }}</h5>
-                                        <h5><b>Created:</b> {{ activePageData.dateCreated }}</h5>
-                                        <h5><b>Items:</b> {{ activePageData.numItems }}</h5>
-                                    </div>
+                            <div class="active-page">
+                                <h4>{{ activePageData.name }}</h4>
+                                <div class="details">
+                                    <h5><b>Type:</b> {{ activePageData.type }}</h5>
+                                    <h5><b>Created:</b> {{ activePageData.dateCreated }}</h5>
+                                    <h5><b>Items:</b> {{ activePageData.numItems }}</h5>
                                 </div>
-                            </a>
+                                <div class="actions">
+                                    <a href="{% url 'explore' %}?organization={{ request.user.creatoruser.organization.name }}&page={{ activePageData.id }}">
+                                        View
+                                    </a>
+                                    <a href="{% url 'builder' %}?typee=Sheet&idd={{ activePageData.id }}">
+                                        Edit
+                                    </a>
+                                </div>
+                            </div>
                             {% if forloop.counter < activePagesData|length %}
                                 <hr>
                             {% endif %}
