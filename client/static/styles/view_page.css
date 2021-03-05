@@ -7,12 +7,16 @@
     max-width: 800px;
     display: flex;
     flex-direction: column;
+    margin: 0 0 10vh 0;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 15px;
 }
 
 .content .items .sheet-item {
     display: flex;
     flex-direction: column;
     align-items: start;
+    margin: 5vh 5vmin;
 }
 
 .content .items .sheet-item .title-price {
@@ -41,7 +45,6 @@
 }
 
 .content .items hr {
-    width: 85%;
-    max-width: 500px;
-    margin: 4vh auto 4vh auto;
+    width: 70%;
+    margin: 0 auto 0 auto;
 }
