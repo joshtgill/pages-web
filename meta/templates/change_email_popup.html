@@ -5,7 +5,7 @@
     {% csrf_token %}
     {{ changeEmailForm }}
     <button id="changeEmailButton" type="submit">Change</button>
-    <button id="cancelButton" type="button" onclick="changeEmailPopup.dismiss()">Cancel</button>
+    <button id="dismissButton" type="button" onclick="changeEmailPopup.dismiss()">Cancel</button>
 </form>
 
 <script src="{% static 'scripts/change_email_popup.js' %}"></script>

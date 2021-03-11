@@ -4,8 +4,8 @@
 <form id="confirmationForm" action="" method="POST">
     {% csrf_token %}
     <h1 id="prompt"></h1>
-    <button id="confirmButton" name="action" value="" onclick="confirmationPopup.submitForm()"></button>
-    <button id="cancelButton" type="button" onclick="confirmationPopup.dismiss()">Cancel</button>
+    <button id="confirmButton" onclick="confirmationPopup.submitForm()"></button>
+    <button id="dismissButton" type="button" onclick="confirmationPopup.dismiss()"></button>
 </form>
 
 <script src="{% static 'scripts/confirmation_popup.js' %}"></script>

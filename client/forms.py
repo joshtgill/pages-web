@@ -5,7 +5,6 @@ class OrganizationForm(forms.Form):
     organization = forms.CharField(label='',
                                    widget=forms.TextInput(attrs={'placeholder': 'Explore an organization', 'autocomplete': 'off'}),
                                    max_length=100)
-    # page = forms.IntegerField(widget = forms.HiddenInput(), required=False)
 
 
 class PageForm(forms.Form):
@@ -13,3 +12,7 @@ class PageForm(forms.Form):
                                    widget=forms.TextInput(attrs={'placeholder': 'Explore an organization', 'autocomplete': 'off'}),
                                    max_length=100)
     page = forms.IntegerField()
+
+
+class RequestApprovalForm(forms.Form):
+    requestApproval = forms.BooleanField()

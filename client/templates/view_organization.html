@@ -5,21 +5,54 @@
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/view_organization.css' %}">
     </head>
-    <body>
-        {% include 'core.html' %}
+    {% if requestApprovalData %}
+        {{ requestApprovalData|json_script:"requestApprovalData" }}
+        <body onload="confirmationPopup.display('requestApprovalData', {% url 'explore' %})">
+            {% include 'core.html' %}
 
-        <div class="content">
-            <h1>{{ organization.name }}</h1>
-            <h2>View this organization's pages.</h2>
-            <div class="pages">
-                {% for pageData in pagesData %}
-                    <a href="{% url 'explore' %}?organization=L3Harris&page={{ pageData.id }}">
+            <div class="content" style="filter: blur(10px)">
+                <h1>Fake organization..</h1>
+                <h2>This page is blurred, and should not be readable.<br>
+                    Please use the popup!</h2>
+                <div class="pages">
+                    <a>
                         <div class="page">
-                            <h1 name="name">{{ pageData.name }}</h1>
+                            <h1 name="name">This page is blurred.</h1>
                         </div>
                     </a>
-                {% endfor %}
+                    <a>
+                        <div class="page">
+                            <h1 name="name">Should not be readable.</h1>
+                        </div>
+                    </a>
+                    <a>
+                        <div class="page">
+                            <h1 name="name">Please use the popup!</h1>
+                        </div>
+                    </a>
+                </div>
             </div>
-        </div>
-    </body>
+        </body>
+    {% else %}
+        <body>
+            {% include 'core.html' %}
+
+            <div class="content">
+                <h1>{{ organization.name }}</h1>
+                <h2>View this organization's pages.</h2>
+                <div class="pages">
+                    {% for pageData in pagesData %}
+                        <a href="{% url 'explore' %}?organization=L3Harris&page={{ pageData.id }}">
+                            <div class="page">
+                                <h1 name="name">{{ pageData.name }}</h1>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </body>
+    {% endif %}
+
+    {% include 'base_popup.html' %}
+    {% include 'confirmation_popup.html' %}
 </html>

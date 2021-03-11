@@ -42,7 +42,7 @@ form button {
     cursor: pointer;
 }
 
-form #cancelButton {
+form #dismissButton {
     margin-top: 1vh;
     color: rgb(30, 30, 30);
     border: 2px solid rgb(30, 30, 30);

@@ -5,9 +5,10 @@ class ConfirmationPopup extends BasePopup
         super(popupContainer, popup, confirmationForm);
     }
 
-    display(dataIdentifier)
+    display(dataIdentifier, dismissLink=null)
     {
         var confirmationData = JSON.parse(document.getElementById(dataIdentifier).textContent);
+        this.dismissLink = dismissLink;
 
         document.getElementById('prompt').innerHTML = confirmationData['prompt'];
 
@@ -15,13 +16,17 @@ class ConfirmationPopup extends BasePopup
         confirmButton.innerHTML = confirmationData['confirmButtonText']
         confirmButton.name = confirmationData['formName'];
         confirmButton.value = confirmationData['formValue'];
+        document.getElementById('dismissButton').innerHTML = confirmationData['dismissButtonText']
 
         super.display();
     }
 
     dismiss()
     {
-        super.dismiss();
+        if (this.dismissLink)
+            window.location.href = this.dismissLink;
+        else
+            super.dismiss();
     }
 }
 

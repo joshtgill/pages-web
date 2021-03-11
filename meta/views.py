@@ -81,17 +81,20 @@ def profile(request):
                'downgradeToCustomerPopupData': {'prompt': 'Downgrade <b>{}</b> from Creator to Customer?'.format(request.user.email),
                                                 'confirmButtonText': 'Downgrade',
                                                 'formName': 'downgradeToCustomer',
-                                                'formValue': True},
+                                                'formValue': True,
+                                                'dismissButtonText': 'Back'},
                'logoutPopupData': {'prompt': 'Logout of <b>{}</b>?'.format(request.user.email),
                                    'confirmButtonText': 'Logout',
                                    'formName': 'logout',
-                                   'formValue': True},
+                                   'formValue': True,
+                                   'dismissButtonText': 'Back'},
                'deleteAccountPopupData': {'prompt': '''This will permanently delete the account associated
                                                        with <br><br><b>{}</b><br><br> All data will be lost
                                                        and this action cannot be undone.'''.format(request.user.email),
                                           'confirmButtonText': 'Delete',
                                           'formName': 'deleteAccount',
-                                          'formValue': True}}
+                                          'formValue': True,
+                                          'dismissButtonText': 'Back'}}
 
     if request.method == 'GET':
         return render(request, 'profile.html', content)
