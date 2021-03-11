@@ -5,25 +5,6 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 
 
-def creatorUpgrade(request):
-    organizations = Organization.objects.all()
-    content = {'organizationForm': OrganizationForm(organizations=organizations)}
-
-    if request.method == 'GET':
-        return render(request, 'creator_upgrade.html', content)
-
-    submittedOrganizationForm = OrganizationForm(request.POST, organizations=organizations)
-    if not submittedOrganizationForm.is_valid():
-        return render(request, 'creator_upgrade.html', content)
-
-    creatorUser = CreatorUser()
-    creatorUser.user = request.user
-    creatorUser.organization = Organization.objects.get(id=submittedOrganizationForm.cleaned_data['names'])
-    creatorUser.save()
-
-    return redirect('/profile/')
-
-
 def create(request):
     return render(request, 'create_pitch.html')
 
@@ -47,11 +28,11 @@ def builder(request):
         # Otherwise only provide the type of Page
         content = {}
         pageId = builderForm.cleaned_data['idd']
-        if pageId and Page.objects.filter(organization=request.user.creatoruser.organization, id=pageId).count():
+        if pageId and Page.objects.filter(organization=request.user.profile.organization, id=pageId).count():
             pageData = buildPageData(pageId)
             content.update({'pageData': pageData,
                             'pageDeleteConfirmationPopupData': {'prompt': 'Permanently delete <b>{}</b> from {}?'.format(pageData.get('name'),
-                                                                                                                         request.user.creatoruser.organization.name),
+                                                                                                                         request.user.profile.organization.name),
                                                                 'confirmButtonText': 'Delete',
                                                                 'formName': 'pageIdToDelete',
                                                                 'formValue': pageData.get('id'),
@@ -88,7 +69,7 @@ def handlePageUpdate(request, pagePostData):
         page.name = pagePostData.get('pageName')[0]
     except ValueError:
         page = Page(name=pagePostData.get('pageName')[0], typee=pagePostData.get('pageType')[0], dateCreated=datetime.date.today())
-        page.organization = request.user.creatoruser.organization
+        page.organization = request.user.profile.organization
     page.save()
 
     return page
@@ -123,7 +104,7 @@ def handleSheetItemsUpdates(pagePostData, page):
 
 
 def manageOrganization(request):
-    return render(request, 'manage_organization.html', {'activePagesData': buildOrganizationsPagesData(request.user.creatoruser.organization)})
+    return render(request, 'manage_organization.html', {'activePagesData': buildOrganizationsPagesData(request.user.profile.organization)})
 
 
 def buildOrganizationsPagesData(organization):
@@ -140,9 +121,9 @@ def editOrganization(request):
     if request.method == 'POST':
         organizationEditForm = OrganizationEditForm(request.POST)
         if organizationEditForm.is_valid():
-            request.user.creatoruser.organization.name = organizationEditForm.cleaned_data['name']
-            request.user.creatoruser.organization.private = organizationEditForm.cleaned_data['private']
-            request.user.creatoruser.organization.save()
+            request.user.profile.organization.name = organizationEditForm.cleaned_data['name']
+            request.user.profile.organization.private = organizationEditForm.cleaned_data['private']
+            request.user.profile.organization.save()
         return redirect('/create/manage/')
 
     return render(request, 'edit_organization.html')

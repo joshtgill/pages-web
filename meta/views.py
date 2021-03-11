@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 import uuid
 import django.contrib.auth as djangoAuth
 from django.core.exceptions import ObjectDoesNotExist
-from builder.models import CreatorUser
+from builder.models import Profile
 
 
 def home(request):
@@ -39,6 +39,9 @@ def createAccount(request):
     createUser.first_name = submittedCreateAccountForm.cleaned_data['firstName']
     createUser.last_name = submittedCreateAccountForm.cleaned_data['lastName']
     createUser.save()
+    profile = Profile()
+    profile.user = createUser
+    profile.save()
 
     djangoAuth.login(request, createUser)
 
@@ -78,11 +81,6 @@ def login(request):
 
 def profile(request):
     content = {'changeEmailForm': ChangeEmailForm(),
-               'downgradeToCustomerPopupData': {'prompt': 'Downgrade <b>{}</b> from Creator to Customer?'.format(request.user.email),
-                                                'confirmButtonText': 'Downgrade',
-                                                'formName': 'downgradeToCustomer',
-                                                'formValue': True,
-                                                'dismissButtonText': 'Back'},
                'logoutPopupData': {'prompt': 'Logout of <b>{}</b>?'.format(request.user.email),
                                    'confirmButtonText': 'Logout',
                                    'formName': 'logout',
@@ -99,15 +97,10 @@ def profile(request):
     if request.method == 'GET':
         return render(request, 'profile.html', content)
 
-    downgradeToCustomerForm = DowngradeToCustomerForm(request.POST)
-    if downgradeToCustomerForm.is_valid():
-        request.user.creatoruser.delete()
-        return redirect('/profile/')
-
     logoutForm = LogoutForm(request.POST)
     if logoutForm.is_valid():
         djangoAuth.logout(request)
-        return redirect('/')
+        return redirect('/login/')
 
     deleteAccountForm = DeleteAccountForm(request.POST)
     if deleteAccountForm.is_valid():

@@ -20,7 +20,7 @@
             <a href="{% url 'login' %}">Login</a>
         {% else %}
             <a href="{% url 'profile' %}">
-                {% if request.user.creatoruser %}
+                {% if request.user.profile.organization %}
                     <img src="{% static 'images/earth.png' %}" alt="profile">
                 {% else %}
                     <img src="{% static 'images/cliff.png' %}" alt="profile">

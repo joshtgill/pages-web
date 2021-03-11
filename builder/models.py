@@ -32,7 +32,7 @@ class SheetItem(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 
-class CreatorUser(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, null=True, on_delete=models.CASCADE)

@@ -10,7 +10,7 @@
 
         <div class="content">
             <div class="profile">
-                {% if request.user.creatoruser %}
+                {% if request.user.profile.organization %}
                     <img src="{% static 'images/earth.png' %}" alt="earth">
                 {% else %}
                     <img src="{% static 'images/cliff.png' %}" alt="cliff">
@@ -24,33 +24,14 @@
                         </div>
                         <a onclick="changeEmailPopup.display()">Change email</a>
                     </div>
-                    {% if request.user.creatoruser %}
-                        <div class="detail-container">
-                            <div class="detail">
-                                <h3>Account type</h3>
-                                <h4>Creator</h4>
-                            </div>
-                            {{ downgradeToCustomerPopupData|json_script:"downgradeToCustomerPopupData" }}
-                            <a onclick="confirmationPopup.display('downgradeToCustomerPopupData')">Downgrade</a>
-                        </div>
-                        <div class="links">
-
-                        </div>
+                    {% if request.user.profile.organization %}
                         <div class="detail-container">
                             <div class="detail">
                                 <h3>Organization</h3>
-                                <h4>{{ request.user.creatoruser.organization.name }}</h4>
+                                <h4>{{ request.user.profile.organization.name }}</h4>
                             </div>
                         </div>
                         <a href="{% url 'manage_organization' %}">Manage organization</a>
-                    {% else %}
-                        <div class="detail-container">
-                            <div class="detail">
-                                <h3>Account type</h3>
-                                <h4>Customer</h4>
-                            </div>
-                            <a href="{% url 'creator_upgrade' %}">Upgrade</a>
-                        </div>
                     {% endif %}
                 </div>
                 <div class="account-actions">

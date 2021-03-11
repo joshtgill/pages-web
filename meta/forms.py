@@ -30,12 +30,6 @@ class LoginForm(forms.Form):
                                widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
 
 
-class CreatorUpgradeForm(forms.Form):
-    organization = forms.CharField(label='',
-                                   widget=forms.TextInput(attrs={'placeholder': 'Organization', 'autocomplete': 'off'}),
-                                   max_length=100)
-
-
 class ChangeEmailForm(forms.Form):
     newEmail = forms.CharField(label='',
                                widget=forms.TextInput(attrs={'placeholder': 'New email', 'autocomplete': 'off'}),
@@ -44,10 +38,6 @@ class ChangeEmailForm(forms.Form):
     newEmailConfirm = forms.CharField(label='',
                                       widget=forms.TextInput(attrs={'placeholder': 'Confirm new email', 'autocomplete': 'off'}),
                                       max_length=100)
-
-
-class DowngradeToCustomerForm(forms.Form):
-    downgradeToCustomer = forms.BooleanField()
 
 
 class LogoutForm(forms.Form):

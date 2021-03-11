@@ -13,15 +13,9 @@
             <h2>We handle the technology, you handle the content.<br>
                 Reach your audience easier than ever with the apps you want.</h2>
             <div class="create-options">
-                {% if request.user.creatoruser %}
-                    <a href="{% url 'builder' %}">Get started</a>
-                    <h3>- or -</h3>
-                    <a href="{% url 'manage_organization' %}">Manage organization</a>
-                {% elif not request.user.is_anonymous %}
-                    <a href="{% url 'creator_upgrade' %}">Get started</a>
-                {% else %}
-                    <a href="{% url 'login' %}">Get started</a>
-                {% endif %}
+                <a href="{% url 'builder' %}">Get started</a>
+                <h3>- or -</h3>
+                <a href="{% url 'manage_organization' %}">Manage organization</a>
             </div>
             <div class="examples">
                 <div class="example">
