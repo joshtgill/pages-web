@@ -17,3 +17,8 @@ class BuilderForm(forms.Form):
 
 class PageDeleteForm(forms.Form):
     pageIdToDelete = forms.IntegerField()
+
+
+class OrganizationEditForm(forms.Form):
+    name = forms.CharField()
+    private = forms.BooleanField(required=False)

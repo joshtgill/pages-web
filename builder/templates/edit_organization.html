@@ -1,0 +1,31 @@
+<html>
+    {% load static %}
+    <head>
+        <title>Edit organization</title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/edit_organization.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <h1>Edit organization</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <input name="name" placeholder="Organization name" autocomplete="off" value="{{ request.user.creatoruser.organization.name }}">
+                <div class="required-container">
+                    <h3>Make private</h3>
+                    <label class="switch">
+                            <input type="checkbox" name="private"
+                                {% if request.user.creatoruser.organization.private %}
+                                    checked
+                                {% endif %}
+                            >
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button>Save</button>
+            <form>
+        </div>
+    </body>
+</html>

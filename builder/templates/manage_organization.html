@@ -1,0 +1,77 @@
+<html>
+    {% load static %}
+    <head>
+        <title>Manage {{ request.user.creatoruser.organization.name }}</title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/manage_organization.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <h1>Manage {{ request.user.creatoruser.organization.name }}</h1>
+
+            <div class="stats-container">
+                <div class="stats-bar">
+                    <h3>
+                        <b>Status: </b>
+                        {% if request.user.creatoruser.organization.private %}
+                            Private
+                        {% else %}
+                            Public
+                        {% endif %}
+                    </h3>
+                </div>
+                <a href="{% url 'edit_organization' %}">Edit organization</a>
+            </div>
+            <div class="info">
+                <div class="item-container">
+                    <h3>Active pages</h3>
+                    <div class="items-list">
+                        {% for activePageData in activePagesData %}
+                            <div class="active-page"
+                            {% if forloop.counter0 == 0 %}
+                                style="margin-top: 0"
+                            {% elif forloop.counter == activePagesData|length %}
+                                style="margin-bottom: 0"
+                            {% endif %}
+                            >
+                                <h4>{{ activePageData.name }}</h4>
+                                <div class="details">
+                                    <h5><b>Type:</b> {{ activePageData.type }}</h5>
+                                    <h5><b>Created:</b> {{ activePageData.dateCreated }}</h5>
+                                    <h5><b>Items:</b> {{ activePageData.numItems }}</h5>
+                                </div>
+                                <div class="actions">
+                                    <a href="{% url 'explore' %}?organization={{ request.user.creatoruser.organization.name }}&page={{ activePageData.id }}">
+                                        View
+                                    </a>
+                                    <a href="{% url 'builder' %}?typee=Sheet&idd={{ activePageData.id }}">
+                                        Edit
+                                    </a>
+                                </div>
+                            </div>
+                            {% if forloop.counter < activePagesData|length %}
+                                <hr>
+                            {% endif %}
+                        {% endfor%}
+                    </div>
+                </div>
+                <div class="item-container" style="max-width: 400px">
+                    <h3>Pending requests</h3>
+                    <div class="items-list">
+                        {% for requester in request.user.creatoruser.organization.requesters.objects.all %}
+                            <div class="requester">
+                                <img src="{% static 'images/earth.png' %}" alt="earth">
+                                <h4>{{ requester.name }}<h4>
+                            </div>
+                            {% if forloop.counter.counter < request.user.creatoruser.organization.requesters.objects.all|length %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

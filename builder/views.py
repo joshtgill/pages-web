@@ -54,7 +54,8 @@ def builder(request):
                                                                                                                          request.user.creatoruser.organization.name),
                                                                 'confirmButtonText': 'Delete',
                                                                 'formName': 'pageIdToDelete',
-                                                                'formValue': pageData.get('id')}})
+                                                                'formValue': pageData.get('id'),
+                                                                'dismissButtonText': 'Cancel'}})
         elif pageId:
             return redirect('/create/builder/?typee={}'.format(pageType))
         else:
@@ -121,8 +122,8 @@ def handleSheetItemsUpdates(pagePostData, page):
         sheetItem.save()
 
 
-def organization(request):
-    return render(request, 'organization.html', {'activePagesData': buildOrganizationsPagesData(request.user.creatoruser.organization)})
+def manageOrganization(request):
+    return render(request, 'manage_organization.html', {'activePagesData': buildOrganizationsPagesData(request.user.creatoruser.organization)})
 
 
 def buildOrganizationsPagesData(organization):
@@ -133,3 +134,15 @@ def buildOrganizationsPagesData(organization):
                                        'numItems': len(SheetItem.objects.filter(page=page))})
 
     return organizationsPagesData
+
+
+def editOrganization(request):
+    if request.method == 'POST':
+        organizationEditForm = OrganizationEditForm(request.POST)
+        if organizationEditForm.is_valid():
+            request.user.creatoruser.organization.name = organizationEditForm.cleaned_data['name']
+            request.user.creatoruser.organization.private = organizationEditForm.cleaned_data['private']
+            request.user.creatoruser.organization.save()
+        return redirect('/create/manage/')
+
+    return render(request, 'edit_organization.html')

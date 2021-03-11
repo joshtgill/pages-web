@@ -13,6 +13,7 @@ class PageListing(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
+    private = models.BooleanField(default=False)
 
 
 class Page(models.Model):
