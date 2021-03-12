@@ -9,6 +9,22 @@ def create(request):
     return render(request, 'create_pitch.html')
 
 
+def selectOrganization(request):
+    organizations = Organization.objects.all()
+    content = {'selectOrganizationForm': SelectOrganizationForm(organizations=organizations)}
+    if request.method == 'GET':
+        return render(request, 'select_organization.html', content)
+
+    selectOrganizationForm = SelectOrganizationForm(request.POST, organizations=organizations)
+    if not selectOrganizationForm.is_valid():
+        return render(request, 'select_organization.html', content)
+
+    request.user.profile.organization = Organization.objects.get(id=selectOrganizationForm.cleaned_data['ids'])
+    request.user.profile.save()
+
+    return redirect('/create/')
+
+
 def builder(request):
     if request.method == 'GET':
         pageListings = PageListing.objects
@@ -47,13 +63,13 @@ def builder(request):
     pageDeleteForm = PageDeleteForm(request.POST)
     if pageDeleteForm.is_valid():
         Page.objects.get(id=pageDeleteForm.cleaned_data['pageIdToDelete']).delete()
-        return redirect('/create/organization/')
+        return redirect('/create/manage-organization/')
 
     pagePostData = dict(request.POST)
     page = handlePageUpdate(request, pagePostData)
     handleSheetItemsUpdates(pagePostData, page)
 
-    return redirect('/create/organization/')
+    return redirect('/create/manage-organization/')
 
 
 def buildPageData(idd):

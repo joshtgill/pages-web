@@ -13,9 +13,13 @@
             <h2>We handle the technology, you handle the content.<br>
                 Reach your audience easier than ever with the apps you want.</h2>
             <div class="create-options">
-                <a href="{% url 'builder' %}">Get started</a>
-                <h3>- or -</h3>
-                <a href="{% url 'manage_organization' %}">Manage organization</a>
+                {% if request.user.profile.organization %}
+                    <a href="{% url 'builder' %}">Get started</a>
+                    <h3>- or -</h3>
+                    <a href="{% url 'manage_organization' %}">Manage organization</a>
+                {% else %}
+                    <a href="{% url 'select_organization' %}">Get started</a>
+                {% endif %}
             </div>
             <div class="examples">
                 <div class="example">
