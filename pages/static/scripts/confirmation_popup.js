@@ -5,17 +5,17 @@ class ConfirmationPopup extends BasePopup
         super(popupContainer, popup, confirmationForm);
     }
 
-    display(dataIdentifier, dismissLink=null)
+    display(dataIdentifier, dismissLink=null, localFormValue=null, localPrompt=null)
     {
         var confirmationData = JSON.parse(document.getElementById(dataIdentifier).textContent);
         this.dismissLink = dismissLink;
 
-        document.getElementById('prompt').innerHTML = confirmationData['prompt'];
+        document.getElementById('prompt').innerHTML = localPrompt ? localPrompt : confirmationData['prompt'];
 
         var confirmButton = document.getElementById('confirmButton');
         confirmButton.innerHTML = confirmationData['confirmButtonText']
         confirmButton.name = confirmationData['formName'];
-        confirmButton.value = confirmationData['formValue'];
+        confirmButton.value = localFormValue ? localFormValue : confirmationData['formValue'];
         document.getElementById('dismissButton').innerHTML = confirmationData['dismissButtonText']
 
         super.display();

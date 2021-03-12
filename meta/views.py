@@ -6,6 +6,7 @@ import django.contrib.auth as djangoAuth
 from django.core.exceptions import ObjectDoesNotExist
 from builder.models import Profile
 from django.contrib.admin.views.decorators import staff_member_required
+from builder.models import Organization
 
 
 def home(request):
@@ -123,4 +124,21 @@ def profile(request):
 
 @staff_member_required
 def staff(request):
-    return render(request, 'staff.html')
+    organizations = Organization.objects.all()
+    content = {'organizations': organizations}
+
+    if request.method == 'GET':
+        content.update({'organizationDeleteConfirmationPopupData': {'prompt': 'Permanently delete this organization?',
+                                                                   'confirmButtonText': 'Delete',
+                                                                   'formName': 'organizationIdToDelete',
+                                                                   'formValue': -1, # Override in template
+                                                                   'dismissButtonText': 'Cancel'}})
+        return render(request, 'staff.html', content)
+
+    organizationDeleteForm = OrganizationDeleteForm(request.POST)
+    if not organizationDeleteForm.is_valid():
+        return redirect('/')
+
+    organizations.get(id=organizationDeleteForm.cleaned_data['organizationIdToDelete']).delete()
+
+    return redirect('/staff/')

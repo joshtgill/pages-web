@@ -46,3 +46,7 @@ class LogoutForm(forms.Form):
 
 class DeleteAccountForm(forms.Form):
     deleteAccount = forms.BooleanField()
+
+
+class OrganizationDeleteForm(forms.Form):
+    organizationIdToDelete = forms.IntegerField()

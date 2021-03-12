@@ -117,6 +117,12 @@ body {
     margin: 0 20px 20px 20px;
 }
 
+.content .dashboard .dashboard-item .dashboard-item-list hr {
+    width: 100%;
+    margin: 0 auto 0 auto;
+    border-top: 1px solid rgb(200, 200, 200);
+}
+
 @media only screen and (min-width: 580px) {
     .top-nav .left {
         display: block;

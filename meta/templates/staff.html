@@ -15,7 +15,7 @@
                 <div class="dashboard-item">
                     <h3>Organization requests</h3>
                     <div class="dashboard-item-list">
-                        <div class="organization-request">
+                        <div class="organization" style="margin-top: 0">
                             <h4>Filler Organization</h4>
                             <div class="details">
                             </div>
@@ -30,7 +30,42 @@
                         </div>
                     </div>
                 </div>
+                <div class="dashboard-item">
+                    <h3>Organizations</h3>
+                    <div class="dashboard-item-list">
+                        {{ organizationDeleteConfirmationPopupData|json_script:"organizationDeleteConfirmationPopupData" }}
+                        {% for organization in organizations %}
+                            <div class="organization"
+                            {% if forloop.counter0 == 0 %}
+                                style="margin-top: 0"
+                            {% endif %}
+                            {% if forloop.counter != organizations|length %}
+                                style="margin-bottom: 28px"
+                            {% endif %}
+                            >
+                                <h4>{{ organization.name }}</h4>
+                                <div class="details">
+                                    <h5><b>Owner:</b> Filler name</h5>
+                                </div>
+                                <div class="actions">
+                                    <a onclick="confirmationPopup.display('organizationDeleteConfirmationPopupData',
+                                                                          null,
+                                                                          {{ organization.id }},
+                                                                          'Permanently delete <b>{{ organization.name }}</b> as an organization?')">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                            {% if forloop.counter < organizations|length %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </body>
+
+    {% include 'base_popup.html' %}
+    {% include 'confirmation_popup.html' %}
 </html>
