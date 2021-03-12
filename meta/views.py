@@ -5,6 +5,7 @@ import uuid
 import django.contrib.auth as djangoAuth
 from django.core.exceptions import ObjectDoesNotExist
 from builder.models import Profile
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 def home(request):
@@ -118,3 +119,8 @@ def profile(request):
             request.user.save()
 
     return redirect('/profile/')
+
+
+@staff_member_required
+def staff(request):
+    return render(request, 'staff.html')

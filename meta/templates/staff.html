@@ -1,0 +1,36 @@
+<html>
+    {% load static %}
+    <head>
+        <title>Admin</title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/staff.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <h1>Staff</h1>
+            <h2>Manage organizations, users, or individual pages.</h2>
+            <div class="dashboard">
+                <div class="dashboard-item">
+                    <h3>Organization requests</h3>
+                    <div class="dashboard-item-list">
+                        <div class="organization-request">
+                            <h4>Filler Organization</h4>
+                            <div class="details">
+                            </div>
+                            <div class="actions">
+                                <a href="{% url 'home' %}">
+                                    Approve
+                                </a>
+                                <a href="{% url 'home' %}">
+                                    Deny
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

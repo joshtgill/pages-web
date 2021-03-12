@@ -86,6 +86,37 @@ body {
     display: none;
 }
 
+.dashboard {
+    width: 100vw;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin: 0 0 5vh 0;
+}
+
+.dashboard .dashboard-item {
+    width: 92vw;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    margin: 5vh 0 0 0;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 15px;
+}
+
+.dashboard .dashboard-item h3 {
+    margin: 12px 0 15px 0;
+    text-align: center;
+    font-size: 21px;
+    color: rgb(60, 60, 60);
+}
+
+.dashboard .dashboard-item .dashboard-item-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px 20px 20px;
+}
+
 @media only screen and (min-width: 580px) {
     .top-nav .left {
         display: block;

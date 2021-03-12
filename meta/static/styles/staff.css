@@ -1,0 +1,50 @@
+.content {
+    align-items: center;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .organization-request {
+    display: flex;
+    flex-direction: column;
+    color: rgb(60, 60, 60);
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .organization-request h4 {
+    margin: 0 0 10px 0;
+    font-size: 30px;
+    font-weight: normal;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .organization-request .details {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .organization-request .details h5 {
+    margin: 5px 10px 5px 0;
+    font-size: 20px;
+    font-weight: normal;
+    color: rgb(60, 60, 60);
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .organization-request .actions {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0 0 0;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .organization-request .actions a {
+    margin: 0 20px;
+    font-size: 20px;
+    color: rgb(0, 123, 224);
+}
+
+@media only screen and (min-width: 580px) {
+    .content .dashboard .dashboard-item .dashboard-item-list .organization-request .actions {
+        display: flex;
+        justify-content: left;
+    }
+
+    .content .dashboard .dashboard-item .dashboard-item-list .organization-request .actions a {
+        margin: 0 30px 0 0;
+    }
+}

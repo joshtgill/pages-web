@@ -16,6 +16,9 @@
                     <img src="{% static 'images/cliff.png' %}" alt="cliff">
                 {% endif %}
                 <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
+                {% if request.user.is_staff %}
+                    <a href="{% url 'staff' %}">Staff page</a>
+                {% endif %}
                 <div class="details">
                     <div class="detail-container">
                         <div class="detail" style="margin-top: 0">

@@ -24,10 +24,10 @@
                 </div>
                 <a href="{% url 'edit_organization' %}">Edit organization</a>
             </div>
-            <div class="info">
-                <div class="item-container">
+            <div class="dashboard">
+                <div class="dashboard-item">
                     <h3>Active pages</h3>
-                    <div class="items-list">
+                    <div class="dashboard-item-list">
                         {% for activePageData in activePagesData %}
                             <div class="active-page"
                             {% if forloop.counter0 == 0 %}
@@ -57,9 +57,9 @@
                         {% endfor%}
                     </div>
                 </div>
-                <div class="item-container" style="max-width: 400px">
+                <div class="dashboard-item" style="max-width: 400px">
                     <h3>Pending requests</h3>
-                    <div class="items-list">
+                    <div class="dashboard-item-list">
                         {% for requester in request.user.profile.organization.requesters.objects.all %}
                             <div class="requester">
                                 <img src="{% static 'images/earth.png' %}" alt="earth">
