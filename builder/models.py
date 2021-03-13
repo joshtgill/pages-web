@@ -14,7 +14,7 @@ class OrganizationApplication(models.Model):
 class Organization(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     private = models.BooleanField(default=False)
-    keeper = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
 class PageListing(models.Model):

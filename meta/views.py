@@ -146,7 +146,7 @@ def staff(request):
         organizationApplication = OrganizationApplication.objects.get(id=organizationApplicationApproveForm.cleaned_data['organizationApplicationIdToApprove'])
 
         # Create organization
-        organization = Organization(name=organizationApplication.name, keeper=organizationApplication.applicant)
+        organization = Organization(name=organizationApplication.name, owner=organizationApplication.applicant)
         organization.save()
 
         # Assign organization to user
