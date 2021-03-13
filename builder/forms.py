@@ -22,3 +22,7 @@ class PageDeleteForm(forms.Form):
 class OrganizationEditForm(forms.Form):
     name = forms.CharField()
     private = forms.BooleanField(required=False)
+
+
+class LeaveOrganizationForm(forms.Form):
+    leaveOrganization = forms.BooleanField()

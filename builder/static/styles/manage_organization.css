@@ -92,6 +92,20 @@
     font-weight: normal;
 }
 
+.content button {
+    width: 95vw;
+    max-width: 350px;
+    min-height: 50px;
+    margin: 4vh 0 7vh 0;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(30, 30, 30);
+    outline: none;
+    cursor: pointer;
+}
+
 @media only screen and (min-width: 580px) {
     .content .stats-container .stats-bar {
         padding: 0;

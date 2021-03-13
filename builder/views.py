@@ -120,7 +120,23 @@ def handleSheetItemsUpdates(pagePostData, page):
 
 
 def manageOrganization(request):
-    return render(request, 'manage_organization.html', {'activePagesData': buildOrganizationsPagesData(request.user.profile.organization)})
+    if request.method == 'GET':
+        content = {'activePagesData': buildOrganizationsPagesData(request.user.profile.organization),
+                   'leaveOrganizationConfirmationPopupData': {'prompt': 'Leave {}?'.format(request.user.profile.organization.name),
+                                                              'confirmButtonText': 'Leave',
+                                                              'formName': 'leaveOrganization',
+                                                              'formValue': True,
+                                                              'dismissButtonText': 'Cancel'}}
+        return render(request, 'manage_organization.html', content)
+
+    leaveOrganizationForm = LeaveOrganizationForm(request.POST)
+    if not leaveOrganizationForm.is_valid():
+        return redirect('/create/manage/')
+
+    request.user.profile.organization = None
+    request.user.profile.save()
+
+    return redirect('/')
 
 
 def buildOrganizationsPagesData(organization):
