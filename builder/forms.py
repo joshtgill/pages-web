@@ -31,11 +31,11 @@ class OrganizationEditForm(forms.Form):
 
 
 class ApproveOrganizationMembershipRequestForm(forms.Form):
-    organizationApprovalIdToApprove = forms.IntegerField()
+    organizationMembershipRequestIdToApprove = forms.IntegerField()
 
 
 class DenyOrganizationMembershipRequestForm(forms.Form):
-    organizationApprovalIdToDeny = forms.IntegerField()
+    organizationMembershipRequestIdToDeny = forms.IntegerField()
 
 
 class LeaveOrganizationForm(forms.Form):

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from builder.models import Organization, Page, SheetItem, OrganizationApproval
+from builder.models import Organization, Page, SheetItem, OrganizationMembershipRequest
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -22,8 +22,8 @@ def explore(request):
         requestApprovalForm = RequestApprovalForm(request.POST)
         if requestApprovalForm.is_valid():
             # Submit approval
-            organizationApproval = OrganizationApproval(organization=organization, approvee=request.user)
-            organizationApproval.save()
+            organizationMembershipRequest = OrganizationMembershipRequest(organization=organization, approvee=request.user)
+            organizationMembershipRequest.save()
             return redirect('/profile/')
 
         content = {'organization': organization, 'pagesData': buildOrganizationPagesData(organization)}

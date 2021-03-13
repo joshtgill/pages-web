@@ -62,24 +62,24 @@
                     <div class="dashboard-item-list">
                         {{ approveOrganizationMembershipRequestConfirmationPopupData|json_script:"approveOrganizationMembershipRequestConfirmationPopupData" }}
                         {{ denyOrganizationMembershipRequestConfirmationPopupData|json_script:"denyOrganizationMembershipRequestConfirmationPopupData" }}
-                        {% for organizationApproval in organizationApprovals %}
+                        {% for organizationMembershipRequest in organizationMembershipRequests %}
                             <div class="approvee">
                                 <div class="icon-name">
                                     <img src="{% static 'images/earth.png' %}" alt="earth">
-                                    <h4>{{ organizationApproval.approvee.get_full_name }}<h4>
+                                    <h4>{{ organizationMembershipRequest.approvee.get_full_name }}<h4>
                                 </div>
                                 <div class="actions">
                                     <a onclick="confirmationPopup.display('approveOrganizationMembershipRequestConfirmationPopupData',
                                                                           null,
-                                                                          {{ organizationApproval.id }},
-                                                                          'Approve <b>{{ organizationApproval.approvee.get_full_name }}</b> to become a member of <b>{{ request.user.profile.organization.name }}</b>?')">Approve</a>
+                                                                          {{ organizationMembershipRequest.id }},
+                                                                          'Approve <b>{{ organizationMembershipRequest.approvee.get_full_name }}</b> to become a member of <b>{{ request.user.profile.organization.name }}</b>?')">Approve</a>
                                     <a onclick="confirmationPopup.display('denyOrganizationMembershipRequestConfirmationPopupData',
                                                                           null,
-                                                                          {{ organizationApproval.id }},
-                                                                          'Deny <b>{{ organizationApproval.approvee.get_full_name }}</b> to become a member of <b>{{ request.user.profile.organization.name }}</b>?')">Deny</a>
+                                                                          {{ organizationMembershipRequest.id }},
+                                                                          'Deny <b>{{ organizationMembershipRequest.approvee.get_full_name }}</b> to become a member of <b>{{ request.user.profile.organization.name }}</b>?')">Deny</a>
                                 </div>
                             </div>
-                            {% if forloop.counter < organizationApprovals|length %}
+                            {% if forloop.counter < organizationMembershipRequests|length %}
                                 <hr>
                             {% endif %}
                         {% endfor %}

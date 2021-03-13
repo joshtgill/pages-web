@@ -17,7 +17,7 @@ class Organization(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
-class OrganizationApproval(models.Model):
+class OrganizationMembershipRequest(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     approvee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

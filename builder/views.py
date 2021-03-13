@@ -138,15 +138,15 @@ def handleSheetItemsUpdates(pagePostData, page):
 def manageOrganization(request):
     if request.method == 'GET':
         content = {'activePagesData': buildOrganizationsPagesData(request.user.profile.organization),
-                   'organizationApprovals': OrganizationApproval.objects.all(),
+                   'organizationMembershipRequests': OrganizationMembershipRequest.objects.all(),
                    'approveOrganizationMembershipRequestConfirmationPopupData': {'prompt': None,
                                                                                  'confirmButtonText': 'Approve',
-                                                                                 'formName': 'organizationApprovalIdToApprove',
+                                                                                 'formName': 'organizationMembershipRequestIdToApprove',
                                                                                  'formValue': None,
                                                                                  'dismissButtonText': 'Cancel'},
                    'denyOrganizationMembershipRequestConfirmationPopupData': {'prompt': None,
                                                                               'confirmButtonText': 'Deny',
-                                                                              'formName': 'organizationApprovalIdToDeny',
+                                                                              'formName': 'organizationMembershipRequestIdToDeny',
                                                                               'formValue': None,
                                                                               'dismissButtonText': 'Cancel'},
                    'leaveOrganizationConfirmationPopupData': {'prompt': 'Leave {}?'.format(request.user.profile.organization.name),
@@ -164,17 +164,17 @@ def manageOrganization(request):
 
     approveOrganizationMembershipRequestForm = ApproveOrganizationMembershipRequestForm(request.POST)
     if approveOrganizationMembershipRequestForm.is_valid():
-        organizationApproval = OrganizationApproval.objects.get(id=approveOrganizationMembershipRequestForm.cleaned_data['organizationApprovalIdToApprove'])
-        # Add membership to user
-        User.objects.get(id=organizationApproval.approvee.id).profile.memberships.add(request.user.profile.organization)
-        organizationApproval.delete()
+        organizationMembershipRequest = OrganizationMembershipRequest.objects.get(id=approveOrganizationMembershipRequestForm.cleaned_data['organizationMembershipRequestIdToApprove'])
+        # Grant membership to user
+        User.objects.get(id=organizationMembershipRequest.approvee.id).profile.memberships.add(request.user.profile.organization)
+        organizationMembershipRequest.delete()
 
         return redirect('/create/manage/')
 
     denyOrganizationMembershipRequestForm = DenyOrganizationMembershipRequestForm(request.POST)
     if denyOrganizationMembershipRequestForm.is_valid():
-        organizationApproval = OrganizationApproval.objects.get(id=denyOrganizationMembershipRequestForm.cleaned_data['organizationApprovalIdToDeny'])
-        organizationApproval.delete()
+        organizationMembershipRequest = OrganizationMembershipRequest.objects.get(id=denyOrganizationMembershipRequestForm.cleaned_data['organizationMembershipRequestIdToDeny'])
+        organizationMembershipRequest.delete()
 
     return redirect('/create/manage/')
 
