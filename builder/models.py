@@ -17,6 +17,11 @@ class Organization(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
+class OrganizationApproval(models.Model):
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    approvee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
 class PageListing(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     description = models.CharField(max_length=LENGTH_MEDIUM)
@@ -42,3 +47,4 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     organization = models.ForeignKey(Organization, null=True, on_delete=models.CASCADE)
+    memberships = models.ManyToManyField(Organization, related_name='organizationMemberships')

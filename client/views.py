@@ -1,20 +1,16 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from builder.models import Organization, Page, SheetItem
+from builder.models import Organization, Page, SheetItem, OrganizationApproval
 from django.core.exceptions import ObjectDoesNotExist
 
 
 def explore(request):
-    requestApprovalForm = RequestApprovalForm(request.POST)
     organizationForm = OrganizationForm(request.GET)
     pageForm = PageForm(request.GET)
 
     if pageForm.is_valid():
         # Render the Page page.
         return render(request, 'view_page.html', {'pageData': buildPageData(pageForm.cleaned_data['page'])})
-    elif requestApprovalForm.is_valid():
-        # TODO: Handle organization approval request
-        return redirect('/explore/')
     elif organizationForm.is_valid():
         # If the organization exists, navigate to its page. Otherwise return to organization search page.
         organization = None
@@ -23,8 +19,15 @@ def explore(request):
         except ObjectDoesNotExist:
             return redirect('/explore/')
 
+        requestApprovalForm = RequestApprovalForm(request.POST)
+        if requestApprovalForm.is_valid():
+            # Submit approval
+            organizationApproval = OrganizationApproval(organization=organization, approvee=request.user)
+            organizationApproval.save()
+            return redirect('/profile/')
+
         content = {'organization': organization, 'pagesData': buildOrganizationPagesData(organization)}
-        if organization.private:
+        if organization.private and not organization in request.user.profile.memberships.all():
             content.update({'requestApprovalData': {'prompt': '''{} requires approval to view its Pages.
                                                                  <br><br>Would you like to request approval?'''.format(organization.name),
                                                     'confirmButtonText': 'Request',

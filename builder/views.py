@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import *
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import User
 
 
 def create(request):
@@ -78,13 +79,13 @@ def builder(request):
     pageDeleteForm = PageDeleteForm(request.POST)
     if pageDeleteForm.is_valid():
         Page.objects.get(id=pageDeleteForm.cleaned_data['pageIdToDelete']).delete()
-        return redirect('/create/manage-organization/')
+        return redirect('/create/manage/')
 
     pagePostData = dict(request.POST)
     page = handlePageUpdate(request, pagePostData)
     handleSheetItemsUpdates(pagePostData, page)
 
-    return redirect('/create/manage-organization/')
+    return redirect('/create/manage/')
 
 
 def buildPageData(idd):
@@ -137,6 +138,17 @@ def handleSheetItemsUpdates(pagePostData, page):
 def manageOrganization(request):
     if request.method == 'GET':
         content = {'activePagesData': buildOrganizationsPagesData(request.user.profile.organization),
+                   'organizationApprovals': OrganizationApproval.objects.all(),
+                   'approveOrganizationMembershipRequestConfirmationPopupData': {'prompt': None,
+                                                                                 'confirmButtonText': 'Approve',
+                                                                                 'formName': 'organizationApprovalIdToApprove',
+                                                                                 'formValue': None,
+                                                                                 'dismissButtonText': 'Cancel'},
+                   'denyOrganizationMembershipRequestConfirmationPopupData': {'prompt': None,
+                                                                              'confirmButtonText': 'Deny',
+                                                                              'formName': 'organizationApprovalIdToDeny',
+                                                                              'formValue': None,
+                                                                              'dismissButtonText': 'Cancel'},
                    'leaveOrganizationConfirmationPopupData': {'prompt': 'Leave {}?'.format(request.user.profile.organization.name),
                                                               'confirmButtonText': 'Leave',
                                                               'formName': 'leaveOrganization',
@@ -145,13 +157,26 @@ def manageOrganization(request):
         return render(request, 'manage_organization.html', content)
 
     leaveOrganizationForm = LeaveOrganizationForm(request.POST)
-    if not leaveOrganizationForm.is_valid():
+    if leaveOrganizationForm.is_valid():
+        request.user.profile.organization = None
+        request.user.profile.save()
+        return redirect('/')
+
+    approveOrganizationMembershipRequestForm = ApproveOrganizationMembershipRequestForm(request.POST)
+    if approveOrganizationMembershipRequestForm.is_valid():
+        organizationApproval = OrganizationApproval.objects.get(id=approveOrganizationMembershipRequestForm.cleaned_data['organizationApprovalIdToApprove'])
+        # Add membership to user
+        User.objects.get(id=organizationApproval.approvee.id).profile.memberships.add(request.user.profile.organization)
+        organizationApproval.delete()
+
         return redirect('/create/manage/')
 
-    request.user.profile.organization = None
-    request.user.profile.save()
+    denyOrganizationMembershipRequestForm = DenyOrganizationMembershipRequestForm(request.POST)
+    if denyOrganizationMembershipRequestForm.is_valid():
+        organizationApproval = OrganizationApproval.objects.get(id=denyOrganizationMembershipRequestForm.cleaned_data['organizationApprovalIdToDeny'])
+        organizationApproval.delete()
 
-    return redirect('/')
+    return redirect('/create/manage/')
 
 
 def buildOrganizationsPagesData(organization):

@@ -60,12 +60,26 @@
                 <div class="dashboard-item" style="max-width: 400px">
                     <h3>Pending requests</h3>
                     <div class="dashboard-item-list">
-                        {% for requester in request.user.profile.organization.requesters.objects.all %}
-                            <div class="requester">
-                                <img src="{% static 'images/earth.png' %}" alt="earth">
-                                <h4>{{ requester.name }}<h4>
+                        {{ approveOrganizationMembershipRequestConfirmationPopupData|json_script:"approveOrganizationMembershipRequestConfirmationPopupData" }}
+                        {{ denyOrganizationMembershipRequestConfirmationPopupData|json_script:"denyOrganizationMembershipRequestConfirmationPopupData" }}
+                        {% for organizationApproval in organizationApprovals %}
+                            <div class="approvee">
+                                <div class="icon-name">
+                                    <img src="{% static 'images/earth.png' %}" alt="earth">
+                                    <h4>{{ organizationApproval.approvee.get_full_name }}<h4>
+                                </div>
+                                <div class="actions">
+                                    <a onclick="confirmationPopup.display('approveOrganizationMembershipRequestConfirmationPopupData',
+                                                                          null,
+                                                                          {{ organizationApproval.id }},
+                                                                          'Approve <b>{{ organizationApproval.approvee.get_full_name }}</b> to become a member of <b>{{ request.user.profile.organization.name }}</b>?')">Approve</a>
+                                    <a onclick="confirmationPopup.display('denyOrganizationMembershipRequestConfirmationPopupData',
+                                                                          null,
+                                                                          {{ organizationApproval.id }},
+                                                                          'Deny <b>{{ organizationApproval.approvee.get_full_name }}</b> to become a member of <b>{{ request.user.profile.organization.name }}</b>?')">Deny</a>
+                                </div>
                             </div>
-                            {% if forloop.counter.counter < request.user.profile.organization.requesters.objects.all|length %}
+                            {% if forloop.counter < organizationApprovals|length %}
                                 <hr>
                             {% endif %}
                         {% endfor %}
