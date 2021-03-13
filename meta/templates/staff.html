@@ -13,21 +13,39 @@
             <h2>Manage organizations, users, or individual pages.</h2>
             <div class="dashboard">
                 <div class="dashboard-item">
-                    <h3>Organization requests</h3>
+                    <h3>Organization applications</h3>
                     <div class="dashboard-item-list">
-                        <div class="organization" style="margin-top: 0">
-                            <h4>Filler Organization</h4>
-                            <div class="details">
+                        {% for organizationApplication in organizationApplications %}
+                            <div class="organization"
+                            {% if forloop.counter == organizationApplications|length %}
+                                style="margin-bottom: 0"
+                            {% endif %}
+                            >
+                                <h4>{{ organizationApplication.name }}</h4>
+                                <div class="details">
+                                    <h5><b>Applicant:</b> {{ organizationApplication.applicant.get_full_name }}</h5>
+                                </div>
+                                <div class="actions">
+                                    <form id="approveForm" method="POST">
+                                        {% csrf_token %}
+                                        <input class="hidden" name="organizationApplicationIdToApprove" value="{{ organizationApplication.id }}">
+                                        <a onclick="document.getElementById('approveForm').submit()">
+                                            Approve
+                                        </a>
+                                    </form>
+                                    <form id="denyForm" method="POST">
+                                        {% csrf_token %}
+                                        <input class="hidden" name="organizationApplicationIdToDeny" value="{{ organizationApplication.id }}">
+                                        <a onclick="document.getElementById('denyForm').submit()">
+                                            Deny
+                                        </a>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="actions">
-                                <a href="{% url 'home' %}">
-                                    Approve
-                                </a>
-                                <a href="{% url 'home' %}">
-                                    Deny
-                                </a>
-                            </div>
-                        </div>
+                            {% if forloop.counter < organizationApplications|length %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="dashboard-item">
@@ -36,16 +54,13 @@
                         {{ organizationDeleteConfirmationPopupData|json_script:"organizationDeleteConfirmationPopupData" }}
                         {% for organization in organizations %}
                             <div class="organization"
-                            {% if forloop.counter0 == 0 %}
-                                style="margin-top: 0"
-                            {% endif %}
-                            {% if forloop.counter != organizations|length %}
-                                style="margin-bottom: 28px"
+                            {% if forloop.counter == organizations|length %}
+                                style="margin-bottom: 0"
                             {% endif %}
                             >
                                 <h4>{{ organization.name }}</h4>
                                 <div class="details">
-                                    <h5><b>Owner:</b> Filler name</h5>
+                                    <h5><b>Keeper:</b> {{ organization.keeper.get_full_name }}</h5>
                                 </div>
                                 <div class="actions">
                                     <a onclick="confirmationPopup.display('organizationDeleteConfirmationPopupData',

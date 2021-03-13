@@ -5,7 +5,7 @@
 .content .dashboard .dashboard-item .dashboard-item-list .organization {
     display: flex;
     flex-direction: column;
-    margin: 20px 0 0 0;
+    margin: 20px 0 28px 0;
     color: rgb(60, 60, 60);
 }
 
@@ -30,7 +30,12 @@
 .content .dashboard .dashboard-item .dashboard-item-list .organization .actions {
     display: flex;
     justify-content: center;
-    margin: 10px 0 0 0;
+    margin: 15px 0 0 0;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .organization .actions form {
+    display: flex;
+    margin: 0;
 }
 
 .content .dashboard .dashboard-item .dashboard-item-list .organization .actions a {

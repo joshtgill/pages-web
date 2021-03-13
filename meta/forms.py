@@ -48,5 +48,13 @@ class DeleteAccountForm(forms.Form):
     deleteAccount = forms.BooleanField()
 
 
+class OrganizationApplicationApproveForm(forms.Form):
+    organizationApplicationIdToApprove = forms.IntegerField()
+
+
+class OrganizationApplicationDenyForm(forms.Form):
+    organizationApplicationIdToDeny = forms.IntegerField()
+
+
 class OrganizationDeleteForm(forms.Form):
     organizationIdToDelete = forms.IntegerField()
