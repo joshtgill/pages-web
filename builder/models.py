@@ -6,14 +6,19 @@ LENGTH_SHORT = 30
 LENGTH_MEDIUM = 100
 
 
-class PageListing(models.Model):
+class OrganizationApplication(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
-    description = models.CharField(max_length=LENGTH_MEDIUM)
+    applicant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
 class Organization(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     private = models.BooleanField(default=False)
+
+
+class PageListing(models.Model):
+    name = models.CharField(max_length=LENGTH_SHORT)
+    description = models.CharField(max_length=LENGTH_MEDIUM)
 
 
 class Page(models.Model):

@@ -1,0 +1,22 @@
+<html>
+    {% load static %}
+    <head>
+        <title>Apply</title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/apply_organization.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <h1>It starts here</h1>
+            <h2>For our user's safety and confidence, we vet and monitor all organizations.<br>
+                Apply now and reach your audiences like never before.</h2>
+            <form method="POST">
+                {% csrf_token %}
+                {{ applyOrganizationForm }}
+                <button>Send application</button>
+            </form>
+        </div>
+    </body>
+</html>

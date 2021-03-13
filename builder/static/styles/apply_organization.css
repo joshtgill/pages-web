@@ -1,0 +1,44 @@
+.content {
+    align-items: center;
+}
+
+.content form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4vh 0 0 0;
+}
+
+.content form input, textarea {
+    width: 92vw;
+    max-width: 550px;
+    margin: 1vh 0 1vh 0;
+    padding: 1vh;
+    font-size: 25px;
+    font-family: Roboto;
+    color: rgb(60, 60, 60);
+    border-radius: 10px;
+    background-color: rgb(240, 240, 240);
+    border: none;
+    outline: none;
+}
+
+.content form h3 {
+    margin: 1vh 0 0 0;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.content form button {
+    width: 95vw;
+    max-width: 350px;
+    min-height: 50px;
+    margin: 5vh 0 0 0;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(30, 30, 30);
+    outline: none;
+    cursor: pointer;
+}

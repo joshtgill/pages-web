@@ -25,6 +25,21 @@ def selectOrganization(request):
     return redirect('/create/')
 
 
+def applyOrganization(request):
+    if request.method == 'GET':
+        return render(request, 'apply_organization.html', {'applyOrganizationForm': ApplyOrganizationForm()})
+
+    applyOrganizationForm = ApplyOrganizationForm(request.POST)
+    if not applyOrganizationForm.is_valid():
+        return redirect('/create/apply/')
+
+    organizationApplication = OrganizationApplication(name=applyOrganizationForm.cleaned_data['name'])
+    organizationApplication.applicant = request.user
+    organizationApplication.save()
+
+    return redirect('/profile/')
+
+
 def builder(request):
     if request.method == 'GET':
         pageListings = PageListing.objects
