@@ -31,11 +31,11 @@
                     {% endif %}
                 </div>
                 <button id="addItemButton" type="button" onclick="displayEmptySheetItem()">+</button>
-                <div class="buttons">
-                    <button id="savePageButton" type="submit">Save Page</button>
+                <div class="actions">
+                    <button class="action-button" id="savePageButton" type="submit">Save Page</button>
                     {% if pageData.id %}
                         {{ pageDeleteConfirmationPopupData|json_script:"pageDeleteConfirmationPopupData" }}
-                        <button id="deletePageButton" type="button" onclick="confirmationPopup.display('pageDeleteConfirmationPopupData')">Delete Page</button>
+                        <button class="action-button" id="deletePageButton" type="button" onclick="confirmationPopup.display('pageDeleteConfirmationPopupData')">Delete Page</button>
                     {% endif %}
                 </div>
 

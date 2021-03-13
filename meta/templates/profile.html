@@ -39,9 +39,9 @@
                 </div>
                 <div class="account-actions">
                     {{ logoutPopupData|json_script:"logoutPopupData" }}
-                    <button id="logoutButton" onclick="confirmationPopup.display('logoutPopupData')">Logout</button>
+                    <button class="action-button" onclick="confirmationPopup.display('logoutPopupData')">Logout</button>
                     {{ deleteAccountPopupData|json_script:"deleteAccountPopupData" }}
-                    <button id="deleteAccountButton" onclick="confirmationPopup.display('deleteAccountPopupData')">Delete account</button>
+                    <button class="action-button" id="deleteAccountButton" onclick="confirmationPopup.display('deleteAccountPopupData')">Delete account</button>
                 </div>
             </div>
         </div>

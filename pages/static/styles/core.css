@@ -1,3 +1,25 @@
+html {
+    color: rgb(30, 30, 30);
+}
+
+a {
+    color: rgb(0, 123, 224);
+}
+
+.action-button {
+    width: 80vw;
+    max-width: 300px;
+    height: 50px;
+    margin: 1vh 0;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(30, 30, 30);
+    outline: none;
+    cursor: pointer;
+}
+
 body {
     width: 100%;
     height: 100%;
@@ -5,7 +27,6 @@ body {
     flex-direction: column;
     margin: 0;
     font-family: Roboto;
-    color: rgb(30, 30, 30);
     overflow: hidden;
 }
 
@@ -18,6 +39,11 @@ body {
     align-items: center;
 }
 
+
+.top-nav a {
+    color: rgb(30, 30, 30);
+}
+
 .top-nav .left {
     position: absolute;
     left: 1vmax;
@@ -26,14 +52,12 @@ body {
 .top-nav .left a {
     font-size: 25px;
     font-weight: bold;
-    color: rgb(30, 30, 30);
     text-decoration: none;
 }
 
 .top-nav .center a {
     margin: 0 3vw 0 3vw;
     font-size: 25px;
-    color: rgb(30, 30, 30);
     text-decoration: none;
 }
 
@@ -44,7 +68,6 @@ body {
 
 .top-nav .right a {
     font-size: 25px;
-    color: rgb(30, 30, 30);
     text-decoration: none;
 }
 
@@ -58,6 +81,7 @@ body {
     height: 500px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     flex: 1;
     overflow: auto;
     overflow-x: hidden;
@@ -68,7 +92,6 @@ body {
     text-align: center;
     font-size: 50px;
     font-weight: normal;
-    color: rgb(60, 60, 60);
 }
 
 .content h2 {
@@ -79,7 +102,6 @@ body {
     font-size: 25px;
     font-weight: normal;
     line-height: 40px;
-    color: rgb(60, 60, 60);
 }
 
 .hidden {
@@ -108,7 +130,6 @@ body {
     margin: 12px 0 0 0;
     text-align: center;
     font-size: 21px;
-    color: rgb(60, 60, 60);
 }
 
 .dashboard .dashboard-item .dashboard-item-list {

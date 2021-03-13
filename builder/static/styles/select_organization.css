@@ -1,7 +1,3 @@
-.content {
-    align-items: center;
-}
-
 .content form {
     width: 90vw;
     max-width: 500px;
@@ -16,25 +12,14 @@
     max-width: 450px;
     padding: 5px;
     font-size: 25px;
-    color: rgb(30, 30, 30);
 }
 
 .content form button {
-    width: 100%;
-    max-width: 350px;
-    height: 50px;
-    min-height: 50px;
-    margin: 5vh 0 0 0;
-    font-size: 20px;
-    color: rgb(255, 255, 255);
-    border: none;
-    border-radius: 50px;
-    background-color: rgb(30, 30, 30);
-    cursor: pointer;
+    margin-top: 4vh;
 }
 
 .content h3 {
-    margin: 4vh 0 0 0;
+    margin: 3vh 0 0 0;
     font-size: 22px;
     font-weight: normal;
 }
@@ -42,5 +27,4 @@
 .content a {
     margin: 4vh 0 0 0;
     font-size: 18px;
-    color: rgb(0, 123, 224);
 }

@@ -15,7 +15,7 @@
             <form action="" method="POST">
                 {% csrf_token %}
                 {{ selectOrganizationForm }}
-                <button type="submit">Select</button>
+                <button class="action-button" type="submit">Select</button>
             </form>
             <h3>- or -</h3>
             <a href="{% url 'apply_organization' %}">Apply for an organization</a>

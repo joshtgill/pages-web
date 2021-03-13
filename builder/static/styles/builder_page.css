@@ -1,7 +1,3 @@
-.content {
-    align-items: center;
-}
-
 .content .header {
     display: flex;
     justify-content: center;
@@ -23,7 +19,6 @@
     padding: 1vh;
     font-size: 25px;
     font-family: Roboto;
-    color: rgb(60, 60, 60);
     border-radius: 10px;
     background-color: rgb(240, 240, 240);
     border: none;
@@ -39,7 +34,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 3vh 0 3vh 0;
+    margin: 3vh 0 1vh 0;
 }
 
 .content form .items .item {
@@ -69,9 +64,8 @@
 .content form .items .item button {
     flex-grow: 1;
     width: 150px;
-    margin: 1vh 0 1vh 0;
     font-size: 20px;
-    color: rgb(60, 60, 60);
+    color: rgb(30, 30, 30);
     background-color: rgb(255, 255, 255);
     text-decoration: underline;
     border: none;
@@ -79,7 +73,19 @@
     outline: none;
 }
 
-.content form .buttons {
+.content form #addItemButton {
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    color: rgb(30, 30, 30);
+    background-color: rgb(230, 230, 230);
+    border: none;
+    border-radius: 50px;
+    outline: none;
+    cursor: pointer;
+}
+
+.content form .actions {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -87,34 +93,12 @@
     margin: 3vh 0 0 0;
 }
 
-.content form .buttons button, #addItemButton {
-    width: 90vw;
-    max-width: 350px;
-    height: 50px;
-    margin: 0 5px 20px 5px;
-    font-size: 20px;
-    color: rgb(255, 255, 255);
-    border: none;
-    border-radius: 50px;
-    background-color: rgb(30, 30, 30);
-    outline: none;
-    cursor: pointer;
-}
-
-.content form #addItemButton {
-    width: 50px;
-    height: 50px;
-    font-size: 30px;
-    color: rgb(70, 70, 70);
-    background-color: rgb(230, 230, 230);
-}
-
-.content form .buttons #savePageButton {
+.content form .actions #savePageButton {
     color: rgb(255, 255, 255);
     background-color: rgb(30, 30, 30);
 }
 
-.content form .buttons #deletePageButton {
+.content form .actions #deletePageButton {
     background-color: rgb(235, 70, 70);
 }
 
