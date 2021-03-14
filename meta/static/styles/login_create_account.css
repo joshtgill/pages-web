@@ -42,16 +42,6 @@
     flex-direction: column;
 }
 
-.content .login-container form input {
-    margin: 1vh 0 1vh 0;
-    padding: 10px 12px 10px 12px;
-    font-size: 25px;
-    border: none;
-    border-radius: 7px;
-    background-color: rgb(235, 235, 235);
-    outline: none;
-}
-
 .content .login-container .help {
     display: flex;
 }

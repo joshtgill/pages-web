@@ -11,11 +11,11 @@
 .content .search-container input {
     width: 100%;
     height: 100%;
+    margin: 0;
     padding: 10px 0 10px 15px;
-    font-size: 25px;
-    border: none;
     outline: none;
     border-radius: 10px 0 0 10px;
+    background-color: rgb(255, 255, 255);
 }
 
 .content .search-container button {

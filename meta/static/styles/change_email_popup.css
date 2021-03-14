@@ -2,11 +2,7 @@
     width: 95vw;
     max-width: 500px;
     margin: 0 0 2vh 0;
-    padding: 10px 20px;
     font-size: 20px;
-    border: none;
-    border-radius: 10px;
-    background-color: rgb(240, 240, 240);
 }
 
 .popup-container .popup form input:focus {
