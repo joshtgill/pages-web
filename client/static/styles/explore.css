@@ -4,7 +4,7 @@
     max-width: 700px;
     display: flex;
     margin: 10vh 0 0 0;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+    border: 1px solid rgb(200, 200, 200);
     border-radius: 10px;
 }
 
@@ -23,7 +23,7 @@
     height: 100%;
     margin: 0;
     font-size: 30px;
-    color: rgb(30, 30, 30);
+    color: rgb(100, 100, 100);
     border: none;
     border-radius: 0 10px 10px 0;
     background-color: rgb(255, 255, 255);

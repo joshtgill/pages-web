@@ -68,7 +68,7 @@
 }
 
 .content form .private-container .switch input:focus + .slider {
-    box-shadow: 0 0 1px rgb(71,184,93);
+    border: 1px solid rgb(200, 200, 200);
 }
 
 .content form .private-container .switch input:checked + .slider:before {
