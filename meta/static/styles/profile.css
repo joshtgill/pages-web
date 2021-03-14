@@ -33,7 +33,7 @@
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin: 4vmin 0 1vh 0;
+    margin: 3vh 0 1vh 0;
     border-radius: 10px;
 }
 
@@ -45,7 +45,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px 0 10px 0;
+    margin: 20px 0 0 0;
 }
 
 .content .profile .details .detail-container .detail {
@@ -76,6 +76,12 @@
     font-size: 16px;
     cursor: pointer;
     text-decoration: underline;
+}
+
+.content .profile .details .links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .content .profile .account-actions {

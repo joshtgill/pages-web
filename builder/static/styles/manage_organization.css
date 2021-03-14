@@ -25,44 +25,6 @@
     margin: 10px 0 0 0;
 }
 
-.content .dashboard .dashboard-item .dashboard-item-list .active-page {
-    margin: 20px 0 28px 0;
-}
-
-.content .dashboard .dashboard-item .dashboard-item-list .active-page h4 {
-    margin: 0 0 10px 0;
-    font-size: 30px;
-    font-weight: normal;
-}
-
-.content .dashboard .dashboard-item .dashboard-item-list .active-page .details {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.content .dashboard .dashboard-item .dashboard-item-list .active-page .details h5 {
-    margin: 5px 10px 5px 0;
-    font-size: 20px;
-    font-weight: normal;
-}
-
-.content .dashboard .dashboard-item .dashboard-item-list .active-page .actions {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0 0 0;
-}
-
-.content .dashboard .dashboard-item .dashboard-item-list .active-page .actions a {
-    margin: 0 20px;
-    font-size: 20px;
-}
-
-.content .dashboard .dashboard-item .dashboard-item-list hr {
-    width: 100%;
-    margin: 0 auto 0 auto;
-    border-top: 1px solid rgb(200, 200, 200);
-}
-
 .content .dashboard .dashboard-item .dashboard-item-list .approvee {
     display: flex;
     flex-direction: column;

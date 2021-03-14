@@ -29,7 +29,7 @@
                     <h3>Active pages</h3>
                     <div class="dashboard-item-list">
                         {% for activePageData in activePagesData %}
-                            <div class="active-page"
+                            <div class="dashboard-item-list-entry"
                             {% if forloop.counter0 == 0 %}
                                 style="margin-top: 0"
                             {% elif forloop.counter == activePagesData|length %}
@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div class="dashboard-item" style="max-width: 400px">
-                    <h3>Pending requests</h3>
+                    <h3>Membership requests</h3>
                     <div class="dashboard-item-list">
                         {{ approveOrganizationMembershipRequestConfirmationPopupData|json_script:"approveOrganizationMembershipRequestConfirmationPopupData" }}
                         {{ denyOrganizationMembershipRequestConfirmationPopupData|json_script:"denyOrganizationMembershipRequestConfirmationPopupData" }}

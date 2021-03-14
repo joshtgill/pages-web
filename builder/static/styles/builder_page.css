@@ -85,6 +85,11 @@
     margin: 3vh 0 0 0;
 }
 
+.content form .actions button {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .content form .actions #savePageButton {
     color: rgb(255, 255, 255);
     background-color: rgb(30, 30, 30);

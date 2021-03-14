@@ -16,7 +16,7 @@
                     <h3>Organization applications</h3>
                     <div class="dashboard-item-list">
                         {% for organizationApplication in organizationApplications %}
-                            <div class="organization"
+                            <div class="dashboard-item-list-entry"
                             {% if forloop.counter == organizationApplications|length %}
                                 style="margin-bottom: 0"
                             {% endif %}
@@ -53,7 +53,7 @@
                     <div class="dashboard-item-list">
                         {{ organizationDeleteConfirmationPopupData|json_script:"organizationDeleteConfirmationPopupData" }}
                         {% for organization in organizations %}
-                            <div class="organization"
+                            <div class="dashboard-item-list-entry"
                             {% if forloop.counter == organizations|length %}
                                 style="margin-bottom: 0"
                             {% endif %}

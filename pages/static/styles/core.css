@@ -149,6 +149,41 @@ body {
     margin: 0 20px 20px 20px;
 }
 
+.dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 20px 0 28px 0;
+}
+
+.dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry h4 {
+    margin: 0 0 10px 0;
+    font-size: 30px;
+    font-weight: normal;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .details {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .details h5 {
+    margin: 5px 10px 5px 0;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .actions {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0 0 0;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .actions a {
+    margin: 0 20px;
+    font-size: 20px;
+}
+
 .dashboard .dashboard-item .dashboard-item-list hr {
     width: 100%;
     margin: 0 auto 0 auto;
@@ -158,5 +193,14 @@ body {
 @media only screen and (min-width: 580px) {
     .top-nav .left {
         display: block;
+    }
+
+    .content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .actions {
+        display: flex;
+        justify-content: left;
+    }
+
+    .content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .actions a {
+        margin: 0 20px 0 0;
     }
 }
