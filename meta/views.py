@@ -10,7 +10,21 @@ from builder.models import Organization, OrganizationApplication
 
 
 def home(request):
-    return render(request, 'home.html')
+    if request.method == 'GET':
+        return render(request, 'home.html', {'leaveOrganizationConfirmationPopupData': {'prompt': None,
+                                                                                        'confirmButtonText': 'Leave',
+                                                                                        'formName': 'organizationIdToLeave',
+                                                                                        'formValue': None,
+                                                                                        'dismissButtonText': 'Cancel'}})
+
+    leaveOrganizationForm = LeaveOrganizationForm(request.POST)
+    if not leaveOrganizationForm.is_valid():
+        return redirect('/')
+
+    organizationToLeave = Organization.objects.get(id=leaveOrganizationForm.cleaned_data['organizationIdToLeave'])
+    request.user.profile.memberships.remove(organizationToLeave)
+
+    return redirect('/')
 
 
 def createAccount(request):

@@ -173,6 +173,22 @@ body {
     font-weight: normal;
 }
 
+.content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .icon-name {
+    display: flex;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .icon-name img {
+    width: 25px;
+    height: 25px;
+}
+
+.content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .icon-name h4 {
+    margin: 0 0 0 10px;
+    padding: 0;
+    font-size: 22px;
+    font-weight: normal;
+}
+
 .content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .actions {
     display: flex;
     justify-content: center;
@@ -182,6 +198,7 @@ body {
 .content .dashboard .dashboard-item .dashboard-item-list .dashboard-item-list-entry .actions a {
     margin: 0 20px;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .dashboard .dashboard-item .dashboard-item-list hr {

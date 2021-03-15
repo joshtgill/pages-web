@@ -58,3 +58,7 @@ class OrganizationApplicationDenyForm(forms.Form):
 
 class OrganizationDeleteForm(forms.Form):
     organizationIdToDelete = forms.IntegerField()
+
+
+class LeaveOrganizationForm(forms.Form):
+    organizationIdToLeave = forms.IntegerField()
