@@ -10,19 +10,21 @@
 
         <div class="content">
             <div class="dashboard">
-                <div class="dashboard-item" style="max-width: 400px">
+                <div class="item" style="max-width: 400px">
                     <h3>Memberships</h3>
-                    <div class="dashboard-item-list">
+                    <div class="list">
                         {{ leaveOrganizationConfirmationPopupData|json_script:"leaveOrganizationConfirmationPopupData" }}
                         {% for membership in request.user.profile.memberships.all %}
-                            <div class="dashboard-item-list-entry"
                             {% if forloop.counter == request.user.profile.memberships.all|length %}
-                                style="margin-bottom: 0"
+                            <div class="element" style="margin-bottom: 5px">
+                            {% else %}
+                            <div class="element">
                             {% endif %}
-                            >
-                                <div class="icon-name">
-                                   <img src="{% static 'images/earth.png' %}" alt="earth">
-                                   <h4>{{ membership.name }}</h4>
+                                <div class="info">
+                                    <div class="iconname">
+                                        <img src="{% static 'images/earth.png' %}" alt="earth">
+                                        <h4>{{ membership.name }}</h4>
+                                    </div>
                                 </div>
                                 <div class="actions">
                                     <a onclick="confirmationPopup.display('leaveOrganizationConfirmationPopupData',

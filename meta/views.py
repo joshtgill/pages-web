@@ -143,10 +143,20 @@ def staff(request):
 
     if request.method == 'GET':
         content.update({'organizationApplications': OrganizationApplication.objects.all(),
-                        'organizationDeleteConfirmationPopupData': {'prompt': 'Permanently delete this organization?',
+                        'organizationApplicationApproveConfirmationPopupData': {'prompt': None,
+                                                                                'confirmButtonText': 'Approve',
+                                                                                'formName': 'organizationApplicationIdToApprove',
+                                                                                'formValue': None,
+                                                                                'dismissButtonText': 'Cancel'},
+                        'organizationApplicationDenyConfirmationPopupData': {'prompt': None,
+                                                                             'confirmButtonText': 'Deny',
+                                                                             'formName': 'organizationApplicationIdToDeny',
+                                                                             'formValue': None,
+                                                                             'dismissButtonText': 'Cancel'},
+                        'organizationDeleteConfirmationPopupData': {'prompt': None,
                                                                    'confirmButtonText': 'Delete',
                                                                    'formName': 'organizationIdToDelete',
-                                                                   'formValue': -1, # Will be overriden in template
+                                                                   'formValue': None, # Will be overriden in template
                                                                    'dismissButtonText': 'Cancel'}})
         return render(request, 'staff.html', content)
 

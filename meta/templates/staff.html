@@ -12,34 +12,34 @@
             <h1>Staff</h1>
             <h2>Manage organizations, users, or individual pages.</h2>
             <div class="dashboard">
-                <div class="dashboard-item">
+                <div class="item">
                     <h3>Organization applications</h3>
-                    <div class="dashboard-item-list">
+                    <div class="list">
+                        {{ organizationApplicationApproveConfirmationPopupData|json_script:"organizationApplicationApproveConfirmationPopupData" }}
+                        {{ organizationApplicationDenyConfirmationPopupData|json_script:"organizationApplicationDenyConfirmationPopupData" }}
                         {% for organizationApplication in organizationApplications %}
-                            <div class="dashboard-item-list-entry"
                             {% if forloop.counter == organizationApplications|length %}
-                                style="margin-bottom: 0"
+                            <div class="element" style="margin-bottom: 5px">
+                            {% else %}
+                            <div class="element">
                             {% endif %}
-                            >
                                 <h4>{{ organizationApplication.name }}</h4>
                                 <div class="details">
                                     <h5><b>Applicant:</b> {{ organizationApplication.applicant.get_full_name }}</h5>
                                 </div>
                                 <div class="actions">
-                                    <form id="approveForm" method="POST">
-                                        {% csrf_token %}
-                                        <input class="hidden" name="organizationApplicationIdToApprove" value="{{ organizationApplication.id }}">
-                                        <a onclick="document.getElementById('approveForm').submit()">
-                                            Approve
-                                        </a>
-                                    </form>
-                                    <form id="denyForm" method="POST">
-                                        {% csrf_token %}
-                                        <input class="hidden" name="organizationApplicationIdToDeny" value="{{ organizationApplication.id }}">
-                                        <a onclick="document.getElementById('denyForm').submit()">
-                                            Deny
-                                        </a>
-                                    </form>
+                                    <a onclick="confirmationPopup.display('organizationApplicationApproveConfirmationPopupData',
+                                                                          null,
+                                                                          {{ organizationApplication.id }},
+                                                                          'Approve <b>{{ organizationApplication.name }}</b> as an organization?')">
+                                        Approve
+                                    </a>
+                                    <a onclick="confirmationPopup.display('organizationApplicationDenyConfirmationPopupData',
+                                                                          null,
+                                                                          {{ organizationApplication.id }},
+                                                                          'Deny <b>{{ organizationApplication.name }}</b> as an organization?')">
+                                        Deny
+                                    </a>
                                 </div>
                             </div>
                             {% if forloop.counter < organizationApplications|length %}
@@ -48,19 +48,21 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="dashboard-item">
+                <div class="item">
                     <h3>Organizations</h3>
-                    <div class="dashboard-item-list">
+                    <div class="list">
                         {{ organizationDeleteConfirmationPopupData|json_script:"organizationDeleteConfirmationPopupData" }}
                         {% for organization in organizations %}
-                            <div class="dashboard-item-list-entry"
                             {% if forloop.counter == organizations|length %}
-                                style="margin-bottom: 0"
+                            <div class="element" style="margin-bottom: 5px">
+                            {% else %}
+                            <div class="element">
                             {% endif %}
-                            >
-                                <h4>{{ organization.name }}</h4>
-                                <div class="details">
-                                    <h5><b>Owner:</b> {{ organization.owner.get_full_name }}</h5>
+                                <div class="info">
+                                    <h4>{{ organization.name }}</h4>
+                                    <div class="details">
+                                        <h5><b>Owner:</b> {{ organization.owner.get_full_name }}</h5>
+                                    </div>
                                 </div>
                                 <div class="actions">
                                     <a onclick="confirmationPopup.display('organizationDeleteConfirmationPopupData',
