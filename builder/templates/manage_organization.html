@@ -1,7 +1,7 @@
 <html>
     {% load static %}
     <head>
-        <title>Manage {{ request.user.profile.organization.name }}</title>
+        <title>Manage organization</title>
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/manage_organization.css' %}">
     </head>
@@ -24,13 +24,13 @@
                 </div>
                 <a href="{% url 'edit_organization' %}">Edit organization</a>
             </div>
-            <div class="dashboard">
+            <div class="dashboard" style="max-width: 850px">
                 <div class="item">
                     <h3>Active pages</h3>
                     <div class="list">
                         {% for activePageData in activePagesData %}
                             {% if forloop.counter == activePagesData|length %}
-                            <div class="element" style="margin-bottom: 5px">
+                            <div class="element" style="margin-bottom: 7px">
                             {% else %}
                             <div class="element">
                             {% endif %}
@@ -64,14 +64,14 @@
                         {{ denyOrganizationMembershipRequestConfirmationPopupData|json_script:"denyOrganizationMembershipRequestConfirmationPopupData" }}
                         {% for organizationMembershipRequest in organizationMembershipRequests %}
                             {% if forloop.counter == organizationMembershipRequests|length %}
-                            <div class="element" style="margin-bottom: 5px">
+                            <div class="element" style="margin-bottom: 7px">
                             {% else %}
                             <div class="element">
                             {% endif %}
                                 <div class="info">
                                     <div class="iconname">
                                         <img src="{% static 'images/earth.png' %}" alt="earth">
-                                        <h4>{{ organizationMembershipRequest.approvee.get_full_name }}<h4>
+                                        <h4>{{ organizationMembershipRequest.approvee.get_full_name }}</h4>
                                     </div>
                                 </div>
                                 <div class="actions">

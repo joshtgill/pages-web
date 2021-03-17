@@ -12,14 +12,45 @@
             <h1>Staff</h1>
             <h2>Manage organizations, users, or individual pages.</h2>
             <div class="dashboard">
-                <div class="item">
+                <div class="item" style="max-width: 700px">
+                    <h3>Organizations</h3>
+                    <div class="list">
+                        {{ organizationDeleteConfirmationPopupData|json_script:"organizationDeleteConfirmationPopupData" }}
+                        {% for organization in organizations %}
+                            {% if forloop.counter == organizations|length %}
+                            <div class="element" style="margin-bottom: 7px">
+                            {% else %}
+                            <div class="element">
+                            {% endif %}
+                                <div class="info">
+                                    <h4>{{ organization.name }}</h4>
+                                    <div class="details">
+                                        <h5><b>Owner:</b> {{ organization.owner.get_full_name }}</h5>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <a onclick="confirmationPopup.display('organizationDeleteConfirmationPopupData',
+                                                                          null,
+                                                                          {{ organization.id }},
+                                                                          'Permanently delete <b>{{ organization.name }}</b> as an organization?')">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                            {% if forloop.counter < organizations|length %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="item" style="max-width: 400px">
                     <h3>Organization applications</h3>
                     <div class="list">
                         {{ organizationApplicationApproveConfirmationPopupData|json_script:"organizationApplicationApproveConfirmationPopupData" }}
                         {{ organizationApplicationDenyConfirmationPopupData|json_script:"organizationApplicationDenyConfirmationPopupData" }}
                         {% for organizationApplication in organizationApplications %}
                             {% if forloop.counter == organizationApplications|length %}
-                            <div class="element" style="margin-bottom: 5px">
+                            <div class="element" style="margin-bottom: 7px">
                             {% else %}
                             <div class="element">
                             {% endif %}
@@ -43,37 +74,6 @@
                                 </div>
                             </div>
                             {% if forloop.counter < organizationApplications|length %}
-                                <hr>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="item">
-                    <h3>Organizations</h3>
-                    <div class="list">
-                        {{ organizationDeleteConfirmationPopupData|json_script:"organizationDeleteConfirmationPopupData" }}
-                        {% for organization in organizations %}
-                            {% if forloop.counter == organizations|length %}
-                            <div class="element" style="margin-bottom: 5px">
-                            {% else %}
-                            <div class="element">
-                            {% endif %}
-                                <div class="info">
-                                    <h4>{{ organization.name }}</h4>
-                                    <div class="details">
-                                        <h5><b>Owner:</b> {{ organization.owner.get_full_name }}</h5>
-                                    </div>
-                                </div>
-                                <div class="actions">
-                                    <a onclick="confirmationPopup.display('organizationDeleteConfirmationPopupData',
-                                                                          null,
-                                                                          {{ organization.id }},
-                                                                          'Permanently delete <b>{{ organization.name }}</b> as an organization?')">
-                                        Delete
-                                    </a>
-                                </div>
-                            </div>
-                            {% if forloop.counter < organizations|length %}
                                 <hr>
                             {% endif %}
                         {% endfor %}

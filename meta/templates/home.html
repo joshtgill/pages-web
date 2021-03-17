@@ -9,6 +9,8 @@
         {% include 'core.html' %}
 
         <div class="content">
+            <h1>Hello again</h1>
+            <h2>Looks like you have some notifications.</h2>
             <div class="dashboard">
                 <div class="item" style="max-width: 400px">
                     <h3>Memberships</h3>
@@ -16,7 +18,7 @@
                         {{ leaveOrganizationConfirmationPopupData|json_script:"leaveOrganizationConfirmationPopupData" }}
                         {% for membership in request.user.profile.memberships.all %}
                             {% if forloop.counter == request.user.profile.memberships.all|length %}
-                            <div class="element" style="margin-bottom: 5px">
+                            <div class="element" style="margin-bottom: 7px">
                             {% else %}
                             <div class="element">
                             {% endif %}

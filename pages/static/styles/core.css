@@ -122,8 +122,10 @@ body {
 
 .dashboard {
     width: 100vw;
+    max-width: 1200px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    align-items: flex-start;
     flex-wrap: wrap;
     margin: 0 0 5vh 0;
 }
@@ -133,7 +135,7 @@ body {
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    margin: 5vh 0 0 0;
+    margin: 5vh auto 0 auto;
     border: 1px solid rgb(200, 200, 200);
     border-radius: 15px;
 }
@@ -199,12 +201,10 @@ body {
 
 .dashboard .item .list .element .actions {
     display: flex;
-    height: 100%;
     margin-top: 20px;
 }
 
 .dashboard .item .list .element .actions a {
-    height: 100%;
     display: flex;
     align-items: center;
     margin: 0 20px;
