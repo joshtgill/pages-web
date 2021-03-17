@@ -38,5 +38,9 @@ class DenyOrganizationMembershipRequestForm(forms.Form):
     organizationMembershipRequestIdToDeny = forms.IntegerField()
 
 
+class RevokeOrganizationMembershipForm(forms.Form):
+    userIdToRevoke = forms.IntegerField()
+
+
 class LeaveOrganizationForm(forms.Form):
     leaveOrganization = forms.BooleanField()

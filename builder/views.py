@@ -139,6 +139,7 @@ def manageOrganization(request):
     if request.method == 'GET':
         content = {'activePagesData': buildOrganizationsPagesData(request.user.profile.organization),
                    'organizationMembershipRequests': OrganizationMembershipRequest.objects.all(),
+                   'organizationMembers': getOrganizationMembers(request.user.profile.organization),
                    'approveOrganizationMembershipRequestConfirmationPopupData': {'prompt': None,
                                                                                  'confirmButtonText': 'Approve',
                                                                                  'formName': 'organizationMembershipRequestIdToApprove',
@@ -149,7 +150,12 @@ def manageOrganization(request):
                                                                               'formName': 'organizationMembershipRequestIdToDeny',
                                                                               'formValue': None,
                                                                               'dismissButtonText': 'Cancel'},
-                   'leaveOrganizationConfirmationPopupData': {'prompt': 'Leave {}?'.format(request.user.profile.organization.name),
+                   'revokeOrganizationMembershipConfirmationPopupData': {'prompt': None,
+                                                                         'confirmButtonText': 'Revoke',
+                                                                         'formName': 'userIdToRevoke',
+                                                                         'formValue': None,
+                                                                         'dismissButtonText': 'Cancel'},
+                   'leaveOrganizationConfirmationPopupData': {'prompt': 'Leave <b>{}</b>?'.format(request.user.profile.organization.name),
                                                               'confirmButtonText': 'Leave',
                                                               'formName': 'leaveOrganization',
                                                               'formValue': True,
@@ -168,13 +174,17 @@ def manageOrganization(request):
         # Grant membership to user
         User.objects.get(id=organizationMembershipRequest.approvee.id).profile.memberships.add(request.user.profile.organization)
         organizationMembershipRequest.delete()
-
         return redirect('/create/manage/')
 
     denyOrganizationMembershipRequestForm = DenyOrganizationMembershipRequestForm(request.POST)
     if denyOrganizationMembershipRequestForm.is_valid():
         organizationMembershipRequest = OrganizationMembershipRequest.objects.get(id=denyOrganizationMembershipRequestForm.cleaned_data['organizationMembershipRequestIdToDeny'])
         organizationMembershipRequest.delete()
+        return redirect('/create/manage/')
+
+    revokeOrganizationMembershipForm = RevokeOrganizationMembershipForm(request.POST)
+    if revokeOrganizationMembershipForm.is_valid():
+        User.objects.get(id=revokeOrganizationMembershipForm.cleaned_data['userIdToRevoke']).profile.memberships.remove(request.user.profile.organization)
 
     return redirect('/create/manage/')
 
@@ -199,3 +209,12 @@ def editOrganization(request):
         return redirect('/create/manage/')
 
     return render(request, 'edit_organization.html')
+
+
+def getOrganizationMembers(organization):
+    members = []
+    for profile in Profile.objects.all():
+        if organization in profile.memberships.all():
+            members.append(profile.user)
+
+    return members
