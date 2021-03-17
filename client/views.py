@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from builder.models import Organization, Page, SheetItem, OrganizationMembershipRequest
+from builder.models import Organization, Page, SheetItem, Membership
 from django.core.exceptions import ObjectDoesNotExist
+import datetime
 
 
 def explore(request):
@@ -22,12 +23,12 @@ def explore(request):
         requestApprovalForm = RequestApprovalForm(request.POST)
         if requestApprovalForm.is_valid():
             # Submit approval
-            organizationMembershipRequest = OrganizationMembershipRequest(organization=organization, approvee=request.user)
-            organizationMembershipRequest.save()
+            membership = Membership(user=request.user, organization=organization, relatedDate=datetime.date.today())
+            membership.save()
             return redirect('/profile/')
 
         content = {'organization': organization, 'pagesData': buildOrganizationPagesData(organization)}
-        if organization.private and not organization in request.user.profile.memberships.all():
+        if organization.private and not Membership.objects.filter(user=request.user, organization=organization, approved=True).count():
             content.update({'requestApprovalData': {'prompt': '''{} requires approval to view its Pages.
                                                                  <br><br>Would you like to request approval?'''.format(organization.name),
                                                     'confirmButtonText': 'Request',

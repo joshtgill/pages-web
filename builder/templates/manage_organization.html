@@ -21,6 +21,7 @@
                             Public
                         {% endif %}
                     </h3>
+                    <h3><b>Members: </b>{{ numOrganizationsMemberships }}</h3>
                 </div>
                 <a href="{% url 'edit_organization' %}">Edit organization</a>
             </div>
@@ -30,7 +31,7 @@
                     <div class="list">
                         {% for activePageData in activePagesData %}
                             {% if forloop.counter == activePagesData|length %}
-                            <div class="element" style="margin-bottom: 7px">
+                            <div class="element" style="margin-bottom: 5px">
                             {% else %}
                             <div class="element">
                             {% endif %}
@@ -58,34 +59,34 @@
                     </div>
                 </div>
                 <div class="item" style="max-width: 400px">
-                    <h3>Membership requests</h3>
+                    <h3>Member requests</h3>
                     <div class="list">
-                        {{ approveOrganizationMembershipRequestConfirmationPopupData|json_script:"approveOrganizationMembershipRequestConfirmationPopupData" }}
-                        {{ denyOrganizationMembershipRequestConfirmationPopupData|json_script:"denyOrganizationMembershipRequestConfirmationPopupData" }}
-                        {% for organizationMembershipRequest in organizationMembershipRequests %}
-                            {% if forloop.counter == organizationMembershipRequests|length %}
-                            <div class="element" style="margin-bottom: 7px">
+                        {{ approveMembershipConfirmationPopupData|json_script:"approveMembershipConfirmationPopupData" }}
+                        {{ denyMembershipConfirmationPopupData|json_script:"denyMembershipConfirmationPopupData" }}
+                        {% for membership in memberships %}
+                            {% if forloop.counter == memberships|length %}
+                            <div class="element" style="margin-bottom: 5px">
                             {% else %}
                             <div class="element">
                             {% endif %}
                                 <div class="info">
                                     <div class="iconname">
                                         <img src="{% static 'images/earth.png' %}" alt="earth">
-                                        <h4>{{ organizationMembershipRequest.approvee.get_full_name }}</h4>
+                                        <h4>{{ membership.user.get_full_name }}</h4>
                                     </div>
                                 </div>
                                 <div class="actions">
-                                    <a onclick="confirmationPopup.display('approveOrganizationMembershipRequestConfirmationPopupData',
+                                    <a onclick="confirmationPopup.display('approveMembershipConfirmationPopupData',
                                                                           null,
-                                                                          {{ organizationMembershipRequest.id }},
-                                                                          'Approve <b>{{ organizationMembershipRequest.approvee.get_full_name }}</b> to become a member of <b>{{ request.user.profile.organization.name }}</b>?')">Approve</a>
-                                    <a onclick="confirmationPopup.display('denyOrganizationMembershipRequestConfirmationPopupData',
+                                                                          {{ membership.id }},
+                                                                          'Approve <b>{{ membership.user.get_full_name }}</b> as a member of <b>{{ request.user.profile.organization.name }}</b>?')">Approve</a>
+                                    <a onclick="confirmationPopup.display('denyMembershipConfirmationPopupData',
                                                                           null,
-                                                                          {{ organizationMembershipRequest.id }},
-                                                                          'Deny <b>{{ organizationMembershipRequest.approvee.get_full_name }}</b> to become a member of <b>{{ request.user.profile.organization.name }}</b>?')">Deny</a>
+                                                                          {{ membership.id }},
+                                                                          'Deny <b>{{ membership.user.get_full_name }}</b> as a member of <b>{{ request.user.profile.organization.name }}</b>?')">Deny</a>
                                 </div>
                             </div>
-                            {% if forloop.counter < organizationMembershipRequests|length %}
+                            {% if forloop.counter < memberships|length %}
                                 <hr>
                             {% endif %}
                         {% endfor %}
@@ -94,29 +95,29 @@
                 <div class="item" style="max-width: 350px">
                     <h3>Members</h3>
                     <div class="list">
-                        {{ revokeOrganizationMembershipConfirmationPopupData|json_script:"revokeOrganizationMembershipConfirmationPopupData" }}
+                        {{ revokeMembershipConfirmationPopupData|json_script:"revokeMembershipConfirmationPopupData" }}
                         {% for organizationMember in organizationMembers %}
                             {% if forloop.counter == organizationMembers|length %}
-                            <div class="element" style="margin-bottom: 7px">
+                            <div class="element" style="margin-bottom: 5px">
                             {% else %}
                             <div class="element">
                             {% endif %}
                                 <div class="info">
                                     <div class="iconname">
                                         <img src="{% static 'images/earth.png' %}" alt="earth">
-                                        <h4>{{ organizationMember.get_full_name }}</h4>
+                                        <h4>{{ organizationMember.user.get_full_name }}</h4>
                                     </div>
                                 </div>
                                 <div class="actions">
-                                    <a onclick="confirmationPopup.display('revokeOrganizationMembershipConfirmationPopupData',
+                                    <a onclick="confirmationPopup.display('revokeMembershipConfirmationPopupData',
                                                                           null,
                                                                           {{ organizationMember.id }},
-                                                                          'Revoke <b>{{ organizationMember.get_full_name }}\'s</b> membership for <b>{{ request.user.profile.organization.name }}</b>')">
+                                                                          'Revoke <b>{{ organizationMember.user.get_full_name }}</b> as a member of <b>{{ request.user.profile.organization.name }}</b>?')">
                                         Revoke
                                     </a>
                                 </div>
                             </div>
-                            {% if forloop.counter < organizationMembershipRequests|length %}
+                            {% if forloop.counter < organizationMembers|length %}
                                 <hr>
                             {% endif %}
                         {% endfor %}

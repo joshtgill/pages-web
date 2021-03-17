@@ -18,7 +18,7 @@
                         {{ organizationDeleteConfirmationPopupData|json_script:"organizationDeleteConfirmationPopupData" }}
                         {% for organization in organizations %}
                             {% if forloop.counter == organizations|length %}
-                            <div class="element" style="margin-bottom: 7px">
+                            <div class="element" style="margin-bottom: 5px">
                             {% else %}
                             <div class="element">
                             {% endif %}
@@ -50,7 +50,7 @@
                         {{ organizationApplicationDenyConfirmationPopupData|json_script:"organizationApplicationDenyConfirmationPopupData" }}
                         {% for organizationApplication in organizationApplications %}
                             {% if forloop.counter == organizationApplications|length %}
-                            <div class="element" style="margin-bottom: 7px">
+                            <div class="element" style="margin-bottom: 5px">
                             {% else %}
                             <div class="element">
                             {% endif %}

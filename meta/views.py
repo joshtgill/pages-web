@@ -6,23 +6,23 @@ import django.contrib.auth as djangoAuth
 from django.core.exceptions import ObjectDoesNotExist
 from builder.models import Profile
 from django.contrib.admin.views.decorators import staff_member_required
-from builder.models import Organization, OrganizationApplication
+from builder.models import Organization, OrganizationApplication, Membership
 
 
 def home(request):
     if request.method == 'GET':
-        return render(request, 'home.html', {'leaveOrganizationConfirmationPopupData': {'prompt': None,
+        return render(request, 'home.html', {'memberships': Membership.objects.filter(user=request.user, approved=True),
+                                             'leaveOrganizationConfirmationPopupData': {'prompt': None,
                                                                                         'confirmButtonText': 'Leave',
-                                                                                        'formName': 'organizationIdToLeave',
+                                                                                        'formName': 'membershipIdToEnd',
                                                                                         'formValue': None,
                                                                                         'dismissButtonText': 'Cancel'}})
 
-    leaveOrganizationForm = LeaveOrganizationForm(request.POST)
-    if not leaveOrganizationForm.is_valid():
+    endMembershipForm = EndMembershipForm(request.POST)
+    if not endMembershipForm.is_valid():
         return redirect('/')
 
-    organizationToLeave = Organization.objects.get(id=leaveOrganizationForm.cleaned_data['organizationIdToLeave'])
-    request.user.profile.memberships.remove(organizationToLeave)
+    Membership.objects.get(id=endMembershipForm.cleaned_data['membershipIdToEnd']).delete()
 
     return redirect('/')
 

@@ -30,16 +30,16 @@ class OrganizationEditForm(forms.Form):
     private = forms.BooleanField(required=False)
 
 
-class ApproveOrganizationMembershipRequestForm(forms.Form):
-    organizationMembershipRequestIdToApprove = forms.IntegerField()
+class ApproveMembershipForm(forms.Form):
+    membershipIdToApprove = forms.IntegerField()
 
 
-class DenyOrganizationMembershipRequestForm(forms.Form):
-    organizationMembershipRequestIdToDeny = forms.IntegerField()
+class DenyMembershipForm(forms.Form):
+    membershipIdToDeny = forms.IntegerField()
 
 
-class RevokeOrganizationMembershipForm(forms.Form):
-    userIdToRevoke = forms.IntegerField()
+class RevokeMembershipForm(forms.Form):
+    membershipIdToRevoke = forms.IntegerField()
 
 
 class LeaveOrganizationForm(forms.Form):
