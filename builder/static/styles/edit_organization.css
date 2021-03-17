@@ -64,7 +64,7 @@
 }
 
 .content form .private-container .switch input:checked + .slider {
-    background-color: rgb(71,184,93);
+    background-color: rgb(88, 184, 106);
 }
 
 .content form .private-container .switch input:focus + .slider {

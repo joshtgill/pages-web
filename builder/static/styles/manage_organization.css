@@ -25,43 +25,6 @@
     margin: 10px 0 0 0;
 }
 
-.content .dashboard .item .list .approvee {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-    padding: 0;
-    text-decoration: none;
-}
-
-.content .dashboard .item .list .approvee .icon-name {
-    display: flex;
-}
-
-.content .dashboard .item .list .approvee .icon-name img {
-    width: 25px;
-    height: 25px;
-}
-
-.content .dashboard .item .list .approvee .icon-name h4 {
-    margin: 0 0 0 10px;
-    padding: 0;
-    font-size: 22px;
-    font-weight: normal;
-}
-
-.content .dashboard .item .list .approvee .actions {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0 0 0;
-}
-
-.content .dashboard .item .list .approvee .actions a {
-    margin: 0 20px;
-    font-size: 17px;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
 @media only screen and (min-width: 580px) {
     .content .stats-container .stats-bar {
         padding: 0;
