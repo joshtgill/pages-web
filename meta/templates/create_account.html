@@ -9,33 +9,22 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <div class="login-container">
-                <h1>Hello there.</h1>
-                {% if errorInfo %}
-                    <h2>
-                        {{ errorInfo.message }}
-                        {% if errorInfo.linkText %}
-                            <a href="{% url errorInfo.linkAddress %}">{{ errorInfo.linkText }}</a>.
-                        {% endif %}
-                    </h2>
-                {% endif %}
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <div class="first-last-name">
-                        {{ createAccountForm.firstName }}
-                        {{ createAccountForm.lastName }}
-                    </div>
-                    {{ createAccountForm.email }}
-                    {{ createAccountForm.password }}
-                    {{ createAccountForm.repeatPassword }}
-
-                    <button type="submit">Create account</button>
-                </form>
-                <div class="help">
-                    {% if errorInfo.linkAddress != 'login' %}
-                        <a href="{% url 'login' %}">Login</a>
-                    {% endif %}
+            <h1>Hello there.</h1>
+            <h2>Let's get you an account.</h2>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="firstlast-name">
+                    {{ createAccountForm.firstName }}
+                    {{ createAccountForm.lastName }}
                 </div>
+                {{ createAccountForm.email }}
+                {{ createAccountForm.password }}
+                {{ createAccountForm.repeatPassword }}
+
+                <button class="action-button" type="submit">Create account</button>
+            </form>
+            <div class="actions">
+                <a href="{% url 'login' %}">Login</a>
             </div>
         </div>
     </body>

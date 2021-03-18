@@ -41,16 +41,12 @@ def createAccount(request):
     # Verify that form email is not already registered
     email = submittedCreateAccountForm.cleaned_data['email']
     if User.objects.filter(email=email):
-        return render(request, 'create_account.html', {'createAccountForm': submittedCreateAccountForm,
-                                                       'errorInfo': {'message': 'Account already exists.',
-                                                                     'linkText': 'Login',
-                                                                     'linkAddress': 'login'}})
+        return render(request, 'create_account.html', {'createAccountForm': submittedCreateAccountForm})
 
     # Verify that form passwords match
     password = submittedCreateAccountForm.cleaned_data['password']
     if password != submittedCreateAccountForm.cleaned_data['repeatPassword']:
-        return render(request, 'create_account.html', {'createAccountForm': submittedCreateAccountForm,
-                                                       'errorInfo': {'message': 'Passwords did not match. Try again.'}})
+        return render(request, 'create_account.html', {'createAccountForm': submittedCreateAccountForm})
 
     createUser = User.objects.create_user(uuid.uuid4(), email, password)
     createUser.first_name = submittedCreateAccountForm.cleaned_data['firstName']
@@ -80,16 +76,12 @@ def login(request):
     try:
         username = User.objects.get(email=submittedLoginForm.cleaned_data['email']).username
     except ObjectDoesNotExist:
-        return render(request, 'login.html', {'loginForm': emptyLoginForm, 'errorInfo': {'message': 'Account not found.',
-                                                                                         'linkText': 'Create an account',
-                                                                                         'linkAddress': 'create_account'}})
+        return render(request, 'login.html', {'loginForm': emptyLoginForm})
 
     # Attempt to authenticate username and password
     loginUser = djangoAuth.authenticate(request, username=username, password=submittedLoginForm.cleaned_data['password'])
     if not loginUser:
-        return render(request, 'login.html', {'loginForm': submittedLoginForm, 'errorInfo': {'message': 'Incorrect password.',
-                                                                                             'linkText': 'Reset password',
-                                                                                             'linkAddress': 'home'}})
+        return render(request, 'login.html', {'loginForm': submittedLoginForm})
 
     djangoAuth.login(request, loginUser)
 

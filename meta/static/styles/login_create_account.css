@@ -1,71 +1,46 @@
-.content .login-container {
-    position: relative;
-    top: 5vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto 0 auto;
-}
-
-.content .login-container h1 {
-    margin: 0 0 2vmax 0;
-    font-size: 50px;
-    font-weight: normal;
-}
-
-.content .login-container h2 {
-    width: 100%;
-    margin: 1vh 0 1vh 0;
-    padding: 10px 0 10px 0;
-    font-size: 20px;
-    font-weight: normal;
-    text-align: center;
-    color: rgb(255, 255, 255);
-    background-color: rgb(240, 55, 55);
-    border-radius: 7px;
-}
-
-.content .login-container h2 a {
-    color: rgb(255, 255, 255);
-}
-
-.content .login-container form {
+.content form {
     width: 90vw;
     max-width: 500px;
     display: flex;
     flex-direction: column;
-    margin: 0;
+    align-items: center;
+    margin: 4vh 0 0 0;
 }
 
-.content .login-container form .first-last-name {
+.content form input {
+    width: 100%;
+}
+
+.content form button {
+    margin: 4vh 0 2vh 0 ;
+}
+
+.content form .firstlast-name {
     display: flex;
     flex-direction: column;
 }
 
-.content .login-container .help {
+.content .actions {
     display: flex;
+    justify-content: center;
 }
 
-.content .login-container .help a {
+.content .actions a {
     margin: 1vh 10px 0 10px;
     font-size: 18px;
 }
 
 @media only screen and (min-width: 580px) {
-    .content .login-container {
-        top: 12vh;
-    }
-
-    .content .login-container form input {
+    .content form input {
         margin: 1.5vh 0 1.5vh 0;
     }
 
-    .content .login-container form .first-last-name {
+    .content form .firstlast-name {
         flex-direction: row;
         justify-content: space-between;
     }
 
-    .content .login-container form .first-last-name input {
+    .content form .firstlast-name input {
         width: 48%;
     }
 }

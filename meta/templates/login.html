@@ -9,27 +9,16 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <div class="login-container">
-                <h1>Hello there.</h1>
-                {% if errorInfo %}
-                    <h2>
-                        {{ errorInfo.message }}
-                        <a href="{% url errorInfo.linkAddress %}">{{ errorInfo.linkText }}</a>.
-                    </h2>
-                {% endif %}
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    {{ loginForm }}
-                    <button type="submit">Login</button>
-                </form>
-                <div class="help">
-                    {% if errorInfo.linkAddress != 'home' %}
-                        <a href="{% url 'home' %}">Reset password</a>
-                    {% endif %}
-                    {% if errorInfo.linkAddress != 'create_account' %}
-                        <a href="{% url 'create_account' %}">Create account</a>
-                    {% endif %}
-                </div>
+            <h1>Hello there.</h1>
+            <h2>Let's get you signed in.</h2>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ loginForm }}
+                <button class="action-button" type="submit">Login</button>
+            </form>
+            <div class="actions">
+                <a href="{% url 'home' %}">Reset password</a>
+                <a href="{% url 'create_account' %}">Create account</a>
             </div>
         </div>
     </body>
