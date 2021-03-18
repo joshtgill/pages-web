@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from builder.models import Profile
 from django.contrib.admin.views.decorators import staff_member_required
 from builder.models import Organization, OrganizationApplication, Membership
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -95,6 +96,7 @@ def login(request):
     return redirect('/profile/')
 
 
+@login_required
 def profile(request):
     content = {'changeEmailForm': ChangeEmailForm(),
                'logoutPopupData': {'prompt': 'Logout of <b>{}</b>?'.format(request.user.email),

@@ -133,3 +133,5 @@ STATICFILES_DIRS = [
     BASE_DIR / 'builder/static/',
     BASE_DIR / 'client/static/'
 ]
+
+LOGIN_URL = '/login/'

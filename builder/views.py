@@ -4,12 +4,14 @@ from .forms import *
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 def create(request):
     return render(request, 'create_pitch.html')
 
 
+@login_required
 def selectOrganization(request):
     organizations = Organization.objects.all()
     content = {'selectOrganizationForm': SelectOrganizationForm(organizations=organizations)}
@@ -26,6 +28,7 @@ def selectOrganization(request):
     return redirect('/create/')
 
 
+@login_required
 def applyOrganization(request):
     if request.method == 'GET':
         return render(request, 'apply_organization.html', {'applyOrganizationForm': ApplyOrganizationForm()})
@@ -41,6 +44,7 @@ def applyOrganization(request):
     return redirect('/profile/')
 
 
+@login_required
 def builder(request):
     if request.method == 'GET':
         pageListings = PageListing.objects
@@ -135,6 +139,7 @@ def handleSheetItemsUpdates(pagePostData, page):
         sheetItem.save()
 
 
+@login_required
 def manageOrganization(request):
     if request.method == 'GET':
         content = {'numOrganizationsMemberships': len(Membership.objects.filter(organization=request.user.profile.organization, approved=True)),
@@ -202,6 +207,7 @@ def buildOrganizationsPagesData(organization):
     return organizationsPagesData
 
 
+@login_required
 def editOrganization(request):
     if request.method == 'POST':
         organizationEditForm = OrganizationEditForm(request.POST)

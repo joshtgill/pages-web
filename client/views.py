@@ -3,6 +3,7 @@ from .forms import *
 from builder.models import Organization, Page, SheetItem, Membership
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
+from django.contrib.auth.decorators import login_required
 
 
 def explore(request):
