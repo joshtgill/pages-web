@@ -169,7 +169,7 @@ def manageOrganization(request):
         return render(request, 'manage_organization.html', content)
 
     leaveOrganizationForm = LeaveOrganizationForm(request.POST)
-    if leaveOrganizationForm.is_valid():
+    if leaveOrganizationForm.is_valid() and request.user.profile.organization.owner != request.user:
         request.user.profile.organization = None
         request.user.profile.save()
         return redirect('/')
