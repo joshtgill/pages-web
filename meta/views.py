@@ -11,21 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def home(request):
-    if request.method == 'GET':
-        return render(request, 'home.html', {'memberships': Membership.objects.filter(user=request.user, approved=True),
-                                             'leaveOrganizationConfirmationPopupData': {'prompt': None,
-                                                                                        'confirmButtonText': 'Leave',
-                                                                                        'formName': 'membershipIdToEnd',
-                                                                                        'formValue': None,
-                                                                                        'dismissButtonText': 'Cancel'}})
-
-    endMembershipForm = EndMembershipForm(request.POST)
-    if not endMembershipForm.is_valid():
-        return redirect('/')
-
-    Membership.objects.get(id=endMembershipForm.cleaned_data['membershipIdToEnd']).delete()
-
-    return redirect('/')
+    return redirect('/profile/')
 
 
 def createAccount(request):
@@ -90,22 +76,42 @@ def login(request):
 
 @login_required
 def profile(request):
-    content = {'changeEmailForm': ChangeEmailForm(),
-               'logoutPopupData': {'prompt': 'Logout of <b>{}</b>?'.format(request.user.email),
-                                   'confirmButtonText': 'Logout',
-                                   'formName': 'logout',
-                                   'formValue': True,
-                                   'dismissButtonText': 'Back'},
-               'deleteAccountPopupData': {'prompt': '''This will permanently delete the account associated
-                                                       with <br><br><b>{}</b><br><br> All data will be lost
-                                                       and this action cannot be undone.'''.format(request.user.email),
-                                          'confirmButtonText': 'Delete',
-                                          'formName': 'deleteAccount',
-                                          'formValue': True,
-                                          'dismissButtonText': 'Back'}}
-
     if request.method == 'GET':
+        content = {'memberships': Membership.objects.filter(user=request.user, approved=True),
+                   'leaveOrganizationConfirmationPopupData': {'prompt': None,
+                                                              'confirmButtonText': 'Leave',
+                                                              'formName': 'membershipIdToEnd',
+                                                              'formValue': None,
+                                                              'dismissButtonText': 'Cancel'},
+                   'changeEmailForm': ChangeEmailForm(),
+                   'logoutPopupData': {'prompt': 'Logout of <b>{}</b>?'.format(request.user.email),
+                                       'confirmButtonText': 'Logout',
+                                       'formName': 'logout',
+                                       'formValue': True,
+                                       'dismissButtonText': 'Back'},
+                   'deleteAccountPopupData': {'prompt': '''This will permanently delete the account associated
+                                                           with <br><br><b>{}</b><br><br> All data will be lost
+                                                           and this action cannot be undone.'''.format(request.user.email),
+                                              'confirmButtonText': 'Delete',
+                                              'formName': 'deleteAccount',
+                                              'formValue': True,
+                                              'dismissButtonText': 'Back'}}
+
         return render(request, 'profile.html', content)
+
+    changeEmailForm = ChangeEmailForm(request.POST)
+    if changeEmailForm.is_valid():
+        newEmail = changeEmailForm.cleaned_data['newEmail']
+        newEmailConfirm = changeEmailForm.cleaned_data['newEmailConfirm']
+        if newEmail == newEmailConfirm:
+            request.user.email = newEmail
+            request.user.save()
+        return redirect('/profile/')
+
+    endMembershipForm = EndMembershipForm(request.POST)
+    if endMembershipForm.is_valid():
+        Membership.objects.get(id=endMembershipForm.cleaned_data['membershipIdToEnd']).delete()
+        return redirect('/profile/')
 
     logoutForm = LogoutForm(request.POST)
     if logoutForm.is_valid():
@@ -118,14 +124,6 @@ def profile(request):
         djangoAuth.logout(request)
         User.objects.get(username=deleteUsername).delete()
         return redirect('/login/')
-
-    changeEmailForm = ChangeEmailForm(request.POST)
-    if changeEmailForm.is_valid():
-        newEmail = changeEmailForm.cleaned_data['newEmail']
-        newEmailConfirm = changeEmailForm.cleaned_data['newEmailConfirm']
-        if newEmail == newEmailConfirm:
-            request.user.email = newEmail
-            request.user.save()
 
     return redirect('/profile/')
 

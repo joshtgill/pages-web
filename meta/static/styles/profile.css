@@ -1,35 +1,25 @@
-.content .profile {
-    width: 95vw;
-    max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 5vmin 0 0 0;
+.content img {
+    width: 100px;
+    margin-top: 3vh;
 }
 
-.content .profile img {
-    width: 10vw;
-    max-width: 150px;
-    min-width: 100px;
-}
-
-.content .profile h1 {
+.content h1 {
     margin: 2vh 0 0 0;
     font-size: 30px;
     font-weight: normal;
     text-align: center;
 }
 
-.content .profile a {
-    margin: 1vh 0 0 0;
+.content a {
+    margin: 10px 0 0 0;
     font-size: 18px;
     font-weight: normal;
     text-align: center;
 }
 
-.content .profile .details {
+.content .details {
     width: 100%;
+    max-width: 700px;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -37,18 +27,18 @@
     border-radius: 10px;
 }
 
-.content .profile .details a:visited {
+.content .details a:visited {
     text-decoration: none;
 }
 
-.content .profile .details .detail-container {
+.content .details .detail-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 20px 0 0 0;
 }
 
-.content .profile .details .detail-container .detail {
+.content .details .detail-container .detail {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -57,20 +47,20 @@
     background-color: rgb(240, 240, 240);
 }
 
-.content .profile .details .detail-container .detail h3 {
+.content .details .detail-container .detail h3 {
     margin: 0 0 0 20px;
     font-size: 20px;
     font-weight: normal;
 }
 
-.content .profile .details .detail-container .detail h4 {
+.content .details .detail-container .detail h4 {
     margin: 0 20px 0 0;
     font-size: 20px;
     font-weight: normal;
     color: rgb(70, 70, 70);
 }
 
-.content .profile .details .detail-container a {
+.content .details .detail-container a {
     width: 100px;
     margin: 10px 0 0 0;
     font-size: 16px;
@@ -78,13 +68,13 @@
     text-decoration: underline;
 }
 
-.content .profile .details .links {
+.content .details .links {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.content .profile .account-actions {
+.content .account-actions {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -92,35 +82,35 @@
     margin: 4vmin 0 0 0;
 }
 
-.content .profile .account-actions #deleteAccountButton {
+.content .account-actions #deleteAccountButton {
     background-color: rgb(235, 70, 70);
 }
 
 @media only screen and (min-width: 820px) {
-    .content .profile .details {
+    .content .details {
         margin-left: 110px;
     }
 
-    .content .profile .details a {
+    .content .details a {
         margin-right: 110px;
     }
 
-    .content .profile .details .detail-container .detail {
+    .content .details .detail-container .detail {
         width: calc(100% - 110px);
     }
 }
 
 @media only screen and (min-width: 580px) {
-    .content .profile .details .detail-container {
+    .content .details .detail-container {
         flex-direction: row;
     }
 
-    .content .profile .details .detail-container a {
+    .content .details .detail-container a {
         margin: 0 0 0 10px;
         text-align: left;
     }
 
-    .content .profile .account-actions button {
+    .content .account-actions button {
         margin-left: 5px;
         margin-right: 5px;
     }

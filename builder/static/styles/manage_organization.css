@@ -5,47 +5,6 @@
     margin: 3vh 0 0 0;
 }
 
-.content .stats-container .stats-bar {
-    width: 92vw;
-    max-width: 1000px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px 0;
-    border: 1px solid rgb(200, 200, 200);
-    border-radius: 15px;
-}
-
-.content .stats-container .stats-bar h3 {
-    margin: 10px 15px;
-    font-weight: normal;
-}
-
 .content .stats-container a {
     margin: 10px 0 0 0;
-}
-
-@media only screen and (min-width: 580px) {
-    .content .stats-container .stats-bar {
-        padding: 0;
-        border-radius: 50px;
-    }
-
-    .content .dashboard .item .list .active-page .actions {
-        display: flex;
-        justify-content: left;
-    }
-
-    .content .dashboard .item .list .active-page .actions a {
-        margin: 0 30px 0 0;
-    }
-
-    .content .dashboard .item .list .approvee .actions {
-        display: flex;
-        justify-content: left;
-    }
-
-    .content .dashboard .item .list .approvee .actions a {
-        margin: 0 30px 0 0;
-    }
 }

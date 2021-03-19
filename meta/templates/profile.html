@@ -9,43 +9,60 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <div class="profile">
+            {% if request.user.profile.organization %}
+                <img src="{% static 'images/earth.png' %}" alt="earth">
+            {% else %}
+                <img src="{% static 'images/cliff.png' %}" alt="cliff">
+            {% endif %}
+            <h2 style="font-size: 30px">{{ request.user.get_full_name }}</h2>
+            <div class="stats-bar" style="margin-top: 3vh">
+                <div class="item">
+                    <h3><b>Email: </b>{{ request.user.email }}</h3>
+                    <a onclick="changeEmailPopup.display()">Change email</a>
+                </div>
                 {% if request.user.profile.organization %}
-                    <img src="{% static 'images/earth.png' %}" alt="earth">
-                {% else %}
-                    <img src="{% static 'images/cliff.png' %}" alt="cliff">
-                {% endif %}
-                <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
-                {% if request.user.is_staff %}
-                    <a href="{% url 'staff' %}">Staff page</a>
-                {% endif %}
-                <div class="details">
-                    <div class="detail-container">
-                        <div class="detail" style="margin-top: 0">
-                            <h3>Email</h3>
-                            <h4>{{ request.user.email }}</h4>
-                        </div>
-                        <a onclick="changeEmailPopup.display()">Change email</a>
+                    <div class="item">
+                        <h3><b>Organization: </b>{{ request.user.profile.organization.name }}</h3>
+                        <a href="{% url 'manage_organization' %}">Manage organization</a>
                     </div>
-                    {% if request.user.profile.organization %}
-                        <div class="detail-container">
-                            <div class="detail">
-                                <h3>Organization</h3>
-                                <h4>{{ request.user.profile.organization.name }}</h4>
+                {% endif %}
+            </div>
+            {% if request.user.is_staff %}
+                <a href="{% url 'staff' %}">Staff page</a>
+            {% endif %}
+            <div class="dashboard">
+                <div class="item" style="max-width: 400px">
+                    <h3>Memberships</h3>
+                    <div class="list">
+                        {{ leaveOrganizationConfirmationPopupData|json_script:"leaveOrganizationConfirmationPopupData" }}
+                        {% for membership in memberships %}
+                            {% if forloop.counter == memberships|length %}
+                            <div class="element" style="margin-bottom: 5px">
+                            {% else %}
+                            <div class="element">
+                            {% endif %}
+                                <div class="info">
+                                    <div class="iconname">
+                                        <img src="{% static 'images/earth.png' %}" alt="earth">
+                                        <h4>{{ membership.organization.name }}</h4>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <a onclick="confirmationPopup.display('leaveOrganizationConfirmationPopupData',
+                                                                          null,
+                                                                          {{ membership.id }},
+                                                                          'Leave <b>{{ membership.organization.name }}</b>?<br><br>You will no longer be a member of this organization.')">Leave</a>
+                                </div>
+                            {% endfor %}
                             </div>
-                        </div>
-                        <div class="links">
-                            <a href="{% url 'manage_organization' %}" style="margin-right: 20px">Manage organization</a>
-                            <a href="{% url 'home' %}">My Pages</a>
-                        </div>
-                    {% endif %}
+                    </div>
                 </div>
-                <div class="account-actions">
-                    {{ logoutPopupData|json_script:"logoutPopupData" }}
-                    <button class="action-button" onclick="confirmationPopup.display('logoutPopupData')">Logout</button>
-                    {{ deleteAccountPopupData|json_script:"deleteAccountPopupData" }}
-                    <button class="action-button" id="deleteAccountButton" onclick="confirmationPopup.display('deleteAccountPopupData')">Delete account</button>
-                </div>
+            </div>
+            <div class="account-actions">
+                {{ logoutPopupData|json_script:"logoutPopupData" }}
+                <button class="action-button" onclick="confirmationPopup.display('logoutPopupData')">Logout</button>
+                {{ deleteAccountPopupData|json_script:"deleteAccountPopupData" }}
+                <button class="action-button" id="deleteAccountButton" onclick="confirmationPopup.display('deleteAccountPopupData')">Delete account</button>
             </div>
         </div>
 

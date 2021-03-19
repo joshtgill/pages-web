@@ -26,6 +26,7 @@ input, textarea {
     padding: 10px;
     font-size: 25px;
     font-family: Roboto;
+    color: rgb(30, 30, 30);
     border-radius: 10px;
     background-color: rgb(240, 240, 240);
     border: none;
@@ -120,6 +121,41 @@ body {
     display: none;
 }
 
+.stats-bar {
+    width: 92vw;
+    max-width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px 0;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 15px;
+}
+
+.stats-bar .item {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 15px;
+}
+
+.stats-bar .item h3 {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    text-align: center;
+    font-weight: normal;
+}
+
+.stats-bar .item a {
+    margin: 5px 0 0 0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.stats-bar .item h3 b {
+    margin: 0 5px 5px 0;
+}
+
 .dashboard {
     width: 100vw;
     max-width: 1200px;
@@ -180,6 +216,7 @@ body {
 .dashboard .item .list .element .info .iconname img {
     width: 25px;
     height: 25px;
+    margin: 0;
 }
 
 .dashboard .item .list .element .info .iconname h4 {
@@ -222,6 +259,19 @@ body {
 @media only screen and (min-width: 580px) {
     .top-nav .left {
         display: block;
+    }
+
+    .stats-bar {
+        padding: 0;
+        border-radius: 50px;
+    }
+
+    .stats-bar .item h3 {
+        flex-direction: row;
+    }
+
+    .stats-bar .item h3 b {
+        margin-bottom: 0;
     }
 
     .dashboard .item .list .element {

@@ -9,39 +9,6 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <h1>Hello again</h1>
-            <h2>Looks like you have some notifications.</h2>
-            <div class="dashboard">
-                <div class="item" style="max-width: 400px">
-                    <h3>Memberships</h3>
-                    <div class="list">
-                        {{ leaveOrganizationConfirmationPopupData|json_script:"leaveOrganizationConfirmationPopupData" }}
-                        {% for membership in memberships %}
-                            {% if forloop.counter == memberships|length %}
-                            <div class="element" style="margin-bottom: 5px">
-                            {% else %}
-                            <div class="element">
-                            {% endif %}
-                                <div class="info">
-                                    <div class="iconname">
-                                        <img src="{% static 'images/earth.png' %}" alt="earth">
-                                        <h4>{{ membership.organization.name }}</h4>
-                                    </div>
-                                </div>
-                                <div class="actions">
-                                    <a onclick="confirmationPopup.display('leaveOrganizationConfirmationPopupData',
-                                                                          null,
-                                                                          {{ membership.id }},
-                                                                          'Leave <b>{{ membership.organization.name }}</b>?<br><br>You will no longer be a member of this organization.')">Leave</a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </body>
-
-    {% include 'base_popup.html' %}
-    {% include 'confirmation_popup.html' %}
 </html>

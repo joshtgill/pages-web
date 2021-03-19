@@ -13,15 +13,19 @@
 
             <div class="stats-container">
                 <div class="stats-bar">
-                    <h3>
-                        <b>Status: </b>
-                        {% if request.user.profile.organization.private %}
-                            Private
-                        {% else %}
-                            Public
-                        {% endif %}
-                    </h3>
-                    <h3><b>Members: </b>{{ numOrganizationsMemberships }}</h3>
+                    <div class="item">
+                        <h3>
+                            <b>Status:</b>
+                            {% if request.user.profile.organization.private %}
+                                Private
+                            {% else %}
+                                Public
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="item">
+                        <h3><b>Members:</b>{{ numOrganizationsMemberships }}</h3>
+                    </div>
                 </div>
                 <a href="{% url 'edit_organization' %}">Edit organization</a>
             </div>
