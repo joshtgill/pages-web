@@ -14,8 +14,8 @@
             <div class="items">
                 {% for sheetItem in pageData.sheetItems %}
                     <div class="sheet-item">
-                        <div class="title-price">
-                            <h2>{{ sheetItem.title }}</h2><h3>${{ sheetItem.price|formatPrice }}</h3>
+                        <div class="header">
+                            <h3>{{ sheetItem.title }}</h3><h3 style="font-size: 25px">${{ sheetItem.price|formatPrice }}</h3>
                         </div>
                         <p>{{ sheetItem.description }}</p>
                     </div>

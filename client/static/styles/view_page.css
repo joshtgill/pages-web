@@ -3,7 +3,7 @@
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    margin: 0 0 10vh 0;
+    margin: 0 0 5vh 0;
     border: 1px solid rgb(200, 200, 200);
     border-radius: 15px;
 }
@@ -12,35 +12,37 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    margin: 5vh 5vmin;
+    margin: 4vh 5vmin;
 }
 
-.content .items .sheet-item .title-price {
+.content .items .sheet-item .header {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
 }
 
-.content .items .sheet-item .title-price h2 {
+.content .items .sheet-item .header h3 {
     margin: 0;
-    text-align: left;
-    font-size: 35px;
-    font-weight: normal;
-}
-
-.content .items .sheet-item .title-price h3 {
-    margin: 0;
-    font-size: 25px;
+    font-size: 32px;
     font-weight: normal;
 }
 
 .content .items .sheet-item p {
-    font-size: 25px;
-    margin-bottom: 0;
+    line-height: 35px;
+    font-size: 22px;
+    margin: 20px 0 0 0;
+    text-align: left;
 }
 
 .content .items hr {
-    width: 70%;
-    margin: 0 auto 0 auto;
+    margin: 1vh 5vmin .5vh 5vmin;
+}
+
+@media only screen and (min-width: 580px) {
+    .content .items .sheet-item p {
+        line-height: 35px;
+        font-size: 25px;
+        margin-bottom: 0;
+    }
 }

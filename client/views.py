@@ -7,35 +7,40 @@ from django.contrib.auth.decorators import login_required
 
 
 def explore(request):
-    organizationForm = OrganizationForm(request.GET)
     pageForm = PageForm(request.GET)
-
     if pageForm.is_valid():
-        # Render the Page page.
+        # Render the organization's Page.
         return render(request, 'view_page.html', {'pageData': buildPageData(pageForm.cleaned_data['page'])})
-    elif organizationForm.is_valid():
-        # If the organization exists, navigate to its page. Otherwise return to organization search page.
+
+    organizationForm = OrganizationForm(request.GET)
+    if organizationForm.is_valid():
         organization = None
         try:
             organization = Organization.objects.get(name__iexact=organizationForm.cleaned_data['organization'])
         except ObjectDoesNotExist:
             return redirect('/explore/')
 
-        requestApprovalForm = RequestApprovalForm(request.POST)
-        if requestApprovalForm.is_valid():
-            # Submit approval
+        membershipRequestForm = MembershipRequestForm(request.POST)
+        if membershipRequestForm.is_valid():
+            # Membership request was submitted. Record it.
             membership = Membership(user=request.user, organization=organization, relatedDate=datetime.date.today())
             membership.save()
             return redirect('/profile/')
 
-        content = {'organization': organization, 'pagesData': buildOrganizationPagesData(organization)}
-        if organization.private and not Membership.objects.filter(user=request.user, organization=organization, approved=True).count():
-            content.update({'requestApprovalData': {'prompt': '''{} requires approval to view its Pages.
-                                                                 <br><br>Would you like to request approval?'''.format(organization.name),
-                                                    'confirmButtonText': 'Request',
-                                                    'formName': 'requestApproval',
-                                                    'formValue': True,
-                                                    'dismissButtonText': 'Back'}})
+        content = {}
+        if organization.private and not Membership.objects.filter(user=request.user,
+                                                                  organization=organization,
+                                                                  approved=True).count():
+            # Organization is private and a membership does not exists with the user. Show membership request prompt.
+            content.update({'requestMembershipData': {'prompt': '''{} requires approval to view its Pages.
+                                                                   <br><br>Would you like to request approval?'''.format(organization.name),
+                                                      'confirmButtonText': 'Request',
+                                                      'formName': 'membershipRequest',
+                                                      'formValue': True,
+                                                      'dismissButtonText': 'Back'}})
+        else:
+            # Organization is viewable. Display its pages.
+            content.update({'organization': organization, 'pagesData': buildOrganizationPagesData(organization)})
 
         return render(request, 'view_organization.html', content)
 

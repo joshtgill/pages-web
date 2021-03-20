@@ -5,9 +5,9 @@
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/view_organization.css' %}">
     </head>
-    {% if requestApprovalData %}
-        {{ requestApprovalData|json_script:"requestApprovalData" }}
-        <body onload="confirmationPopup.display('requestApprovalData', {% url 'explore' %})">
+    {% if requestMembershipData %}
+        {{ requestMembershipData|json_script:"requestMembershipData" }}
+        <body onload="confirmationPopup.display('requestMembershipData', {% url 'explore' %})">
             {% include 'core.html' %}
 
             <div class="content" style="filter: blur(10px)">

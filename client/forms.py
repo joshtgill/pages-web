@@ -14,5 +14,5 @@ class PageForm(forms.Form):
     page = forms.IntegerField()
 
 
-class RequestApprovalForm(forms.Form):
-    requestApproval = forms.BooleanField()
+class MembershipRequestForm(forms.Form):
+    membershipRequest = forms.BooleanField()
