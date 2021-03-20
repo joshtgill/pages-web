@@ -14,70 +14,94 @@
             <div class="dashboard">
                 <div class="item" style="max-width: 700px">
                     <h3>Organizations</h3>
-                    <div class="list">
-                        {{ organizationDeleteConfirmationPopupData|json_script:"organizationDeleteConfirmationPopupData" }}
-                        {% for organization in organizations %}
-                            {% if forloop.counter == organizations|length %}
-                            <div class="element" style="margin-bottom: 5px">
-                            {% else %}
-                            <div class="element">
-                            {% endif %}
-                                <div class="info">
-                                    <h4>{{ organization.name }}</h4>
-                                    <div class="details">
-                                        <h5><b>Owner:</b> {{ organization.owner.get_full_name }}</h5>
+                    {% if organizations %}
+                        <div class="list">
+                            {{ organizationDeleteConfirmationPopupData|json_script:"organizationDeleteConfirmationPopupData" }}
+                            {% for organization in organizations %}
+                                {% if forloop.counter == organizations|length %}
+                                <div class="element" style="margin-bottom: 5px">
+                                {% else %}
+                                <div class="element">
+                                {% endif %}
+                                    <div class="info">
+                                        <h4>{{ organization.name }}</h4>
+                                        <div class="details">
+                                            <h5><b>Owner:</b> {{ organization.owner.get_full_name }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="actions">
+                                        <a onclick="confirmationPopup.display('organizationDeleteConfirmationPopupData',
+                                                                            null,
+                                                                            {{ organization.id }},
+                                                                            'Permanently delete <b>{{ organization.name }}</b> as an organization?')">
+                                            Delete
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="actions">
-                                    <a onclick="confirmationPopup.display('organizationDeleteConfirmationPopupData',
-                                                                          null,
-                                                                          {{ organization.id }},
-                                                                          'Permanently delete <b>{{ organization.name }}</b> as an organization?')">
-                                        Delete
-                                    </a>
-                                </div>
+                                {% if forloop.counter < organizations|length %}
+                                    <hr>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if organizations|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
+                            <div class="footer">
+                                <h4>{{ organizations|length }} total</h4>
+                                <a href="{% url 'home' %}">View all ></a>
                             </div>
-                            {% if forloop.counter < organizations|length %}
-                                <hr>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="empty-list">
+                            <h4>No organizations</h4>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="item" style="max-width: 400px">
                     <h3>Organization applications</h3>
-                    <div class="list">
-                        {{ organizationApplicationApproveConfirmationPopupData|json_script:"organizationApplicationApproveConfirmationPopupData" }}
-                        {{ organizationApplicationDenyConfirmationPopupData|json_script:"organizationApplicationDenyConfirmationPopupData" }}
-                        {% for organizationApplication in organizationApplications %}
-                            {% if forloop.counter == organizationApplications|length %}
-                            <div class="element" style="margin-bottom: 5px">
-                            {% else %}
-                            <div class="element">
-                            {% endif %}
-                                <h4>{{ organizationApplication.name }}</h4>
-                                <div class="details">
-                                    <h5><b>Applicant:</b> {{ organizationApplication.applicant.get_full_name }}</h5>
+                    {% if organizationApplications %}
+                        <div class="list">
+                            {{ organizationApplicationApproveConfirmationPopupData|json_script:"organizationApplicationApproveConfirmationPopupData" }}
+                            {{ organizationApplicationDenyConfirmationPopupData|json_script:"organizationApplicationDenyConfirmationPopupData" }}
+                            {% for organizationApplication in organizationApplications %}
+                                {% if forloop.counter == organizationApplications|length %}
+                                <div class="element" style="margin-bottom: 5px">
+                                {% else %}
+                                <div class="element">
+                                {% endif %}
+                                    <h4>{{ organizationApplication.name }}</h4>
+                                    <div class="details">
+                                        <h5><b>Applicant:</b> {{ organizationApplication.applicant.get_full_name }}</h5>
+                                    </div>
+                                    <div class="actions">
+                                        <a onclick="confirmationPopup.display('organizationApplicationApproveConfirmationPopupData',
+                                                                            null,
+                                                                            {{ organizationApplication.id }},
+                                                                            'Approve <b>{{ organizationApplication.name }}</b> as an organization?')">
+                                            Approve
+                                        </a>
+                                        <a onclick="confirmationPopup.display('organizationApplicationDenyConfirmationPopupData',
+                                                                            null,
+                                                                            {{ organizationApplication.id }},
+                                                                            'Deny <b>{{ organizationApplication.name }}</b> as an organization?')">
+                                            Deny
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="actions">
-                                    <a onclick="confirmationPopup.display('organizationApplicationApproveConfirmationPopupData',
-                                                                          null,
-                                                                          {{ organizationApplication.id }},
-                                                                          'Approve <b>{{ organizationApplication.name }}</b> as an organization?')">
-                                        Approve
-                                    </a>
-                                    <a onclick="confirmationPopup.display('organizationApplicationDenyConfirmationPopupData',
-                                                                          null,
-                                                                          {{ organizationApplication.id }},
-                                                                          'Deny <b>{{ organizationApplication.name }}</b> as an organization?')">
-                                        Deny
-                                    </a>
-                                </div>
+                                {% if forloop.counter < organizationApplications|length %}
+                                    <hr>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if organizationApplications|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
+                            <div class="footer">
+                                <h4>{{ organizationApplications|length }} total</h4>
+                                <a href="{% url 'home' %}">View all ></a>
                             </div>
-                            {% if forloop.counter < organizationApplications|length %}
-                                <hr>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="empty-list">
+                            <h4>No applications</h4>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

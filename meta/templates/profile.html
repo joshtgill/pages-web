@@ -33,29 +33,41 @@
             <div class="dashboard">
                 <div class="item" style="max-width: 400px">
                     <h3>Memberships</h3>
-                    <div class="list">
-                        {{ leaveOrganizationConfirmationPopupData|json_script:"leaveOrganizationConfirmationPopupData" }}
-                        {% for membership in memberships %}
-                            {% if forloop.counter == memberships|length %}
-                            <div class="element" style="margin-bottom: 5px">
-                            {% else %}
-                            <div class="element">
-                            {% endif %}
-                                <div class="info">
-                                    <div class="iconname">
-                                        <img src="{% static 'images/earth.png' %}" alt="earth">
-                                        <h4>{{ membership.organization.name }}</h4>
+                    {% if memberships %}
+                        <div class="list">
+                            {{ leaveOrganizationConfirmationPopupData|json_script:"leaveOrganizationConfirmationPopupData" }}
+                            {% for membership in memberships %}
+                                {% if forloop.counter == memberships|length %}
+                                <div class="element" style="margin-bottom: 5px">
+                                {% else %}
+                                <div class="element">
+                                {% endif %}
+                                    <div class="info">
+                                        <div class="iconname">
+                                            <img src="{% static 'images/earth.png' %}" alt="earth">
+                                            <h4>{{ membership.organization.name }}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="actions">
+                                        <a onclick="confirmationPopup.display('leaveOrganizationConfirmationPopupData',
+                                                                            null,
+                                                                            {{ membership.id }},
+                                                                            'Leave <b>{{ membership.organization.name }}</b>?<br><br>You will no longer be a member of this organization.')">Leave</a>
                                     </div>
                                 </div>
-                                <div class="actions">
-                                    <a onclick="confirmationPopup.display('leaveOrganizationConfirmationPopupData',
-                                                                          null,
-                                                                          {{ membership.id }},
-                                                                          'Leave <b>{{ membership.organization.name }}</b>?<br><br>You will no longer be a member of this organization.')">Leave</a>
-                                </div>
                             {% endfor %}
+                        </div>
+                        {% if memberships|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
+                            <div class="footer">
+                                <h4>{{ memberships|length }} total</h4>
+                                <a href="{% url 'home' %}">View all ></a>
                             </div>
-                    </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="empty-list">
+                            <h4>No memberships</h4>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="account-actions">

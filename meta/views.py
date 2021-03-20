@@ -8,6 +8,7 @@ from builder.models import Profile
 from django.contrib.admin.views.decorators import staff_member_required
 from builder.models import Organization, OrganizationApplication, Membership
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 
 def home(request):
@@ -77,7 +78,7 @@ def login(request):
 @login_required
 def profile(request):
     if request.method == 'GET':
-        content = {'memberships': Membership.objects.filter(user=request.user, approved=True),
+        content = {'memberships': Membership.objects.filter(user=request.user, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
                    'leaveOrganizationConfirmationPopupData': {'prompt': None,
                                                               'confirmButtonText': 'Leave',
                                                               'formName': 'membershipIdToEnd',
@@ -131,10 +132,10 @@ def profile(request):
 @staff_member_required
 def staff(request):
     organizations = Organization.objects.all()
-    content = {'organizations': organizations}
+    content = {'organizations': organizations[:settings.MAX_DASHBOARD_LIST_ENTRIES]}
 
     if request.method == 'GET':
-        content.update({'organizationApplications': OrganizationApplication.objects.all(),
+        content.update({'organizationApplications': OrganizationApplication.objects.all()[:settings.MAX_DASHBOARD_LIST_ENTRIES],
                         'organizationApplicationApproveConfirmationPopupData': {'prompt': None,
                                                                                 'confirmButtonText': 'Approve',
                                                                                 'formName': 'organizationApplicationIdToApprove',

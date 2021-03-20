@@ -135,3 +135,6 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_URL = '/login/'
+
+# Custom settings
+MAX_DASHBOARD_LIST_ENTRIES = 3

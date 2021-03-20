@@ -256,6 +256,40 @@ body {
     border-top: 1px solid rgb(200, 200, 200);
 }
 
+.dashboard .item .empty-list {
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard .item .empty-list h4 {
+    margin: 23px 0;
+    font-size: 20px;
+    font-weight: normal;
+    color: rgb(90, 90, 90);
+}
+
+.dashboard .item .footer {
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgb(200, 200, 200);
+}
+
+.dashboard .item .footer h4 {
+    margin: 0 0 0 20px;
+    font-size: 20px;
+    font-weight: normal;
+    color: rgb(0, 0, 0);
+}
+
+.dashboard .item .footer a {
+    margin: 0 20px 0 0;
+    font-size: 20px;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
 @media only screen and (min-width: 580px) {
     .top-nav .left {
         display: block;

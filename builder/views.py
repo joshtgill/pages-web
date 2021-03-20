@@ -144,8 +144,8 @@ def manageOrganization(request):
     if request.method == 'GET':
         content = {'numOrganizationsMemberships': len(Membership.objects.filter(organization=request.user.profile.organization, approved=True)),
                    'activePagesData': buildOrganizationsPagesData(request.user.profile.organization),
-                   'memberships': Membership.objects.filter(approved=False),
-                   'organizationMembers': Membership.objects.filter(organization=request.user.profile.organization, approved=True),
+                   'memberRequests': Membership.objects.filter(approved=False)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
+                   'organizationMembers': Membership.objects.filter(organization=request.user.profile.organization, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
                    'approveMembershipConfirmationPopupData': {'prompt': None,
                                                               'confirmButtonText': 'Approve',
                                                               'formName': 'membershipIdToApprove',
@@ -199,7 +199,7 @@ def manageOrganization(request):
 
 def buildOrganizationsPagesData(organization):
     organizationsPagesData = []
-    for page in Page.objects.filter(organization=organization):
+    for page in Page.objects.filter(organization=organization)[:settings.MAX_DASHBOARD_LIST_ENTRIES]:
         organizationsPagesData.append({'id': page.id, 'name': page.name, 'type': page.typee,
                                        'dateCreated': page.dateCreated.strftime("%B %d, %Y"),
                                        'numItems': len(SheetItem.objects.filter(page=page))})
