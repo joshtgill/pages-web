@@ -42,12 +42,12 @@
                                 {% else %}
                                 <div class="element">
                                 {% endif %}
-                                    <div class="info">
+                                    <a class="info" href="{% url 'explore' %}?organization={{ membership.organization.name }}">
                                         <div class="iconname">
                                             <img src="{% static 'images/earth.png' %}" alt="earth">
                                             <h4>{{ membership.organization.name }}</h4>
                                         </div>
-                                    </div>
+                                    </a>
                                     <div class="actions">
                                         <a onclick="confirmationPopup.display('leaveOrganizationConfirmationPopupData',
                                                                             null,

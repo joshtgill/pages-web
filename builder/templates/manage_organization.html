@@ -43,7 +43,7 @@
                                 {% else %}
                                 <div class="element">
                                 {% endif %}
-                                    <div class="info">
+                                    <div class="info" style="cursor: auto">
                                         <h4>{{ activePageData.name }}</h4>
                                         <div class="details">
                                             <h5><b>Type:</b> {{ activePageData.type }}</h5>
@@ -89,7 +89,7 @@
                                 {% else %}
                                 <div class="element">
                                 {% endif %}
-                                    <div class="info">
+                                    <div class="info" style="cursor: auto">
                                         <div class="iconname">
                                             <img src="{% static 'images/earth.png' %}" alt="earth">
                                             <h4>{{ memberRequest.user.get_full_name }}</h4>
@@ -130,11 +130,11 @@
                             {{ revokeMembershipConfirmationPopupData|json_script:"revokeMembershipConfirmationPopupData" }}
                             {% for organizationMember in organizationMembers %}
                                 {% if forloop.counter == organizationMembers|length %}
-                                <div class="element" style="margin-bottom: 5px; flex-direction: row">
+                                <div class="element" style="flex-direction: row; margin-bottom: 5px;">
                                 {% else %}
                                 <div class="element" style="flex-direction: row">
                                 {% endif %}
-                                    <div class="info">
+                                    <div class="info" style="cursor: auto">
                                         <div class="iconname">
                                             <img src="{% static 'images/earth.png' %}" alt="earth">
                                             <h4>{{ organizationMember.user.get_full_name }}</h4>

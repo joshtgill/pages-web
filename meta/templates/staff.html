@@ -12,7 +12,7 @@
             <h1>Staff</h1>
             <h2>Manage organizations, users, or individual pages.</h2>
             <div class="dashboard">
-                <div class="item" style="max-width: 700px">
+                <div class="item" style="max-width: 600px">
                     <h3>Organizations</h3>
                     {% if organizations %}
                         <div class="list">
@@ -23,7 +23,7 @@
                                 {% else %}
                                 <div class="element">
                                 {% endif %}
-                                    <div class="info">
+                                    <div class="info" style="cursor: auto">
                                         <h4>{{ organization.name }}</h4>
                                         <div class="details">
                                             <h5><b>Owner:</b> {{ organization.owner.get_full_name }}</h5>
@@ -55,7 +55,7 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="item" style="max-width: 400px">
+                <div class="item" style="max-width: 600px">
                     <h3>Organization applications</h3>
                     {% if organizationApplications %}
                         <div class="list">
@@ -67,9 +67,11 @@
                                 {% else %}
                                 <div class="element">
                                 {% endif %}
-                                    <h4>{{ organizationApplication.name }}</h4>
-                                    <div class="details">
-                                        <h5><b>Applicant:</b> {{ organizationApplication.applicant.get_full_name }}</h5>
+                                    <div class="info" style="cursor: auto">
+                                        <h4>{{ organizationApplication.name }}</h4>
+                                        <div class="details">
+                                            <h5><b>Applicant:</b> {{ organizationApplication.applicant.get_full_name }}</h5>
+                                        </div>
                                     </div>
                                     <div class="actions">
                                         <a onclick="confirmationPopup.display('organizationApplicationApproveConfirmationPopupData',
