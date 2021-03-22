@@ -34,6 +34,8 @@ class SheetItem(models.Model):
     title = models.CharField(max_length=LENGTH_SHORT)
     description = models.CharField(max_length=LENGTH_MEDIUM)
     price = models.FloatField()
+    startDataTime = models.DateTimeField()
+    endDateTime = models.DateTimeField()
 
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 

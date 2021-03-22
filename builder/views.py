@@ -5,6 +5,7 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
 
 
 def create(request):
@@ -94,7 +95,14 @@ def builder(request):
 
 def buildPageData(idd):
     page = Page.objects.get(id=idd)
-    return {'id': page.id, 'name': page.name, 'type': page.typee, 'items': SheetItem.objects.filter(page=page)}
+    pageData = model_to_dict(page)
+
+    sheetItemsData = []
+    for sheetItem in SheetItem.objects.filter(page=page):
+        sheetItemsData.append(model_to_dict(sheetItem))
+    pageData.update({'items': sheetItemsData})
+
+    return pageData
 
 
 def handlePageUpdate(request, pagePostData):
