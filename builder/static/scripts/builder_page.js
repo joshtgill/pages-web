@@ -1,110 +1,181 @@
-class Sheet
-{
-    constructor(div)
-    {
-        this.div = div;
+class Sheet {
+    constructor(div) {
+        this.container = div;
+        this.items = [];
+        this.separators = [];
     }
 
-    displaySheetItems(dataIdentifier)
-    {
-        var sheetItems = JSON.parse(document.getElementById(dataIdentifier).textContent);
-        for (var i = 0; i < sheetItems.length; i++)
-        {
-            var sheetItem = new SheetItem(this, sheetItems[i]);
-            if (i < sheetItems.length - 1)
-                this.div.appendChild(document.createElement('hr'));
+    loadItems(dataIdentifier) {
+        var items = JSON.parse(document.getElementById(dataIdentifier).textContent);
+        for (var index in items) {
+            this.displayItem(items[index]);
         }
     }
 
-    createEmptySheetItem()
-    {
-        if (this.div.childElementCount != 0)
-            this.div.appendChild(document.createElement('hr'));
+    displayItem(data = null) {
+        if (this.items.length != 0) {
+            // Not displaying the first item, so display the seperator above.
+            var seperatorAbove = document.createElement('hr');
+            this.separators.push(seperatorAbove)
+            this.container.appendChild(seperatorAbove);
+        }
 
-        var sheetItem = new SheetItem(this);
+        var sheetItem = new SheetItem(this, data);
+        this.items.push(sheetItem);
+        this.container.appendChild(sheetItem.getContainer());
+    }
+
+    removeItem(item) {
+        var itemIndex = this.items.indexOf(item);
+
+        // Delete and remove seperator
+        this.separators.splice(Math.max(0, itemIndex - 1), 1)[0].remove();
+
+        // Delete and remove item
+        this.items.splice(itemIndex, 1);
+        item.container.remove();
     }
 }
 
 sheet = new Sheet(document.getElementById('items'));
 
 
-class SheetItem
-{
-    constructor(sheet, data=null)
-    {
+class SheetItem {
+    constructor(sheet, data) {
         this.sheet = sheet;
-        this.textInputField = new TextInputField(this);
-        this.textAreaField = new TextAreaField(this);
-        this.priceField = new PriceField(this);
-        this.datetimeField = new DatetimeField(this);
 
-        var div = document.createElement('div');
-        div.className = 'item';
-        this.div = div;
-        this.sheet.div.appendChild(this.div);
+        var container = document.createElement('div');
+        container.className = 'item';
+        this.container = container;
 
-        this.displayFields(data);
-        this.displayActions();
+        if (data) {
+            // Initialize with existing data
+            this.baseFields = [new TextInputField(data['title']), new TextAreaField(data['description'])];
+            this.fieldOptions = [new PriceField(this, true, data['price']), new DatetimeField(this, false)];
+        }
+        else {
+            this.baseFields = [new TextInputField(), new TextAreaField()];
+            this.fieldOptions = [new PriceField(this, true), new DatetimeField(this, false)];
+        }
+
+        this.buildContainer();
     }
 
-    displayFields(data)
-    {
-        if (data)
-        {
-            this.textInputField.display(data['title']);
-            this.textAreaField.display(data['description']);
-            this.priceField.display(data['price']);
-        }
-        else
-        {
-            this.textInputField.display();
-            this.textAreaField.display();
-        }
+    parent() {
+        return this.sheet;
     }
 
-    displayActions()
-    {
-        var actions = document.createElement('div');
-        actions.className = 'actions';
+    buildContainer() {
+        for (var index in this.baseFields) {
+            this.container.appendChild(this.baseFields[index].getContainer());
+        }
 
-        var fieldOptions = document.createElement('div');
-        fieldOptions.className = 'field-options';
-        this.fieldOptions = fieldOptions; // Don't love
+        var actionsContainer = document.createElement('div');
+        actionsContainer.className = 'actions';
 
-        this.priceField.displayButton();
-        this.datetimeField.displayButton();
-        actions.appendChild(fieldOptions);
+        var fieldOptionsContainer = document.createElement('div');
+        this.fieldOptionsContainer = fieldOptionsContainer;
+        fieldOptionsContainer.className = 'field-options';
+        for (var index in this.fieldOptions) {
+            var field = this.fieldOptions[index];
+            field.hasValue() ? this.displayField(field) : this.displayFieldButton(field);
+        }
+
+        actionsContainer.appendChild(fieldOptionsContainer);
 
         var removeButton = document.createElement('button');
         removeButton.type = 'button';
         var thiss = this;
-        removeButton.onclick = function() { thiss.remove(); }
-        removeButton.textContent = 'Remove item';
+        removeButton.onclick = function () {
+            thiss.parent().removeItem(thiss);
+        }
+        removeButton.textContent = 'Remove';
 
-        actions.appendChild(removeButton);
+        actionsContainer.appendChild(removeButton);
 
-        this.div.appendChild(actions);
+        this.container.appendChild(actionsContainer);
     }
 
-    remove()
-    {
-        this.div.remove();
+    getContainer() {
+        return this.container;
     }
 
-    priceFieldIsActive()
-    {
-        return this.div.querySelector('.price-container') != null;
+    displayField(field) {
+        if (!field.isFirst && this.container.childElementCount == 4) {
+            this.container.insertBefore(field.getContainer(), this.container.children[3]);
+        }
+        else {
+            this.container.insertBefore(field.getContainer(), this.container.children[2]);
+        }
+
+        field.button.remove();
+    }
+
+    removeField(field) {
+        field.container.remove();
+        this.displayFieldButton(field);
+    }
+
+    displayFieldButton(field) {
+        if (field.isFirst && this.container.childElementCount != 0) {
+            this.fieldOptionsContainer.insertBefore(field.getButton(), this.fieldOptionsContainer.children[0]);
+        }
+        else {
+            this.fieldOptionsContainer.appendChild(field.getButton());
+        }
     }
 }
 
-class BaseField
-{
-    buildRemoveFieldButton(fieldContainer)
-    {
+class BaseField {
+    constructor(container, value) {
+        this.container = container;
+
+        this.valueProvided = value != null;
+        this.buildContainer(value);
+    }
+
+    hasValue() {
+        return this.valueProvided;
+    }
+
+    buildContainer() {
+        console.log('BaseField::buildContainer(): Unhandled');
+    }
+
+    getContainer() {
+        return this.container;
+    }
+}
+
+class BaseOptionalField extends BaseField {
+    constructor(sheetItem, isFirst, button, container, value) {
+        super(container, value);
+        this.sheetItem = sheetItem;
+        this.isFirst = isFirst;
+        this.button = button;
+
+        this.buildButton();
+    }
+
+    parent() {
+        return this.sheetItem;
+    }
+
+    buildButton() {
+        console.log('BaseOptionalField::buildButton(): Unhandled');
+    }
+
+    getButton() {
+        return this.button;
+    }
+
+    buildRemoveFieldButton() {
         var removeFieldButton = document.createElement('button');
         removeFieldButton.type = 'button';
         var thiss = this;
-        removeFieldButton.onclick = function() { thiss.remove(fieldContainer); }
+        removeFieldButton.onclick = function () {
+            thiss.parent().removeField(thiss);
+        }
 
         var removeFieldIcon = document.createElement('img');
         removeFieldIcon.src = '/static/images/clear.png';
@@ -114,106 +185,61 @@ class BaseField
 
         return removeFieldButton;
     }
-
-    displayButton()
-    {
-        console.log('BaseField::displayButton: Unhandled.');
-    }
-
-    remove(fieldContainer)
-    {
-        fieldContainer.remove();
-        this.displayButton();
-    }
 }
 
-class TextInputField
-{
-    constructor(sheetItem)
-    {
-        this.sheetItem = sheetItem;
+class TextInputField extends BaseField {
+    constructor(value) {
+        super(document.createElement('input'), value);
     }
 
-    display(title='')
-    {
-        var textInput = document.createElement('input');
-        textInput.id = 'sheetItemTitle';
-        textInput.name = 'title';
-        textInput.type = 'text';
-        textInput.placeholder = 'Title';
-        textInput.autocomplete = 'off';
-        if (title)
-            textInput.value = title;
-
-        this.sheetItem.div.appendChild(textInput);
-    }
-}
-
-class TextAreaField
-{
-    constructor(sheetItem)
-    {
-        this.sheetItem = sheetItem;
-    }
-
-    display(description='')
-    {
-        var textArea = document.createElement('textarea');
-        textArea.name = 'description';
-        textArea.rows = 3;
-        textArea.placeholder = 'Description';
-        if (description)
-            textArea.value = description;
-
-        this.sheetItem.div.appendChild(textArea);
-    }
-}
-
-class PriceField extends BaseField
-{
-    constructor(sheetItem)
-    {
-        super();
-        this.sheetItem = sheetItem;
-        this.fieldFilled = false;
-    }
-
-    displayButton()
-    {
-        if (this.fieldFilled)
-        {
-            this.fieldFilled = false;
-            return;
+    buildContainer(value) {
+        this.container.id = 'sheetItemTitle';
+        this.container.name = 'title';
+        this.container.type = 'text';
+        this.container.placeholder = 'Title';
+        this.container.autocomplete = 'off';
+        if (value) {
+            this.container.value = value;
         }
+    }
+}
 
-        var priceFieldButton = document.createElement('button');
-        priceFieldButton.id = 'priceButton';
-        priceFieldButton.type = 'button';
+class TextAreaField extends BaseField {
+    constructor(value) {
+        super(document.createElement('textarea'), value);
+    }
+
+    buildContainer(value) {
+        this.container.name = 'description';
+        this.container.rows = 3;
+        this.container.placeholder = 'Description';
+        if (value) {
+            this.container.value = value;
+        }
+    }
+}
+
+class PriceField extends BaseOptionalField {
+    constructor(sheetItem, isFirst, value) {
+        super(sheetItem, isFirst, document.createElement('button'), document.createElement('div'), value);
+    }
+
+    buildButton() {
+        this.button.id = 'priceButton';
+        this.button.type = 'button';
         var thiss = this;
-        priceFieldButton.onclick = function() {
-            thiss.display();
-            priceFieldButton.remove();
+        this.button.onclick = function () {
+            thiss.parent().displayField(thiss);
         }
-        priceFieldButton.textContent = '$';
-
-        this.sheetItem.fieldOptions.appendChild(priceFieldButton);
-        this.priceFieldButton = priceFieldButton;
+        this.button.textContent = '$';
     }
 
-    display(price)
-    {
-        if (this.sheetItem.priceFieldIsActive())
-        {
-            // Price field is already displayed
-            return;
-        }
-
-        var priceContainer = document.createElement('div');
-        priceContainer.className = 'price-container';
+    buildContainer(value) {
+        this.container.className = 'price-container';
 
         var moneySign = document.createElement('h3');
         moneySign.textContent = '$';
-        priceContainer.appendChild(moneySign)
+        this.container.appendChild(moneySign)
 
         var priceInput = document.createElement('input');
         priceInput.id = 'sheetItemPrice';
@@ -221,97 +247,68 @@ class PriceField extends BaseField
         priceInput.type = 'number';
         priceInput.step = '0.01';
         priceInput.placeholder = 'Price';
-        if (price)
-        {
-            priceInput.value = price;
-            this.fieldFilled = true;
+        if (value) {
+            priceInput.value = value;
         }
-        priceContainer.appendChild(priceInput);
+        this.container.appendChild(priceInput);
 
-        priceContainer.appendChild(super.buildRemoveFieldButton(priceContainer));
-
-        this.priceContainer = priceContainer;
-
-        this.sheetItem.div.insertBefore(priceContainer, this.sheetItem.div.children[2]);
+        this.container.appendChild(super.buildRemoveFieldButton(this.container));
     }
 }
 
-class DatetimeField extends BaseField
-{
-    constructor(sheetItem)
-    {
-        super();
-        this.sheetItem = sheetItem;
-        this.fieldFilled = false;
+class DatetimeField extends BaseOptionalField {
+    constructor(sheetItem, isFirst) {
+        super(sheetItem, isFirst, document.createElement('button'), document.createElement('div'));
     }
 
-    displayButton()
-    {
-        if (this.fieldFilled)
-        {
-            this.fieldFilled = false;
-            return;
-        }
-
-        var datetimeFieldButton = document.createElement('button');
-        datetimeFieldButton.type = 'button';
+    buildButton() {
+        this.button.type = 'button';
         var thiss = this;
-        datetimeFieldButton.onclick = function() {
-            thiss.display();
-            datetimeFieldButton.remove();
+        this.button.onclick = function () {
+            thiss.parent().displayField(thiss);
         }
 
         var datetimeFieldIcon = document.createElement('img');
         datetimeFieldIcon.src = '/static/images/clock.png';
         datetimeFieldIcon.alt = 'clock';
 
-        datetimeFieldButton.appendChild(datetimeFieldIcon);
-
-        this.sheetItem.fieldOptions.appendChild(datetimeFieldButton);
+        this.button.appendChild(datetimeFieldIcon);
     }
 
-    display()
-    {
-        var datetimesContainer = document.createElement('div');
-        datetimesContainer.className = 'datetime-container';
+    buildContainer() {
+        this.container.className = 'datetime-container';
 
         var startInput = document.createElement('input');
         startInput.type = 'datetime-local';
-        datetimesContainer.appendChild(startInput);
+        this.container.appendChild(startInput);
 
         var toWord = document.createElement('h3');
         toWord.textContent = 'to';
-        datetimesContainer.appendChild(toWord)
+        this.container.appendChild(toWord)
 
         var endInput = document.createElement('input');
         endInput.type = 'datetime-local';
-        datetimesContainer.appendChild(endInput);
+        this.container.appendChild(endInput);
 
-        datetimesContainer.appendChild(super.buildRemoveFieldButton(datetimesContainer));
-        this.datetimesContainer = datetimesContainer;
-
-        this.sheetItem.div.insertBefore(datetimesContainer, this.sheetItem.div.children[2]);
+        this.container.appendChild(super.buildRemoveFieldButton(this.container));
     }
 }
 
-function removeAndRecordPageItemForDeletion(pageItemId, sourceButton)
-{
+function removeAndRecordPageItemForDeletion(pageItemId, sourceButton) {
     removePageItem(sourceButton);
 
     // Record Page ID to be deleted on Page save
     var pageItemIdsToDelete = document.getElementById('pageItemIdsToDelete');
     pageItemIdsToDelete.value += !pageItemIdsToDelete.value ? pageItemId
-                                                            : pageItemIdsToDelete.value += `|${pageItemId}`;
+        : pageItemIdsToDelete.value += `|${pageItemId}`;
 }
 
-function removePageItem(sourceButton)
-{
+function removePageItem(sourceButton) {
     // Remove Page item from page
     // TODO: Removing the first Page item causes an unwanted <hr>
     sourceButton.parentNode.parentNode.remove();
 }
 
-function submitPageDeleteForm()
-{
+function submitPageDeleteForm() {
     document.getElementById('pageDeleteForm').submit();
 }

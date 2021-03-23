@@ -6,7 +6,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'styles/builder_page.css' %}">
     </head>
     {{ pageData.items|json_script:"pageItems" }}
-    <body onload="sheet.displaySheetItems('pageItems')">
+    <body onload="sheet.loadItems('pageItems')">
         {% include 'core.html' %}
 
         <div class="content">
@@ -17,7 +17,7 @@
                 <input class="hidden" name="pageType" value="{{ pageData.typee }}">
                 <div id="items" class="items">
                 </div>
-                <button id="addItemButton" type="button" onclick="sheet.createEmptySheetItem()">+</button>
+                <button id="addItemButton" type="button" onclick="sheet.displayItem()">+</button>
                 <div class="actions">
                     <button class="action-button" id="savePageButton" type="submit">Save Page</button>
                     {% if pageData.id %}
