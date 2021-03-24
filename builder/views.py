@@ -77,7 +77,7 @@ def builder(request):
         elif pageId:
             return redirect('/create/builder/?typee={}'.format(pageType))
         else:
-            content.update({'pageData': {'type': pageType}})
+            content.update({'pageData': {'typee': pageType}})
 
         return render(request, 'builder_page.html', content)
 
@@ -120,9 +120,9 @@ def handlePageUpdate(request, pagePostData):
 
 
 def handleSheetItemsUpdates(pagePostData, page):
-    # Delete appropiate Sheet Items
+    # Delete marked items
     try:
-        for sheetItemId in pagePostData.get('pageItemIdsToDelete')[0].split('|'):
+        for sheetItemId in pagePostData.get('itemIdsToDelete')[0].split('|'):
             SheetItem.objects.get(id=int(sheetItemId)).delete()
     except ValueError:
         pass
@@ -135,14 +135,26 @@ def handleSheetItemsUpdates(pagePostData, page):
     sheetItemTitles = pagePostData.get('title')
     sheetItemDescriptions = pagePostData.get('description')
     sheetItemPrices = pagePostData.get('price')
+    sheetItemStartDatetimes = pagePostData.get('startDatetime')
+    sheetItemEndDatetimes = pagePostData.get('endDatetime')
     for i in range(len(sheetItemIds)):
         try:
             sheetItem = SheetItem.objects.get(id=int(sheetItemIds[i]))
             sheetItem.title = sheetItemTitles[i]
             sheetItem.description = sheetItemDescriptions[i]
-            sheetItem.price = sheetItemPrices[i]
+            sheetItem.price = sheetItemPrices[i] if sheetItemPrices[i] else None
+            sheetItem.startDatetime = sheetItemStartDatetimes[i] if sheetItemStartDatetimes[i] else None
+            sheetItem.endDatetime = sheetItemEndDatetimes[i] if sheetItemEndDatetimes[i] else None
+
         except ObjectDoesNotExist:
-            sheetItem = SheetItem(title=sheetItemTitles[i], description=sheetItemDescriptions[i], price=sheetItemPrices[i])
+            sheetItem = SheetItem(title=sheetItemTitles[i], description=sheetItemDescriptions[i])
+            sheetItem.price = sheetItemPrices[i] if sheetItemPrices[i] else None
+
+            sheetItem.startDatetime = (datetime.datetime.strptime(sheetItemStartDatetimes[i], '%Y-%m-%dT%H:%M')
+                                       if sheetItemStartDatetimes[i] else None)
+            sheetItem.endDatetime = (datetime.datetime.strptime(sheetItemEndDatetimes[i], '%Y-%m-%dT%H:%M')
+                                     if sheetItemEndDatetimes[i] else None)
+
             sheetItem.page = page
         sheetItem.save()
 

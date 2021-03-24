@@ -5,8 +5,12 @@
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/builder_page.css' %}">
     </head>
+    {% if pageData.id %}
     {{ pageData.items|json_script:"pageItems" }}
     <body onload="sheet.loadItems('pageItems')">
+    {% else %}
+    <body>
+    {% endif %}
         {% include 'core.html' %}
 
         <div class="content">
@@ -19,7 +23,7 @@
                 </div>
                 <button id="addItemButton" type="button" onclick="sheet.displayItem()">+</button>
                 <div class="actions">
-                    <button class="action-button" id="savePageButton" type="submit">Save Page</button>
+                    <button class="action-button" id="savePageButton" type="button" onclick="sheet.submit()">Save Page</button>
                     {% if pageData.id %}
                         {{ pageDeleteConfirmationPopupData|json_script:"pageDeleteConfirmationPopupData" }}
                         <button class="action-button" id="deletePageButton" type="button" onclick="confirmationPopup.display('pageDeleteConfirmationPopupData')">Delete Page</button>
@@ -27,7 +31,6 @@
                 </div>
 
                 <input class="hidden" name="pageId" value="{{ pageData.id }}"></input>
-                <input class="hidden" id="pageItemIdsToDelete" name="pageItemIdsToDelete" value=""></input>
             </form>
             <form id="pageDeleteForm" method="POST">
                 {% csrf_token %}
