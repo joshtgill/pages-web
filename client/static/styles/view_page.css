@@ -15,6 +15,12 @@
     margin: 4vh 5vmin;
 }
 
+.content .items .sheet-item h3 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: normal;
+}
+
 .content .items .sheet-item .header {
     width: 100%;
     display: flex;
@@ -22,14 +28,25 @@
     align-items: center;
 }
 
-.content .items .sheet-item .header h3 {
-    margin: 0;
-    font-size: 32px;
-    font-weight: normal;
+.content .items .sheet-item .datetime {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+}
+
+.content .items .sheet-item .datetime h3 {
+    font-size: 20px;
+    margin: 3px 0;
+}
+
+.content .items .sheet-item .datetime h4 {
+    font-size: 18px;
+    margin: 2px 0;
 }
 
 .content .items .sheet-item p {
-    line-height: 35px;
+    line-height: 30px;
     font-size: 22px;
     margin: 20px 0 0 0;
     text-align: left;
@@ -44,5 +61,15 @@
         line-height: 35px;
         font-size: 25px;
         margin-bottom: 0;
+    }
+
+    .content .items .sheet-item .datetime {
+        flex-direction: row;
+        align-items: baseline;
+    }
+
+    .content .items .sheet-item .datetime h4 {
+        margin-left: 7px;
+        margin-right: 9px;
     }
 }

@@ -15,7 +15,24 @@
                 {% for sheetItem in pageData.sheetItems %}
                     <div class="sheet-item">
                         <div class="header">
-                            <h3>{{ sheetItem.title }}</h3><h3 style="font-size: 25px">${{ sheetItem.price|formatPrice }}</h3>
+                            <h3>{{ sheetItem.title }}</h3>
+                            {% if sheetItem.price %}
+                                <h3 style="font-size: 25px">${{ sheetItem.price|formatPrice }}</h3>
+                            {% endif %}
+                        </div>
+                        <div class="datetime">
+                            {% if sheetItem.startDatetime.date == sheetItem.endDatetime.date and sheetItem.startDatetime %}
+                                <h3 style="margin-right: 5px">{{ sheetItem.startDatetime.date }}</h3>
+                                <h3>{{ sheetItem.startDatetime|time:"g:i A"|lower }} - {{ sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
+                            {% else %}
+                                {% if sheetItem.startDatetime %}
+                                    <h3>{{ sheetItem.startDatetime|date:"N j, Y"}} {{sheetItem.startDatetime|time:"g:i A"|lower }}</h3>
+                                {% endif %}
+                                {% if sheetItem.endDatetime %}
+                                    <h4>to</h4>
+                                    <h3>{{ sheetItem.endDatetime|date:"N j, Y"}} {{sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
+                                {% endif %}
+                            {% endif %}
                         </div>
                         <p>{{ sheetItem.description }}</p>
                     </div>
