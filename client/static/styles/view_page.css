@@ -29,6 +29,16 @@
     margin-bottom: 10px;
 }
 
+.content .items .sheet-item .header .price {
+    display: flex;
+    align-items: center;
+}
+
+.content .items .sheet-item .header .price img {
+    height: 25px;
+    margin-bottom: 2px;
+}
+
 .content .items .sheet-item .field {
     display: flex;
     flex-direction: row;

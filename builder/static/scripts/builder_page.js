@@ -232,16 +232,25 @@ class PriceField extends BaseOptionalField {
 
     buildButton() {
         super.buildButton();
-        this.button.id = 'priceButton';
-        this.button.textContent = '$';
+
+        var priceFieldIcon = document.createElement('img');
+        priceFieldIcon.src = '/static/images/price.png';
+        priceFieldIcon.alt = 'price';
+
+        this.button.appendChild(priceFieldIcon);
     }
 
     buildContainer() {
-        this.container.className = 'price-container';
+        this.container.className = 'field-container';
+        this.container.id = 'price';
 
-        var moneySign = document.createElement('h3');
-        moneySign.textContent = '$';
-        this.container.appendChild(moneySign)
+        var valueContainer = document.createElement('div');
+        valueContainer.className = 'value-container';
+
+        var priceIcon = document.createElement('img');
+        priceIcon.src = '/static/images/price.png';
+        priceIcon.alt = 'price';
+        valueContainer.appendChild(priceIcon)
 
         var priceInput = document.createElement('input');
         priceInput.id = 'sheetItemPrice';
@@ -251,7 +260,9 @@ class PriceField extends BaseOptionalField {
         priceInput.placeholder = 'Price';
         priceInput.value = this.hasValues() ? this.values[0] : '';
 
-        this.container.appendChild(priceInput);
+        valueContainer.appendChild(priceInput);
+
+        this.container.appendChild(valueContainer);
 
         this.container.appendChild(super.buildRemoveFieldButton());
     }
@@ -270,14 +281,20 @@ class DatetimeField extends BaseOptionalField {
         super.buildButton();
 
         var datetimeFieldIcon = document.createElement('img');
-        datetimeFieldIcon.src = '/static/images/clock.png';
+        datetimeFieldIcon.src = '/static/images/datetime.png';
         datetimeFieldIcon.alt = 'clock';
 
         this.button.appendChild(datetimeFieldIcon);
     }
 
     buildContainer() {
-        this.container.className = 'datetime-container';
+        this.container.className = 'field-container';
+        this.container.id = 'datetime';
+
+        var datetimeFieldIcon = document.createElement('img');
+        datetimeFieldIcon.src = '/static/images/datetime.png';
+        datetimeFieldIcon.alt = 'clock';
+        this.container.appendChild(datetimeFieldIcon);
 
         var startInput = document.createElement('input');
         startInput.type = 'datetime-local';
@@ -324,7 +341,16 @@ class LocationField extends BaseOptionalField {
     }
 
     buildContainer() {
-        this.container.className = 'location-container';
+        this.container.className = 'field-container';
+        this.container.id = 'location';
+
+        var valueContainer = document.createElement('div');
+        valueContainer.className = 'value-container';
+
+        var locationIcon = document.createElement('img');
+        locationIcon.src = '/static/images/location.png';
+        locationIcon.alt = 'price';
+        valueContainer.appendChild(locationIcon);
 
         var locationInput = document.createElement('input');
         locationInput.name = 'location';
@@ -332,7 +358,9 @@ class LocationField extends BaseOptionalField {
         locationInput.placeholder = 'Location';
         locationInput.autocomplete = 'off';
         locationInput.value = this.hasValues() ? this.values[0] : '';
-        this.container.appendChild(locationInput);
+        valueContainer.appendChild(locationInput);
+
+        this.container.appendChild(valueContainer);
 
         this.container.appendChild(super.buildRemoveFieldButton());
     }
