@@ -20,20 +20,33 @@
                                 <h3 style="font-size: 25px">${{ sheetItem.price|formatPrice }}</h3>
                             {% endif %}
                         </div>
-                        <div class="datetime">
-                            {% if sheetItem.startDatetime.date == sheetItem.endDatetime.date and sheetItem.startDatetime %}
-                                <h3 style="margin-right: 5px">{{ sheetItem.startDatetime.date }}</h3>
-                                <h3>{{ sheetItem.startDatetime|time:"g:i A"|lower }} - {{ sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
-                            {% else %}
-                                {% if sheetItem.startDatetime %}
-                                    <h3>{{ sheetItem.startDatetime|date:"N j, Y"}} {{sheetItem.startDatetime|time:"g:i A"|lower }}</h3>
-                                {% endif %}
-                                {% if sheetItem.endDatetime %}
-                                    <h4>to</h4>
-                                    <h3>{{ sheetItem.endDatetime|date:"N j, Y"}} {{sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
-                                {% endif %}
-                            {% endif %}
-                        </div>
+                        {% if sheetItem.startDatetime or sheetItem.endDatetime %}
+                            <div class="field">
+                                <img src="{% static 'images/clock.png' %}">
+                                <div class="value">
+                                    {% if sheetItem.startDatetime.date == sheetItem.endDatetime.date and sheetItem.startDatetime %}
+                                        <h3 style="margin-right: 5px">{{ sheetItem.startDatetime.date }}</h3>
+                                        <h3>{{ sheetItem.startDatetime|time:"g:i A"|lower }} - {{ sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
+                                    {% else %}
+                                        {% if sheetItem.startDatetime %}
+                                            <h3>{{ sheetItem.startDatetime|date:"N j, Y"}} {{sheetItem.startDatetime|time:"g:i A"|lower }}</h3>
+                                        {% endif %}
+                                        {% if sheetItem.endDatetime %}
+                                            <h4>to</h4>
+                                            <h3>{{ sheetItem.endDatetime|date:"N j, Y"}} {{sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if sheetItem.location %}
+                            <div class="field">
+                                <img src="{% static 'images/location.png' %}">
+                                <div class="value">
+                                        <h3>{{ sheetItem.location }}</h3>
+                                </div>
+                            </div>
+                        {% endif %}
                         <p>{{ sheetItem.description }}</p>
                     </div>
                     {% if forloop.counter < pageData.sheetItems|length %}

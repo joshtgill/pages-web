@@ -26,21 +26,34 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
 
-.content .items .sheet-item .datetime {
+.content .items .sheet-item .field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 3px 0;
+}
+
+.content .items .sheet-item .field img {
+    height: 23px;
+}
+
+.content .items .sheet-item .field .value {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-top: 5px;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin-left: 15px;
 }
 
-.content .items .sheet-item .datetime h3 {
+.content .items .sheet-item .field .value h3 {
     font-size: 20px;
     margin: 3px 0;
 }
 
-.content .items .sheet-item .datetime h4 {
+.content .items .sheet-item .field .value h4 {
     font-size: 18px;
     margin: 2px 0;
 }
@@ -63,13 +76,12 @@
         margin-bottom: 0;
     }
 
-    .content .items .sheet-item .datetime {
+    .content .items .sheet-item .field .value {
         flex-direction: row;
-        align-items: baseline;
     }
 
-    .content .items .sheet-item .datetime h4 {
+    .content .items .sheet-item .field .value h4 {
         margin-left: 7px;
-        margin-right: 9px;
+        margin-right: 7px;
     }
 }
