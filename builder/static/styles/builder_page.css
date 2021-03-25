@@ -32,6 +32,7 @@
 .content form .items .item {
     width: 100%;
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
 }
 
@@ -86,6 +87,15 @@
 }
 
 .content form .items .item .datetime-container button img {
+    width: 25px;
+    margin: 0 10px;
+}
+
+.content form .items .item .location-container {
+    display: flex;
+}
+
+.content form .items .item .location-container button img {
     width: 25px;
     margin: 0 10px;
 }

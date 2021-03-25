@@ -128,32 +128,34 @@ def handleSheetItemsUpdates(pagePostData, page):
         pass
 
     # For each Sheet Item, update its attributes if it exists. Otherwise create it.
-    sheetItemIds = pagePostData.get('id')
-    if not sheetItemIds:
+    ids = pagePostData.get('id')
+    if not ids:
         return
 
-    sheetItemTitles = pagePostData.get('title')
-    sheetItemDescriptions = pagePostData.get('description')
-    sheetItemPrices = pagePostData.get('price')
-    sheetItemStartDatetimes = pagePostData.get('startDatetime')
-    sheetItemEndDatetimes = pagePostData.get('endDatetime')
-    for i in range(len(sheetItemIds)):
+    titles = pagePostData.get('title')
+    descriptions = pagePostData.get('description')
+    prices = pagePostData.get('price')
+    locations = pagePostData.get('location')
+    startDatetimes = pagePostData.get('startDatetime')
+    endDatetimes = pagePostData.get('endDatetime')
+    for i in range(len(ids)):
         try:
-            sheetItem = SheetItem.objects.get(id=int(sheetItemIds[i]))
-            sheetItem.title = sheetItemTitles[i]
-            sheetItem.description = sheetItemDescriptions[i]
-            sheetItem.price = sheetItemPrices[i] if sheetItemPrices[i] else None
-            sheetItem.startDatetime = sheetItemStartDatetimes[i] if sheetItemStartDatetimes[i] else None
-            sheetItem.endDatetime = sheetItemEndDatetimes[i] if sheetItemEndDatetimes[i] else None
+            sheetItem = SheetItem.objects.get(id=int(ids[i]))
+            sheetItem.title = titles[i]
+            sheetItem.description = descriptions[i]
+            sheetItem.price = prices[i] if prices[i] else None
+            sheetItem.location = locations[i] if locations[i] else None
+            sheetItem.startDatetime = startDatetimes[i] if startDatetimes[i] else None
+            sheetItem.endDatetime = endDatetimes[i] if endDatetimes[i] else None
 
         except ObjectDoesNotExist:
-            sheetItem = SheetItem(title=sheetItemTitles[i], description=sheetItemDescriptions[i])
-            sheetItem.price = sheetItemPrices[i] if sheetItemPrices[i] else None
-
-            sheetItem.startDatetime = (datetime.datetime.strptime(sheetItemStartDatetimes[i], '%Y-%m-%dT%H:%M')
-                                       if sheetItemStartDatetimes[i] else None)
-            sheetItem.endDatetime = (datetime.datetime.strptime(sheetItemEndDatetimes[i], '%Y-%m-%dT%H:%M')
-                                     if sheetItemEndDatetimes[i] else None)
+            sheetItem = SheetItem(title=titles[i], description=descriptions[i])
+            sheetItem.location = locations[i] if locations[i] else None
+            sheetItem.price = prices[i] if prices[i] else None
+            sheetItem.startDatetime = (datetime.datetime.strptime(startDatetimes[i], '%Y-%m-%dT%H:%M')
+                                       if startDatetimes[i] else None)
+            sheetItem.endDatetime = (datetime.datetime.strptime(endDatetimes[i], '%Y-%m-%dT%H:%M')
+                                     if endDatetimes[i] else None)
 
             sheetItem.page = page
         sheetItem.save()

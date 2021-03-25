@@ -34,6 +34,7 @@ class SheetItem(models.Model):
     title = models.CharField(max_length=LENGTH_SHORT)
     description = models.CharField(max_length=LENGTH_MEDIUM)
     price = models.FloatField(null=True)
+    location = models.CharField(max_length=LENGTH_MEDIUM, null=True)
     startDatetime = models.DateTimeField(null=True)
     endDatetime = models.DateTimeField(null=True)
 

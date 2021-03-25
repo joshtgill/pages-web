@@ -65,7 +65,7 @@ class SheetItem {
         this.container = container;
 
         this.baseFields = [new TextInputField(data['title']), new TextAreaField(data['description'])];
-        this.fieldOptions = [new PriceField(data['price']), new DatetimeField(data['startDatetime'], data['endDatetime'])];
+        this.fieldOptions = [new PriceField(data['price']), new LocationField(data['location']), new DatetimeField(data['startDatetime'], data['endDatetime'])];
 
         this.buildContainer();
     }
@@ -138,7 +138,7 @@ class BaseField {
     }
 
     hasValues() {
-        return this.values[0] != null;
+        return this.values[0] != null && this.values[0] != '';
     }
 }
 
@@ -253,7 +253,7 @@ class PriceField extends BaseOptionalField {
 
         this.container.appendChild(priceInput);
 
-        this.container.appendChild(super.buildRemoveFieldButton(this.container));
+        this.container.appendChild(super.buildRemoveFieldButton());
     }
 
     nullValues() {
@@ -295,7 +295,7 @@ class DatetimeField extends BaseOptionalField {
         endInput.value = this.hasValues() ? this.values[1] : '';
         this.container.appendChild(endInput);
 
-        this.container.appendChild(super.buildRemoveFieldButton(this.container));
+        this.container.appendChild(super.buildRemoveFieldButton());
     }
 
     hasValues() {
@@ -305,6 +305,40 @@ class DatetimeField extends BaseOptionalField {
     nullValues() {
         this.container.querySelector('input[name="startDatetime"]').value = '';
         this.container.querySelector('input[name="endDatetime"]').value = '';
+    }
+}
+
+class LocationField extends BaseOptionalField {
+    constructor(...args) {
+        super(document.createElement('button'), document.createElement('div'), args);
+    }
+
+    buildButton() {
+        super.buildButton();
+
+        var locationFieldIcon = document.createElement('img');
+        locationFieldIcon.src = '/static/images/location.png';
+        locationFieldIcon.alt = 'location';
+
+        this.button.appendChild(locationFieldIcon);
+    }
+
+    buildContainer() {
+        this.container.className = 'location-container';
+
+        var locationInput = document.createElement('input');
+        locationInput.name = 'location';
+        locationInput.type = 'text';
+        locationInput.placeholder = 'Location';
+        locationInput.autocomplete = 'off';
+        locationInput.value = this.hasValues() ? this.values[0] : '';
+        this.container.appendChild(locationInput);
+
+        this.container.appendChild(super.buildRemoveFieldButton());
+    }
+
+    nullValues() {
+        this.container.querySelector('input[name="location"]').value = '';
     }
 }
 
