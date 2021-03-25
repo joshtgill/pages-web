@@ -46,19 +46,19 @@ def applyOrganization(request):
 
 
 @login_required
-def builder(request):
+def build(request):
     if request.method == 'GET':
         pageListings = PageListing.objects
         builderForm = BuilderForm(request.GET)
 
         # If a Page type isn't provided, list available Page types
         if not builderForm.is_valid():
-            return render(request, 'builder_select_type.html', {'pageListings': pageListings.all()})
+            return render(request, 'select_page_type.html', {'pageListings': pageListings.all()})
 
         # If the provided Page type doesn't exist, list available Pages
         pageType = builderForm.cleaned_data['typee']
         if not pageListings.filter(name=pageType).count():
-            return render(request, 'builder.html', {'pageListings': pageListings.all()})
+            return render(request, 'select.html', {'pageListings': pageListings.all()})
 
         # If a Page ID is provided that also belongs to the active organization, load existing data
         # If only a Page ID is provided, redirect to a new Page
@@ -75,11 +75,11 @@ def builder(request):
                                                                 'formValue': pageData.get('id'),
                                                                 'dismissButtonText': 'Cancel'}})
         elif pageId:
-            return redirect('/create/builder/?typee={}'.format(pageType))
+            return redirect('/create/build/?typee={}'.format(pageType))
         else:
             content.update({'pageData': {'typee': pageType}})
 
-        return render(request, 'builder_page.html', content)
+        return render(request, 'build_page.html', content)
 
     pageDeleteForm = PageDeleteForm(request.POST)
     if pageDeleteForm.is_valid():

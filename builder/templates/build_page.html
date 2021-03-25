@@ -3,7 +3,7 @@
     <head>
         <title>{{ pageData.type }} Builder</title>
 
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/builder_page.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/build_page.css' %}">
     </head>
     {% if pageData.id %}
     {{ pageData.items|json_script:"pageItems" }}
@@ -41,5 +41,5 @@
 
     {% include 'base_popup.html' %}
     {% include 'confirmation_popup.html' %}
-    <script src="{% static 'scripts/builder_page.js' %}"></script>
+    <script src="{% static 'scripts/build_page.js' %}"></script>
 </html>

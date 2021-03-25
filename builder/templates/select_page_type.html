@@ -3,7 +3,7 @@
     <head>
         <title>Builder</title>
 
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/builder_select_type.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/select_page_type.css' %}">
     </head>
     <body>
         {% include 'core.html' %}
@@ -12,7 +12,7 @@
             <h1>Select a Page type</h1>
             <div class="pages">
                 {% for pageListing in pageListings %}
-                    <a href="{% url 'builder' %}?typee={{ pageListing.name }}">
+                    <a href="{% url 'build' %}?typee={{ pageListing.name }}">
                         <div class="page">
                             <h1>{{ pageListing.name }}</h1>
                             <hr>
