@@ -206,9 +206,6 @@ class TextInputField extends BaseField {
         this.container.className = 'field-container';
         this.container.id = 'title-field-container';
 
-        var valueContainer = document.createElement('div');
-        valueContainer.className = 'value-container';
-
         var titleInput = document.createElement('input');
         titleInput.name = 'title';
         titleInput.type = 'text';
@@ -216,9 +213,7 @@ class TextInputField extends BaseField {
         titleInput.autocomplete = 'off';
         titleInput.value = this.hasValues() ? this.values[0] : '';
 
-        valueContainer.appendChild(titleInput);
-
-        this.container.appendChild(valueContainer);
+        this.container.appendChild(titleInput);
     }
 }
 
@@ -230,18 +225,13 @@ class TextAreaField extends BaseField {
     buildContainer() {
         this.container.className = 'field-container';
 
-        var valueContainer = document.createElement('div');
-        valueContainer.className = 'value-container';
-
         var descriptionTextArea = document.createElement('textarea');
         descriptionTextArea.name = 'description';
         descriptionTextArea.rows = 3;
         descriptionTextArea.placeholder = 'Description';
         descriptionTextArea.value = this.hasValues() ? this.values[0] : '';
 
-        valueContainer.appendChild(descriptionTextArea);
-
-        this.container.appendChild(valueContainer);
+        this.container.appendChild(descriptionTextArea);
     }
 }
 
@@ -264,13 +254,10 @@ class PriceField extends BaseOptionalField {
         this.container.className = 'field-container';
         this.container.id = 'price-field-container';
 
-        var valueContainer = document.createElement('div');
-        valueContainer.className = 'value-container';
-
         var priceIcon = document.createElement('img');
         priceIcon.src = '/static/images/price.png';
         priceIcon.alt = 'price';
-        valueContainer.appendChild(priceIcon)
+        this.container.appendChild(priceIcon);
 
         var priceInput = document.createElement('input');
         priceInput.id = 'sheetItemPrice';
@@ -279,10 +266,7 @@ class PriceField extends BaseOptionalField {
         priceInput.step = '0.01';
         priceInput.placeholder = 'Price';
         priceInput.value = this.hasValues() ? this.values[0] : '';
-
-        valueContainer.appendChild(priceInput);
-
-        this.container.appendChild(valueContainer);
+        this.container.appendChild(priceInput);
 
         this.container.appendChild(super.buildRemoveFieldButton());
     }
@@ -364,13 +348,10 @@ class LocationField extends BaseOptionalField {
         this.container.className = 'field-container';
         this.container.id = 'location-field-container';
 
-        var valueContainer = document.createElement('div');
-        valueContainer.className = 'value-container';
-
         var locationIcon = document.createElement('img');
         locationIcon.src = '/static/images/location.png';
         locationIcon.alt = 'price';
-        valueContainer.appendChild(locationIcon);
+        this.container.appendChild(locationIcon);
 
         var locationInput = document.createElement('input');
         locationInput.name = 'location';
@@ -378,9 +359,7 @@ class LocationField extends BaseOptionalField {
         locationInput.placeholder = 'Location';
         locationInput.autocomplete = 'off';
         locationInput.value = this.hasValues() ? this.values[0] : '';
-        valueContainer.appendChild(locationInput);
-
-        this.container.appendChild(valueContainer);
+        this.container.appendChild(locationInput);
 
         this.container.appendChild(super.buildRemoveFieldButton());
     }

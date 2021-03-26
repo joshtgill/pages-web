@@ -55,30 +55,8 @@
 }
 
 .field-container img {
-    width: 25px;
-    margin: 0;
-}
-
-.field-container input {
-    margin: 0 10px;
-}
-
-.field-container .value-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: rgb(240, 240, 240);
-    border-radius: 10px;
-}
-
-.field-container .value-container img {
     height: 25px;
-    margin: 0 0 2px 10px;
-}
-
-.field-container .value-container input {
-    margin: 0 0 0 10px;
-    padding-left: 0;
+    margin: 0 10px 0 0;
 }
 
 .field-container button {
@@ -91,6 +69,10 @@
     outline: none;
 }
 
+.field-container button img {
+    margin: 0 0 0 10px;
+}
+
 #title-field-container {
     max-width: 400px;
 }
@@ -100,22 +82,18 @@
     flex-wrap: nowrap;
 }
 
-#price-field-container img {
-    margin-left: 10px;
-}
-
 #location-field-container {
     max-width: 500px;
     flex-wrap: nowrap;
     align-self: flex-start;
 }
 
-#location-field-container img {
-    margin-left: 10px;
+#datetime-field-container img {
+    margin: 0 0 10px 0;
 }
 
-#datetime-field-container img {
-    margin: 10px 0;
+#datetime-field-container button {
+    margin: 0;
 }
 
 #datetime-field-container input {
@@ -126,13 +104,9 @@
 }
 
 #datetime-field-container h3 {
-    margin: 10px 0;
+    margin: 10px;
     font-size: 20px;
     font-weight: normal;
-}
-
-.content form .items .item img {
-    margin-left: 10px;
 }
 
 .content form .items .item .actions {
@@ -221,6 +195,10 @@
     }
 
     #datetime-field-container input {
-       max-width: 300px;
+        max-width: 300px;
+    }
+
+    #datetime-field-container img {
+        margin: 0 10px 0 0;
     }
 }
