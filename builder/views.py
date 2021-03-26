@@ -66,7 +66,7 @@ def build(request):
         content = {}
         pageId = builderForm.cleaned_data['idd']
         if pageId and Page.objects.filter(organization=request.user.profile.organization, id=pageId).count():
-            pageData = buildPageData(pageId)
+            pageData = buildPageData(pageType, pageId)
             content.update({'pageData': pageData,
                             'pageDeleteConfirmationPopupData': {'prompt': 'Permanently delete <b>{}</b> from {}?'.format(pageData.get('name'),
                                                                                                                          request.user.profile.organization.name),
@@ -87,20 +87,31 @@ def build(request):
         return redirect('/create/manage/')
 
     pagePostData = dict(request.POST)
+
+    # Handle updates for general Page object
     page = handlePageUpdate(request, pagePostData)
-    handleSheetItemsUpdates(pagePostData, page)
+
+    # Handle updates for any specific Pages
+    pageType = pagePostData.get('pageType')[0]
+    if pageType == 'Sheet':
+        handleSheetItemsUpdates(pagePostData, page)
+    elif pageType == 'Event':
+        handleEventUpdates(pagePostData, page)
 
     return redirect('/create/manage/')
 
 
-def buildPageData(idd):
+def buildPageData(pageType, idd):
     page = Page.objects.get(id=idd)
     pageData = model_to_dict(page)
 
-    sheetItemsData = []
-    for sheetItem in SheetItem.objects.filter(page=page):
-        sheetItemsData.append(model_to_dict(sheetItem))
-    pageData.update({'items': sheetItemsData})
+    if pageType == 'Sheet':
+        sheetItemsData = []
+        for sheetItem in SheetItem.objects.filter(page=page):
+            sheetItemsData.append(model_to_dict(sheetItem))
+        pageData.update({'items': sheetItemsData})
+    elif pageType == 'Event':
+        pageData.update({'event': model_to_dict(Event.objects.get(page=page))})
 
     return pageData
 
@@ -159,6 +170,30 @@ def handleSheetItemsUpdates(pagePostData, page):
 
             sheetItem.page = page
         sheetItem.save()
+
+
+def handleEventUpdates(pagePostData, page):
+    description = pagePostData.get('description')[0]
+    location = pagePostData.get('location')[0]
+    startDatetime = pagePostData.get('startDatetime')[0]
+    endDatetime = pagePostData.get('endDatetime')[0]
+
+    event = None
+    try:
+        event = Event.objects.get(page=page)
+        event.description = description
+        event.location = location
+        event.startDatetime = datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M')
+        if endDatetime:
+            event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
+    except ObjectDoesNotExist:
+        event = Event(description=description,
+                      location=location,
+                      startDatetime=datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M'),
+                      page=page)
+        if endDatetime:
+            event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
+    event.save()
 
 
 @login_required
