@@ -116,10 +116,6 @@ body {
     line-height: 40px;
 }
 
-.hidden {
-    display: none;
-}
-
 .stats-bar {
     width: 92vw;
     max-width: 1000px;

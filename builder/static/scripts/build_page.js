@@ -46,7 +46,7 @@ class Sheet {
 
     submit() {
         var itemIdsToDeleteInput = document.createElement('input');
-        itemIdsToDeleteInput.className = 'hidden';
+        itemIdsToDeleteInput.type = 'hidden';
         itemIdsToDeleteInput.name = 'itemIdsToDelete';
         itemIdsToDeleteInput.value = this.itemIdsToDelete.join('|');
         this.container.appendChild(itemIdsToDeleteInput);
@@ -76,7 +76,7 @@ class SheetItem {
 
     buildContainer() {
         var idInput = document.createElement('input');
-        idInput.className = 'hidden';
+        idInput.type = 'hidden';
         idInput.name = 'id';
         idInput.value = this.id;
         this.container.appendChild(idInput);
