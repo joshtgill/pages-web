@@ -199,29 +199,49 @@ class BaseOptionalField extends BaseField {
 
 class TextInputField extends BaseField {
     constructor(...args) {
-        super(document.createElement('input'), args);
+        super(document.createElement('div'), args);
     }
 
     buildContainer() {
-        this.container.id = 'sheetItemTitle';
-        this.container.name = 'title';
-        this.container.type = 'text';
-        this.container.placeholder = 'Title';
-        this.container.autocomplete = 'off';
-        this.container.value = this.hasValues() ? this.values[0] : '';
+        this.container.className = 'field-container';
+        this.container.id = 'title-field-container';
+
+        var valueContainer = document.createElement('div');
+        valueContainer.className = 'value-container';
+
+        var titleInput = document.createElement('input');
+        titleInput.name = 'title';
+        titleInput.type = 'text';
+        titleInput.placeholder = 'Title';
+        titleInput.autocomplete = 'off';
+        titleInput.value = this.hasValues() ? this.values[0] : '';
+
+        valueContainer.appendChild(titleInput);
+
+        this.container.appendChild(valueContainer);
     }
 }
 
 class TextAreaField extends BaseField {
     constructor(...args) {
-        super(document.createElement('textarea'), args);
+        super(document.createElement('div'), args);
     }
 
     buildContainer() {
-        this.container.name = 'description';
-        this.container.rows = 3;
-        this.container.placeholder = 'Description';
-        this.container.value = this.hasValues() ? this.values[0] : '';
+        this.container.className = 'field-container';
+
+        var valueContainer = document.createElement('div');
+        valueContainer.className = 'value-container';
+
+        var descriptionTextArea = document.createElement('textarea');
+        descriptionTextArea.name = 'description';
+        descriptionTextArea.rows = 3;
+        descriptionTextArea.placeholder = 'Description';
+        descriptionTextArea.value = this.hasValues() ? this.values[0] : '';
+
+        valueContainer.appendChild(descriptionTextArea);
+
+        this.container.appendChild(valueContainer);
     }
 }
 
@@ -242,7 +262,7 @@ class PriceField extends BaseOptionalField {
 
     buildContainer() {
         this.container.className = 'field-container';
-        this.container.id = 'price';
+        this.container.id = 'price-field-container';
 
         var valueContainer = document.createElement('div');
         valueContainer.className = 'value-container';
@@ -289,7 +309,7 @@ class DatetimeField extends BaseOptionalField {
 
     buildContainer() {
         this.container.className = 'field-container';
-        this.container.id = 'datetime';
+        this.container.id = 'datetime-field-container';
 
         var datetimeFieldIcon = document.createElement('img');
         datetimeFieldIcon.src = '/static/images/datetime.png';
@@ -342,7 +362,7 @@ class LocationField extends BaseOptionalField {
 
     buildContainer() {
         this.container.className = 'field-container';
-        this.container.id = 'location';
+        this.container.id = 'location-field-container';
 
         var valueContainer = document.createElement('div');
         valueContainer.className = 'value-container';
