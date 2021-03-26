@@ -13,7 +13,7 @@
             <form method="POST">
                 {% csrf_token %}
                 <input name="name" placeholder="Organization name" autocomplete="off" value="{{ request.user.profile.organization.name }}">
-                <div class="private-container">
+                <div class="toggle">
                     <h3>Make private</h3>
                     <label class="switch">
                             <input type="checkbox" name="private"

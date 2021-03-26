@@ -289,6 +289,72 @@ body {
     color: rgb(0, 0, 0);
 }
 
+.toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3vh 0 0 0;
+}
+
+.toggle h3 {
+    margin: 0 20px 0 0;
+    font-size: 25px;
+    font-weight: normal;
+}
+
+.toggle .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle .switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .2s;
+    transition: .2s;
+    border-radius: 34px;
+}
+
+.toggle .switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .2s;
+    transition: .2s;
+    border-radius: 50%;
+}
+
+.toggle .switch input:checked + .slider {
+    background-color: rgb(88, 184, 106);
+}
+
+.toggle .switch input:focus + .slider {
+    border: 1px solid rgb(200, 200, 200);
+}
+
+.toggle .switch input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
 @media only screen and (min-width: 580px) {
     .top-nav .left {
         display: block;
