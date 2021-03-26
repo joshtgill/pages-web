@@ -368,5 +368,3 @@ class LocationField extends BaseOptionalField {
         this.container.querySelector('input[name="location"]').value = '';
     }
 }
-
-sheet = new Sheet(document.getElementById('items'));

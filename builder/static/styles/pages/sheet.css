@@ -1,0 +1,75 @@
+.content form .items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 3vh 0 1vh 0;
+}
+
+.content form .items .item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.content form .items hr {
+    width: 100%;
+    margin: 5vh auto 4vh auto;
+}
+
+.content form .items .item .actions {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.content form .items .item .actions .field-options {
+    height: 100%;
+    display: flex;
+}
+
+.content form .items .item .actions .field-options button {
+    width: 50px;
+    min-width: 50px;
+    margin: 0 15px 0 0;
+    font-size: 25px;
+    border-radius: 10px;
+    background-color: rgb(240, 240, 240);
+    text-decoration: none;
+}
+
+.content form .items .item .actions .field-options button img {
+    width: 25px;
+    margin: 0;
+}
+
+.content form .items .item .actions button {
+    font-size: 20px;
+    color: rgb(30, 30, 30);
+    background-color: rgb(255, 255, 255);
+    text-decoration: underline;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.content form #addItemButton {
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    color: rgb(30, 30, 30);
+    background-color: rgb(230, 230, 230);
+    border: none;
+    border-radius: 50px;
+    outline: none;
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 580px) {
+    .content form .items .item button {
+        flex-grow: 0;
+    }
+}
