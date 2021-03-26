@@ -1,0 +1,16 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/pages/event.css' %}">
+
+<textarea placeholder="Description" rows="3" name="description"></textarea>
+<div class="field-container" id="location-field-container">
+    <img src="{% static 'images/location.png' %}" required>
+    <input placeholder="Location">
+</div>
+<div class="non-repeating">
+    <div class="field-container" id="datetime-field-container">
+        <img src="{% static 'images/datetime.png' %}">
+        <input type="datetime-local" name="startDatetime" required>
+        <h3>to</h3>
+        <input type="datetime-local" name="endDatetime">
+    </div>
+</div>

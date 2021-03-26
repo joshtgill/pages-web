@@ -1,0 +1,28 @@
+.content form textarea {
+    margin-top: 5vh;
+}
+
+.content form .toggle {
+    margin: 3vh 0;
+    align-self: flex-start;
+}
+
+.content form .non-repeating {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 1vh 0;
+}
+
+.content form .non-repeating h3 {
+    margin: 10px;
+}
+
+@media only screen and (min-width: 580px) {
+    .content form .non-repeating {
+        flex-direction: row;
+    }
+}
