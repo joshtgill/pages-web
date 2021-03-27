@@ -5,41 +5,37 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    overflow: auto;
+    margin-top: 4vh;
 }
 
-.content .pages a {
-    margin: 4vh 5vw;
-    color: rgb(30, 30, 30);
-    text-decoration: none;
-}
-
-.content .pages a .page {
+.content .pages .page {
     width: 90vw;
     max-width: 700px;
     min-height: 200px;
     display: flex;
     flex-direction: column;
-    margin: 1vh 0 1vh 0;
+    margin: 3vh 2vw;
+    color: rgb(30, 30, 30);
     border-radius: 10px;
     border: 1px solid rgb(200, 200, 200);
     transition: 0.5s;
+    text-decoration: none;
 }
 
-.content .pages a .page h1 {
+.content .pages .page h1 {
     margin: 20px 0 0 0;
     text-align: center;
     font-size: 30px;
     font-weight: normal;
 }
 
-.content .pages a .page hr {
+.content .pages .page hr {
     width: 50px;
     margin: 15px auto 0 auto;
     color: rgb(220, 220, 220);
 }
 
-.content .pages a .page p {
+.content .pages .page p {
     margin: 25px 40px 20px 40px;
     font-size: 20px;
     line-height: 28px;

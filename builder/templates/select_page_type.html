@@ -12,12 +12,10 @@
             <h1>Select a Page type</h1>
             <div class="pages">
                 {% for pageListing in pageListings %}
-                    <a href="{% url 'build' %}?typee={{ pageListing.name }}">
-                        <div class="page">
-                            <h1>{{ pageListing.name }}</h1>
-                            <hr>
-                            <p>{{ pageListing.description }}</p>
-                        </div>
+                    <a class="page" href="{% url 'build' %}?typee={{ pageListing.name }}">
+                        <h1>{{ pageListing.name }}</h1>
+                        <hr>
+                        <p>{{ pageListing.description }}</p>
                     </a>
                 {% endfor %}
             </div>
