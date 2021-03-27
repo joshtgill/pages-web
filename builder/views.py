@@ -58,7 +58,7 @@ def build(request):
         # If the provided Page type doesn't exist, list available Pages
         pageType = builderForm.cleaned_data['typee']
         if not pageListings.filter(name=pageType).count():
-            return render(request, 'select.html', {'pageListings': pageListings.all()})
+            return redirect('/create/build/')
 
         # If a Page ID is provided that also belongs to the active organization, load existing data
         # If only a Page ID is provided, redirect to a new Page
@@ -95,7 +95,7 @@ def build(request):
     pageType = pagePostData.get('pageType')[0]
     if pageType == 'Sheet':
         handleSheetItemsUpdates(pagePostData, page)
-    elif pageType == 'Event':
+    elif pageType == 'Program':
         handleEventUpdates(pagePostData, page)
 
     return redirect('/create/manage/')
@@ -110,8 +110,8 @@ def buildPageData(pageType, idd):
         for sheetItem in SheetItem.objects.filter(page=page):
             sheetItemsData.append(model_to_dict(sheetItem))
         pageData.update({'items': sheetItemsData})
-    elif pageType == 'Event':
-        pageData.update({'event': model_to_dict(Event.objects.get(page=page))})
+    elif pageType == 'Program':
+        pageData.update({'program': model_to_dict(ProgramItem.objects.get(page=page))})
 
     return pageData
 
@@ -178,22 +178,22 @@ def handleEventUpdates(pagePostData, page):
     startDatetime = pagePostData.get('startDatetime')[0]
     endDatetime = pagePostData.get('endDatetime')[0]
 
-    event = None
+    program = None
     try:
-        event = Event.objects.get(page=page)
-        event.description = description
-        event.location = location
-        event.startDatetime = datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M')
+        program = ProgramItem.objects.get(page=page)
+        program.description = description
+        program.location = location
+        program.startDatetime = datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M')
         if endDatetime:
-            event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
+            program.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
     except ObjectDoesNotExist:
-        event = Event(description=description,
+        program = ProgramItem(description=description,
                       location=location,
                       startDatetime=datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M'),
                       page=page)
         if endDatetime:
-            event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
-    event.save()
+            program.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
+    program.save()
 
 
 @login_required

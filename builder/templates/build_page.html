@@ -22,8 +22,8 @@
                     {% include 'pages/sheet.html' %}
                 <div class="actions">
                     <button class="action-button" id="savePageButton" type="button" onclick="sheet.submit()">Save {{ pageData.typee }}</button>
-                {% elif pageData.typee == 'Event' %}
-                    {% include 'pages/event.html' %}
+                {% elif pageData.typee == 'Program' %}
+                    {% include 'pages/program.html' %}
                 <div class="actions">
                     <button class="action-button" id="savePageButton" type="submit">Save {{ pageData.typee }}</button>
                 {% endif %}

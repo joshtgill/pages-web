@@ -41,7 +41,7 @@ class SheetItem(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 
-class Event(models.Model):
+class ProgramItem(models.Model):
     title = models.CharField(max_length=LENGTH_SHORT)
     description = models.CharField(max_length=LENGTH_MEDIUM)
     location = models.CharField(max_length=LENGTH_MEDIUM, null=True)
