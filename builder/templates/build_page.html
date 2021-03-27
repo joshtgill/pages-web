@@ -16,14 +16,16 @@
             {% endif %}
             <form id="pageForm" method="POST">
                 {% csrf_token %}
-                <input id="pageNameInput" name="pageName" placeholder="{{ pageData.typee }} name" autocomplete="off" value="{{ pageData.name }}" required>
+                <input type="hidden" name="pageId" value="{{ pageData.id }}">
                 <input type="hidden" name="pageType" value="{{ pageData.typee }}">
+
+                <input id="pageNameInput" name="pageName" placeholder="{{ pageData.typee }} name" autocomplete="off" value="{{ pageData.name }}" required>
                 {% if pageData.typee == 'Sheet' %}
                     {% include 'pages/sheet.html' %}
                 <div class="actions">
                     <button class="action-button" id="savePageButton" type="button" onclick="sheet.submit()">Save {{ pageData.typee }}</button>
-                {% elif pageData.typee == 'Program' %}
-                    {% include 'pages/program.html' %}
+                {% elif pageData.typee == 'Event' %}
+                    {% include 'pages/event.html' %}
                 <div class="actions">
                     <button class="action-button" id="savePageButton" type="submit">Save {{ pageData.typee }}</button>
                 {% endif %}
@@ -32,8 +34,6 @@
                         <button class="action-button" id="deletePageButton" type="button" onclick="confirmationPopup.display('pageDeleteConfirmationPopupData')">Delete Page</button>
                     {% endif %}
                 </div>
-
-                <input type="hidden" name="pageId" value="{{ pageData.id }}"></input>
             </form>
             <form id="pageDeleteForm" method="POST">
                 {% csrf_token %}

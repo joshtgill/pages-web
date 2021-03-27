@@ -1,0 +1,25 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/pages/event.css' %}">
+
+{{ pageData|json_script:"event" }}
+<textarea placeholder="Description" rows="3" name="description">{{ pageData.description }}</textarea>
+<div class="field-container" id="location-field-container">
+    <img src="{% static 'images/location.png' %}" required>
+    <input name="location" value="{{ pageData.location }}" placeholder="Location" autocomplete="off">
+</div>
+<div class="field-container" id="datetime-field-container">
+    <img src="{% static 'images/datetime.png' %}">
+    <input type="datetime-local" id="startDatetime" name="startDatetime" required>
+    <h3>to</h3>
+    <input type="datetime-local" id="endDatetime" name="endDatetime">
+
+    <script>
+        var event = JSON.parse(document.getElementById('event').textContent);
+        if (event['startDatetime']) {
+            document.getElementById('startDatetime').value = event['startDatetime'].slice(0, -3);
+        }
+        if (event['endDatetime']) {
+            document.getElementById('endDatetime').value = event['endDatetime'].slice(0, -3);
+        }
+    </script>
+</div>

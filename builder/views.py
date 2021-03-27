@@ -88,30 +88,30 @@ def build(request):
 
     pagePostData = dict(request.POST)
 
-    # Handle updates for general Page object
-    page = handlePageUpdate(request, pagePostData)
 
     # Handle updates for any specific Pages
     pageType = pagePostData.get('pageType')[0]
     if pageType == 'Sheet':
+        page = handlePageUpdate(request, pagePostData)
         handleSheetItemsUpdates(pagePostData, page)
-    elif pageType == 'Program':
-        handleEventUpdates(pagePostData, page)
+    elif pageType == 'Event':
+        handleEventUpdate(pagePostData, request)
 
     return redirect('/create/manage/')
 
 
 def buildPageData(pageType, idd):
-    page = Page.objects.get(id=idd)
-    pageData = model_to_dict(page)
-
+    pageData = {}
     if pageType == 'Sheet':
+        page = Page.objects.get(id=idd)
+        pageData = model_to_dict(page)
+
         sheetItemsData = []
         for sheetItem in SheetItem.objects.filter(page=page):
             sheetItemsData.append(model_to_dict(sheetItem))
         pageData.update({'items': sheetItemsData})
-    elif pageType == 'Program':
-        pageData.update({'program': model_to_dict(ProgramItem.objects.get(page=page))})
+    elif pageType == 'Event':
+        return model_to_dict(Event.objects.get(id=idd))
 
     return pageData
 
@@ -172,28 +172,32 @@ def handleSheetItemsUpdates(pagePostData, page):
         sheetItem.save()
 
 
-def handleEventUpdates(pagePostData, page):
+def handleEventUpdate(pagePostData, request):
     description = pagePostData.get('description')[0]
     location = pagePostData.get('location')[0]
     startDatetime = pagePostData.get('startDatetime')[0]
     endDatetime = pagePostData.get('endDatetime')[0]
 
-    program = None
+    event = None
     try:
-        program = ProgramItem.objects.get(page=page)
-        program.description = description
-        program.location = location
-        program.startDatetime = datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M')
+        event = Event.objects.get(id=pagePostData.get('pageId')[0])
+        event.name = pagePostData.get('pageName')[0]
+        event.description = description
+        event.location = location
+        event.startDatetime = datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M')
         if endDatetime:
-            program.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
-    except ObjectDoesNotExist:
-        program = ProgramItem(description=description,
+            event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
+    except ValueError:
+        event = Event(name=pagePostData.get('pageName')[0],
+                      typee=pagePostData.get('pageType')[0],
+                      dateCreated=datetime.date.today(),
+                      description=description,
                       location=location,
                       startDatetime=datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M'),
-                      page=page)
+                      organization=request.user.profile.organization)
         if endDatetime:
-            program.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
-    program.save()
+            event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
+    event.save()
 
 
 @login_required
