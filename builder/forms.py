@@ -10,7 +10,7 @@ class SelectOrganizationForm(forms.Form):
         self.fields['ids'] = forms.ChoiceField(label='', choices=self.choices, required=True)
 
 
-class ApplyOrganizationForm(forms.Form):
+class RequestNewOrganizationForm(forms.Form):
     name = forms.CharField(label='',
                            widget=forms.TextInput(attrs={'placeholder': 'Organization name', 'autocomplete': 'off'}),
                            max_length=100)

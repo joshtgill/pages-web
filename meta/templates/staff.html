@@ -56,52 +56,52 @@
                     {% endif %}
                 </div>
                 <div class="item" style="max-width: 600px">
-                    <h3>Organization applications</h3>
-                    {% if organizationApplications %}
+                    <h3>New organization requests</h3>
+                    {% if newOrganizationRequests %}
                         <div class="list">
-                            {{ organizationApplicationApproveConfirmationPopupData|json_script:"organizationApplicationApproveConfirmationPopupData" }}
-                            {{ organizationApplicationDenyConfirmationPopupData|json_script:"organizationApplicationDenyConfirmationPopupData" }}
-                            {% for organizationApplication in organizationApplications %}
-                                {% if forloop.counter == organizationApplications|length %}
+                            {{ newOrganizationRequestApproveConfirmationPopupData|json_script:"newOrganizationRequestApproveConfirmationPopupData" }}
+                            {{ newOrganizationRequestDenyConfirmationPopupData|json_script:"newOrganizationRequestDenyConfirmationPopupData" }}
+                            {% for newOrganizationRequest in newOrganizationRequests %}
+                                {% if forloop.counter == newOrganizationRequests|length %}
                                 <div class="element" style="margin-bottom: 5px">
                                 {% else %}
                                 <div class="element">
                                 {% endif %}
                                     <div class="info" style="cursor: auto">
-                                        <h4>{{ organizationApplication.name }}</h4>
+                                        <h4>{{ newOrganizationRequest.name }}</h4>
                                         <div class="details">
-                                            <h5><b>Applicant:</b> {{ organizationApplication.applicant.get_full_name }}</h5>
+                                            <h5><b>Applicant:</b> {{ newOrganizationRequest.applicant.get_full_name }}</h5>
                                         </div>
                                     </div>
                                     <div class="actions">
-                                        <a onclick="confirmationPopup.display('organizationApplicationApproveConfirmationPopupData',
+                                        <a onclick="confirmationPopup.display('newOrganizationRequestApproveConfirmationPopupData',
                                                                             null,
-                                                                            {{ organizationApplication.id }},
-                                                                            'Approve <b>{{ organizationApplication.name }}</b> as an organization?')">
+                                                                            {{ newOrganizationRequest.id }},
+                                                                            'Approve <b>{{ newOrganizationRequest.name }}</b> to be an organization?')">
                                             Approve
                                         </a>
-                                        <a onclick="confirmationPopup.display('organizationApplicationDenyConfirmationPopupData',
+                                        <a onclick="confirmationPopup.display('newOrganizationRequestDenyConfirmationPopupData',
                                                                             null,
-                                                                            {{ organizationApplication.id }},
-                                                                            'Deny <b>{{ organizationApplication.name }}</b> as an organization?')">
+                                                                            {{ newOrganizationRequest.id }},
+                                                                            'Deny <b>{{ newOrganizationRequest.name }}</b> to be an organization?')">
                                             Deny
                                         </a>
                                     </div>
                                 </div>
-                                {% if forloop.counter < organizationApplications|length %}
+                                {% if forloop.counter < newOrganizationRequests|length %}
                                     <hr>
                                 {% endif %}
                             {% endfor %}
                         </div>
-                        {% if organizationApplications|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
+                        {% if newOrganizationRequests|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
                             <div class="footer">
-                                <h4>{{ organizationApplications|length }} total</h4>
+                                <h4>{{ newOrganizationRequests|length }} total</h4>
                                 <a href="{% url 'home' %}">View all ></a>
                             </div>
                         {% endif %}
                     {% else %}
                         <div class="empty-list">
-                            <h4>No applications</h4>
+                            <h4>No requests</h4>
                         </div>
                     {% endif %}
                 </div>

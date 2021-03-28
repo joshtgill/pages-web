@@ -6,7 +6,7 @@ import django.contrib.auth as djangoAuth
 from django.core.exceptions import ObjectDoesNotExist
 from builder.models import Profile
 from django.contrib.admin.views.decorators import staff_member_required
-from builder.models import Organization, OrganizationApplication, Membership
+from builder.models import Organization, NewOrganizationRequest, Membership
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
@@ -135,15 +135,15 @@ def staff(request):
     content = {'organizations': organizations[:settings.MAX_DASHBOARD_LIST_ENTRIES]}
 
     if request.method == 'GET':
-        content.update({'organizationApplications': OrganizationApplication.objects.all()[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-                        'organizationApplicationApproveConfirmationPopupData': {'prompt': None,
+        content.update({'newOrganizationRequests': NewOrganizationRequest.objects.all()[:settings.MAX_DASHBOARD_LIST_ENTRIES],
+                        'newOrganizationRequestApproveConfirmationPopupData': {'prompt': None,
                                                                                 'confirmButtonText': 'Approve',
-                                                                                'formName': 'organizationApplicationIdToApprove',
+                                                                                'formName': 'newOrganizationRequestIdToApprove',
                                                                                 'formValue': None,
                                                                                 'dismissButtonText': 'Cancel'},
-                        'organizationApplicationDenyConfirmationPopupData': {'prompt': None,
+                        'newOrganizationRequestDenyConfirmationPopupData': {'prompt': None,
                                                                              'confirmButtonText': 'Deny',
-                                                                             'formName': 'organizationApplicationIdToDeny',
+                                                                             'formName': 'newOrganizationRequestIdToDeny',
                                                                              'formValue': None,
                                                                              'dismissButtonText': 'Cancel'},
                         'organizationDeleteConfirmationPopupData': {'prompt': None,
@@ -158,26 +158,26 @@ def staff(request):
         organizations.get(id=organizationDeleteForm.cleaned_data['organizationIdToDelete']).delete()
         return redirect('/staff/')
 
-    organizationApplicationApproveForm = OrganizationApplicationApproveForm(request.POST)
-    if organizationApplicationApproveForm.is_valid():
-        organizationApplication = OrganizationApplication.objects.get(id=organizationApplicationApproveForm.cleaned_data['organizationApplicationIdToApprove'])
+    newOrganizationRequestApproveForm = NewOrganizationRequestApproveForm(request.POST)
+    if newOrganizationRequestApproveForm.is_valid():
+        newOrganizationRequest = NewOrganizationRequest.objects.get(id=newOrganizationRequestApproveForm.cleaned_data['newOrganizationRequestIdToApprove'])
 
         # Create organization
-        organization = Organization(name=organizationApplication.name, owner=organizationApplication.applicant)
+        organization = Organization(name=newOrganizationRequest.name, owner=newOrganizationRequest.applicant)
         organization.save()
 
         # Assign organization to user
-        organizationApplication.applicant.profile.organization = organization
-        organizationApplication.applicant.profile.save()
+        newOrganizationRequest.applicant.profile.organization = organization
+        newOrganizationRequest.applicant.profile.save()
 
-        # Delete organization application
-        organizationApplication.delete()
+        # Delete organization request
+        newOrganizationRequest.delete()
 
-    organizationApplicationDenyForm = OrganizationApplicationDenyForm(request.POST)
-    if organizationApplicationDenyForm.is_valid():
-        organizationApplication = OrganizationApplication.objects.get(id=organizationApplicationDenyForm.cleaned_data['organizationApplicationIdToDeny'])
+    newOrganizationRequestDenyForm = NewOrganizationRequestDenyForm(request.POST)
+    if newOrganizationRequestDenyForm.is_valid():
+        newOrganizationRequest = NewOrganizationRequest.objects.get(id=newOrganizationRequestDenyForm.cleaned_data['newOrganizationRequestIdToDeny'])
 
-        # Delete organization application
-        organizationApplication.delete()
+        # Delete organization request
+        newOrganizationRequest.delete()
 
     return redirect('/staff/')

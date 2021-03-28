@@ -6,7 +6,7 @@ LENGTH_SHORT = 30
 LENGTH_MEDIUM = 100
 
 
-class OrganizationApplication(models.Model):
+class NewOrganizationRequest(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     applicant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

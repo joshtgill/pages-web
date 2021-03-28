@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 
 
-def create(request):
+def createPitch(request):
     return render(request, 'create_pitch.html')
 
 
@@ -21,7 +21,7 @@ def selectOrganization(request):
 
     selectOrganizationForm = SelectOrganizationForm(request.POST, organizations=organizations)
     if not selectOrganizationForm.is_valid():
-        return render(request, 'select_organization.html', content)
+        return redirect('/create/select/')
 
     request.user.profile.organization = Organization.objects.get(id=selectOrganizationForm.cleaned_data['ids'])
     request.user.profile.save()
@@ -30,17 +30,17 @@ def selectOrganization(request):
 
 
 @login_required
-def applyOrganization(request):
+def requestNewOrganization(request):
     if request.method == 'GET':
-        return render(request, 'apply_organization.html', {'applyOrganizationForm': ApplyOrganizationForm()})
+        return render(request, 'request_new_organization.html', {'requestNewOrganizationForm': RequestNewOrganizationForm()})
 
-    applyOrganizationForm = ApplyOrganizationForm(request.POST)
-    if not applyOrganizationForm.is_valid():
-        return redirect('/create/apply/')
+    requestNewOrganizationForm = RequestNewOrganizationForm(request.POST)
+    if not requestNewOrganizationForm.is_valid():
+        return redirect('/create/request/')
 
-    organizationApplication = OrganizationApplication(name=applyOrganizationForm.cleaned_data['name'])
-    organizationApplication.applicant = request.user
-    organizationApplication.save()
+    newOrganizationRequest = NewOrganizationRequest(name=requestNewOrganizationForm.cleaned_data['name'])
+    newOrganizationRequest.applicant = request.user
+    newOrganizationRequest.save()
 
     return redirect('/profile/')
 

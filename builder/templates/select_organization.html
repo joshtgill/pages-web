@@ -11,14 +11,14 @@
         <div class="content">
             <h1>Select an organization</h1>
             <h2>Looks like you're not part of an organization.<br>
-                Select an organization below, or apply to create your own.</h2>
+                Select an organization below, or send a request for a new one of your own.</h2>
             <form action="" method="POST">
                 {% csrf_token %}
                 {{ selectOrganizationForm }}
                 <button class="action-button" type="submit">Select</button>
             </form>
             <h3>- or -</h3>
-            <a href="{% url 'apply_organization' %}">Apply for an organization</a>
+            <a href="{% url 'request_new_organization' %}">Request a new organization</a>
         </div>
     </body>
 </html>
