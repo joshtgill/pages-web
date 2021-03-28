@@ -35,7 +35,7 @@
                     {% endif %}
                 </div>
             </form>
-            <form id="pageDeleteForm" method="POST">
+            <form id="deletePageForm" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="pageIdToDelete" value="{{ pageData.id }}">
             </form>

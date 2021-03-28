@@ -16,16 +16,16 @@ class RequestNewOrganizationForm(forms.Form):
                            max_length=100)
 
 
-class BuilderForm(forms.Form):
+class BuildForm(forms.Form):
     typee = forms.CharField()
     idd = forms.IntegerField(required=False)
 
 
-class PageDeleteForm(forms.Form):
+class DeletePageForm(forms.Form):
     pageIdToDelete = forms.IntegerField()
 
 
-class OrganizationEditForm(forms.Form):
+class EditOrganizationForm(forms.Form):
     name = forms.CharField()
     private = forms.BooleanField(required=False)
 

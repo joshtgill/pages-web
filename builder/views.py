@@ -49,23 +49,20 @@ def requestNewOrganization(request):
 def build(request):
     if request.method == 'GET':
         pageListings = PageListing.objects
-        builderForm = BuilderForm(request.GET)
+        buildForm = BuildForm(request.GET)
 
-        # If a Page type isn't provided, list available Page types
-        if not builderForm.is_valid():
+        if not buildForm.is_valid():
+            # Page type isn't provided, list available Pages
             return render(request, 'select_page_type.html', {'pageListings': pageListings.all()})
 
-        # If the provided Page type doesn't exist, list available Pages
-        pageType = builderForm.cleaned_data['typee']
+        pageType = buildForm.cleaned_data['typee']
         if not pageListings.filter(name=pageType).count():
             return redirect('/create/build/')
 
-        # If a Page ID is provided that also belongs to the active organization, load existing data
-        # If only a Page ID is provided, redirect to a new Page
-        # Otherwise only provide the type of Page
         content = {}
-        pageId = builderForm.cleaned_data['idd']
+        pageId = buildForm.cleaned_data['idd']
         if pageId and Page.objects.filter(organization=request.user.profile.organization, id=pageId).count():
+            # Page ID is provided and belongs to active organization. Load Page builder with existing data.
             pageData = buildPageData(pageType, pageId)
             content.update({'pageData': pageData,
                             'pageDeleteConfirmationPopupData': {'prompt': 'Permanently delete <b>{}</b> from {}?'.format(pageData.get('name'),
@@ -74,22 +71,19 @@ def build(request):
                                                                 'formName': 'pageIdToDelete',
                                                                 'formValue': pageData.get('id'),
                                                                 'dismissButtonText': 'Cancel'}})
-        elif pageId:
-            return redirect('/create/build/?typee={}'.format(pageType))
         else:
+            # Invalid Page ID is provided with respect to organization. Load empty Page builder.
             content.update({'pageData': {'typee': pageType}})
 
         return render(request, 'build_page.html', content)
 
-    pageDeleteForm = PageDeleteForm(request.POST)
-    if pageDeleteForm.is_valid():
-        Page.objects.get(id=pageDeleteForm.cleaned_data['pageIdToDelete']).delete()
+    deletePageForm = DeletePageForm(request.POST)
+    if deletePageForm.is_valid():
+        Page.objects.get(id=deletePageForm.cleaned_data['pageIdToDelete']).delete()
         return redirect('/create/manage/')
 
+    # Handle updates for Page
     pagePostData = dict(request.POST)
-
-
-    # Handle updates for any specific Pages
     pageType = pagePostData.get('pageType')[0]
     if pageType == 'Sheet':
         page = handlePageUpdate(request, pagePostData)
@@ -117,7 +111,6 @@ def buildPageData(pageType, idd):
 
 
 def handlePageUpdate(request, pagePostData):
-    # If the Page exists, update its name. Otherwise create it.
     page = None
     try:
         page = Page.objects.get(id=pagePostData.get('pageId')[0])
@@ -131,18 +124,13 @@ def handlePageUpdate(request, pagePostData):
 
 
 def handleSheetItemsUpdates(pagePostData, page):
-    # Delete marked items
     try:
         for sheetItemId in pagePostData.get('itemIdsToDelete')[0].split('|'):
             SheetItem.objects.get(id=int(sheetItemId)).delete()
     except ValueError:
         pass
 
-    # For each Sheet Item, update its attributes if it exists. Otherwise create it.
     ids = pagePostData.get('id')
-    if not ids:
-        return
-
     titles = pagePostData.get('title')
     descriptions = pagePostData.get('description')
     prices = pagePostData.get('price')
@@ -158,7 +146,6 @@ def handleSheetItemsUpdates(pagePostData, page):
             sheetItem.location = locations[i] if locations[i] else None
             sheetItem.startDatetime = startDatetimes[i] if startDatetimes[i] else None
             sheetItem.endDatetime = endDatetimes[i] if endDatetimes[i] else None
-
         except ObjectDoesNotExist:
             sheetItem = SheetItem(title=titles[i], description=descriptions[i])
             sheetItem.location = locations[i] if locations[i] else None
@@ -237,7 +224,6 @@ def manageOrganization(request):
 
     approveMembershipForm = ApproveMembershipForm(request.POST)
     if approveMembershipForm.is_valid():
-        # Approve the membership
         membership = Membership.objects.get(id=approveMembershipForm.cleaned_data['membershipIdToApprove'])
         membership.relatedDate = datetime.date.today()
         membership.approved = True
@@ -246,13 +232,11 @@ def manageOrganization(request):
 
     denyMembershipForm = DenyMembershipForm(request.POST)
     if denyMembershipForm.is_valid():
-        # Discard the membership
         Membership.objects.get(id=denyMembershipForm.cleaned_data['membershipIdToDeny']).delete()
         return redirect('/create/manage/')
 
     revokeMembershipForm = RevokeMembershipForm(request.POST)
     if revokeMembershipForm.is_valid():
-        # Discard the membership
         Membership.objects.get(id=revokeMembershipForm.cleaned_data['membershipIdToRevoke']).delete()
 
     return redirect('/create/manage/')
@@ -271,10 +255,10 @@ def buildOrganizationsPagesData(organization):
 @login_required
 def editOrganization(request):
     if request.method == 'POST':
-        organizationEditForm = OrganizationEditForm(request.POST)
-        if organizationEditForm.is_valid():
-            request.user.profile.organization.name = organizationEditForm.cleaned_data['name']
-            request.user.profile.organization.private = organizationEditForm.cleaned_data['private']
+        editOrganizationForm = EditOrganizationForm(request.POST)
+        if editOrganizationForm.is_valid():
+            request.user.profile.organization.name = editOrganizationForm.cleaned_data['name']
+            request.user.profile.organization.private = editOrganizationForm.cleaned_data['private']
             request.user.profile.organization.save()
         return redirect('/create/manage/')
 
