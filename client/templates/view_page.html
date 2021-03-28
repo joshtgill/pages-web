@@ -1,6 +1,5 @@
 <html>
     {% load static %}
-    {% load view_page %}
     <head>
         <title>View {{ pageData.name }}</title>
 
@@ -10,63 +9,11 @@
         {% include 'core.html' %}
 
         <div class="content">
-            <h1>{{ pageData.name }}<h1>
-            <div class="items">
-                {% for sheetItem in pageData.sheetItems %}
-                    <div class="sheet-item">
-                        <div class="header">
-                            <h3>{{ sheetItem.title }}</h3>
-                            {% if sheetItem.price and not sheetItem.startDatetime and not sheetItem.location %}
-                                <div class="price">
-                                    <img src="{% static 'images/price.png'%}">
-                                    <h3 style="font-size: 25px">{{ sheetItem.price|formatPrice }}</h3>
-                                </div>
-                            {% endif %}
-                        </div>
-                        {% if sheetItem.startDatetime or sheetItem.endDatetime %}
-                            <div class="field">
-                                <img src="{% static 'images/datetime.png' %}">
-                                <div class="value">
-                                    {% if sheetItem.startDatetime.date == sheetItem.endDatetime.date and sheetItem.startDatetime %}
-                                        <h3 style="margin-right: 5px">{{ sheetItem.startDatetime.date|date:"F j, Y" }}</h3>
-                                        <h3>{{ sheetItem.startDatetime|time:"g:i A"|lower }} - {{ sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
-                                    {% else %}
-                                        {% if sheetItem.startDatetime %}
-                                            <h3>{{ sheetItem.startDatetime|date:"F j, Y"}} {{sheetItem.startDatetime|time:"g:i A"|lower }}</h3>
-                                        {% endif %}
-                                        {% if sheetItem.endDatetime %}
-                                            <h4>to</h4>
-                                            <h3>{{ sheetItem.endDatetime|date:"F j, Y"}} {{sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
-                                        {% endif %}
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if sheetItem.location %}
-                            <div class="field">
-                                <img src="{% static 'images/location.png' %}">
-                                <div class="value">
-                                    <h3>{{ sheetItem.location }}</h3>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if sheetItem.price %}
-                            {% if sheetItem.location or sheetItem.startDatetime %}
-                                <div class="field">
-                                    <img style="margin-bottom: 2px" src="{% static 'images/price.png' %}">
-                                    <div class="value">
-                                        <h3>{{ sheetItem.price|formatPrice }}</h3>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% endif %}
-                        <p>{{ sheetItem.description }}</p>
-                    </div>
-                    {% if forloop.counter < pageData.sheetItems|length %}
-                        <hr>
-                    {% endif %}
-                {% endfor %}
-            </div>
+            {% if pageData.type == 'Sheet' %}
+                {% include 'pages/view_sheet.html' %}
+            {% else %}
+                {% include 'pages/view_event.html' %}
+            {% endif %}
         </div>
     </body>
 </html>

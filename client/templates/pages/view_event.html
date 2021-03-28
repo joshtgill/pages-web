@@ -1,0 +1,35 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles/pages/view_event.css' %}">
+
+<div class="items">
+    <div class="item">
+        <div class="header">
+            <h3>{{ pageData.name }}</h3>
+        </div>
+        <div class="field">
+            <img src="{% static 'images/datetime.png' %}">
+            <div class="value">
+                {% if pageData.event.startDatetime.date == pageData.event.endDatetime.date and pageData.event.startDatetime %}
+                    <h3 style="margin-right: 5px">{{ pageData.event.startDatetime.date|date:"F j, Y" }}</h3>
+                    <h3>{{ pageData.event.startDatetime|time:"g:i A"|lower }} - {{ pageData.event.endDatetime|time:"g:i A"|lower }}</h3>
+                {% else %}
+                    {% if pageData.event.startDatetime %}
+                        <h3>{{ pageData.event.startDatetime|date:"F j, Y"}} {{pageData.event.startDatetime|time:"g:i A"|lower }}</h3>
+                    {% endif %}
+                    {% if pageData.event.endDatetime %}
+                        <h4>to</h4>
+                        <h3>{{ pageData.event.endDatetime|date:"F j, Y"}} {{pageData.event.endDatetime|time:"g:i A"|lower }}</h3>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="field">
+            <img src="{% static 'images/location.png' %}">
+            <div class="value">
+                <h3>{{ pageData.event.location }}</h3>
+            </div>
+        </div>
+        <p>{{ pageData.event.description }}</p>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from builder.models import Organization, Page, SheetItem, Membership
+from builder.models import Organization, Page, SheetItem, Event, Membership
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
 from django.contrib.auth.decorators import login_required
@@ -50,7 +50,11 @@ def explore(request):
 
 def buildPageData(pageId):
     page = Page.objects.get(id=pageId)
-    pageData = {'name': page.name, 'sheetItems': SheetItem.objects.filter(page=page)}
+    pageData = {'name': page.name, 'type': page.typee}
+    if page.typee == 'Sheet':
+        pageData.update({'sheetItems': SheetItem.objects.filter(page=page)})
+    elif page.typee == 'Event':
+        pageData.update({'event': Event.objects.get(page=page)})
 
     return pageData
 
