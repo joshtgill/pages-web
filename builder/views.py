@@ -82,30 +82,31 @@ def build(request):
         Page.objects.get(id=deletePageForm.cleaned_data['pageIdToDelete']).delete()
         return redirect('/create/manage/')
 
-    # Handle updates for Page
     pagePostData = dict(request.POST)
+
+    # Handle updates for 'parent' Page
+    page = handlePageUpdate(request, pagePostData)
+
+    # Handle updates for specific Page
     pageType = pagePostData.get('pageType')[0]
     if pageType == 'Sheet':
-        page = handlePageUpdate(request, pagePostData)
         handleSheetItemsUpdates(pagePostData, page)
     elif pageType == 'Event':
-        handleEventUpdate(pagePostData, request)
+        handleEventUpdate(pagePostData, page)
 
     return redirect('/create/manage/')
 
 
 def buildPageData(pageType, idd):
-    pageData = {}
+    page = Page.objects.get(id=idd)
+    pageData = model_to_dict(page)
     if pageType == 'Sheet':
-        page = Page.objects.get(id=idd)
-        pageData = model_to_dict(page)
-
         sheetItemsData = []
         for sheetItem in SheetItem.objects.filter(page=page):
             sheetItemsData.append(model_to_dict(sheetItem))
         pageData.update({'items': sheetItemsData})
     elif pageType == 'Event':
-        return model_to_dict(Event.objects.get(id=idd))
+        pageData.update({'event': model_to_dict(Event.objects.get(page=page))})
 
     return pageData
 
@@ -159,7 +160,7 @@ def handleSheetItemsUpdates(pagePostData, page):
         sheetItem.save()
 
 
-def handleEventUpdate(pagePostData, request):
+def handleEventUpdate(pagePostData, page):
     description = pagePostData.get('description')[0]
     location = pagePostData.get('location')[0]
     startDatetime = pagePostData.get('startDatetime')[0]
@@ -168,20 +169,16 @@ def handleEventUpdate(pagePostData, request):
     event = None
     try:
         event = Event.objects.get(id=pagePostData.get('pageId')[0])
-        event.name = pagePostData.get('pageName')[0]
         event.description = description
         event.location = location
         event.startDatetime = datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M')
         if endDatetime:
             event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
     except ValueError:
-        event = Event(name=pagePostData.get('pageName')[0],
-                      typee=pagePostData.get('pageType')[0],
-                      dateCreated=datetime.date.today(),
-                      description=description,
+        event = Event(description=description,
                       location=location,
                       startDatetime=datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M'),
-                      organization=request.user.profile.organization)
+                      page=page)
         if endDatetime:
             event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
     event.save()

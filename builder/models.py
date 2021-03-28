@@ -41,11 +41,13 @@ class SheetItem(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 
-class Event(Page):
+class Event(models.Model):
     description = models.CharField(max_length=LENGTH_MEDIUM)
     location = models.CharField(max_length=LENGTH_MEDIUM, null=True)
     startDatetime = models.DateTimeField(null=True)
     endDatetime = models.DateTimeField(null=True)
+
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 
 class Profile(models.Model):
