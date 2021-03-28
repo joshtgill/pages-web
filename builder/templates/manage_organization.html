@@ -73,7 +73,8 @@
                         {% endif %}
                     {% else %}
                         <div class="empty-list">
-                            <h4>No Pages</h4>
+                            <h4>No Pages.</h4>
+                            <a href="{% url 'build' %}">Create one</a>
                         </div>
                     {% endif %}
                 </div>
