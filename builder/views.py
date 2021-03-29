@@ -168,7 +168,7 @@ def handleEventUpdate(pagePostData, page):
 
     event = None
     try:
-        event = Event.objects.get(id=pagePostData.get('pageId')[0])
+        event = Event.objects.get(page=page)
         event.description = description
         event.location = location
         event.startDatetime = datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M')

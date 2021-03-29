@@ -46,6 +46,8 @@ class Event(models.Model):
     location = models.CharField(max_length=LENGTH_MEDIUM, null=True)
     startDatetime = models.DateTimeField(null=True)
     endDatetime = models.DateTimeField(null=True)
+    acceptees = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='event_acceptees')
+    declinees = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='event_declinees')
 
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
