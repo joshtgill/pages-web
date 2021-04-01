@@ -1,4 +1,4 @@
-.content .items {
+.content .viewer {
     width: 90vw;
     max-width: 800px;
     display: flex;
@@ -8,20 +8,20 @@
     border-radius: 15px;
 }
 
-.content .items .item {
+.content .viewer .item {
     display: flex;
     flex-direction: column;
     align-items: start;
     margin: 4vh 5vmin;
 }
 
-.content .items .item h3 {
+.content .viewer .item h3 {
     margin: 0;
     font-size: 32px;
     font-weight: normal;
 }
 
-.content .items .item .header {
+.content .viewer .item .header {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -29,18 +29,18 @@
     margin-bottom: 2vh;
 }
 
-.content .items .item .field {
+.content .viewer .item .field {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin: 3px 0;
 }
 
-.content .items .item .field img {
+.content .viewer .item .field img {
     height: 23px;
 }
 
-.content .items .item .field .value {
+.content .viewer .item .field .value {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -48,39 +48,61 @@
     margin-left: 15px;
 }
 
-.content .items .item .field .value h3 {
+.content .viewer .item .field .value h3 {
     font-size: 20px;
     margin: 3px 0;
 }
 
-.content .items .item .field .value h4 {
+.content .viewer .item .field .value h4 {
     font-size: 18px;
     margin: 2px 0;
 }
 
-.content .items .item p {
+.content .viewer .item p {
     line-height: 30px;
     font-size: 22px;
     margin: 20px 0 0 0;
     text-align: left;
 }
 
-.content .items hr {
+.content .viewer hr {
     margin: 1vh 5vmin .5vh 5vmin;
 }
 
+.content .dashboard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 3vh;
+    border-top: 1px solid rgb(200, 200, 200);
+    border-radius: 30px 30px 0 0;
+}
+
+.content .dashboard #title {
+    margin: 3vh 0 1.5vh 0;
+    font-size: 25px;
+    font-weight: normal;
+}
+
+.content .dashboard hr {
+    width: 50px;
+    margin: 0;
+}
+
 @media only screen and (min-width: 580px) {
-    .content .items .item p {
+    .content .viewer .item p {
         line-height: 35px;
         font-size: 25px;
         margin-bottom: 0;
     }
 
-    .content .items .item .field .value {
+    .content .viewer .item .field .value {
         flex-direction: row;
     }
 
-    .content .items .item .field .value h4 {
+    .content .viewer .item .field .value h4 {
         margin-left: 7px;
         margin-right: 7px;
     }

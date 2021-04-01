@@ -1,9 +1,9 @@
-.content .items .item .header .price {
+.content .viewer .item .header .price {
     display: flex;
     align-items: center;
 }
 
-.content .items .item .header .price img {
+.content .viewer .item .header .price img {
     height: 25px;
     margin-bottom: 2px;
 }
