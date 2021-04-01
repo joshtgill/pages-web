@@ -1,3 +1,8 @@
 .content form #pageNameInput {
     margin-bottom: 5vh;
 }
+
+.content form .toggle {
+    align-self: flex-start;
+    margin-top: 3vh;
+}

@@ -299,12 +299,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 3vh 0 0 0;
 }
 
-.toggle h3 {
+.toggle h4 {
     margin: 0 20px 0 0;
-    font-size: 25px;
+    font-size: 22px;
     font-weight: normal;
 }
 

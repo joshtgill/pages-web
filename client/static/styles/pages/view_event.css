@@ -38,6 +38,42 @@
     margin-right: 10px;
 }
 
+.content .items-container .viewer .item .user-list-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.content .items-container .viewer .item .user-list-container h3 {
+    margin: 0 0 15px 0;
+    font-size: 20px;
+}
+
+.content .items-container .viewer .item .user-list-container .user-list {
+    width: 100%;
+    display: flex;
+    margin-bottom: 3vh;
+}
+
+.content .items-container .viewer .item .user-list-container .user-list .item {
+    max-width: 150px;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+.content .items-container .viewer .item .user-list-container .user-list .item img {
+    width: 50px;
+}
+
+.content .items-container .viewer .item .user-list-container .user-list .item h4 {
+    margin: 15px 0 0 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: normal;
+}
+
 @media only screen and (min-width: 1200px) {
     .content {
         flex-direction: row;

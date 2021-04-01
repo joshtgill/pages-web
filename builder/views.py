@@ -83,6 +83,7 @@ def build(request):
         return redirect('/create/manage/')
 
     pagePostData = dict(request.POST)
+    print(pagePostData)
 
     # Handle updates for 'parent' Page
     page = handlePageUpdate(request, pagePostData)
@@ -168,6 +169,11 @@ def handleEventUpdate(pagePostData, page):
     location = pagePostData.get('location')[0]
     startDatetime = pagePostData.get('startDatetime')[0]
     endDatetime = pagePostData.get('endDatetime')[0]
+    attendanceIsPublic = False
+    try:
+        attendanceIsPublic = bool(pagePostData.get('attendanceIsPublic')[0])
+    except TypeError:
+        pass
 
     event = None
     try:
@@ -177,10 +183,12 @@ def handleEventUpdate(pagePostData, page):
         event.startDatetime = datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M')
         if endDatetime:
             event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
-    except ValueError:
+        event.attendanceIsPublic = attendanceIsPublic
+    except Exception:
         event = Event(description=description,
                       location=location,
                       startDatetime=datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M'),
+                      attendanceIsPublic=attendanceIsPublic,
                       page=page)
         if endDatetime:
             event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')

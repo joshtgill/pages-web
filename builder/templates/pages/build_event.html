@@ -12,7 +12,6 @@
     <input type="datetime-local" id="startDatetime" name="startDatetime" required>
     <h3>to</h3>
     <input type="datetime-local" id="endDatetime" name="endDatetime">
-
     <script>
         var event = JSON.parse(document.getElementById('event').textContent);
         if (event['startDatetime']) {
@@ -22,4 +21,16 @@
             document.getElementById('endDatetime').value = event['endDatetime'].slice(0, -3);
         }
     </script>
+</div>
+
+<div class="toggle">
+    <h4>Public attendance</h4>
+    <label class="switch">
+            <input type="checkbox" name="attendanceIsPublic" value="false"
+                {% if pageData.event.attendanceIsPublic %}
+                    checked
+                {% endif %}
+            >
+        <span class="slider"></span>
+    </label>
 </div>

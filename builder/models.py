@@ -46,6 +46,7 @@ class Event(models.Model):
     location = models.CharField(max_length=LENGTH_MEDIUM, null=True)
     startDatetime = models.DateTimeField(null=True)
     endDatetime = models.DateTimeField(null=True)
+    attendanceIsPublic = models.BooleanField(default=False)
     acceptees = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='event_acceptees')
     declinees = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='event_declinees')
 

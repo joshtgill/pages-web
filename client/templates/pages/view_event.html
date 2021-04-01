@@ -41,6 +41,31 @@
                     <button class="action-button" name="status" value="false" style="background-color: rgb(235, 70, 70)">Not attending</button>
                 </div>
             </form>
+
+            {% if pageData.event.attendanceIsPublic %}
+                <div class="user-list-container">
+                    <h3>Attending</h3>
+                    <div class="user-list">
+                        {% for user in pageData.event.acceptees.all %}
+                            <div class="item">
+                                <img src="{% static 'images/earth.png' %}" alt="earth">
+                                <h4>{{ user.get_full_name }}</h4>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="user-list-container">
+                    <h3>Not attending</h3>
+                    <div class="user-list">
+                        {% for user in pageData.event.declinees.all %}
+                            <div class="item">
+                                <img src="{% static 'images/earth.png' %}" alt="earth">
+                                <h4>{{ user.get_full_name }}</h4>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
