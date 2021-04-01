@@ -1,5 +1,5 @@
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'styles/pages/event.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/pages/build_event.css' %}">
 
 {{ pageData.event|json_script:"event" }}
 <textarea placeholder="Description" rows="3" name="description">{{ pageData.event.description }}</textarea>

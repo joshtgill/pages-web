@@ -21,11 +21,11 @@
 
                 <input id="pageNameInput" name="pageName" placeholder="{{ pageData.typee }} name" autocomplete="off" value="{{ pageData.name }}" required>
                 {% if pageData.typee == 'Sheet' %}
-                    {% include 'pages/sheet.html' %}
+                    {% include 'pages/build_sheet.html' %}
                 <div class="actions">
                     <button class="action-button" id="savePageButton" type="button" onclick="sheet.submit()">Save {{ pageData.typee }}</button>
                 {% elif pageData.typee == 'Event' %}
-                    {% include 'pages/event.html' %}
+                    {% include 'pages/build_event.html' %}
                 <div class="actions">
                     <button class="action-button" id="savePageButton" type="submit">Save {{ pageData.typee }}</button>
                 {% endif %}
