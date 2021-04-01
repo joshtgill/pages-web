@@ -1,27 +1,34 @@
-.content .viewer {
+.content .viewer-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2vh;
+}
+
+.content .viewer-container .viewer {
     width: 90vw;
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    margin: 0 0 5vh 0;
     border: 1px solid rgb(200, 200, 200);
     border-radius: 15px;
 }
 
-.content .viewer .item {
+.content .viewer-container .viewer .item {
     display: flex;
     flex-direction: column;
     align-items: start;
     margin: 4vh 5vmin;
 }
 
-.content .viewer .item h3 {
+.content .viewer-container .viewer .item h3 {
     margin: 0;
     font-size: 32px;
     font-weight: normal;
 }
 
-.content .viewer .item .header {
+.content .viewer-container .viewer .item .header {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -29,18 +36,18 @@
     margin-bottom: 2vh;
 }
 
-.content .viewer .item .field {
+.content .viewer-container .viewer .item .field {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin: 3px 0;
 }
 
-.content .viewer .item .field img {
+.content .viewer-container .viewer .item .field img {
     height: 23px;
 }
 
-.content .viewer .item .field .value {
+.content .viewer-container .viewer .item .field .value {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -48,24 +55,24 @@
     margin-left: 15px;
 }
 
-.content .viewer .item .field .value h3 {
+.content .viewer-container .viewer .item .field .value h3 {
     font-size: 20px;
     margin: 3px 0;
 }
 
-.content .viewer .item .field .value h4 {
+.content .viewer-container .viewer .item .field .value h4 {
     font-size: 18px;
     margin: 2px 0;
 }
 
-.content .viewer .item p {
+.content .viewer-container .viewer .item p {
     line-height: 30px;
     font-size: 22px;
     margin: 20px 0 0 0;
     text-align: left;
 }
 
-.content .viewer hr {
+.content .viewer-container .viewer hr {
     margin: 1vh 5vmin .5vh 5vmin;
 }
 
@@ -75,7 +82,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 3vh;
+    margin-top: 4vh;
     border-top: 1px solid rgb(200, 200, 200);
     border-radius: 30px 30px 0 0;
 }
@@ -91,18 +98,41 @@
     margin: 0;
 }
 
+@media only screen and (min-width: 1500px) {
+    .content .viewer-container {
+        height: 100%;
+        margin-top: 0;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content .viewer-container .viewer {
+        margin-bottom: 60px;
+    }
+
+    .content .dashboard {
+        max-width: 600px;
+        min-width: 500px;
+        height: 100%;
+        margin: 0;
+        border-top: none;
+        border-left: 1px solid rgb(200, 200, 200);
+        border-radius: 30px 0 0 30px;
+    }
+}
+
 @media only screen and (min-width: 580px) {
-    .content .viewer .item p {
+    .content .viewer-container .viewer .item p {
         line-height: 35px;
         font-size: 25px;
         margin-bottom: 0;
     }
 
-    .content .viewer .item .field .value {
+    .content .viewer-container .viewer .item .field .value {
         flex-direction: row;
     }
 
-    .content .viewer .item .field .value h4 {
+    .content .viewer-container .viewer .item .field .value h4 {
         margin-left: 7px;
         margin-right: 7px;
     }
