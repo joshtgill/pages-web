@@ -222,15 +222,9 @@ body {
     font-size: 22px;
 }
 
-.dashboard .item .list .element .info .details {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 10px 0 0 0;
-}
-
-.dashboard .item .list .element .info .details h5 {
+.dashboard .item .list .element .info h5 {
     margin: 5px 10px 0 0;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: normal;
 }
 

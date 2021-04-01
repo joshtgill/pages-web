@@ -45,11 +45,7 @@
                                 {% endif %}
                                     <div class="info" style="cursor: auto">
                                         <h4>{{ activePageData.name }}</h4>
-                                        <div class="details">
-                                            <h5><b>Type:</b> {{ activePageData.type }}</h5>
-                                            <h5><b>Items:</b> {{ activePageData.numItems }}</h5>
-                                            <h5><b>Created:</b> {{ activePageData.dateCreated }}</h5>
-                                        </div>
+                                        <h5>Created <i>{{ activePageData.dateCreated }}</i></h5>
                                     </div>
                                     <div class="actions">
                                         <a href="{% url 'explore' %}?organization={{ request.user.profile.organization.name }}&page={{ activePageData.id }}">
