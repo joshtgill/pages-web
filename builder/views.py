@@ -106,7 +106,10 @@ def buildPageData(pageType, idd):
             sheetItemsData.append(model_to_dict(sheetItem))
         pageData.update({'items': sheetItemsData})
     elif pageType == 'Event':
-        pageData.update({'event': model_to_dict(Event.objects.get(page=page))})
+        eventData = model_to_dict(Event.objects.get(page=page))
+        del eventData['acceptees']
+        del eventData['declinees']
+        pageData.update({'event': eventData})
 
     return pageData
 
