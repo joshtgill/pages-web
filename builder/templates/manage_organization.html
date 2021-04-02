@@ -164,8 +164,15 @@
                     {% endif %}
                 </div>
             </div>
-            {{ leaveOrganizationConfirmationPopupData|json_script:"leaveOrganizationConfirmationPopupData" }}
-            <button class="action-button" onclick="confirmationPopup.display('leaveOrganizationConfirmationPopupData')">Leave organization</button>
+            <div class="page-actions">
+                {% if request.user.profile.organization.owner == request.user %}
+                    {{ deleteOrganizationConfirmationPopupData|json_script:"deleteOrganizationConfirmationPopupData" }}
+                    <button id="redButton" onclick="confirmationPopup.display('deleteOrganizationConfirmationPopupData')">Delete Organization</button>
+                {% else %}
+                    {{ leaveOrganizationConfirmationPopupData|json_script:"leaveOrganizationConfirmationPopupData" }}
+                    <button onclick="confirmationPopup.display('leaveOrganizationConfirmationPopupData')">Leave organization</button>
+                {% endif %}
+            </div>
         </div>
     </body>
 

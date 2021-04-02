@@ -6,6 +6,31 @@ a {
     color: rgb(0, 123, 224);
 }
 
+.page-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.page-actions button {
+    width: 80vw;
+    max-width: 300px;
+    height: 50px;
+    min-height: 50px;
+    margin: 1vh 10px;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(30, 30, 30);
+    outline: none;
+    cursor: pointer;
+}
+
+.page-actions #redButton {
+    background-color: rgb(235, 70, 70);
+}
+
 .action-button {
     width: 80vw;
     max-width: 300px;

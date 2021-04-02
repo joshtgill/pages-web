@@ -221,13 +221,23 @@ def manageOrganization(request):
                                                               'confirmButtonText': 'Leave',
                                                               'formName': 'leaveOrganization',
                                                               'formValue': True,
-                                                              'dismissButtonText': 'Cancel'}}
+                                                              'dismissButtonText': 'Cancel'},
+                   'deleteOrganizationConfirmationPopupData': {'prompt': 'Delete <b>{}</b>?'.format(request.user.profile.organization.name),
+                                                               'confirmButtonText': 'Delete',
+                                                               'formName': 'deleteOrganization',
+                                                               'formValue': True,
+                                                               'dismissButtonText': 'Cancel'}}
         return render(request, 'manage_organization.html', content)
 
     leaveOrganizationForm = LeaveOrganizationForm(request.POST)
     if leaveOrganizationForm.is_valid() and request.user.profile.organization.owner != request.user:
         request.user.profile.organization = None
         request.user.profile.save()
+        return redirect('/')
+
+    deleteOrganizationForm = DeleteOrganizationForm(request.POST)
+    if deleteOrganizationForm.is_valid():
+        request.user.profile.organization.delete()
         return redirect('/')
 
     approveMembershipForm = ApproveMembershipForm(request.POST)

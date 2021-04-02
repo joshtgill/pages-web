@@ -30,6 +30,10 @@ class EditOrganizationForm(forms.Form):
     private = forms.BooleanField(required=False)
 
 
+class DeleteOrganizationForm(forms.Form):
+    deleteOrganization = forms.BooleanField()
+
+
 class ApproveMembershipForm(forms.Form):
     membershipIdToApprove = forms.IntegerField()
 
