@@ -1,4 +1,4 @@
-.content .pages {
+.content .page-listings {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -8,10 +8,10 @@
     margin-top: 4vh;
 }
 
-.content .pages .page {
+.content .page-listings .page-listing {
     width: 90vw;
     max-width: 700px;
-    min-height: 200px;
+    min-height: 250px;
     display: flex;
     flex-direction: column;
     margin: 3vh 2vw;
@@ -22,20 +22,20 @@
     text-decoration: none;
 }
 
-.content .pages .page h1 {
+.content .page-listings .page-listing h1 {
     margin: 20px 0 0 0;
     text-align: center;
     font-size: 30px;
     font-weight: normal;
 }
 
-.content .pages .page hr {
+.content .page-listings .page-listing hr {
     width: 50px;
     margin: 15px auto 0 auto;
     color: rgb(220, 220, 220);
 }
 
-.content .pages .page p {
+.content .page-listings .page-listing p {
     margin: 25px 40px 20px 40px;
     font-size: 20px;
     line-height: 28px;

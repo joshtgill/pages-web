@@ -11,6 +11,10 @@
     width: 100%;
 }
 
+.content form .toggle {
+    margin-top: 2vh;
+}
+
 .content form button {
     margin: 4vh 0 0 0;
 }

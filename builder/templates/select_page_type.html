@@ -1,7 +1,7 @@
 <html>
     {% load static %}
     <head>
-        <title>Builder</title>
+        <title>Build</title>
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/select_page_type.css' %}">
     </head>
@@ -10,9 +10,9 @@
 
         <div class="content">
             <h1>Select a Page type</h1>
-            <div class="pages">
+            <div class="page-listings">
                 {% for pageListing in pageListings %}
-                    <a class="page" href="{% url 'build' %}?typee={{ pageListing.name }}">
+                    <a class="page-listing" href="{% url 'build' %}?typee={{ pageListing.name }}">
                         <h1>{{ pageListing.name }}</h1>
                         <hr>
                         <p>{{ pageListing.description }}</p>

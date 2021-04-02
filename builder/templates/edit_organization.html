@@ -14,7 +14,7 @@
                 {% csrf_token %}
                 <input name="name" placeholder="Organization name" autocomplete="off" value="{{ request.user.profile.organization.name }}">
                 <div class="toggle">
-                    <h3>Make private</h3>
+                    <h4>Make private</h4>
                     <label class="switch">
                             <input type="checkbox" name="private"
                                 {% if request.user.profile.organization.private %}
