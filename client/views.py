@@ -69,7 +69,7 @@ def explore(request):
 
 def buildPageData(pageId):
     page = Page.objects.get(id=pageId)
-    pageData = {'name': page.name, 'type': page.typee, 'organization': page.organization}
+    pageData = {'id': page.id, 'name': page.name, 'type': page.typee, 'organization': page.organization}
     if page.typee == 'Sheet':
         pageData.update({'sheetItems': SheetItem.objects.filter(page=page)})
     elif page.typee == 'Event':

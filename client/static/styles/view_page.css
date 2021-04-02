@@ -88,14 +88,13 @@
 }
 
 .content .dashboard #title {
-    margin: 3vh 0 1.5vh 0;
+    margin: 3vh 0 1vh 0;
     font-size: 25px;
     font-weight: normal;
 }
 
-.content .dashboard hr {
-    width: 50px;
-    margin: 0;
+.content .dashboard a {
+    font-size: 19px;
 }
 
 @media only screen and (min-width: 1500px) {

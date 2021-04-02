@@ -72,8 +72,8 @@
 
 {% if request.user.profile.organization == pageData.organization %}
     <div class="dashboard" style="flex-direction: column">
-        <h3 id="title">Manage Event</h3>
-        <hr>
+        <h3 id="title">Manage this Event</h3>
+        <a href="{% url 'build' %}?typee={{ pageData.type }}&idd={{ pageData.id }}">Edit</a>
         <div class="item" style="max-width: 450px">
             <h3>Attending</h3>
             {% if pageData.event.acceptees.all %}
