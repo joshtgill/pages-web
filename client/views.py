@@ -64,7 +64,7 @@ def explore(request):
 
     event.save()
 
-    return redirect('/profile/')
+    return redirect('/explore/?organization={}&page={}'.format(event.page.organization.name, event.page.id))
 
 
 def buildPageData(pageId):

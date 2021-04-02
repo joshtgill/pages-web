@@ -42,6 +42,16 @@
                 </div>
             </form>
 
+            {% if request.user in pageData.event.acceptees.all %}
+                <div class="user-status">
+                    <h3>You <b>are</b> attending this event.</h3>
+                </div>
+            {% elif request.user in pageData.event.declinees.all %}
+                <div class="user-status">
+                    <h3>You <b>are not</b> attending this event.</h3>
+                </div>
+            {% endif %}
+
             {% if pageData.event.attendanceIsPublic %}
                 <div class="user-list-container">
                     <h3>Attending</h3>

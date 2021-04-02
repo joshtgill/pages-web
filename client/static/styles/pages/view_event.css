@@ -21,6 +21,18 @@
     margin-right: 10px;
 }
 
+.content .viewer-container .viewer .item .user-status {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3vh;
+}
+
+.content .viewer-container .viewer .item .user-status h3 {
+    font-size: 20px;
+    font-style: italic;
+}
+
 .content .viewer-container .viewer .item .user-list-container {
     display: flex;
     flex-direction: column;
