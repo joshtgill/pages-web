@@ -249,20 +249,20 @@ body {
     border-top: 1px solid rgb(200, 200, 200);
 }
 
-.dashboard .item .empty-list {
+.dashboard .empty-list {
     display: flex;
     justify-content: center;
     align-items: baseline;
 }
 
-.dashboard .item .empty-list h4 {
+.dashboard .empty-list h4 {
     margin: 23px 3px;
     font-size: 20px;
     font-weight: normal;
     color: rgb(90, 90, 90);
 }
 
-.dashboard .item .empty-list a {
+.dashboard .empty-list a {
     margin: 0 3px;
     font-size: 19.5px;
 }

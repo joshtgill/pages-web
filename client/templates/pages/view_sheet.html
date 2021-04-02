@@ -62,3 +62,13 @@
         {% endfor %}
     </div>
 </div>
+
+{% if request.user.profile.organization == pageData.organization %}
+    <div class="dashboard" style="flex-direction: column">
+        <h3 id="title">Manage this Sheet</h3>
+        <a href="{% url 'build' %}?typee={{ pageData.type }}&idd={{ pageData.id }}">Edit</a>
+        <div class="empty-list">
+            <h4>Nothing to manage for a Sheet.</h4>
+        </div>
+    </div>
+{% endif %}

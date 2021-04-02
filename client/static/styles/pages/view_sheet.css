@@ -8,7 +8,16 @@
     margin-bottom: 2px;
 }
 
+.content .dashboard .empty-list {
+    margin-top: 5vh;
+}
+
 @media only screen and (min-width: 1500px) {
+    .content {
+        flex-direction: row;
+        justify-content: center;
+    }
+
     .content .viewer-container .viewer {
         margin-top: 0;
     }
