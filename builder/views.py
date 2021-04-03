@@ -23,7 +23,12 @@ def selectOrganization(request):
     if not selectOrganizationForm.is_valid():
         return redirect('/create/select/')
 
-    request.user.profile.organization = Organization.objects.get(id=selectOrganizationForm.cleaned_data['ids'])
+    organization = Organization.objects.get(id=selectOrganizationForm.cleaned_data['ids'])
+    request.user.profile.organization = organization
+    if not Membership.objects.filter(user=request.user, organization=organization).exists():
+        membership = Membership(user=request.user, organization=organization, relatedDate=datetime.date.today(), approved=True)
+        membership.save()
+
     request.user.profile.save()
 
     return redirect('/create/')
@@ -83,7 +88,6 @@ def build(request):
         return redirect('/create/manage/')
 
     pagePostData = dict(request.POST)
-    print(pagePostData)
 
     # Handle updates for 'parent' Page
     page = handlePageUpdate(request, pagePostData)

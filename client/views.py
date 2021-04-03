@@ -30,15 +30,15 @@ def explore(request):
 
             content = {}
             if organization.private and not Membership.objects.filter(user=request.user,
-                                                                    organization=organization,
-                                                                    approved=True).count():
+                                                                      organization=organization,
+                                                                      approved=True).count():
                 # Organization is private and a membership does not exists with the user. Show membership request prompt.
                 content.update({'requestMembershipData': {'prompt': '''{} requires approval to view its Pages.
-                                                                    <br><br>Would you like to request approval?'''.format(organization.name),
-                                                        'confirmButtonText': 'Request',
-                                                        'formName': 'membershipRequest',
-                                                        'formValue': True,
-                                                        'dismissButtonText': 'Back'}})
+                                                                       <br><br>Would you like to request approval?'''.format(organization.name),
+                                                          'confirmButtonText': 'Request',
+                                                          'formName': 'membershipRequest',
+                                                          'formValue': True,
+                                                          'dismissButtonText': 'Back'}})
             else:
                 # Organization is viewable. Display its pages.
                 content.update({'organization': organization, 'pagesData': buildOrganizationPagesData(organization)})

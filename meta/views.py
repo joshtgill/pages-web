@@ -9,6 +9,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from builder.models import Organization, NewOrganizationRequest, Membership
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+import datetime
 
 
 def home(request):
@@ -157,9 +158,14 @@ def staff(request):
         # Create organization
         organization = Organization(name=newOrganizationRequest.name, owner=newOrganizationRequest.applicant)
         organization.save()
+
         # Assign organization to user
         newOrganizationRequest.applicant.profile.organization = organization
         newOrganizationRequest.applicant.profile.save()
+
+        # Create membership
+        Membership(user=newOrganizationRequest.applicant, organization=organization, relatedDate=datetime.date.today(), approved=True).save()
+
         # Delete organization request
         newOrganizationRequest.delete()
 
