@@ -191,10 +191,8 @@ def handleSheetItemsUpdates(pagePostData, page):
             sheetItem = SheetItem(title=titles[i], description=descriptions[i])
             sheetItem.location = locations[i] if locations[i] else None
             sheetItem.price = prices[i] if prices[i] else None
-            sheetItem.startDatetime = (datetime.datetime.strptime(startDatetimes[i], '%Y-%m-%dT%H:%M')
-                                       if startDatetimes[i] else None)
-            sheetItem.endDatetime = (datetime.datetime.strptime(endDatetimes[i], '%Y-%m-%dT%H:%M')
-                                     if endDatetimes[i] else None)
+            sheetItem.startDatetime = startDatetimes[i]
+            sheetItem.endDatetime = endDatetimes[i]
             sheetItem.page = page
             sheetItem.save()
             if selectedDays[i]:
@@ -229,18 +227,18 @@ def handleEventUpdate(pagePostData, page):
         event = Event.objects.get(page=page)
         event.description = description
         event.location = location
-        event.startDatetime = datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M')
+        event.startDatetime = startDatetime
         if endDatetime:
-            event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
+            event.endDatetime = endDatetime
         event.attendanceIsPublic = attendanceIsPublic
     except Exception:
         event = Event(description=description,
                       location=location,
-                      startDatetime=datetime.datetime.strptime(startDatetime, '%Y-%m-%dT%H:%M'),
+                      startDatetime=startDatetime,
                       attendanceIsPublic=attendanceIsPublic,
                       page=page)
         if endDatetime:
-            event.endDatetime = datetime.datetime.strptime(endDatetime, '%Y-%m-%dT%H:%M')
+            event.endDatetime = endDatetime
     event.save()
 
 

@@ -15,10 +15,10 @@
     <script>
         var event = JSON.parse(document.getElementById('event').textContent);
         if (event['startDatetime']) {
-            document.getElementById('startDatetime').value = event['startDatetime'].slice(0, -3);
+            document.getElementById('startDatetime').value = event['startDatetime'];
         }
         if (event['endDatetime']) {
-            document.getElementById('endDatetime').value = event['endDatetime'].slice(0, -3);
+            document.getElementById('endDatetime').value = event['endDatetime'];
         }
     </script>
 </div>
