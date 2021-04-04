@@ -56,11 +56,12 @@
 }
 
 .content .viewer-container .viewer .item .field .value h3 {
+    text-align: left;
     font-size: 20px;
     margin: 3px 0;
 }
 
-.content .viewer-container .viewer .item .field .value h4 {
+.content .viewer-container .viewer .item .field .value h3 b {
     font-size: 18px;
     margin: 2px 0;
 }

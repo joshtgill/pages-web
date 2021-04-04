@@ -23,16 +23,23 @@
                         <div class="value">
                             {% if sheetItem.startDatetime.date == sheetItem.endDatetime.date and sheetItem.startDatetime %}
                                 <h3 style="margin-right: 5px">{{ sheetItem.startDatetime.date|date:"F j, Y" }}</h3>
-                                <h3>{{ sheetItem.startDatetime|time:"g:i A"|lower }} - {{ sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
+                                <h3>{{ sheetItem.startDatetime|time:"g:i A"|lower }} <b>to</b> {{ sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
                             {% else %}
                                 {% if sheetItem.startDatetime %}
-                                    <h3>{{ sheetItem.startDatetime|date:"F j, Y"}} {{sheetItem.startDatetime|time:"g:i A"|lower }}</h3>
+                                    <h3 style="margin-right: 5px">{{ sheetItem.startDatetime|date:"F j, Y"}} {{sheetItem.startDatetime|time:"g:i A"|lower }} <b>to</b></h3>
                                 {% endif %}
                                 {% if sheetItem.endDatetime %}
-                                    <h4>to</h4>
                                     <h3>{{ sheetItem.endDatetime|date:"F j, Y"}} {{sheetItem.endDatetime|time:"g:i A"|lower }}</h3>
                                 {% endif %}
                             {% endif %}
+                        </div>
+                    </div>
+                {% elif sheetItem.repeating %}
+                    <div class="field">
+                        <img src="{% static 'images/datetime.png' %}">
+                        <div class="value">
+                            <h3 style="margin-right: 5px">{{ sheetItem.repeating|formatDays }}</h3>
+                            <h3>{{ sheetItem.repeating.startTime|time:"g:i A"|lower }} <b>to</b> {{ sheetItem.repeating.endTime|time:"g:i A"|lower }}</h3>
                         </div>
                     </div>
                 {% endif %}

@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from builder.models import Organization, Page, SheetItem, Event, Membership
+from builder.models import Organization, Page, SheetItem, Event, Membership, RepeatingOccurence
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
 from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
 
 
 def explore(request):
@@ -71,7 +72,13 @@ def buildPageData(pageId):
     page = Page.objects.get(id=pageId)
     pageData = {'id': page.id, 'name': page.name, 'type': page.typee, 'organization': page.organization}
     if page.typee == 'Sheet':
-        pageData.update({'sheetItems': SheetItem.objects.filter(page=page)})
+        sheetItemsData = []
+        for sheetItem in SheetItem.objects.filter(page=page):
+            sheetItemData = model_to_dict(sheetItem)
+            if RepeatingOccurence.objects.filter(sheetItem=sheetItem).exists():
+                sheetItemData.update({'repeating': model_to_dict( RepeatingOccurence.objects.get(sheetItem=sheetItem))})
+            sheetItemsData.append(sheetItemData)
+        pageData.update({'sheetItems': sheetItemsData})
     elif page.typee == 'Event':
         pageData.update({'event': Event.objects.get(page=page)})
 
