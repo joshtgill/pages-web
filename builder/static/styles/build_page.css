@@ -64,15 +64,36 @@
     align-self: flex-start;
 }
 
-#datetime-field-container img {
-    margin: 0 0 10px 0;
+#datetime-field-container {
+    justify-content: space-between;
+    align-items: space-between;
 }
 
-#datetime-field-container button {
+#datetime-field-container .datetime-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2vh;
+}
+
+#datetime-field-container img {
     margin: 0;
 }
 
-#datetime-field-container input {
+#datetime-field-container img button {
+    margin: 0;
+}
+
+#datetime-field-container .datetime-range {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+#datetime-field-container .datetime-range input {
     width: 100%;
     margin-top: 0;
     margin-bottom: 0;
@@ -83,6 +104,51 @@
     margin: 10px;
     font-size: 20px;
     font-weight: normal;
+}
+
+#datetime-field-container .datetime-repeat {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#datetime-field-container .datetime-repeat .days {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#datetime-field-container .datetime-repeat .days button {
+    width: 48px;
+    height: 48px;
+    margin: 0 20px 10px 0;
+    padding-top: 2px;
+    font-size: 20px;
+    text-decoration: none;
+    border: none;
+    border-radius: 40px;
+    background-color: rgb(240, 240, 240);
+    outline: none;
+}
+
+#datetime-field-container .datetime-repeat .times {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#datetime-field-container .datetime-repeat .times input {
+    margin: 1vh 0;
+    font-size: 20px;
+}
+
+#datetime-field-container .datetime-repeat .times input[type=time] {
+    max-width: 150px;
+}
+
+#datetime-field-container .datetime-repeat .times input[type=date] {
+    max-width: 200px;
 }
 
 .content form .actions {
@@ -120,7 +186,11 @@
         max-width: 300px;
     }
 
-    #datetime-field-container img {
-        margin: 0 10px 0 0;
+    #datetime-field-container .datetime-repeat .days {
+        justify-content: flex-start;
+    }
+
+    #datetime-field-container .datetime-repeat .times {
+        justify-content: flex-start;
     }
 }

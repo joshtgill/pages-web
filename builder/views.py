@@ -108,7 +108,10 @@ def buildPageData(pageType, idd):
     if pageType == 'Sheet':
         sheetItemsData = []
         for sheetItem in SheetItem.objects.filter(page=page):
-            sheetItemsData.append(model_to_dict(sheetItem))
+            sheetItemData = model_to_dict(sheetItem)
+            if RepeatingOccurence.objects.filter(sheetItem=sheetItem).exists():
+                sheetItemData.update({'repeating': model_to_dict( RepeatingOccurence.objects.get(sheetItem=sheetItem))})
+            sheetItemsData.append(sheetItemData)
         pageData.update({'items': sheetItemsData})
     elif pageType == 'Event':
         eventData = model_to_dict(Event.objects.get(page=page))
@@ -146,6 +149,11 @@ def handleSheetItemsUpdates(pagePostData, page):
     locations = pagePostData.get('location')
     startDatetimes = pagePostData.get('startDatetime')
     endDatetimes = pagePostData.get('endDatetime')
+    selectedDays = pagePostData.get('selectedDays')
+    startTimes = pagePostData.get('startTime')
+    endTimes = pagePostData.get('endTime')
+    startDates = pagePostData.get('startDate')
+    endDates = pagePostData.get('endDate')
     for i in range(len(ids)):
         try:
             sheetItem = SheetItem.objects.get(id=int(ids[i]))
@@ -155,6 +163,30 @@ def handleSheetItemsUpdates(pagePostData, page):
             sheetItem.location = locations[i] if locations[i] else None
             sheetItem.startDatetime = startDatetimes[i] if startDatetimes[i] else None
             sheetItem.endDatetime = endDatetimes[i] if endDatetimes[i] else None
+            sheetItem.save()
+            if selectedDays[i] or RepeatingOccurence.objects.filter(sheetItem=sheetItem).exists():
+                repeatingOccurence = None
+                try:
+                    repeatingOccurence = RepeatingOccurence.objects.get(sheetItem=sheetItem)
+                    if not selectedDays[i]:
+                        repeatingOccurence.delete()
+                        return
+                except ObjectDoesNotExist:
+                    repeatingOccurence = RepeatingOccurence(sheetItem=sheetItem)
+                days = selectedDays[i].split('|')
+                repeatingOccurence.monday=('M' in days)
+                repeatingOccurence.tuesday=('T' in days)
+                repeatingOccurence.wednesday=('W' in days)
+                repeatingOccurence.thursday=('TH' in days)
+                repeatingOccurence.friday=('F' in days)
+                repeatingOccurence.saturday=('S' in days)
+                repeatingOccurence.sunday=('SU' in days)
+                repeatingOccurence.startTime=startTimes[i]
+                repeatingOccurence.endTime=endTimes[i]
+                repeatingOccurence.startDate=startDates[i]
+                repeatingOccurence.endDate=endDates[i]
+                repeatingOccurence.save()
+
         except ObjectDoesNotExist:
             sheetItem = SheetItem(title=titles[i], description=descriptions[i])
             sheetItem.location = locations[i] if locations[i] else None
@@ -163,9 +195,22 @@ def handleSheetItemsUpdates(pagePostData, page):
                                        if startDatetimes[i] else None)
             sheetItem.endDatetime = (datetime.datetime.strptime(endDatetimes[i], '%Y-%m-%dT%H:%M')
                                      if endDatetimes[i] else None)
-
             sheetItem.page = page
-        sheetItem.save()
+            sheetItem.save()
+            if selectedDays[i]:
+                days = selectedDays[i].split('|')
+                RepeatingOccurence(monday=('M' in days),
+                                   tuesday=('T' in days),
+                                   wednesday=('W' in days),
+                                   thursday=('TH' in days),
+                                   friday=('F' in days),
+                                   saturday=('S' in days),
+                                   sunday=('SU' in days),
+                                   startTime=startTimes[i],
+                                   endTime=endTimes[i],
+                                   startDate=startDates[i],
+                                   endDate=endDates[i],
+                                   sheetItem=sheetItem).save()
 
 
 def handleEventUpdate(pagePostData, page):

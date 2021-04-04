@@ -53,6 +53,22 @@ class Event(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 
+class RepeatingOccurence(models.Model):
+    monday = models.BooleanField(default=False)
+    tuesday = models.BooleanField(default=False)
+    wednesday = models.BooleanField(default=False)
+    thursday = models.BooleanField(default=False)
+    friday = models.BooleanField(default=False)
+    saturday = models.BooleanField(default=False)
+    sunday = models.BooleanField(default=False)
+    startTime = models.TimeField()
+    endTime = models.TimeField()
+    startDate = models.DateField()
+    endDate = models.DateField()
+
+    sheetItem = models.ForeignKey(SheetItem, on_delete=models.CASCADE)
+
+
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
