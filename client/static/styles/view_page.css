@@ -1,9 +1,14 @@
+.content {
+    justify-content: space-between;
+}
+
 .content .viewer-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 2vh;
+    overflow: auto;
 }
 
 .content .viewer-container .viewer {
@@ -11,6 +16,7 @@
     max-width: 800px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 5vh;
     border: 1px solid rgb(200, 200, 200);
     border-radius: 15px;
 }
@@ -79,17 +85,19 @@
 
 .content .dashboard {
     width: 100%;
+    bottom: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 4vh;
-    border-top: 1px solid rgb(200, 200, 200);
+    border-top: 1px solid rgb(180, 180, 180);
     border-radius: 30px 30px 0 0;
+    background-color: rgb(255, 255, 255);
 }
 
 .content .dashboard #title {
-    margin: 3vh 0 1vh 0;
+    margin: 2vh 0 1vh 0;
     font-size: 25px;
     font-weight: normal;
 }
@@ -112,10 +120,11 @@
     .content .dashboard {
         max-width: 600px;
         min-width: 500px;
+        position: unset;
         height: 100%;
         margin: 0;
         border-top: none;
-        border-left: 1px solid rgb(200, 200, 200);
+        border-left: 1px solid rgb(180, 180, 180);
         border-radius: 30px 0 0 30px;
     }
 }
