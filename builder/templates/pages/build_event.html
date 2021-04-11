@@ -1,84 +1,9 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'styles/pages/build_event.css' %}">
+<script src="{% static 'scripts/pages/fields.js' %}"></script>
+<script src="{% static 'scripts/pages/event.js' %}"></script>
 
-{{ pageData.event|json_script:"event" }}
-<textarea placeholder="Description" rows="3" name="description">{{ pageData.event.description }}</textarea>
-<div class="field-container" id="location-field-container">
-    <img src="{% static 'images/location.png' %}" required>
-    <input name="location" value="{{ pageData.event.location }}" placeholder="Location" autocomplete="off">
-</div>
-<div class="field-container" id="datetime-field-container">
-    <div class="datetime-header">
-        <img src="{% static 'images/datetime.png' %}">
-        <div class="toggle">
-            <h4>Repeat</h4>
-            <label class="switch">
-                <input type="checkbox" name="private" onchange="toggle(this)" checked>
-                <span class="slider"></span>
-            </label>
-        </div>
-        <button>
-            <img src="{% static 'images/clear.png' %}">
-        </button>
-    </div>
-    <div class="datetime-range" id="datetimeRange">
-        <input type="datetime-local" id="startDatetime" name="startDatetime" required>
-        <h3>to</h3>
-        <input type="datetime-local" id="endDatetime" name="endDatetime">
-    </div>
-    <div class="datetime-repeat" id="datetimeRepeat">
-        <div class="days">
-            <input type="hidden" name="selectedDays">
-            <button>M</button>
-            <button>T</button>
-            <button>W</button>
-            <button>TH</button>
-            <button>F</button>
-            <button>S</button>
-            <button>SU</button>
-        </div>
-        <div class="times">
-            <input type="time" name="startTime">
-            <h3>to</h3>
-            <input type="time" name="endTime">
-        </div>
-        <div class="times">
-            <h3>starting on</h3>
-            <input type="date" name="startData">
-            <h3>ending on</h3>
-            <input type="date" name="endData">
-        </div>
-    </div>
-</div>
-    <script>
-        function toggle(toggle) {
-            if (toggle.checked) {
-                document.getElementById('datetimeRepeat').style.display = 'flex';
-                document.getElementById('datetimeRange').style.display = 'none';
-            }
-            else {
-                document.getElementById('datetimeRepeat').style.display = 'none';
-                document.getElementById('datetimeRange').style.display = 'flex';
-            }
-        }
-
-        var event = JSON.parse(document.getElementById('event').textContent);
-        if (event['startDatetime']) {
-            document.getElementById('startDatetime').value = event['startDatetime'];
-        }
-        if (event['endDatetime']) {
-            document.getElementById('endDatetime').value = event['endDatetime'];
-        }
-    </script>
-
-<div class="toggle" id="publicAttendance">
-    <h4>Public attendance</h4>
-    <label class="switch">
-            <input type="checkbox" name="attendanceIsPublic" value="false"
-                {% if pageData.event.attendanceIsPublic %}
-                    checked
-                {% endif %}
-            >
-        <span class="slider"></span>
-    </label>
-</div>
+<div id="event" class="event"></div>
+<script>
+    event = new Event(document.getElementById('event'));
+</script>

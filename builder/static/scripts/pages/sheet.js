@@ -65,7 +65,7 @@ class SheetItem {
         this.container = container;
 
         this.baseFields = [new TextInputField(data['title']), new TextAreaField(data['description'])];
-        this.fieldOptions = [new PriceField(data['price']), new LocationField(data['location']), new DatetimeField(data['startDatetime'], data['endDatetime'], data['repeating'])];
+        this.fieldOptions = [new PriceField(true, data['price']), new LocationField(true, data['location']), new DatetimeField(true, data['startDatetime'], data['endDatetime'], data['repeating'])];
 
         this.buildContainer();
     }
@@ -123,8 +123,8 @@ class SheetItem {
 
 
 class PriceField extends BaseOptionalField {
-    constructor(...args) {
-        super(document.createElement('button'), document.createElement('div'), args);
+    constructor(isOptional, ...args) {
+        super(isOptional ? document.createElement('button') : null, document.createElement('div'), args);
     }
 
     buildButton() {

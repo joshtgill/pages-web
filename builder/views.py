@@ -191,8 +191,8 @@ def handleSheetItemsUpdates(pagePostData, page):
             sheetItem = SheetItem(title=titles[i], description=descriptions[i])
             sheetItem.location = locations[i] if locations[i] else None
             sheetItem.price = prices[i] if prices[i] else None
-            sheetItem.startDatetime = startDatetimes[i]
-            sheetItem.endDatetime = endDatetimes[i]
+            sheetItem.startDatetime = startDatetimes[i] if startDatetimes[i] else None
+            sheetItem.endDatetime = endDatetimes[i] if endDatetimes[i] else None
             sheetItem.page = page
             sheetItem.save()
             if selectedDays[i]:

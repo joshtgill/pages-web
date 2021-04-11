@@ -1,8 +1,10 @@
-.content form #pageNameInput {
-    margin-bottom: 5vh;
+.content form .event {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.content form #publicAttendance {
+.content form .event #publicAttendance {
     align-self: flex-start;
     margin-top: 3vh;
 }

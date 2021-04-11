@@ -1,5 +1,6 @@
 class BaseField {
-    constructor(container, values) {
+    constructor(isOptional, container, values) {
+        this.isOptional = isOptional;
         this.container = container;
         this.values = values;
 
@@ -26,10 +27,14 @@ class BaseField {
 
 class BaseOptionalField extends BaseField {
     constructor(button, container, values) {
-        super(container, values);
-        this.button = button;
-
-        this.buildButton();
+        super(button != null, container, values);
+        if (button != null) {
+            this.button = button;
+            this.buildButton();
+        }
+        else {
+            this.button = null;
+        }
     }
 
     buildButton() {
@@ -82,7 +87,7 @@ class BaseOptionalField extends BaseField {
 
 class TextInputField extends BaseField {
     constructor(...args) {
-        super(document.createElement('div'), args);
+        super(false, document.createElement('div'), args);
     }
 
     buildContainer() {
@@ -103,7 +108,7 @@ class TextInputField extends BaseField {
 
 class TextAreaField extends BaseField {
     constructor(...args) {
-        super(document.createElement('div'), args);
+        super(false, document.createElement('div'), args);
     }
 
     buildContainer() {
@@ -121,8 +126,8 @@ class TextAreaField extends BaseField {
 
 
 class LocationField extends BaseOptionalField {
-    constructor(...args) {
-        super(document.createElement('button'), document.createElement('div'), args);
+    constructor(isOptional, ...args) {
+        super(isOptional ? document.createElement('button') : null, document.createElement('div'), args);
     }
 
     buildButton() {
@@ -152,7 +157,10 @@ class LocationField extends BaseOptionalField {
         locationInput.value = this.hasPrimaryValues() ? this.values[0] : '';
         this.container.appendChild(locationInput);
 
-        this.container.appendChild(super.buildRemoveFieldButton());
+        console.log(this.isOptional);
+        if (this.isOptional) {
+            this.container.appendChild(super.buildRemoveFieldButton());
+        }
     }
 
     nullValues() {
@@ -162,8 +170,8 @@ class LocationField extends BaseOptionalField {
 
 
 class DatetimeField extends BaseOptionalField {
-    constructor(...args) {
-        super(document.createElement('button'), document.createElement('div'), args);
+    constructor(isOptional, ...args) {
+        super(isOptional ? document.createElement('button') : null, document.createElement('div'), args);
     }
 
     buildButton() {
@@ -225,8 +233,9 @@ class DatetimeField extends BaseOptionalField {
         toggle.appendChild(switchh);
         datetimeHeader.appendChild(toggle);
 
-        // Remove field button
-        datetimeHeader.appendChild(super.buildRemoveFieldButton());
+        if (this.isOptional) {
+            datetimeHeader.appendChild(super.buildRemoveFieldButton());
+        }
 
         this.container.appendChild(datetimeHeader);
 
