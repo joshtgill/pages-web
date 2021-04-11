@@ -6,13 +6,13 @@
 <div id="items" class="items"></div>
 <button id="addItemButton" type="button" onclick="sheet.displayItem()">+</button>
 
-<script>
-    sheet = new Sheet(document.getElementById('items'));
-</script>
-
 {% if pageData.id %}
-    {{ pageData.items|json_script:"pageItems" }}
+    {{ pageData.items|json_script:"sheetItemsData" }}
     <script>
-        sheet.loadItems('pageItems')
+        sheet = new Sheet(document.getElementById('items'), 'sheetItemsData');
+    </script>
+{% else %}
+    <script>
+        sheet = new Sheet(document.getElementById('items'));
     </script>
 {% endif %}

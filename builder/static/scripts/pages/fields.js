@@ -299,6 +299,10 @@ class PriceField extends BaseField {
     detailContainer() {
         this.container.id = 'price-field-container';
         this.container.appendChild(super.buildRemoveFieldButton());
+
+        if (this.hasPrimaryValues()) {
+            this.container.querySelector('input').value = this.values[0];
+        }
     }
 
     nullValues() {

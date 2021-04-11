@@ -6,17 +6,17 @@ class Eventt {
         if (dataIdentifier) {
             data = JSON.parse(document.getElementById(dataIdentifier).textContent);
         }
+        this.fields = [new TextAreaField(data['description']),
+                       new LocationField(false, data['location']),
+                       new DatetimeField(false, data['startDatetime'], data['endDatetime'], data['repeating']),
+                       new ToggleField(data['attendanceIsPublic'])];
 
-        this.baseFields = [new TextAreaField(data['description']),
-                           new LocationField(false, data['location']),
-                           new DatetimeField(false, data['startDatetime'], data['endDatetime'], data['repeating']),
-                           new ToggleField(data['attendanceIsPublic'])];
         this.buildContainer();
     }
 
     buildContainer() {
-        for (var index in this.baseFields) {
-            this.container.appendChild(this.baseFields[index].getContainer());
+        for (var index in this.fields) {
+            this.container.appendChild(this.fields[index].getContainer());
         }
     }
 }

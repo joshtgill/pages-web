@@ -1,21 +1,21 @@
 class Sheet {
-    constructor(div) {
+    constructor(div, dataIdentifier=null) {
         this.container = div;
         this.items = [];
         this.separators = [];
         this.itemIdsToDelete = [];
-    }
 
-    loadItems(dataIdentifier) {
-        var items = JSON.parse(document.getElementById(dataIdentifier).textContent);
-        for (var index in items) {
-            this.displayItem(items[index]);
+        if (dataIdentifier) {
+            var itemsData = JSON.parse(document.getElementById(dataIdentifier).textContent);
+            for (var index in itemsData) {
+                this.displayItem(itemsData[index]);
+            }
         }
     }
 
     displayItem(data = {}) {
         if (this.items.length != 0) {
-            // This is not the first item; display the seperator above.
+            // This is not the first item, display the separator above.
             var seperatorAbove = document.createElement('hr');
             this.separators.push(seperatorAbove)
             this.container.appendChild(seperatorAbove);
@@ -30,7 +30,7 @@ class Sheet {
         var itemIndex = this.items.indexOf(item);
 
         if (this.separators.length) {
-            // Delete and remove seperator
+            // Delete and remove separator
             this.separators.splice(Math.max(0, itemIndex - 1), 1)[0].remove();
         }
 
@@ -58,15 +58,15 @@ class Sheet {
 class SheetItem {
     constructor(sheet, data) {
         this.sheet = sheet;
+
         this.id = Object.keys(data).length ? data['id'] : -1;
+        this.fields = [new TextInputField(data['title']),
+                       new TextAreaField(data['description']),
+                       new PriceField(true, data['price']),
+                       new LocationField(true, data['location']),
+                       new DatetimeField(true, data['startDatetime'], data['endDatetime'], data['repeating'])];
 
-        var container = document.createElement('div');
-        container.className = 'item';
-        this.container = container;
-
-        this.baseFields = [new TextInputField(data['title']), new TextAreaField(data['description'])];
-        this.fieldOptions = [new PriceField(true, data['price']), new LocationField(true, data['location']), new DatetimeField(true, data['startDatetime'], data['endDatetime'], data['repeating'])];
-
+        this.container = null;
         this.buildContainer();
     }
 
@@ -75,45 +75,37 @@ class SheetItem {
     }
 
     buildContainer() {
-        var idInput = document.createElement('input');
-        idInput.type = 'hidden';
-        idInput.name = 'id';
-        idInput.value = this.id;
-        this.container.appendChild(idInput);
+        this.container = document.createElement('div');
+        this.container.className = 'item';
+        this.container.innerHTML = `
+            <input type="hidden" name="id" value="${this.id}">
 
-        // Always display base fields
-        for (var index in this.baseFields) {
-            this.container.appendChild(this.baseFields[index].getContainer());
+            <div class="actions">
+                <div class="field-options">
+                </div>
+                <button type="button" id="removeButton">Remove</button>
+            </div>
+        `;
+
+        this.detailContainer();
+    }
+
+    detailContainer() {
+        for (var i = this.fields.length - 1; i >= 0; --i) {
+            var field = this.fields[i];
+
+            this.container.insertBefore(field.getContainer(), this.container.children[0]);
+            if (field.isOptional) {
+                field.updateVisibility(field.hasPrimaryValues() || field.hasSecondaryValues());
+                this.container.querySelector('.field-options').insertBefore(field.getButton(),
+                                                                            this.container.querySelector('.field-options').children[0]);
+            }
         }
 
-        var actionsContainer = document.createElement('div');
-        actionsContainer.className = 'actions';
-
-        var fieldOptionsContainer = document.createElement('div');
-        fieldOptionsContainer.className = 'field-options';
-
-        for (var index in this.fieldOptions) {
-            var field = this.fieldOptions[index];
-
-            // Update the field's container/button visibility based on existing values
-            field.updateVisibility(field.hasPrimaryValues() || field.hasSecondaryValues());
-            this.container.appendChild(field.getContainer());
-            fieldOptionsContainer.appendChild(field.getButton());
-        }
-
-        actionsContainer.appendChild(fieldOptionsContainer);
-
-        var removeButton = document.createElement('button');
-        removeButton.type = 'button';
         var thiss = this;
-        removeButton.onclick = function () {
+        this.container.querySelector('#removeButton').onclick = function() {
             thiss.parent().removeItem(thiss);
         }
-        removeButton.textContent = 'Remove';
-
-        actionsContainer.appendChild(removeButton);
-
-        this.container.appendChild(actionsContainer);
     }
 
     getContainer() {
