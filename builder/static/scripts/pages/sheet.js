@@ -6,11 +6,6 @@ class Sheet {
         this.itemIdsToDelete = [];
     }
 
-    josh() {
-        console.log('gillette');
-
-    }
-
     loadItems(dataIdentifier) {
         var items = JSON.parse(document.getElementById(dataIdentifier).textContent);
         for (var index in items) {
@@ -123,30 +118,5 @@ class SheetItem {
 
     getContainer() {
         return this.container;
-    }
-}
-
-
-class PriceField extends BaseField {
-    constructor(isOptional, ...args) {
-        var template = `
-            <img src="/static/images/price.png" alt="price icon">
-            <input type="number" step="0.01" id="sheetItemPrice" name="price" placeholder="Price">
-        `
-        super(template, isOptional, args);
-    }
-
-    buildButton() {
-        super.buildButton();
-        this.button.innerHTML = '<img src="/static/images/price.png" alt="price icon">';
-    }
-
-    detailContainer() {
-        this.container.id = 'price-field-container';
-        this.container.appendChild(super.buildRemoveFieldButton());
-    }
-
-    nullValues() {
-        this.container.querySelector('#sheetItemPrice').value = '';
     }
 }

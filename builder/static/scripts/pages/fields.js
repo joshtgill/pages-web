@@ -279,3 +279,28 @@ class DatetimeField extends BaseField {
         this.container.querySelector('input[name="selectedDays"]').value = '';
     }
 }
+
+
+class PriceField extends BaseField {
+    constructor(isOptional, ...args) {
+        var template = `
+            <img src="/static/images/price.png" alt="price icon">
+            <input type="number" step="0.01" id="sheetItemPrice" name="price" placeholder="Price">
+        `
+        super(template, isOptional, args);
+    }
+
+    buildButton() {
+        super.buildButton();
+        this.button.innerHTML = '<img src="/static/images/price.png" alt="price icon">';
+    }
+
+    detailContainer() {
+        this.container.id = 'price-field-container';
+        this.container.appendChild(super.buildRemoveFieldButton());
+    }
+
+    nullValues() {
+        this.container.querySelector('#sheetItemPrice').value = '';
+    }
+}
