@@ -53,7 +53,7 @@ class BaseOptionalField extends BaseField {
         var removeFieldButton = document.createElement('button');
         removeFieldButton.type = 'button';
         var thiss = this;
-        removeFieldButton.onclick = function () {
+        removeFieldButton.onclick = function() {
             thiss.updateVisibility(false);
         }
 
@@ -94,14 +94,10 @@ class TextInputField extends BaseField {
         this.container.className = 'field-container';
         this.container.id = 'title-field-container';
 
-        var titleInput = document.createElement('input');
-        titleInput.name = 'title';
-        titleInput.type = 'text';
-        titleInput.placeholder = 'Title';
-        titleInput.autocomplete = 'off';
-        titleInput.value = this.hasPrimaryValues() ? this.values[0] : '';
-
-        this.container.appendChild(titleInput);
+        var template = `
+            <input type="text" name="title" placeholder="Title" autocomplete="off">
+        `
+        this.container.innerHTML = template;
     }
 }
 
@@ -114,13 +110,15 @@ class TextAreaField extends BaseField {
     buildContainer() {
         this.container.className = 'field-container';
 
-        var descriptionTextArea = document.createElement('textarea');
-        descriptionTextArea.name = 'description';
-        descriptionTextArea.rows = 3;
-        descriptionTextArea.placeholder = 'Description';
-        descriptionTextArea.value = this.hasPrimaryValues() ? this.values[0] : '';
+        var template = `
+            <textarea name="description" rows=3 placeholder="Description"></textarea>
+        `
 
-        this.container.appendChild(descriptionTextArea);
+        this.container.innerHTML = template;
+
+        if (this.hasPrimaryValues()) {
+            this.container.querySelector('textarea').value = this.values[0];
+        }
     }
 }
 
@@ -144,18 +142,15 @@ class LocationField extends BaseOptionalField {
         this.container.className = 'field-container';
         this.container.id = 'location-field-container';
 
-        var locationIcon = document.createElement('img');
-        locationIcon.src = '/static/images/location.png';
-        locationIcon.alt = 'price';
-        this.container.appendChild(locationIcon);
+        var template = `
+            <img src="/static/images/location.png" alt="location icon">
+            <input type="text" name="location" placeholder="Location" autocomplete="off">
+        `
+        this.container.innerHTML = template;
 
-        var locationInput = document.createElement('input');
-        locationInput.name = 'location';
-        locationInput.type = 'text';
-        locationInput.placeholder = 'Location';
-        locationInput.autocomplete = 'off';
-        locationInput.value = this.hasPrimaryValues() ? this.values[0] : '';
-        this.container.appendChild(locationInput);
+        if (this.hasPrimaryValues()) {
+            this.container.querySelector('input').value = this.values[0];
+        }
 
         if (this.isOptional) {
             this.container.appendChild(super.buildRemoveFieldButton());
@@ -166,7 +161,6 @@ class LocationField extends BaseOptionalField {
         this.container.querySelector('input[name="location"]').value = '';
     }
 }
-
 
 class DatetimeField extends BaseOptionalField {
     constructor(isOptional, ...args) {
@@ -187,180 +181,104 @@ class DatetimeField extends BaseOptionalField {
         this.container.className = 'field-container';
         this.container.id = 'datetime-field-container';
 
-        var datetimeRange = document.createElement('div');
-        var datetimeRepeat = document.createElement('div');
-
-        // Datetime header
-        var datetimeHeader = document.createElement('div');
-        datetimeHeader.className = 'datetime-header';
-
-        var datetimeFieldIcon = document.createElement('img');
-        datetimeFieldIcon.src = '/static/images/datetime.png';
-        datetimeFieldIcon.alt = 'clock';
-        datetimeHeader.appendChild(datetimeFieldIcon);
-
-        // Toggle
-        var toggle = document.createElement('div');
-        toggle.className = 'toggle';
-
-        var label = document.createElement('h4');
-        label.textContent = 'Repeat';
-        toggle.appendChild(label);
-
-        var switchh = document.createElement('label');
-        switchh.className = 'switch';
-
-        var toggleInput = document.createElement('input');
-        toggleInput.type = 'checkbox';
-        toggleInput.name = 'repeate';
-        toggleInput.onchange = function() {
-            if (this.checked) {
-                datetimeRange.style.display = 'none';
-                datetimeRepeat.style.display = 'flex';
-            }
-            else {
-                datetimeRange.style.display = 'flex';
-                datetimeRepeat.style.display = 'none';
-            }
-        }
-        switchh.appendChild(toggleInput);
-
-        var span = document.createElement('span');
-        span.className = 'slider';
-        switchh.appendChild(span);
-
-        toggle.appendChild(switchh);
-        datetimeHeader.appendChild(toggle);
+        var template = `
+            <div class="datetime-header">
+                <img src="/static/images/datetime.png" alt="clock icon">
+                <div class="toggle">
+                    <h4>Repeat</h4>
+                    <label class="switch">
+                        <input type="checkbox" name="repeat">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="datetime-range">
+                <input type="datetime-local" name="startDatetime">
+                <h3>to</h3>
+                <input type="datetime-local" name="endDatetime">
+            </div>
+            <div class="datetime-repeat">
+                <div class="days">
+                    <input type="hidden" id="selectedDaysInput" name="selectedDays">
+                    <button type="button" class="day-button" name="monday">M</button>
+                    <button type="button" class="day-button" name="tuesday">T</button>
+                    <button type="button" class="day-button" name="wednesday">W</button>
+                    <button type="button" class="day-button" name="thursday">TH</button>
+                    <button type="button" class="day-button" name="friday">F</button>
+                    <button type="button" class="day-button" name="saturday">S</button>
+                    <button type="button" class="day-button" name="sunday">SU</button>
+                </div>
+                <div class="times">
+                    <input type="time" name="startTime">
+                    <h3>to</h3>
+                    <input type="time" name="endTime">
+                </div>
+                <div class="times">
+                    <h3>starting on</h3>
+                    <input type="date" name="startDate">
+                    <h3>ending on</h3>
+                    <input type="date" name="endDate">
+                </div>
+            </div>
+        `
+        this.container.innerHTML = template;
 
         if (this.isOptional) {
-            datetimeHeader.appendChild(super.buildRemoveFieldButton());
+            this.container.querySelector('.datetime-header').appendChild(this.buildRemoveFieldButton());
         }
 
-        this.container.appendChild(datetimeHeader);
-
-        // Datetime range
-        datetimeRange.className = 'datetime-range';
-
-        var startDatetimeInput = document.createElement('input');
-        startDatetimeInput.type = 'datetime-local';
-        startDatetimeInput.name = 'startDatetime';
-        startDatetimeInput.value = this.hasPrimaryValues() ? this.values[0] : '';
-        datetimeRange.appendChild(startDatetimeInput);
-
-        var toLabel = document.createElement('h3');
-        toLabel.textContent = 'to';
-        datetimeRange.appendChild(toLabel);
-
-        var endDatetimeInput = document.createElement('input');
-        endDatetimeInput.type = 'datetime-local';
-        endDatetimeInput.name = 'endDatetime';
-        endDatetimeInput.value = this.hasPrimaryValues() ? this.values[1] : '';
-        datetimeRange.appendChild(endDatetimeInput);
-
-        this.container.appendChild(datetimeRange);
-
-        // Datetime repeat
-        datetimeRepeat.className = 'datetime-repeat';
-        datetimeRepeat.style.display = 'none';
-
-        var datetimeRepeatDays = document.createElement('div');
-        datetimeRepeatDays.className = 'days';
-        var selectedDaysInput = document.createElement('input');
-        selectedDaysInput.type = 'hidden';
-        selectedDaysInput.name = 'selectedDays';
-        var selectedDays = [];
-        var dayTexts = ['M', 'T', 'W', 'TH', 'F', 'S', 'SU'];
-        var dayNames = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-        var dayValues = [false, false, false, false, false, false, false];
-        if (this.hasSecondaryValues()) {
-            dayValues = [this.values[2]['monday'], this.values[2]['tuesday'], this.values[2]['wednesday'],
-                         this.values[2]['thursday'], this.values[2]['friday'], this.values[2]['saturday'], this.values[2]['sunday']];
-        }
-        for (var i = 0; i < 7; i++) {
-            var dayButton = document.createElement('button');
-            dayButton.type = 'button';
-            dayButton.id = 'dayButton';
-            dayButton.textContent = dayTexts[i];
-            dayButton.name = dayNames[i];
-            dayButton.value = dayValues[i];
-            if (dayButton.value == 'true') {
-                selectedDays.push(dayButton.textContent);
-                selectedDaysInput.value = selectedDays.join('|');
-                dayButton.style.border = '2px solid rgb(0, 91, 255)';
+        var datetimeRangeContainer = this.container.querySelector('.datetime-range');
+        var datetimeRepeatContainer = this.container.querySelector('.datetime-repeat');
+        var repeatToggleInput = this.container.querySelector('input[name="repeat"]');
+        repeatToggleInput.onchange = function() {
+            if (this.checked) {
+                datetimeRangeContainer.style.display = 'none';
+                datetimeRepeatContainer.style.display = 'flex';
             }
-            dayButton.onclick = function() {
-                if (this.value == 'false') {
-                    // Button is 'off', turn it 'on'
-                    selectedDays.push(this.textContent);
-                    this.style.border = '2px solid rgb(0, 91, 255)';
-                    this.value = 'true';
-                }
-                else {
-                    // Button is 'on', turn it 'off'
+            else {
+                datetimeRangeContainer.style.display = 'flex';
+                datetimeRepeatContainer.style.display = 'none';
+            }
+        }
+        repeatToggleInput.checked = this.hasSecondaryValues();
+        repeatToggleInput.dispatchEvent(new Event('change'));
+
+        var selectedDays = []
+        var selectedDaysInput = this.container.querySelector('#selectedDaysInput');
+        var dayButtons = this.container.querySelectorAll('.day-button');
+        for (var i = 0; i < dayButtons.length; i++) {
+            dayButtons[i].onclick = function() {
+                if (this.value) {
+                    // Button is selected, unselect it.
                     selectedDays.splice(selectedDays.indexOf(this.textContent), 1);
                     this.style.border = 'none';
-                    this.value = 'false';
+                    this.value = false;
+                }
+                else {
+                    // Button is not selected, select it.
+                    selectedDays.push(this.textContent);
+                    this.style.border = '2px solid rgb(0, 91, 255)';
+                    this.value = true;
                 }
                 selectedDaysInput.value = selectedDays.join('|');
             }
-            datetimeRepeatDays.appendChild(dayButton);
         }
-        datetimeRepeat.appendChild(datetimeRepeatDays);
-        datetimeRepeat.appendChild(selectedDaysInput);
 
-        var datetimeRepeatTimes = document.createElement('div');
-        datetimeRepeatTimes.className = 'times';
-
-        var startTimeInput = document.createElement('input');
-        startTimeInput.type = 'time';
-        startTimeInput.name = 'startTime';
-        startTimeInput.value = this.hasSecondaryValues() ? this.values[2]['startTime'] : '';
-        datetimeRepeatTimes.appendChild(startTimeInput);
-
-        var toLabel = document.createElement('h3');
-        toLabel.textContent = 'to';
-        datetimeRepeatTimes.appendChild(toLabel);
-
-        var endTimeInput = document.createElement('input');
-        endTimeInput.type = 'time';
-        endTimeInput.name = 'endTime';
-        endTimeInput.value = this.hasSecondaryValues() ? this.values[2]['endTime'] : '';
-        datetimeRepeatTimes.appendChild(endTimeInput);
-
-        datetimeRepeat.appendChild(datetimeRepeatTimes);
-
-        var datetimeRepeatDates = document.createElement('div');
-        datetimeRepeatDates.className = 'times';
-
-        var startingOnLabel = document.createElement('h3');
-        startingOnLabel.textContent = 'starting on';
-        datetimeRepeatDates.appendChild(startingOnLabel);
-
-        var startDateInput = document.createElement('input');
-        startDateInput.type = 'date';
-        startDateInput.name = 'startDate';
-        startDateInput.value = this.hasSecondaryValues() ? this.values[2]['startDate'] : '';
-        datetimeRepeatDates.appendChild(startDateInput);
-
-        datetimeRepeat.appendChild(datetimeRepeatDates);
-
-        var endingOnLabel = document.createElement('h3');
-        endingOnLabel.textContent = 'ending on';
-        datetimeRepeatDates.appendChild(endingOnLabel);
-
-        var endDateInput = document.createElement('input');
-        endDateInput.type = 'date';
-        endDateInput.name = 'endDate';
-        endDateInput.value = this.hasSecondaryValues() ? this.values[2]['endDate'] : '';
-        datetimeRepeatDates.appendChild(endDateInput);
-
-        datetimeRepeat.appendChild(datetimeRepeatDates);
-
-        this.container.appendChild(datetimeRepeat);
-
-        if (this.hasSecondaryValues()) {
-            toggleInput.checked = true;
-            toggleInput.dispatchEvent(new Event('change'));
+        if (this.hasPrimaryValues()) {
+            this.container.querySelector('input[name="startDatetime"]').value = this.values[0];
+            this.container.querySelector('input[name="endDatetime"]').value = this.values[1];
+        }
+        else if (this.hasSecondaryValues()) {
+            var daysInWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+            for (var index in daysInWeek) {
+                if (this.values[2][daysInWeek[index]]) {
+                    this.container.querySelector(`button[name="${daysInWeek[index]}"]`).dispatchEvent(new Event('click'))
+                }
+            }
+            this.container.querySelector('input[name="startTime"]').value = this.values[2]['startTime'];
+            this.container.querySelector('input[name="endTime"]').value = this.values[2]['endTime'];
+            this.container.querySelector('input[name="startDate"]').value = this.values[2]['startDate'];
+            this.container.querySelector('input[name="endDate"]').value = this.values[2]['endDate'];
         }
     }
 

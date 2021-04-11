@@ -6,6 +6,11 @@ class Sheet {
         this.itemIdsToDelete = [];
     }
 
+    josh() {
+        console.log('gillette');
+
+    }
+
     loadItems(dataIdentifier) {
         var items = JSON.parse(document.getElementById(dataIdentifier).textContent);
         for (var index in items) {
@@ -141,19 +146,11 @@ class PriceField extends BaseOptionalField {
         this.container.className = 'field-container';
         this.container.id = 'price-field-container';
 
-        var priceIcon = document.createElement('img');
-        priceIcon.src = '/static/images/price.png';
-        priceIcon.alt = 'price';
-        this.container.appendChild(priceIcon);
-
-        var priceInput = document.createElement('input');
-        priceInput.id = 'sheetItemPrice';
-        priceInput.name = 'price';
-        priceInput.type = 'number';
-        priceInput.step = '0.01';
-        priceInput.placeholder = 'Price';
-        priceInput.value = this.hasPrimaryValues() ? this.values[0] : '';
-        this.container.appendChild(priceInput);
+        var template = `
+            <img src="/static/images/price.png" alt="price icon">
+            <input type="number" step="0.01" id="sheetItemPrice" name="price" placeholder="Price">
+        `
+        this.container.innerHTML = template;
 
         this.container.appendChild(super.buildRemoveFieldButton());
     }
