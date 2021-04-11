@@ -1,43 +1,19 @@
 class BaseField {
-    constructor(isOptional, container, values) {
+    constructor(template, isOptional, values) {
         this.isOptional = isOptional;
-        this.container = container;
         this.values = values;
 
-        this.buildContainer();
-    }
+        this.container = null;
+        this.buildContainer(template);
 
-    buildContainer() {
-        console.log('BaseField::buildContainer(): Unhandled');
-    }
-
-    getContainer() {
-        return this.container;
-    }
-
-    hasPrimaryValues() {
-        return this.values[0] != null && this.values[0] != '';
-    }
-
-    hasSecondaryValues() {
-        return false;
-    }
-}
-
-
-class BaseOptionalField extends BaseField {
-    constructor(button, container, values) {
-        super(button != null, container, values);
-        if (button != null) {
-            this.button = button;
+        this.button = null;
+        if (this.isOptional) {
             this.buildButton();
-        }
-        else {
-            this.button = null;
         }
     }
 
     buildButton() {
+        this.button = document.createElement('button');
         this.button.type = 'button';
         var thiss = this;
         this.button.onclick = function () {
@@ -47,6 +23,35 @@ class BaseOptionalField extends BaseField {
 
     getButton() {
         return this.button;
+    }
+
+    buildContainer(template) {
+        this.container = document.createElement('div');
+        this.container.className = 'field-container';
+        this.container.innerHTML = template;
+
+        this.detailContainer();
+    }
+
+    detailContainer() {
+        console.log('BaseField::detailContainer(): Unhandled');
+    }
+
+    getContainer() {
+        return this.container;
+    }
+
+    updateVisibility(container) {
+        if (container) {
+            this.container.style.display = 'flex';
+            this.button.style.display = 'none';
+        }
+        else {
+            this.button.style.display = 'inline-block';
+            this.container.style.display = 'none';
+
+            this.nullValues();
+        }
     }
 
     buildRemoveFieldButton() {
@@ -66,56 +71,46 @@ class BaseOptionalField extends BaseField {
         return removeFieldButton;
     }
 
-    updateVisibility(container) {
-        if (container) {
-            this.container.style.display = 'flex';
-            this.button.style.display = 'none';
-        }
-        else {
-            this.button.style.display = 'inline-block';
-            this.container.style.display = 'none';
+    hasPrimaryValues() {
+        return this.values[0] != null && this.values[0] != '';
+    }
 
-            this.nullValues();
-        }
+    hasSecondaryValues() {
+        return false;
     }
 
     nullValues() {
-        console.log('BaseOptionalField::nullValues(): Unhandled');
+        console.log('BaseField::nullValues(): Unhandled');
     }
 }
 
 
 class TextInputField extends BaseField {
     constructor(...args) {
-        super(false, document.createElement('div'), args);
-    }
-
-    buildContainer() {
-        this.container.className = 'field-container';
-        this.container.id = 'title-field-container';
-
         var template = `
             <input type="text" name="title" placeholder="Title" autocomplete="off">
         `
-        this.container.innerHTML = template;
+        super(template, false, args);
+    }
+
+    detailContainer() {
+        this.container.id = 'title-field-container';
+        if (this.hasPrimaryValues()) {
+            this.container.querySelector('input').value = this.values[0];
+        }
     }
 }
 
 
 class TextAreaField extends BaseField {
     constructor(...args) {
-        super(false, document.createElement('div'), args);
-    }
-
-    buildContainer() {
-        this.container.className = 'field-container';
-
         var template = `
             <textarea name="description" rows=3 placeholder="Description"></textarea>
         `
+        super(template, false, args);
+    }
 
-        this.container.innerHTML = template;
-
+    detailContainer() {
         if (this.hasPrimaryValues()) {
             this.container.querySelector('textarea').value = this.values[0];
         }
@@ -123,30 +118,22 @@ class TextAreaField extends BaseField {
 }
 
 
-class LocationField extends BaseOptionalField {
+class LocationField extends BaseField {
     constructor(isOptional, ...args) {
-        super(isOptional ? document.createElement('button') : null, document.createElement('div'), args);
-    }
-
-    buildButton() {
-        super.buildButton();
-
-        var locationFieldIcon = document.createElement('img');
-        locationFieldIcon.src = '/static/images/location.png';
-        locationFieldIcon.alt = 'location';
-
-        this.button.appendChild(locationFieldIcon);
-    }
-
-    buildContainer() {
-        this.container.className = 'field-container';
-        this.container.id = 'location-field-container';
-
         var template = `
             <img src="/static/images/location.png" alt="location icon">
             <input type="text" name="location" placeholder="Location" autocomplete="off">
         `
-        this.container.innerHTML = template;
+        super(template, isOptional, args);
+    }
+
+    buildButton() {
+        super.buildButton();
+        this.button.innerHTML = '<img src="/static/images/location.png" alt="location icon">';
+    }
+
+    detailContainer() {
+        this.container.id = 'location-field-container';
 
         if (this.hasPrimaryValues()) {
             this.container.querySelector('input').value = this.values[0];
@@ -162,25 +149,8 @@ class LocationField extends BaseOptionalField {
     }
 }
 
-class DatetimeField extends BaseOptionalField {
+class DatetimeField extends BaseField {
     constructor(isOptional, ...args) {
-        super(isOptional ? document.createElement('button') : null, document.createElement('div'), args);
-    }
-
-    buildButton() {
-        super.buildButton();
-
-        var datetimeFieldIcon = document.createElement('img');
-        datetimeFieldIcon.src = '/static/images/datetime.png';
-        datetimeFieldIcon.alt = 'clock';
-
-        this.button.appendChild(datetimeFieldIcon);
-    }
-
-    buildContainer() {
-        this.container.className = 'field-container';
-        this.container.id = 'datetime-field-container';
-
         var template = `
             <div class="datetime-header">
                 <img src="/static/images/datetime.png" alt="clock icon">
@@ -221,7 +191,16 @@ class DatetimeField extends BaseOptionalField {
                 </div>
             </div>
         `
-        this.container.innerHTML = template;
+        super(template, isOptional, args);
+    }
+
+    buildButton() {
+        super.buildButton();
+        this.button.innerHTML = '<img src="/static/images/datetime.png" alt="clock icon">';
+    }
+
+    detailContainer() {
+        this.container.id = 'datetime-field-container';
 
         if (this.isOptional) {
             this.container.querySelector('.datetime-header').appendChild(this.buildRemoveFieldButton());

@@ -127,31 +127,22 @@ class SheetItem {
 }
 
 
-class PriceField extends BaseOptionalField {
+class PriceField extends BaseField {
     constructor(isOptional, ...args) {
-        super(isOptional ? document.createElement('button') : null, document.createElement('div'), args);
-    }
-
-    buildButton() {
-        super.buildButton();
-
-        var priceFieldIcon = document.createElement('img');
-        priceFieldIcon.src = '/static/images/price.png';
-        priceFieldIcon.alt = 'price';
-
-        this.button.appendChild(priceFieldIcon);
-    }
-
-    buildContainer() {
-        this.container.className = 'field-container';
-        this.container.id = 'price-field-container';
-
         var template = `
             <img src="/static/images/price.png" alt="price icon">
             <input type="number" step="0.01" id="sheetItemPrice" name="price" placeholder="Price">
         `
-        this.container.innerHTML = template;
+        super(template, isOptional, args);
+    }
 
+    buildButton() {
+        super.buildButton();
+        this.button.innerHTML = '<img src="/static/images/price.png" alt="price icon">';
+    }
+
+    detailContainer() {
+        this.container.id = 'price-field-container';
         this.container.appendChild(super.buildRemoveFieldButton());
     }
 
