@@ -149,6 +149,7 @@ class LocationField extends BaseField {
     }
 }
 
+
 class DatetimeField extends BaseField {
     constructor(isOptional, ...args) {
         var template = `
@@ -302,5 +303,29 @@ class PriceField extends BaseField {
 
     nullValues() {
         this.container.querySelector('#sheetItemPrice').value = '';
+    }
+}
+
+
+class ToggleField extends BaseField {
+    constructor(...args) {
+        var template = `
+            <div class="toggle">
+                <h4>Public attendance</h4>
+                <label class="switch">
+                    <input type="checkbox" name="attendanceIsPublic">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        `
+        super(template, false, args);
+    }
+
+    detailContainer() {
+        this.container.id = 'toggle-field-container';
+
+        if (this.hasPrimaryValues()) {
+            this.container.querySelector('input[name="attendanceIsPublic"]').checked = true;
+        }
     }
 }

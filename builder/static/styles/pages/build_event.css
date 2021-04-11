@@ -4,7 +4,8 @@
     flex-direction: column;
 }
 
-.content form .event #publicAttendance {
-    align-self: flex-start;
+.content form .event #toggle-field-container {
+    flex-direction: row;
+    justify-content: flex-start;
     margin-top: 3vh;
 }
