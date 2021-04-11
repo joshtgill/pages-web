@@ -157,7 +157,6 @@ class LocationField extends BaseOptionalField {
         locationInput.value = this.hasPrimaryValues() ? this.values[0] : '';
         this.container.appendChild(locationInput);
 
-        console.log(this.isOptional);
         if (this.isOptional) {
             this.container.appendChild(super.buildRemoveFieldButton());
         }
@@ -303,7 +302,6 @@ class DatetimeField extends BaseOptionalField {
                     this.value = 'false';
                 }
                 selectedDaysInput.value = selectedDays.join('|');
-                console.log(selectedDaysInput.value);
             }
             datetimeRepeatDays.appendChild(dayButton);
         }

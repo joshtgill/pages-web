@@ -114,9 +114,12 @@ def buildPageData(pageType, idd):
             sheetItemsData.append(sheetItemData)
         pageData.update({'items': sheetItemsData})
     elif pageType == 'Event':
-        eventData = model_to_dict(Event.objects.get(page=page))
+        event = Event.objects.get(page=page)
+        eventData = model_to_dict(event)
         del eventData['acceptees']
         del eventData['declinees']
+        if RepeatingOccurence.objects.filter(event=event).exists():
+            eventData.update({'repeating': model_to_dict(RepeatingOccurence.objects.get(event=event))})
         pageData.update({'event': eventData})
 
     return pageData
@@ -216,6 +219,11 @@ def handleEventUpdate(pagePostData, page):
     location = pagePostData.get('location')[0]
     startDatetime = pagePostData.get('startDatetime')[0]
     endDatetime = pagePostData.get('endDatetime')[0]
+    selectedDays = pagePostData.get('selectedDays')[0]
+    startTime = pagePostData.get('startTime')[0]
+    endTime = pagePostData.get('endTime')[0]
+    startDate = pagePostData.get('startDate')[0]
+    endDate = pagePostData.get('endDate')[0]
     attendanceIsPublic = False
     try:
         attendanceIsPublic = bool(pagePostData.get('attendanceIsPublic')[0])
@@ -227,19 +235,54 @@ def handleEventUpdate(pagePostData, page):
         event = Event.objects.get(page=page)
         event.description = description
         event.location = location
-        event.startDatetime = startDatetime
-        if endDatetime:
-            event.endDatetime = endDatetime
+        event.startDatetime = startDatetime if startDatetime else None
+        event.endDatetime = endDatetime if endDatetime else None
         event.attendanceIsPublic = attendanceIsPublic
-    except Exception:
+        event.save()
+        if selectedDays or RepeatingOccurence.objects.filter(event=event).exists():
+            repeatingOccurence = None
+            try:
+                repeatingOccurence = RepeatingOccurence.objects.get(event=event)
+                if not selectedDays:
+                    repeatingOccurence.delete()
+                    return
+            except ObjectDoesNotExist:
+                repeatingOccurence = RepeatingOccurence(event=event)
+            days = selectedDays.split('|')
+            repeatingOccurence.monday=('M' in days)
+            repeatingOccurence.tuesday=('T' in days)
+            repeatingOccurence.wednesday=('W' in days)
+            repeatingOccurence.thursday=('TH' in days)
+            repeatingOccurence.friday=('F' in days)
+            repeatingOccurence.saturday=('S' in days)
+            repeatingOccurence.sunday=('SU' in days)
+            repeatingOccurence.startTime=startTime
+            repeatingOccurence.endTime=endTime
+            repeatingOccurence.startDate=startDate
+            repeatingOccurence.endDate=endDate
+            repeatingOccurence.save()
+    except ObjectDoesNotExist:
         event = Event(description=description,
                       location=location,
-                      startDatetime=startDatetime,
+                      startDatetime=startDatetime if startDatetime else None,
+                      endDatetime=endDatetime if endDatetime else None,
                       attendanceIsPublic=attendanceIsPublic,
                       page=page)
-        if endDatetime:
-            event.endDatetime = endDatetime
-    event.save()
+        event.save()
+        if selectedDays:
+                days = selectedDays.split('|')
+                RepeatingOccurence(monday=('M' in days),
+                                   tuesday=('T' in days),
+                                   wednesday=('W' in days),
+                                   thursday=('TH' in days),
+                                   friday=('F' in days),
+                                   saturday=('S' in days),
+                                   sunday=('SU' in days),
+                                   startTime=startTime,
+                                   endTime=endTime,
+                                   startDate=startDate,
+                                   endDate=endDate,
+                                   event=event).save()
 
 
 @login_required

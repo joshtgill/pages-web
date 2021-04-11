@@ -66,7 +66,8 @@ class RepeatingOccurence(models.Model):
     startDate = models.DateField()
     endDate = models.DateField()
 
-    sheetItem = models.ForeignKey(SheetItem, on_delete=models.CASCADE)
+    sheetItem = models.ForeignKey(SheetItem, null=True, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
 
 
 class Profile(models.Model):

@@ -4,6 +4,13 @@
 <script src="{% static 'scripts/pages/event.js' %}"></script>
 
 <div id="event" class="event"></div>
-<script>
-    event = new Event(document.getElementById('event'));
-</script>
+{% if pageData.id %}
+    {{ pageData.event|json_script:"eventData" }}
+    <script>
+        event = new Eventt(document.getElementById('event'), 'eventData');
+    </script>
+{% else %}
+    <script>
+        event = new Eventt(document.getElementById('event'));
+    </script>
+{% endif %}

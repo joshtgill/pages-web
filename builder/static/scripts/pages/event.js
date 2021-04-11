@@ -1,19 +1,19 @@
-class Event {
-    constructor(div) {
+class Eventt {
+    constructor(div, dataIdentifier=null) {
         this.container = div;
 
-        this.baseFields = [new TextAreaField(), new LocationField(false), new DatetimeField(false)];
-        this.buildContainer();
-    }
-
-    loadItems(dataIdentifier) {
-        var items = JSON.parse(document.getElementById(dataIdentifier).textContent);
-        for (var index in items) {
-            this.displayItem(items[index]);
+        var data = {}
+        if (dataIdentifier) {
+            data = JSON.parse(document.getElementById(dataIdentifier).textContent);
         }
+
+        this.baseFields = [new TextAreaField(data['description']),
+                           new LocationField(false, data['location']),
+                           new DatetimeField(false, data['startDatetime'], data['endDatetime'], data['repeating'])];
+        this.buildContainer(data['attendanceIsPublic']);
     }
 
-    buildContainer() {
+    buildContainer(attendanceIsPublic) {
         for (var index in this.baseFields) {
             this.container.appendChild(this.baseFields[index].getContainer());
         }
@@ -32,6 +32,7 @@ class Event {
         var toggleInput = document.createElement('input');
         toggleInput.type = 'checkbox';
         toggleInput.name = 'attendanceIsPublic';
+        toggleInput.checked = attendanceIsPublic;
         switchh.appendChild(toggleInput);
 
         var span = document.createElement('span');
