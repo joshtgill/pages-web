@@ -87,17 +87,15 @@ def build(request):
         Page.objects.get(id=deletePageForm.cleaned_data['pageIdToDelete']).delete()
         return redirect('/create/manage/')
 
+    # Send post data to handle Page updates
     pagePostData = dict(request.POST)
-
-    # Handle updates for 'parent' Page
-    page = handlePageUpdate(request, pagePostData)
-
-    # Handle updates for specific Page
-    pageType = pagePostData.get('pageType')[0]
-    if pageType == 'Sheet':
-        handleSheetItemsUpdates(pagePostData, page)
-    elif pageType == 'Event':
-        handleEventUpdate(pagePostData, page)
+    page = None
+    try:
+        page = Page.objects.get(id=pagePostData.get('pageId')[0])
+    except ValueError:
+        page = Page(organization=request.user.profile.organization)
+    page.load(pagePostData)
+    page.save()
 
     return redirect('/create/manage/')
 
@@ -123,166 +121,6 @@ def buildPageData(pageType, idd):
         pageData.update({'event': eventData})
 
     return pageData
-
-
-def handlePageUpdate(request, pagePostData):
-    page = None
-    try:
-        page = Page.objects.get(id=pagePostData.get('pageId')[0])
-        page.name = pagePostData.get('pageName')[0]
-    except ValueError:
-        page = Page(name=pagePostData.get('pageName')[0], typee=pagePostData.get('pageType')[0], dateCreated=datetime.date.today())
-        page.organization = request.user.profile.organization
-    page.save()
-
-    return page
-
-
-def handleSheetItemsUpdates(pagePostData, page):
-    try:
-        for sheetItemId in pagePostData.get('itemIdsToDelete')[0].split('|'):
-            SheetItem.objects.get(id=int(sheetItemId)).delete()
-    except ValueError:
-        pass
-
-    ids = pagePostData.get('id')
-    titles = pagePostData.get('title')
-    descriptions = pagePostData.get('description')
-    prices = pagePostData.get('price')
-    locations = pagePostData.get('location')
-    startDatetimes = pagePostData.get('startDatetime')
-    endDatetimes = pagePostData.get('endDatetime')
-    selectedDays = pagePostData.get('selectedDays')
-    startTimes = pagePostData.get('startTime')
-    endTimes = pagePostData.get('endTime')
-    startDates = pagePostData.get('startDate')
-    endDates = pagePostData.get('endDate')
-    for i in range(len(ids)):
-        try:
-            sheetItem = SheetItem.objects.get(id=int(ids[i]))
-            sheetItem.title = titles[i]
-            sheetItem.description = descriptions[i]
-            sheetItem.price = prices[i] if prices[i] else None
-            sheetItem.location = locations[i] if locations[i] else None
-            sheetItem.startDatetime = startDatetimes[i] if startDatetimes[i] else None
-            sheetItem.endDatetime = endDatetimes[i] if endDatetimes[i] else None
-            sheetItem.save()
-            if selectedDays[i] or RepeatingOccurence.objects.filter(sheetItem=sheetItem).exists():
-                repeatingOccurence = None
-                try:
-                    repeatingOccurence = RepeatingOccurence.objects.get(sheetItem=sheetItem)
-                    if not selectedDays[i]:
-                        repeatingOccurence.delete()
-                        return
-                except ObjectDoesNotExist:
-                    repeatingOccurence = RepeatingOccurence(sheetItem=sheetItem)
-                days = selectedDays[i].split('|')
-                repeatingOccurence.monday=('M' in days)
-                repeatingOccurence.tuesday=('T' in days)
-                repeatingOccurence.wednesday=('W' in days)
-                repeatingOccurence.thursday=('TH' in days)
-                repeatingOccurence.friday=('F' in days)
-                repeatingOccurence.saturday=('S' in days)
-                repeatingOccurence.sunday=('SU' in days)
-                repeatingOccurence.startTime=startTimes[i]
-                repeatingOccurence.endTime=endTimes[i]
-                repeatingOccurence.startDate=startDates[i]
-                repeatingOccurence.endDate=endDates[i]
-                repeatingOccurence.save()
-
-        except ObjectDoesNotExist:
-            sheetItem = SheetItem(title=titles[i], description=descriptions[i])
-            sheetItem.location = locations[i] if locations[i] else None
-            sheetItem.price = prices[i] if prices[i] else None
-            sheetItem.startDatetime = startDatetimes[i] if startDatetimes[i] else None
-            sheetItem.endDatetime = endDatetimes[i] if endDatetimes[i] else None
-            sheetItem.page = page
-            sheetItem.save()
-            if selectedDays[i]:
-                days = selectedDays[i].split('|')
-                RepeatingOccurence(monday=('M' in days),
-                                   tuesday=('T' in days),
-                                   wednesday=('W' in days),
-                                   thursday=('TH' in days),
-                                   friday=('F' in days),
-                                   saturday=('S' in days),
-                                   sunday=('SU' in days),
-                                   startTime=startTimes[i],
-                                   endTime=endTimes[i],
-                                   startDate=startDates[i],
-                                   endDate=endDates[i],
-                                   sheetItem=sheetItem).save()
-
-
-def handleEventUpdate(pagePostData, page):
-    description = pagePostData.get('description')[0]
-    location = pagePostData.get('location')[0]
-    startDatetime = pagePostData.get('startDatetime')[0]
-    endDatetime = pagePostData.get('endDatetime')[0]
-    selectedDays = pagePostData.get('selectedDays')[0]
-    startTime = pagePostData.get('startTime')[0]
-    endTime = pagePostData.get('endTime')[0]
-    startDate = pagePostData.get('startDate')[0]
-    endDate = pagePostData.get('endDate')[0]
-    attendanceIsPublic = False
-    try:
-        attendanceIsPublic = bool(pagePostData.get('attendanceIsPublic')[0])
-    except TypeError:
-        pass
-
-    event = None
-    try:
-        event = Event.objects.get(page=page)
-        event.description = description
-        event.location = location
-        event.startDatetime = startDatetime if startDatetime else None
-        event.endDatetime = endDatetime if endDatetime else None
-        event.attendanceIsPublic = attendanceIsPublic
-        event.save()
-        if selectedDays or RepeatingOccurence.objects.filter(event=event).exists():
-            repeatingOccurence = None
-            try:
-                repeatingOccurence = RepeatingOccurence.objects.get(event=event)
-                if not selectedDays:
-                    repeatingOccurence.delete()
-                    return
-            except ObjectDoesNotExist:
-                repeatingOccurence = RepeatingOccurence(event=event)
-            days = selectedDays.split('|')
-            repeatingOccurence.monday=('M' in days)
-            repeatingOccurence.tuesday=('T' in days)
-            repeatingOccurence.wednesday=('W' in days)
-            repeatingOccurence.thursday=('TH' in days)
-            repeatingOccurence.friday=('F' in days)
-            repeatingOccurence.saturday=('S' in days)
-            repeatingOccurence.sunday=('SU' in days)
-            repeatingOccurence.startTime=startTime
-            repeatingOccurence.endTime=endTime
-            repeatingOccurence.startDate=startDate
-            repeatingOccurence.endDate=endDate
-            repeatingOccurence.save()
-    except ObjectDoesNotExist:
-        event = Event(description=description,
-                      location=location,
-                      startDatetime=startDatetime if startDatetime else None,
-                      endDatetime=endDatetime if endDatetime else None,
-                      attendanceIsPublic=attendanceIsPublic,
-                      page=page)
-        event.save()
-        if selectedDays:
-                days = selectedDays.split('|')
-                RepeatingOccurence(monday=('M' in days),
-                                   tuesday=('T' in days),
-                                   wednesday=('W' in days),
-                                   thursday=('TH' in days),
-                                   friday=('F' in days),
-                                   saturday=('S' in days),
-                                   sunday=('SU' in days),
-                                   startTime=startTime,
-                                   endTime=endTime,
-                                   startDate=startDate,
-                                   endDate=endDate,
-                                   event=event).save()
 
 
 @login_required
