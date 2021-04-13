@@ -22,13 +22,11 @@
                 <input id="pageNameInput" name="pageName" placeholder="{{ pageData.typee }} name" autocomplete="off" value="{{ pageData.name }}" required>
                 {% if pageData.typee == 'Sheet' %}
                     {% include 'pages/build_sheet.html' %}
-                <div class="actions">
-                    <button class="action-button" id="savePageButton" type="button" onclick="sheet.submit()">Save {{ pageData.typee }}</button>
                 {% elif pageData.typee == 'Event' %}
                     {% include 'pages/build_event.html' %}
+                {% endif %}
                 <div class="actions">
                     <button class="action-button" id="savePageButton" type="submit">Save {{ pageData.typee }}</button>
-                {% endif %}
                     {% if pageData.id %}
                         {{ pageDeleteConfirmationPopupData|json_script:"pageDeleteConfirmationPopupData" }}
                         <button class="action-button" id="deletePageButton" type="button" onclick="confirmationPopup.display('pageDeleteConfirmationPopupData')">Delete Page</button>

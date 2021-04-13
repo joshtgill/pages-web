@@ -17,7 +17,7 @@ class BaseField {
         this.button.type = 'button';
         var thiss = this;
         this.button.onclick = function () {
-            thiss.updateVisibility(true);
+            thiss.toggle(true);
         }
     }
 
@@ -41,8 +41,8 @@ class BaseField {
         return this.container;
     }
 
-    updateVisibility(container) {
-        if (container) {
+    toggle(enable) {
+        if (enable) {
             this.container.style.display = 'flex';
             this.button.style.display = 'none';
         }
@@ -50,7 +50,7 @@ class BaseField {
             this.button.style.display = 'inline-block';
             this.container.style.display = 'none';
 
-            this.nullValues();
+            this.disable();
         }
     }
 
@@ -59,7 +59,7 @@ class BaseField {
         removeFieldButton.type = 'button';
         var thiss = this;
         removeFieldButton.onclick = function() {
-            thiss.updateVisibility(false);
+            thiss.toggle(false);
         }
 
         var removeFieldIcon = document.createElement('img');
@@ -79,8 +79,12 @@ class BaseField {
         return false;
     }
 
-    nullValues() {
-        console.log('BaseField::nullValues(): Unhandled');
+    disable() {
+        var inputs = this.container.querySelectorAll('input');
+        for (var i = 0; i < inputs.length; ++i) {
+            inputs[i].value = '';
+            inputs[i].required = false;
+        }
     }
 }
 
@@ -122,7 +126,7 @@ class LocationField extends BaseField {
     constructor(isOptional, ...args) {
         var template = `
             <img src="/static/images/location.png" alt="location icon">
-            <input type="text" name="location" placeholder="Location" autocomplete="off">
+            <input type="text" name="location" placeholder="Location" autocomplete="off" required>
         `
         super(template, isOptional, args);
     }
@@ -143,10 +147,6 @@ class LocationField extends BaseField {
             this.container.appendChild(super.buildRemoveFieldButton());
         }
     }
-
-    nullValues() {
-        this.container.querySelector('input[name="location"]').value = '';
-    }
 }
 
 
@@ -164,9 +164,9 @@ class DatetimeField extends BaseField {
                 </div>
             </div>
             <div class="datetime-range">
-                <input type="datetime-local" name="startDatetime">
+                <input type="datetime-local" name="startDatetime" required>
                 <h3>to</h3>
-                <input type="datetime-local" name="endDatetime">
+                <input type="datetime-local" name="endDatetime" required>
             </div>
             <div class="datetime-repeat">
                 <div class="days">
@@ -180,15 +180,15 @@ class DatetimeField extends BaseField {
                     <button type="button" class="day-button" name="sunday">SU</button>
                 </div>
                 <div class="times">
-                    <input type="time" name="startTime">
+                    <input type="time" name="startTime" required>
                     <h3>to</h3>
-                    <input type="time" name="endTime">
+                    <input type="time" name="endTime" required>
                 </div>
                 <div class="times">
                     <h3>starting on</h3>
-                    <input type="date" name="startDate">
+                    <input type="date" name="startDate" required>
                     <h3>ending on</h3>
-                    <input type="date" name="endDate">
+                    <input type="date" name="endDate" required>
                 </div>
             </div>
         `
@@ -213,11 +213,37 @@ class DatetimeField extends BaseField {
         repeatToggleInput.onchange = function() {
             if (this.checked) {
                 datetimeRangeContainer.style.display = 'none';
+                var datetimeRangeInputs = datetimeRangeContainer.querySelectorAll('input');
+                for (var i = 0; i < datetimeRangeInputs.length; ++i) {
+                    datetimeRangeInputs[i].required = false;
+                    datetimeRangeInputs[i].value = '';
+                }
+
                 datetimeRepeatContainer.style.display = 'flex';
+                var datetimeRepeatInputs = datetimeRepeatContainer.querySelectorAll('input');
+                for (var i = 0; i < datetimeRepeatInputs.length; ++i) {
+                    datetimeRepeatInputs[i].required = true;
+                }
             }
             else {
                 datetimeRangeContainer.style.display = 'flex';
+                var datetimeRangeInputs = datetimeRangeContainer.querySelectorAll('input');
+                for (var i = 0; i < datetimeRangeInputs.length; ++i) {
+                    datetimeRangeInputs[i].required = true;
+                }
+
                 datetimeRepeatContainer.style.display = 'none';
+                var datetimeRepeatInputs = datetimeRepeatContainer.querySelectorAll('input');
+                for (var i = 0; i < datetimeRepeatInputs.length; ++i) {
+                    datetimeRepeatInputs[i].required = false;
+                    datetimeRepeatInputs[i].value = '';
+                }
+                var datetimeRepeatDayButtons = datetimeRepeatContainer.querySelectorAll('button');
+                for (var i = 0; i < datetimeRepeatDayButtons.length; ++i) {
+                    if (datetimeRepeatDayButtons[i].value) {
+                        datetimeRepeatDayButtons[i].click();
+                    }
+                }
             }
         }
         repeatToggleInput.checked = this.hasSecondaryValues();
@@ -252,7 +278,7 @@ class DatetimeField extends BaseField {
             var daysInWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
             for (var index in daysInWeek) {
                 if (this.values[2][daysInWeek[index]]) {
-                    this.container.querySelector(`button[name="${daysInWeek[index]}"]`).dispatchEvent(new Event('click'))
+                    this.container.querySelector(`button[name="${daysInWeek[index]}"]`).click();
                 }
             }
             this.container.querySelector('input[name="startTime"]').value = this.values[2]['startTime'];
@@ -270,14 +296,15 @@ class DatetimeField extends BaseField {
         return this.values[2];
     }
 
-    nullValues() {
-        this.container.querySelector('input[name="startDatetime"]').value = '';
-        this.container.querySelector('input[name="endDatetime"]').value = '';
-        this.container.querySelector('input[name="startTime"]').value = '';
-        this.container.querySelector('input[name="endTime"]').value = '';
-        this.container.querySelector('input[name="startDate"]').value = '';
-        this.container.querySelector('input[name="endDate"]').value = '';
-        this.container.querySelector('input[name="selectedDays"]').value = '';
+    disable() {
+        super.disable();
+
+        var repeatDayButtons = this.container.querySelector('.datetime-repeat').querySelectorAll('button');
+        for (var i = 0; i < repeatDayButtons.length; ++i) {
+            if (repeatDayButtons[i].value) {
+                repeatDayButtons[i].click();
+            }
+        }
     }
 }
 
@@ -303,10 +330,6 @@ class PriceField extends BaseField {
         if (this.hasPrimaryValues()) {
             this.container.querySelector('input').value = this.values[0];
         }
-    }
-
-    nullValues() {
-        this.container.querySelector('#sheetItemPrice').value = '';
     }
 }
 

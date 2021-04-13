@@ -3,17 +3,23 @@ class Sheet {
         this.container = div;
         this.items = [];
         this.separators = [];
-        this.itemIdsToDelete = [];
+
+        // Need to track existing items that are deleted
+        var itemIdsToDeleteInput = document.createElement('input');
+        this.itemIdsToDeleteInput = itemIdsToDeleteInput;
+        itemIdsToDeleteInput.type = 'hidden';
+        itemIdsToDeleteInput.name = 'itemIdsToDelete';
+        this.container.appendChild(this.itemIdsToDeleteInput);
 
         if (dataIdentifier) {
             var itemsData = JSON.parse(document.getElementById(dataIdentifier).textContent);
             for (var index in itemsData) {
-                this.displayItem(itemsData[index]);
+                this.addItem(itemsData[index]);
             }
         }
     }
 
-    displayItem(data = {}) {
+    addItem(data = {}) {
         if (this.items.length != 0) {
             // This is not the first item, display the separator above.
             var seperatorAbove = document.createElement('hr');
@@ -40,18 +46,10 @@ class Sheet {
 
         if (item.id != -1) {
             // Item exists in database. Mark for deletion.
-            this.itemIdsToDelete.push(item.id);
+            var itemIdsToDelete = this.itemIdsToDeleteInput.value == '' ? [] : this.itemIdsToDeleteInput.value.split('|');
+            itemIdsToDelete.push(item.id);
+            this.itemIdsToDeleteInput.value = itemIdsToDelete.join('|');
         }
-    }
-
-    submit() {
-        var itemIdsToDeleteInput = document.createElement('input');
-        itemIdsToDeleteInput.type = 'hidden';
-        itemIdsToDeleteInput.name = 'itemIdsToDelete';
-        itemIdsToDeleteInput.value = this.itemIdsToDelete.join('|');
-        this.container.appendChild(itemIdsToDeleteInput);
-
-        document.getElementById('pageForm').submit();
     }
 }
 
@@ -96,7 +94,7 @@ class SheetItem {
 
             this.container.insertBefore(field.getContainer(), this.container.children[0]);
             if (field.isOptional) {
-                field.updateVisibility(field.hasPrimaryValues() || field.hasSecondaryValues());
+                field.toggle(field.hasPrimaryValues() || field.hasSecondaryValues());
                 this.container.querySelector('.field-options').insertBefore(field.getButton(),
                                                                             this.container.querySelector('.field-options').children[0]);
             }

@@ -4,7 +4,7 @@
 <script src="{% static 'scripts/pages/sheet.js' %}"></script>
 
 <div id="items" class="items"></div>
-<button id="addItemButton" type="button" onclick="sheet.displayItem()">+</button>
+<button id="addItemButton" type="button" onclick="sheet.addItem()">+</button>
 
 {% if pageData.id %}
     {{ pageData.items|json_script:"sheetItemsData" }}
