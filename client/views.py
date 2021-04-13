@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from builder.models import Organization, Page, SheetItem, Event, Membership, RepeatingOccurence
+from builder.models import Organization, Page, SheetItem, Event, Membership, SingleOccurence, RepeatingOccurence
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
 from django.contrib.auth.decorators import login_required
@@ -75,12 +75,20 @@ def buildPageData(pageId):
         sheetItemsData = []
         for sheetItem in SheetItem.objects.filter(page=page):
             sheetItemData = model_to_dict(sheetItem)
-            if RepeatingOccurence.objects.filter(sheetItem=sheetItem).exists():
-                sheetItemData.update({'repeating': model_to_dict( RepeatingOccurence.objects.get(sheetItem=sheetItem))})
+            if SingleOccurence.objects.filter(sheetItem=sheetItem).exists():
+                sheetItemData.update({'singleOccurence': model_to_dict(SingleOccurence.objects.get(sheetItem=sheetItem))})
+            elif RepeatingOccurence.objects.filter(sheetItem=sheetItem).exists():
+                sheetItemData.update({'repeatingOccurence': model_to_dict(RepeatingOccurence.objects.get(sheetItem=sheetItem))})
             sheetItemsData.append(sheetItemData)
         pageData.update({'sheetItems': sheetItemsData})
     elif page.typee == 'Event':
-        pageData.update({'event': Event.objects.get(page=page)})
+        event = Event.objects.get(page=page)
+        eventData = model_to_dict(event)
+        if SingleOccurence.objects.filter(event=event).exists():
+            eventData.update({'singleOccurence': model_to_dict(SingleOccurence.objects.get(event=event))})
+        elif RepeatingOccurence.objects.filter(event=event).exists():
+            eventData.update({'repeatingOccurence': model_to_dict(RepeatingOccurence.objects.get(event=event))})
+        pageData.update({'event': eventData})
 
     return pageData
 

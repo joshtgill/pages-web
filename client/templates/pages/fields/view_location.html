@@ -1,0 +1,10 @@
+{% load static %}
+
+{% if objectData.location %}
+    <div class="field">
+        <img src="{% static 'images/location.png' %}">
+        <div class="value">
+            <h3>{{ objectData.location }}</h3>
+        </div>
+    </div>
+{% endif %}

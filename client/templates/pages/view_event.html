@@ -8,29 +8,10 @@
             <div class="header">
                 <h3>{{ pageData.name }}</h3>
             </div>
-            <div class="field">
-                <img src="{% static 'images/datetime.png' %}">
-                <div class="value">
-                    {% if pageData.event.startDatetime.date == pageData.event.endDatetime.date and pageData.event.startDatetime %}
-                        <h3 style="margin-right: 5px">{{ pageData.event.startDatetime.date|date:"F j, Y" }}</h3>
-                        <h3>{{ pageData.event.startDatetime|time:"g:i A"|lower }} - {{ pageData.event.endDatetime|time:"g:i A"|lower }}</h3>
-                    {% else %}
-                        {% if pageData.event.startDatetime %}
-                            <h3>{{ pageData.event.startDatetime|date:"F j, Y"}} {{pageData.event.startDatetime|time:"g:i A"|lower }}</h3>
-                        {% endif %}
-                        {% if pageData.event.endDatetime %}
-                            <h4>to</h4>
-                            <h3>{{ pageData.event.endDatetime|date:"F j, Y"}} {{pageData.event.endDatetime|time:"g:i A"|lower }}</h3>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-            <div class="field">
-                <img src="{% static 'images/location.png' %}">
-                <div class="value">
-                    <h3>{{ pageData.event.location }}</h3>
-                </div>
-            </div>
+            {% with pageData.event as objectData %}
+                {% include 'pages/fields/view_occurence.html' %}
+                {% include 'pages/fields/view_location.html' %}
+            {% endwith %}
             <p>{{ pageData.event.description }}</p>
 
             <form method="POST">
@@ -42,11 +23,11 @@
                 </div>
             </form>
 
-            {% if request.user in pageData.event.acceptees.all %}
+            {% if request.user in pageData.event.acceptees %}
                 <div class="user-status">
                     <h3>You <b>are</b> attending this event.</h3>
                 </div>
-            {% elif request.user in pageData.event.declinees.all %}
+            {% elif request.user in pageData.event.declinees %}
                 <div class="user-status">
                     <h3>You <b>are not</b> attending this event.</h3>
                 </div>
@@ -56,7 +37,7 @@
                 <div class="user-list-container">
                     <h3>Attending</h3>
                     <div class="user-list">
-                        {% for user in pageData.event.acceptees.all %}
+                        {% for user in pageData.event.acceptees %}
                             <div class="item">
                                 <img src="{% static 'images/earth.png' %}" alt="earth">
                                 <h4>{{ user.get_full_name }}</h4>
@@ -67,7 +48,7 @@
                 <div class="user-list-container">
                     <h3>Not attending</h3>
                     <div class="user-list">
-                        {% for user in pageData.event.declinees.all %}
+                        {% for user in pageData.event.declinees %}
                             <div class="item">
                                 <img src="{% static 'images/earth.png' %}" alt="earth">
                                 <h4>{{ user.get_full_name }}</h4>
@@ -86,10 +67,10 @@
         <a href="{% url 'build' %}?typee={{ pageData.type }}&idd={{ pageData.id }}">Edit</a>
         <div class="item" style="max-width: 450px">
             <h3>Attending</h3>
-            {% if pageData.event.acceptees.all %}
+            {% if pageData.event.acceptees %}
                 <div class="list">
-                    {% for user in pageData.event.acceptees.all %}
-                        {% if forloop.counter == pageData.event.acceptees.all|length %}
+                    {% for user in pageData.event.acceptees %}
+                        {% if forloop.counter == pageData.event.acceptees|length %}
                         <div class="element" style="flex-direction: row; margin-bottom: 5px;">
                         {% else %}
                         <div class="element" style="flex-direction: row">
@@ -106,9 +87,9 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                {% if pageData.event.acceptees.all|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
+                {% if pageData.event.acceptees|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
                     <div class="footer">
-                        <h4>{{ pageData.event.acceptees.all|length }} total</h4>
+                        <h4>{{ pageData.event.acceptees|length }} total</h4>
                         <a href="{% url 'home' %}">View all ></a>
                     </div>
                 {% endif %}
@@ -120,10 +101,10 @@
         </div>
         <div class="item" style="max-width: 450px">
             <h3>Not attending</h3>
-            {% if pageData.event.declinees.all %}
+            {% if pageData.event.declinees %}
                 <div class="list">
-                    {% for user in pageData.event.declinees.all %}
-                        {% if forloop.counter == pageData.event.declinees.all|length %}
+                    {% for user in pageData.event.declinees %}
+                        {% if forloop.counter == pageData.event.declinees|length %}
                         <div class="element" style="flex-direction: row; margin-bottom: 5px;">
                         {% else %}
                         <div class="element" style="flex-direction: row">
@@ -140,9 +121,9 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                {% if pageData.event.declinees.all|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
+                {% if pageData.event.declinees|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
                     <div class="footer">
-                        <h4>{{ pageData.event.declinees.all|length }} total</h4>
+                        <h4>{{ pageData.event.declinees|length }} total</h4>
                         <a href="{% url 'home' %}">View all ></a>
                     </div>
                 {% endif %}
