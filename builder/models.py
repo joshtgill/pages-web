@@ -69,8 +69,6 @@ class SheetItem(models.Model):
     description = models.CharField(max_length=LENGTH_MEDIUM)
     price = models.FloatField(null=True)
     location = models.CharField(max_length=LENGTH_MEDIUM, null=True)
-    startDatetime = models.DateTimeField(null=True)
-    endDatetime = models.DateTimeField(null=True)
 
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
@@ -79,8 +77,6 @@ class SheetItem(models.Model):
         self.description = postData.get('description')[postDataIndex]
         self.price = postData.get('price')[postDataIndex] if postData.get('price')[postDataIndex] else None
         self.location = postData.get('location')[postDataIndex]
-        self.startDatetime = postData.get('startDatetime')[postDataIndex] if postData.get('startDatetime')[postDataIndex] else None
-        self.endDatetime = postData.get('endDatetime')[postDataIndex] if postData.get('endDatetime')[postDataIndex] else None
 
         if postData.get('selectedDays')[postDataIndex] or RepeatingOccurence.objects.filter(sheetItem=self).exists():
             repeatingOccurence = None
@@ -93,13 +89,22 @@ class SheetItem(models.Model):
                 repeatingOccurence = RepeatingOccurence(sheetItem=self)
             repeatingOccurence.load(postData, postDataIndex)
             repeatingOccurence.save()
+        elif postData.get('startDatetime')[postDataIndex] or SingleOccurence.objects.filter(sheetItem=self).exists():
+            singleOccurence = None
+            try:
+                singleOccurence = SingleOccurence.objects.get(sheetItem=self)
+                if not postData.get('startDatetime')[postDataIndex] and not postData.get('endDatetime')[postDataIndex]:
+                    singleOccurence.delete()
+                    return
+            except ObjectDoesNotExist:
+                singleOccurence = SingleOccurence(sheetItem=self)
+            singleOccurence.load(postData, postDataIndex)
+            singleOccurence.save()
 
 
 class Event(models.Model):
     description = models.CharField(max_length=LENGTH_MEDIUM)
     location = models.CharField(max_length=LENGTH_MEDIUM, null=True)
-    startDatetime = models.DateTimeField(null=True)
-    endDatetime = models.DateTimeField(null=True)
     attendanceIsPublic = models.BooleanField(default=False)
     acceptees = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='event_acceptees')
     declinees = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='event_declinees')
@@ -109,8 +114,6 @@ class Event(models.Model):
     def load(self, postData):
         self.description = postData.get('description')[0]
         self.location = postData.get('location')[0]
-        self.startDatetime = postData.get('startDatetime')[0] if postData.get('startDatetime')[0] else None
-        self.endDatetime = postData.get('endDatetime')[0] if postData.get('endDatetime')[0] else None
         self.attendanceIsPublic = ('attendanceIsPublic' in postData)
 
         if postData.get('selectedDays')[0] or RepeatingOccurence.objects.filter(event=self).exists():
@@ -124,6 +127,29 @@ class Event(models.Model):
                 repeatingOccurence = RepeatingOccurence(event=self)
             repeatingOccurence.load(postData)
             repeatingOccurence.save()
+        else:
+            singleOccurence = None
+            try:
+                singleOccurence = SingleOccurence.objects.get(event=self)
+                if not postData.get('startDatetime')[0] and not postData.get('endDatetime')[0]:
+                    singleOccurence.delete()
+                    return
+            except ObjectDoesNotExist:
+                singleOccurence = SingleOccurence(event=self)
+            singleOccurence.load(postData)
+            singleOccurence.save()
+
+
+class SingleOccurence(models.Model):
+    startDatetime = models.DateTimeField()
+    endDatetime = models.DateTimeField()
+
+    sheetItem = models.ForeignKey(SheetItem, null=True, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
+
+    def load(self, postData, postDataIndex=0):
+        self.startDatetime = postData.get('startDatetime')[postDataIndex]
+        self.endDatetime = postData.get('endDatetime')[postDataIndex]
 
 
 class RepeatingOccurence(models.Model):

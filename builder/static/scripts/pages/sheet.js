@@ -62,7 +62,7 @@ class SheetItem {
                        new TextAreaField(data['description']),
                        new PriceField(true, data['price']),
                        new LocationField(true, data['location']),
-                       new DatetimeField(true, data['startDatetime'], data['endDatetime'], data['repeating'])];
+                       new DatetimeField(true, data['singleOccurence'], data['repeating'])];
 
         this.container = null;
         this.buildContainer();

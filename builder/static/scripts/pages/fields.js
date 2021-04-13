@@ -271,29 +271,29 @@ class DatetimeField extends BaseField {
         }
 
         if (this.hasPrimaryValues()) {
-            this.container.querySelector('input[name="startDatetime"]').value = this.values[0];
-            this.container.querySelector('input[name="endDatetime"]').value = this.values[1];
+            this.container.querySelector('input[name="startDatetime"]').value = this.values[0]['startDatetime'];
+            this.container.querySelector('input[name="endDatetime"]').value = this.values[0]['endDatetime'];
         }
         else if (this.hasSecondaryValues()) {
             var daysInWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
             for (var index in daysInWeek) {
-                if (this.values[2][daysInWeek[index]]) {
+                if (this.values[1][daysInWeek[index]]) {
                     this.container.querySelector(`button[name="${daysInWeek[index]}"]`).click();
                 }
             }
-            this.container.querySelector('input[name="startTime"]').value = this.values[2]['startTime'];
-            this.container.querySelector('input[name="endTime"]').value = this.values[2]['endTime'];
-            this.container.querySelector('input[name="startDate"]').value = this.values[2]['startDate'];
-            this.container.querySelector('input[name="endDate"]').value = this.values[2]['endDate'];
+            this.container.querySelector('input[name="startTime"]').value = this.values[1]['startTime'];
+            this.container.querySelector('input[name="endTime"]').value = this.values[1]['endTime'];
+            this.container.querySelector('input[name="startDate"]').value = this.values[1]['startDate'];
+            this.container.querySelector('input[name="endDate"]').value = this.values[1]['endDate'];
         }
     }
 
     hasPrimaryValues() {
-        return this.values[0] != null || this.values[1] != null;
+        return this.values[0] != null && this.values[0] != '';
     }
 
     hasSecondaryValues() {
-        return this.values[2];
+        return this.values[1] != null && this.values[1] != '';
     }
 
     disable() {

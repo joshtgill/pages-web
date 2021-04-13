@@ -108,7 +108,9 @@ def buildPageData(pageType, idd):
         for sheetItem in SheetItem.objects.filter(page=page):
             sheetItemData = model_to_dict(sheetItem)
             if RepeatingOccurence.objects.filter(sheetItem=sheetItem).exists():
-                sheetItemData.update({'repeating': model_to_dict( RepeatingOccurence.objects.get(sheetItem=sheetItem))})
+                sheetItemData.update({'repeating': model_to_dict(RepeatingOccurence.objects.get(sheetItem=sheetItem))})
+            elif SingleOccurence.objects.filter(sheetItem=sheetItem).exists():
+                sheetItemData.update({'singleOccurence': model_to_dict(SingleOccurence.objects.get(sheetItem=sheetItem))})
             sheetItemsData.append(sheetItemData)
         pageData.update({'items': sheetItemsData})
     elif pageType == 'Event':
@@ -118,6 +120,8 @@ def buildPageData(pageType, idd):
         del eventData['declinees']
         if RepeatingOccurence.objects.filter(event=event).exists():
             eventData.update({'repeating': model_to_dict(RepeatingOccurence.objects.get(event=event))})
+        elif SingleOccurence.objects.filter(event=event).exists():
+            eventData.update({'singleOccurence': model_to_dict(SingleOccurence.objects.get(event=event))})
         pageData.update({'event': eventData})
 
     return pageData
