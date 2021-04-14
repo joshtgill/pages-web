@@ -22,13 +22,6 @@ def explore(request):
             except ObjectDoesNotExist:
                 return redirect('/explore/')
 
-            membershipRequestForm = MembershipRequestForm(request.POST)
-            if membershipRequestForm.is_valid():
-                # Membership request was submitted. Record it.
-                membership = Membership(user=request.user, organization=organization, relatedDate=datetime.date.today())
-                membership.save()
-                return redirect('/profile/')
-
             content = {}
             if organization.private and not Membership.objects.filter(user=request.user,
                                                                       organization=organization,
@@ -37,8 +30,8 @@ def explore(request):
                 content.update({'requestMembershipData': {'prompt': '''{} requires approval to view its Pages.
                                                                        <br><br>Would you like to request approval?'''.format(organization.name),
                                                           'confirmButtonText': 'Request',
-                                                          'formName': 'membershipRequest',
-                                                          'formValue': True,
+                                                          'formName': 'organizationIdToRequestMembership',
+                                                          'formValue': organization.id,
                                                           'dismissButtonText': 'Back'}})
             else:
                 # Organization is viewable. Display its pages.
@@ -48,6 +41,15 @@ def explore(request):
 
         # Neither forms were submitted, render organization search page
         return render(request, 'explore.html', {'organizationForm': OrganizationForm()})
+
+    requestMembershipForm = RequestMembershipForm(request.POST)
+    if requestMembershipForm.is_valid():
+        # Membership request was submitted. Record it.
+        membership = Membership(user=request.user,
+                                organization=Organization.objects.get(id=requestMembershipForm.cleaned_data['organizationIdToRequestMembership']),
+                                relatedDate=datetime.date.today())
+        membership.save()
+        return redirect('/profile/')
 
     eventAttendanceForm = EventAttendanceForm(request.POST)
     if not eventAttendanceForm.is_valid():

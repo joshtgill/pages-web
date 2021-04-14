@@ -14,8 +14,8 @@ class PageForm(forms.Form):
     page = forms.IntegerField()
 
 
-class MembershipRequestForm(forms.Form):
-    membershipRequest = forms.BooleanField()
+class RequestMembershipForm(forms.Form):
+    organizationIdToRequestMembership = forms.IntegerField()
 
 
 class EventAttendanceForm(forms.Form):
