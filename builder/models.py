@@ -103,7 +103,7 @@ class SheetItem(models.Model):
             repeatingOccurence = None
             try:
                 repeatingOccurence = RepeatingOccurence.objects.get(sheetItem=self)
-                if not postData.get('selectedDays')[0]:
+                if not postData.get('selectedDays')[postDataIndex]:
                     repeatingOccurence.delete()
                     return
             except ObjectDoesNotExist:
@@ -237,7 +237,7 @@ class RepeatingOccurence(models.Model):
     event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
 
     def deserialize(self, postData, postDataIndex=0):
-        selectedDays = postData.get('selectedDays')[postDataIndex]
+        selectedDays = postData.get('selectedDays')[postDataIndex].split('|')
         self.monday = ('M' in selectedDays)
         self.tuesday = ('T' in selectedDays)
         self.wednesday = ('W' in selectedDays)
