@@ -19,6 +19,10 @@ class Organization(models.Model):
     private = models.BooleanField(default=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    def deserialize(self, data):
+        self.name = data['name']
+        self.private = data['private']
+
 
 class PageListing(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
@@ -65,9 +69,10 @@ class Page(models.Model):
             event.save()
 
 
-    def serialize(self):
+    def serialize(self, recursive=True):
         data = model_to_dict(self)
-        data.update({'organization': model_to_dict(self.organization)})
+        if not recursive:
+            return data
 
         if self.typee == 'Sheet':
             itemsData = []

@@ -40,7 +40,7 @@
     </div>
 </div>
 
-{% if request.user.profile.organization == pageData.organization %}
+{% if request.user.profile.organization.id == pageData.organization %}
     <div class="dashboard" style="flex-direction: column">
         <h3 id="title">Manage this Sheet</h3>
         <a href="{% url 'build' %}?typee={{ pageData.typee }}&idd={{ pageData.id }}">Edit</a>

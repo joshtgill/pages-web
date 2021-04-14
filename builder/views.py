@@ -53,20 +53,19 @@ def requestNewOrganization(request):
 @login_required
 def build(request):
     if request.method == 'GET':
-        pageListings = PageListing.objects
         buildForm = BuildForm(request.GET)
 
         if not buildForm.is_valid():
             # Page type isn't provided, list available Pages
-            return render(request, 'select_page_type.html', {'pageListings': pageListings.all()})
+            return render(request, 'select_page_type.html', {'pageListings': PageListing.objects.all()})
 
         pageType = buildForm.cleaned_data['typee']
-        if not pageListings.filter(name=pageType).count():
+        if not PageListing.objects.filter(name=pageType).exists():
             return redirect('/create/build/')
 
         content = {}
         pageId = buildForm.cleaned_data['idd']
-        if pageId and Page.objects.filter(organization=request.user.profile.organization, id=pageId).count():
+        if pageId and Page.objects.filter(organization=request.user.profile.organization, id=pageId).exists():
             # Page ID is provided and belongs to active organization. Load Page builder with existing data.
             pageData = Page.objects.get(id=pageId).serialize()
             content.update({'pageData': pageData,
@@ -168,9 +167,7 @@ def manageOrganization(request):
 def buildOrganizationsPagesData(organization):
     organizationsPagesData = []
     for page in Page.objects.filter(organization=organization)[:settings.MAX_DASHBOARD_LIST_ENTRIES]:
-        organizationsPagesData.append({'id': page.id, 'name': page.name, 'type': page.typee,
-                                       'dateCreated': page.dateCreated.strftime("%B %d, %Y"),
-                                       'numItems': len(SheetItem.objects.filter(page=page))})
+        organizationsPagesData.append(page.serialize(False))
 
     return organizationsPagesData
 
@@ -180,8 +177,7 @@ def editOrganization(request):
     if request.method == 'POST':
         editOrganizationForm = EditOrganizationForm(request.POST)
         if editOrganizationForm.is_valid():
-            request.user.profile.organization.name = editOrganizationForm.cleaned_data['name']
-            request.user.profile.organization.private = editOrganizationForm.cleaned_data['private']
+            request.user.profile.organization.deserialize(editOrganizationForm.cleaned_data)
             request.user.profile.organization.save()
         return redirect('/create/manage/')
 
