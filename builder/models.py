@@ -17,7 +17,7 @@ class NewOrganizationRequest(models.Model):
 class Organization(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     private = models.BooleanField(default=False)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # SET_NULL? Orphan Organization?
 
     def deserialize(self, data):
         self.name = data['name']
@@ -257,7 +257,7 @@ class RepeatingOccurence(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    organization = models.ForeignKey(Organization, null=True, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, null=True, on_delete=models.SET_NULL)
 
 
 class Membership(models.Model):
