@@ -8,7 +8,7 @@ class Eventt {
         }
         this.fields = [new TextAreaField(data['description']),
                        new LocationField(false, data['location']),
-                       new DatetimeField(false, data['singleOccurence'], data['repeating']),
+                       new DatetimeField(false, data['singleOccurence'], data['repeatingOccurence']),
                        new ToggleField(data['attendanceIsPublic'])];
 
         this.buildContainer();

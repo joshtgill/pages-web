@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from django.forms.models import model_to_dict
 
 
 LENGTH_SHORT = 30
@@ -31,7 +32,7 @@ class Page(models.Model):
 
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
-    def load(self, postData):
+    def deserialize(self, postData):
         self.name = postData.get('pageName')[0]
         self.typee = postData.get('pageType')[0]
         self.dateCreated = datetime.date.today()
@@ -51,7 +52,7 @@ class Page(models.Model):
                 except ObjectDoesNotExist:
                     sheetItem = SheetItem(page=self)
 
-                sheetItem.load(postData, i)
+                sheetItem.deserialize(postData, i)
                 sheetItem.save()
         elif postData.get('pageType')[0] == 'Event':
             event = None
@@ -60,8 +61,23 @@ class Page(models.Model):
             except ObjectDoesNotExist:
                 event = Event(page=self)
 
-            event.load(postData)
+            event.deserialize(postData)
             event.save()
+
+
+    def serialize(self):
+        data = model_to_dict(self)
+        data.update({'organization': model_to_dict(self.organization)})
+
+        if self.typee == 'Sheet':
+            itemsData = []
+            for sheetItem in SheetItem.objects.filter(page=self):
+                itemsData.append(sheetItem.serialize())
+            data.update({'items': itemsData})
+        elif self.typee == 'Event':
+            data.update({'event': Event.objects.get(page=self).serialize})
+
+        return data
 
 
 class SheetItem(models.Model):
@@ -72,7 +88,7 @@ class SheetItem(models.Model):
 
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
-    def load(self, postData, postDataIndex):
+    def deserialize(self, postData, postDataIndex):
         self.title = postData.get('title')[postDataIndex]
         self.description = postData.get('description')[postDataIndex]
         self.price = postData.get('price')[postDataIndex] if postData.get('price')[postDataIndex] else None
@@ -87,7 +103,7 @@ class SheetItem(models.Model):
                     return
             except ObjectDoesNotExist:
                 repeatingOccurence = RepeatingOccurence(sheetItem=self)
-            repeatingOccurence.load(postData, postDataIndex)
+            repeatingOccurence.deserialize(postData, postDataIndex)
             repeatingOccurence.save()
         elif postData.get('startDatetime')[postDataIndex] or SingleOccurence.objects.filter(sheetItem=self).exists():
             singleOccurence = None
@@ -98,8 +114,23 @@ class SheetItem(models.Model):
                     return
             except ObjectDoesNotExist:
                 singleOccurence = SingleOccurence(sheetItem=self)
-            singleOccurence.load(postData, postDataIndex)
+            singleOccurence.deserialize(postData, postDataIndex)
             singleOccurence.save()
+
+    def serialize(self):
+        data = model_to_dict(self)
+        try:
+            singleOccurence = SingleOccurence.objects.get(sheetItem=self)
+            data.update({'singleOccurence': singleOccurence.serialize()})
+        except ObjectDoesNotExist:
+            pass
+        try:
+            repeatingOccurence = RepeatingOccurence.objects.get(sheetItem=self)
+            data.update({'repeatingOccurence': repeatingOccurence.serialize()})
+        except ObjectDoesNotExist:
+            pass
+
+        return data
 
 
 class Event(models.Model):
@@ -111,7 +142,7 @@ class Event(models.Model):
 
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
-    def load(self, postData):
+    def deserialize(self, postData):
         self.description = postData.get('description')[0]
         self.location = postData.get('location')[0]
         self.attendanceIsPublic = ('attendanceIsPublic' in postData)
@@ -125,7 +156,7 @@ class Event(models.Model):
                     return
             except ObjectDoesNotExist:
                 repeatingOccurence = RepeatingOccurence(event=self)
-            repeatingOccurence.load(postData)
+            repeatingOccurence.deserialize(postData)
             repeatingOccurence.save()
         else:
             singleOccurence = None
@@ -136,8 +167,37 @@ class Event(models.Model):
                     return
             except ObjectDoesNotExist:
                 singleOccurence = SingleOccurence(event=self)
-            singleOccurence.load(postData)
+            singleOccurence.deserialize(postData)
             singleOccurence.save()
+
+    def serialize(self):
+        data = model_to_dict(self)
+
+        try:
+            singleOccurence = SingleOccurence.objects.get(event=self)
+            data.update({'singleOccurence': singleOccurence.serialize()})
+        except ObjectDoesNotExist:
+            pass
+
+        try:
+            repeatingOccurence = RepeatingOccurence.objects.get(event=self)
+            data.update({'repeatingOccurence': repeatingOccurence.serialize()})
+        except ObjectDoesNotExist:
+            pass
+
+        del data['acceptees']
+        accepteesData = []
+        for acceptee in self.acceptees.all():
+            accepteesData.append({'fullName': acceptee.get_full_name()})
+        data.update({'acceptees': accepteesData})
+
+        del data['declinees']
+        declineesData = []
+        for declinee in self.declinees.all():
+            declineesData.append({'fullName': declinee.get_full_name()})
+        data.update({'declinees': declineesData})
+
+        return data
 
 
 class SingleOccurence(models.Model):
@@ -147,9 +207,12 @@ class SingleOccurence(models.Model):
     sheetItem = models.ForeignKey(SheetItem, null=True, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
 
-    def load(self, postData, postDataIndex=0):
+    def deserialize(self, postData, postDataIndex=0):
         self.startDatetime = postData.get('startDatetime')[postDataIndex]
         self.endDatetime = postData.get('endDatetime')[postDataIndex]
+
+    def serialize(self):
+        return model_to_dict(self)
 
 
 class RepeatingOccurence(models.Model):
@@ -168,7 +231,7 @@ class RepeatingOccurence(models.Model):
     sheetItem = models.ForeignKey(SheetItem, null=True, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
 
-    def load(self, postData, postDataIndex=0):
+    def deserialize(self, postData, postDataIndex=0):
         selectedDays = postData.get('selectedDays')[postDataIndex]
         self.monday = ('M' in selectedDays)
         self.tuesday = ('T' in selectedDays)
@@ -181,6 +244,9 @@ class RepeatingOccurence(models.Model):
         self.endTime = postData.get('endTime')[postDataIndex]
         self.startDate = postData.get('startDate')[postDataIndex]
         self.endDate = postData.get('endDate')[postDataIndex]
+
+    def serialize(self):
+        return model_to_dict(self)
 
 
 class Profile(models.Model):

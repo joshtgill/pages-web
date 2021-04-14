@@ -68,7 +68,7 @@ def build(request):
         pageId = buildForm.cleaned_data['idd']
         if pageId and Page.objects.filter(organization=request.user.profile.organization, id=pageId).count():
             # Page ID is provided and belongs to active organization. Load Page builder with existing data.
-            pageData = buildPageData(pageType, pageId)
+            pageData = Page.objects.get(id=pageId).serialize()
             content.update({'pageData': pageData,
                             'pageDeleteConfirmationPopupData': {'prompt': 'Permanently delete <b>{}</b> from {}?'.format(pageData.get('name'),
                                                                                                                          request.user.profile.organization.name),
@@ -94,37 +94,10 @@ def build(request):
         page = Page.objects.get(id=pagePostData.get('pageId')[0])
     except ValueError:
         page = Page(organization=request.user.profile.organization)
-    page.load(pagePostData)
+    page.deserialize(pagePostData)
     page.save()
 
     return redirect('/create/manage/')
-
-
-def buildPageData(pageType, idd):
-    page = Page.objects.get(id=idd)
-    pageData = model_to_dict(page)
-    if pageType == 'Sheet':
-        sheetItemsData = []
-        for sheetItem in SheetItem.objects.filter(page=page):
-            sheetItemData = model_to_dict(sheetItem)
-            if RepeatingOccurence.objects.filter(sheetItem=sheetItem).exists():
-                sheetItemData.update({'repeating': model_to_dict(RepeatingOccurence.objects.get(sheetItem=sheetItem))})
-            elif SingleOccurence.objects.filter(sheetItem=sheetItem).exists():
-                sheetItemData.update({'singleOccurence': model_to_dict(SingleOccurence.objects.get(sheetItem=sheetItem))})
-            sheetItemsData.append(sheetItemData)
-        pageData.update({'items': sheetItemsData})
-    elif pageType == 'Event':
-        event = Event.objects.get(page=page)
-        eventData = model_to_dict(event)
-        del eventData['acceptees']
-        del eventData['declinees']
-        if RepeatingOccurence.objects.filter(event=event).exists():
-            eventData.update({'repeating': model_to_dict(RepeatingOccurence.objects.get(event=event))})
-        elif SingleOccurence.objects.filter(event=event).exists():
-            eventData.update({'singleOccurence': model_to_dict(SingleOccurence.objects.get(event=event))})
-        pageData.update({'event': eventData})
-
-    return pageData
 
 
 @login_required

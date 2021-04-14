@@ -12,7 +12,7 @@ def explore(request):
         pageForm = PageForm(request.GET)
         if pageForm.is_valid():
             # Render the organization's Page.
-            return render(request, 'view_page.html', {'pageData': buildPageData(pageForm.cleaned_data['page'])})
+            return render(request, 'view_page.html', {'pageData': Page.objects.get(id=pageForm.cleaned_data['page']).serialize()})
 
         organizationForm = OrganizationForm(request.GET)
         if organizationForm.is_valid():
@@ -66,31 +66,6 @@ def explore(request):
     event.save()
 
     return redirect('/explore/?organization={}&page={}'.format(event.page.organization.name, event.page.id))
-
-
-def buildPageData(pageId):
-    page = Page.objects.get(id=pageId)
-    pageData = {'id': page.id, 'name': page.name, 'type': page.typee, 'organization': page.organization}
-    if page.typee == 'Sheet':
-        sheetItemsData = []
-        for sheetItem in SheetItem.objects.filter(page=page):
-            sheetItemData = model_to_dict(sheetItem)
-            if SingleOccurence.objects.filter(sheetItem=sheetItem).exists():
-                sheetItemData.update({'singleOccurence': model_to_dict(SingleOccurence.objects.get(sheetItem=sheetItem))})
-            elif RepeatingOccurence.objects.filter(sheetItem=sheetItem).exists():
-                sheetItemData.update({'repeatingOccurence': model_to_dict(RepeatingOccurence.objects.get(sheetItem=sheetItem))})
-            sheetItemsData.append(sheetItemData)
-        pageData.update({'sheetItems': sheetItemsData})
-    elif page.typee == 'Event':
-        event = Event.objects.get(page=page)
-        eventData = model_to_dict(event)
-        if SingleOccurence.objects.filter(event=event).exists():
-            eventData.update({'singleOccurence': model_to_dict(SingleOccurence.objects.get(event=event))})
-        elif RepeatingOccurence.objects.filter(event=event).exists():
-            eventData.update({'repeatingOccurence': model_to_dict(RepeatingOccurence.objects.get(event=event))})
-        pageData.update({'event': eventData})
-
-    return pageData
 
 
 def buildOrganizationPagesData(organization):

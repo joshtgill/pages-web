@@ -40,7 +40,7 @@
                         {% for user in pageData.event.acceptees %}
                             <div class="item">
                                 <img src="{% static 'images/earth.png' %}" alt="earth">
-                                <h4>{{ user.get_full_name }}</h4>
+                                <h4>{{ user.fullName }}</h4>
                             </div>
                         {% endfor %}
                     </div>
@@ -51,7 +51,7 @@
                         {% for user in pageData.event.declinees %}
                             <div class="item">
                                 <img src="{% static 'images/earth.png' %}" alt="earth">
-                                <h4>{{ user.get_full_name }}</h4>
+                                <h4>{{ user.fullName }}</h4>
                             </div>
                         {% endfor %}
                     </div>
@@ -61,10 +61,10 @@
     </div>
 </div>
 
-{% if request.user.profile.organization == pageData.organization %}
+{% if request.user.profile.organization.id == pageData.organization.id %}
     <div class="dashboard" style="flex-direction: column">
         <h3 id="title">Manage this Event</h3>
-        <a href="{% url 'build' %}?typee={{ pageData.type }}&idd={{ pageData.id }}">Edit</a>
+        <a href="{% url 'build' %}?typee={{ pageData.typee }}&idd={{ pageData.id }}">Edit</a>
         <div class="item" style="max-width: 450px">
             <h3>Attending</h3>
             {% if pageData.event.acceptees %}
@@ -78,7 +78,7 @@
                             <div class="info" style="cursor: auto">
                                 <div class="iconname">
                                     <img src="{% static 'images/earth.png' %}" alt="earth">
-                                    <h4>{{ user.get_full_name }}</h4>
+                                    <h4>{{ user.fullName }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                             <div class="info" style="cursor: auto">
                                 <div class="iconname">
                                     <img src="{% static 'images/earth.png' %}" alt="earth">
-                                    <h4>{{ user.get_full_name }}</h4>
+                                    <h4>{{ user.fullName }}</h4>
                                 </div>
                             </div>
                         </div>
