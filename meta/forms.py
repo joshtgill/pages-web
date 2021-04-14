@@ -60,5 +60,5 @@ class DeleteOrganizationForm(forms.Form):
     organizationIdToDelete = forms.IntegerField()
 
 
-class EndMembershipForm(forms.Form):
-    membershipIdToEnd = forms.IntegerField()
+class CancelMembershipForm(forms.Form):
+    membershipIdToCancel = forms.IntegerField()

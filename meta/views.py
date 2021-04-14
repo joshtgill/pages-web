@@ -71,12 +71,18 @@ def login(request):
 @login_required
 def profile(request):
     if request.method == 'GET':
-        content = {'memberships': Membership.objects.filter(user=request.user, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-                   'leaveOrganizationConfirmationPopupData': {'prompt': None,
-                                                              'confirmButtonText': 'Leave',
-                                                              'formName': 'membershipIdToEnd',
-                                                              'formValue': None,
-                                                              'dismissButtonText': 'Cancel'},
+        content = {'pendingMemberships': Membership.objects.filter(user=request.user, approved=False)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
+                   'cancelPendingMembershipPopupData': {'prompt': None,
+                                                        'confirmButtonText': 'Cancel request',
+                                                        'formName': 'membershipIdToCancel',
+                                                        'formValue': None,
+                                                        'dismissButtonText': 'Back'},
+                   'memberships': Membership.objects.filter(user=request.user, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
+                   'cancelMembershipPopupData': {'prompt': None,
+                                                 'confirmButtonText': 'Leave',
+                                                 'formName': 'membershipIdToCancel',
+                                                 'formValue': None,
+                                                 'dismissButtonText': 'Cancel'},
                    'changeEmailForm': ChangeEmailForm(),
                    'logoutPopupData': {'prompt': 'Logout of <b>{}</b>?'.format(request.user.email),
                                        'confirmButtonText': 'Logout',
@@ -102,9 +108,9 @@ def profile(request):
             request.user.save()
         return redirect('/profile/')
 
-    endMembershipForm = EndMembershipForm(request.POST)
-    if endMembershipForm.is_valid():
-        Membership.objects.get(id=endMembershipForm.cleaned_data['membershipIdToEnd']).delete()
+    cancelMembershipForm = CancelMembershipForm(request.POST)
+    if cancelMembershipForm.is_valid():
+        Membership.objects.get(id=cancelMembershipForm.cleaned_data['membershipIdToCancel']).delete()
         return redirect('/profile/')
 
     logoutForm = LogoutForm(request.POST)

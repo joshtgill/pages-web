@@ -30,12 +30,50 @@
             {% if request.user.is_staff %}
                 <a href="{% url 'staff' %}">Staff page</a>
             {% endif %}
-            <div class="dashboard">
+            <div class="dashboard" style="max-width: 900px">
+                <div class="item" style="max-width: 400px">
+                    <h3>Pending Memberships</h3>
+                    {% if pendingMemberships %}
+                        <div class="list">
+                            {{ cancelPendingMembershipPopupData|json_script:"cancelPendingMembershipPopupData" }}
+                            {% for membership in pendingMemberships %}
+                                {% if forloop.counter == pendingMemberships|length %}
+                                <div class="element" style="margin-bottom: 5px">
+                                {% else %}
+                                <div class="element">
+                                {% endif %}
+                                    <a class="info" href="{% url 'explore' %}?organization={{ membership.organization.name }}">
+                                        <div class="iconname">
+                                            <img src="{% static 'images/earth.png' %}" alt="earth">
+                                            <h4>{{ membership.organization.name }}</h4>
+                                        </div>
+                                    </a>
+                                    <div class="actions">
+                                        <a onclick="confirmationPopup.display('cancelPendingMembershipPopupData',
+                                                                              null,
+                                                                              {{ membership.id }},
+                                                                              'Cancel your pending membership request to <b>{{ membership.organization.name }}</b>?')">Cancel</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if pendingMemberships|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
+                            <div class="footer">
+                                <h4>{{ pendingMemberships|length }} total</h4>
+                                <a href="{% url 'home' %}">View all ></a>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="empty-list">
+                            <h4>No pending memberships</h4>
+                        </div>
+                    {% endif %}
+                </div>
                 <div class="item" style="max-width: 400px">
                     <h3>Memberships</h3>
                     {% if memberships %}
                         <div class="list">
-                            {{ leaveOrganizationConfirmationPopupData|json_script:"leaveOrganizationConfirmationPopupData" }}
+                            {{ cancelMembershipPopupData|json_script:"cancelMembershipPopupData" }}
                             {% for membership in memberships %}
                                 {% if forloop.counter == memberships|length %}
                                 <div class="element" style="margin-bottom: 5px">
@@ -49,10 +87,17 @@
                                         </div>
                                     </a>
                                     <div class="actions">
-                                        <a onclick="confirmationPopup.display('leaveOrganizationConfirmationPopupData',
-                                                                            null,
-                                                                            {{ membership.id }},
-                                                                            'Leave <b>{{ membership.organization.name }}</b>?<br><br>You will no longer be a member of this organization.')">Leave</a>
+                                        {% if membership.organization.private %}
+                                            <a onclick="confirmationPopup.display('cancelMembershipPopupData',
+                                                                                  null,
+                                                                                  {{ membership.id }},
+                                                                                  'Cancel your membership with <b>{{ membership.organization.name }}</b>?<br><br>This organization is private, so you will lose access to its Pages.')">Cancel</a>
+                                        {% else %}
+                                            <a onclick="confirmationPopup.display('cancelMembershipPopupData',
+                                                                                  null,
+                                                                                  {{ membership.id }},
+                                                                                  'Cancel your membership with <b>{{ membership.organization.name }}</b>?<br><br>This organization is public, so you will still have access to its Pages.')">Cancel</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
