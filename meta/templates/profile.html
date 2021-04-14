@@ -35,7 +35,6 @@
                     <h3>Pending Memberships</h3>
                     {% if pendingMemberships %}
                         <div class="list">
-                            {{ cancelPendingMembershipPopupData|json_script:"cancelPendingMembershipPopupData" }}
                             {% for membership in pendingMemberships %}
                                 {% if forloop.counter == pendingMemberships|length %}
                                 <div class="element" style="margin-bottom: 5px">
@@ -49,10 +48,10 @@
                                         </div>
                                     </a>
                                     <div class="actions">
-                                        <a onclick="confirmationPopup.display('cancelPendingMembershipPopupData',
-                                                                              null,
-                                                                              {{ membership.id }},
-                                                                              'Cancel your pending membership request to <b>{{ membership.organization.name }}</b>?')">Cancel</a>
+                                        <a onclick="confirmationPopup.display('Cancel your pending membership request to <b>{{ membership.organization.name }}</b>?',
+                                                                              'Cancel request',
+                                                                              'membershipIdToCancel',
+                                                                              {{ membership.id }})">Cancel</a>
                                     </div>
                                 </div>
                             {% endfor %}
@@ -88,15 +87,17 @@
                                     </a>
                                     <div class="actions">
                                         {% if membership.organization.private %}
-                                            <a onclick="confirmationPopup.display('cancelMembershipPopupData',
-                                                                                  null,
-                                                                                  {{ membership.id }},
-                                                                                  'Cancel your membership with <b>{{ membership.organization.name }}</b>?<br><br>This organization is private, so you will lose access to its Pages.')">Cancel</a>
+                                            <a onclick="confirmationPopup.display(`Cancel your membership with <b>{{ membership.organization.name }}</b>?
+                                                                                   <br><br>This organization is private, so you will lose access to its Pages.`,
+                                                                                  'Cancel membership',
+                                                                                  'membershipIdToCancel',
+                                                                                  {{ membership.id }})">Cancel</a>
                                         {% else %}
-                                            <a onclick="confirmationPopup.display('cancelMembershipPopupData',
-                                                                                  null,
-                                                                                  {{ membership.id }},
-                                                                                  'Cancel your membership with <b>{{ membership.organization.name }}</b>?<br><br>This organization is public, so you will still have access to its Pages.')">Cancel</a>
+                                            <a onclick="confirmationPopup.display(`Cancel your membership with <b>{{ membership.organization.name }}</b>?
+                                                                                   <br><br>This organization is public, so you will still have access to its Pages.`,
+                                                                                  'Cancel membership',
+                                                                                  'membershipIdToCancel',
+                                                                                  {{ membership.id }})">Cancel</a>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -116,10 +117,18 @@
                 </div>
             </div>
             <div class="account-actions">
-                {{ logoutPopupData|json_script:"logoutPopupData" }}
-                <button class="action-button" onclick="confirmationPopup.display('logoutPopupData')">Logout</button>
-                {{ deleteAccountPopupData|json_script:"deleteAccountPopupData" }}
-                <button class="action-button" id="deleteAccountButton" onclick="confirmationPopup.display('deleteAccountPopupData')">Delete account</button>
+                <button class="action-button"
+                        onclick="confirmationPopup.display('Logout of account associated with <b>{{ request.user.email }}</b>?',
+                                                           'Logout',
+                                                           'logout',
+                                                           'True')">Logout</button>
+                <button class="action-button" id="deleteAccountButton"
+                        onclick="confirmationPopup.display(`This will permanently delete the account associated
+                                                            with <br><br><b>{{ request.user.email }}</b><br><br>
+                                                            All data will be lost and this action cannot be undone.`,
+                                                           'Delete',
+                                                           'deleteAccount',
+                                                           'True')">Delete account</button>
             </div>
         </div>
 

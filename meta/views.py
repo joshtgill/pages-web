@@ -72,30 +72,8 @@ def login(request):
 def profile(request):
     if request.method == 'GET':
         content = {'pendingMemberships': Membership.objects.filter(user=request.user, approved=False)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-                   'cancelPendingMembershipPopupData': {'prompt': None,
-                                                        'confirmButtonText': 'Cancel request',
-                                                        'formName': 'membershipIdToCancel',
-                                                        'formValue': None,
-                                                        'dismissButtonText': 'Back'},
                    'memberships': Membership.objects.filter(user=request.user, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-                   'cancelMembershipPopupData': {'prompt': None,
-                                                 'confirmButtonText': 'Leave',
-                                                 'formName': 'membershipIdToCancel',
-                                                 'formValue': None,
-                                                 'dismissButtonText': 'Cancel'},
-                   'changeEmailForm': ChangeEmailForm(),
-                   'logoutPopupData': {'prompt': 'Logout of <b>{}</b>?'.format(request.user.email),
-                                       'confirmButtonText': 'Logout',
-                                       'formName': 'logout',
-                                       'formValue': True,
-                                       'dismissButtonText': 'Back'},
-                   'deleteAccountPopupData': {'prompt': '''This will permanently delete the account associated
-                                                           with <br><br><b>{}</b><br><br> All data will be lost
-                                                           and this action cannot be undone.'''.format(request.user.email),
-                                              'confirmButtonText': 'Delete',
-                                              'formName': 'deleteAccount',
-                                              'formValue': True,
-                                              'dismissButtonText': 'Back'}}
+                   'changeEmailForm': ChangeEmailForm()}
 
         return render(request, 'profile.html', content)
 
@@ -134,22 +112,7 @@ def staff(request):
     content = {'organizations': organizations[:settings.MAX_DASHBOARD_LIST_ENTRIES]}
 
     if request.method == 'GET':
-        content.update({'newOrganizationRequests': NewOrganizationRequest.objects.all()[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-                        'newOrganizationRequestApproveConfirmationPopupData': {'prompt': None,
-                                                                               'confirmButtonText': 'Approve',
-                                                                               'formName': 'newOrganizationRequestIdToApprove',
-                                                                               'formValue': None,
-                                                                               'dismissButtonText': 'Cancel'},
-                        'newOrganizationRequestDenyConfirmationPopupData': {'prompt': None,
-                                                                            'confirmButtonText': 'Deny',
-                                                                            'formName': 'newOrganizationRequestIdToDeny',
-                                                                            'formValue': None,
-                                                                            'dismissButtonText': 'Cancel'},
-                        'organizationDeleteConfirmationPopupData': {'prompt': None,
-                                                                    'confirmButtonText': 'Delete',
-                                                                    'formName': 'organizationIdToDelete',
-                                                                    'formValue': None, # Will be overriden in template
-                                                                    'dismissButtonText': 'Cancel'}})
+        content.update({'newOrganizationRequests': NewOrganizationRequest.objects.all()[:settings.MAX_DASHBOARD_LIST_ENTRIES]})
         return render(request, 'staff.html', content)
 
     deleteOrganizationForm = DeleteOrganizationForm(request.POST)

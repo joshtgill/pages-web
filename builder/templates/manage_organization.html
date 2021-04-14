@@ -78,8 +78,6 @@
                     <h3>Member requests</h3>
                     {% if memberRequests %}
                         <div class="list">
-                            {{ approveMembershipConfirmationPopupData|json_script:"approveMembershipConfirmationPopupData" }}
-                            {{ denyMembershipConfirmationPopupData|json_script:"denyMembershipConfirmationPopupData" }}
                             {% for memberRequest in memberRequests %}
                                 {% if forloop.counter == memberRequests|length %}
                                 <div class="element" style="margin-bottom: 5px">
@@ -93,14 +91,16 @@
                                         </div>
                                     </div>
                                     <div class="actions">
-                                        <a onclick="confirmationPopup.display('approveMembershipConfirmationPopupData',
-                                                                            null,
-                                                                            {{ memberRequest.id }},
-                                                                            'Approve <b>{{ memberRequest.user.get_full_name }}</b> as a member of <b>{{ request.user.profile.organization.name }}</b>?')">Approve</a>
-                                        <a onclick="confirmationPopup.display('denyMembershipConfirmationPopupData',
-                                                                            null,
-                                                                            {{ memberRequest.id }},
-                                                                            'Deny <b>{{ memberRequest.user.get_full_name }}</b> as a member of <b>{{ request.user.profile.organization.name }}</b>?')">Deny</a>
+                                        <a onclick="confirmationPopup.display(`Approve <b>{{ memberRequest.user.get_full_name }}</b>
+                                                                               as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
+                                                                              'Approve',
+                                                                              'membershipIdToApprove',
+                                                                              {{ memberRequest.id }})">Approve</a>
+                                        <a onclick="confirmationPopup.display(`Deny <b>{{ memberRequest.user.get_full_name }}</b>
+                                                                               as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
+                                                                              'Deny',
+                                                                              'membershipIdToDeny',
+                                                                              {{ memberRequest.id }})">Deny</a>
                                     </div>
                                 </div>
                                 {% if forloop.counter < memberRequests|length %}
@@ -138,12 +138,12 @@
                                         </div>
                                     </div>
                                     <div class="actions" style="margin-top: 0">
-                                        <a onclick="confirmationPopup.display('revokeMembershipConfirmationPopupData',
-                                                                              null,
-                                                                              {{ organizationMember.id }},
-                                                                              'Revoke <b>{{ organizationMember.user.get_full_name }}</b> as a member of <b>{{ request.user.profile.organization.name }}</b>?')" style="margin: 0">
-                                            Revoke
-                                        </a>
+                                        <a style="margin: 0"
+                                           onclick="confirmationPopup.display(`Revoke <b>{{ organizationMember.user.get_full_name }}</b>
+                                                                               as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
+                                                                              'Revoke',
+                                                                              'membershipIdToRevoke',
+                                                                              {{ organizationMember.id }})" >Revoke</a>
                                     </div>
                                 </div>
                                 {% if forloop.counter < organizationMembers|length %}
@@ -166,11 +166,16 @@
             </div>
             <div class="page-actions">
                 {% if request.user.profile.organization.owner == request.user %}
-                    {{ deleteOrganizationConfirmationPopupData|json_script:"deleteOrganizationConfirmationPopupData" }}
-                    <button id="redButton" onclick="confirmationPopup.display('deleteOrganizationConfirmationPopupData')">Delete Organization</button>
+                    <button id="redButton"
+                            onclick="confirmationPopup.display(`Delete <b>{{ request.user.profile.organization.name }}`,
+                                                               'Delete',
+                                                               'deleteOrganization',
+                                                               'True')">Delete Organization</button>
                 {% else %}
-                    {{ leaveOrganizationConfirmationPopupData|json_script:"leaveOrganizationConfirmationPopupData" }}
-                    <button onclick="confirmationPopup.display('leaveOrganizationConfirmationPopupData')">Leave organization</button>
+                    <button onclick="confirmationPopup.display(`Leave <b>{{ request.user.profile.organization.name }}`,
+                                                               'Leave',
+                                                               'leaveOrganization',
+                                                               'True')">Leave Organization</button>
                 {% endif %}
             </div>
         </div>

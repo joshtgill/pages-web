@@ -28,8 +28,12 @@
                 <div class="actions">
                     <button class="action-button" id="savePageButton" type="submit">Save {{ pageData.typee }}</button>
                     {% if pageData.id %}
-                        {{ pageDeleteConfirmationPopupData|json_script:"pageDeleteConfirmationPopupData" }}
-                        <button class="action-button" id="deletePageButton" type="button" onclick="confirmationPopup.display('pageDeleteConfirmationPopupData')">Delete Page</button>
+                        <button class="action-button" id="deletePageButton" type="button"
+                                onclick="confirmationPopup.display(`Permanently delete <b>{{ pageData.name }}</b>
+                                                                    from {{ request.user.profile.organization.name }}?`,
+                                                                   'Delete',
+                                                                   'pageIdToDelete',
+                                                                   {{ pageData.id }})">Delete {{ pageData.typee }}</button>
                     {% endif %}
                 </div>
             </form>

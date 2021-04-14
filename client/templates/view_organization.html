@@ -5,9 +5,14 @@
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/view_organization.css' %}">
     </head>
-    {% if requestMembershipData %}
-        {{ requestMembershipData|json_script:"requestMembershipData" }}
-        <body onload="confirmationPopup.display('requestMembershipData', {% url 'explore' %})">
+    {% if not pagesData %}
+        <body onload="confirmationPopup.display(`{{ organization.name }} requires approval to view its Pages.
+                                                 <br><br>Would you like to request approval?`,
+                                                'Request',
+                                                'organizationIdToRequestMembership',
+                                                {{ organization.id }},
+                                                'Back',
+                                                {% url 'explore' %})">
             {% include 'core.html' %}
 
             <div class="content" style="filter: blur(10px)">

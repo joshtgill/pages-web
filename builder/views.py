@@ -68,13 +68,7 @@ def build(request):
         if pageId and Page.objects.filter(organization=request.user.profile.organization, id=pageId).exists():
             # Page ID is provided and belongs to active organization. Load Page builder with existing data.
             pageData = Page.objects.get(id=pageId).serialize()
-            content.update({'pageData': pageData,
-                            'pageDeleteConfirmationPopupData': {'prompt': 'Permanently delete <b>{}</b> from {}?'.format(pageData.get('name'),
-                                                                                                                         request.user.profile.organization.name),
-                                                                'confirmButtonText': 'Delete',
-                                                                'formName': 'pageIdToDelete',
-                                                                'formValue': pageData.get('id'),
-                                                                'dismissButtonText': 'Cancel'}})
+            content.update({'pageData': pageData})
         else:
             # Invalid Page ID is provided with respect to organization. Load empty Page builder.
             content.update({'pageData': {'typee': pageType}})
@@ -105,32 +99,7 @@ def manageOrganization(request):
         content = {'numOrganizationsMemberships': len(Membership.objects.filter(organization=request.user.profile.organization, approved=True)),
                    'activePagesData': buildOrganizationsPagesData(request.user.profile.organization),
                    'memberRequests': Membership.objects.filter(approved=False)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-                   'organizationMembers': Membership.objects.filter(organization=request.user.profile.organization, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-                   'approveMembershipConfirmationPopupData': {'prompt': None,
-                                                              'confirmButtonText': 'Approve',
-                                                              'formName': 'membershipIdToApprove',
-                                                              'formValue': None,
-                                                              'dismissButtonText': 'Cancel'},
-                   'denyMembershipConfirmationPopupData': {'prompt': None,
-                                                           'confirmButtonText': 'Deny',
-                                                           'formName': 'membershipIdToDeny',
-                                                           'formValue': None,
-                                                           'dismissButtonText': 'Cancel'},
-                   'revokeMembershipConfirmationPopupData': {'prompt': None,
-                                                             'confirmButtonText': 'Revoke',
-                                                             'formName': 'membershipIdToRevoke',
-                                                             'formValue': None,
-                                                             'dismissButtonText': 'Cancel'},
-                   'leaveOrganizationConfirmationPopupData': {'prompt': 'Leave <b>{}</b>?'.format(request.user.profile.organization.name),
-                                                              'confirmButtonText': 'Leave',
-                                                              'formName': 'leaveOrganization',
-                                                              'formValue': True,
-                                                              'dismissButtonText': 'Cancel'},
-                   'deleteOrganizationConfirmationPopupData': {'prompt': 'Delete <b>{}</b>?'.format(request.user.profile.organization.name),
-                                                               'confirmButtonText': 'Delete',
-                                                               'formName': 'deleteOrganization',
-                                                               'formValue': True,
-                                                               'dismissButtonText': 'Cancel'}}
+                   'organizationMembers': Membership.objects.filter(organization=request.user.profile.organization, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES]}
         return render(request, 'manage_organization.html', content)
 
     leaveOrganizationForm = LeaveOrganizationForm(request.POST)

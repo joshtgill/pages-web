@@ -16,7 +16,6 @@
                     <h3>Organizations</h3>
                     {% if organizations %}
                         <div class="list">
-                            {{ organizationDeleteConfirmationPopupData|json_script:"organizationDeleteConfirmationPopupData" }}
                             {% for organization in organizations %}
                                 {% if forloop.counter == organizations|length %}
                                 <div class="element" style="margin-bottom: 5px">
@@ -28,11 +27,11 @@
                                         <h5>Owned by <i>{{ organization.owner.get_full_name }}</i></h5>
                                     </div>
                                     <div class="actions">
-                                        <a onclick="confirmationPopup.display('organizationDeleteConfirmationPopupData',
-                                                                            null,
-                                                                            {{ organization.id }},
-                                                                            'Permanently delete <b>{{ organization.name }}</b> as an organization?')">
-                                            Delete
+                                        <a onclick="confirmationPopup.display(`Permanently delete <b>{{ organization.name }}</b>
+                                                                               as an organization?`,
+                                                                              'Delete',
+                                                                              'organizationIdToDelete',
+                                                                              {{ organization.id }})">Delete</a>
                                         </a>
                                     </div>
                                 </div>
@@ -57,8 +56,6 @@
                     <h3>New organization requests</h3>
                     {% if newOrganizationRequests %}
                         <div class="list">
-                            {{ newOrganizationRequestApproveConfirmationPopupData|json_script:"newOrganizationRequestApproveConfirmationPopupData" }}
-                            {{ newOrganizationRequestDenyConfirmationPopupData|json_script:"newOrganizationRequestDenyConfirmationPopupData" }}
                             {% for newOrganizationRequest in newOrganizationRequests %}
                                 {% if forloop.counter == newOrganizationRequests|length %}
                                 <div class="element" style="margin-bottom: 5px">
@@ -70,18 +67,16 @@
                                         <h5>from <i>{{ newOrganizationRequest.applicant.get_full_name }}</i></h5>
                                     </div>
                                     <div class="actions">
-                                        <a onclick="confirmationPopup.display('newOrganizationRequestApproveConfirmationPopupData',
-                                                                            null,
-                                                                            {{ newOrganizationRequest.id }},
-                                                                            'Approve <b>{{ newOrganizationRequest.name }}</b> to be an organization?')">
-                                            Approve
-                                        </a>
-                                        <a onclick="confirmationPopup.display('newOrganizationRequestDenyConfirmationPopupData',
-                                                                            null,
-                                                                            {{ newOrganizationRequest.id }},
-                                                                            'Deny <b>{{ newOrganizationRequest.name }}</b> to be an organization?')">
-                                            Deny
-                                        </a>
+                                        <a onclick="confirmationPopup.display(`Approve <b>{{ newOrganizationRequest.name }}</b>
+                                                                               to be an organization?`,
+                                                                              'Approve',
+                                                                              'newOrganizationRequestIdToApprove',
+                                                                              {{ newOrganizationRequest.id }})">Approve</a>
+                                        <a onclick="confirmationPopup.display(`Deny <b>{{ newOrganizationRequest.name }}</b>
+                                                                               to be an organization?`,
+                                                                              'Deny',
+                                                                              'newOrganizationRequestIdToDeny',
+                                                                              {{ newOrganizationRequest.id }})">Deny</a>
                                     </div>
                                 </div>
                                 {% if forloop.counter < newOrganizationRequests|length %}
