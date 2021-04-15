@@ -16,7 +16,7 @@
                     <div class="item">
                         <h3>
                             <b>Status:</b>
-                            {% if request.user.profile.organization.private %}
+                            {% if request.user.profile.organization.isPrivate %}
                                 Private
                             {% else %}
                                 Public

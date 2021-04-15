@@ -23,12 +23,9 @@ def explore(request):
                 return redirect('/explore/')
 
             content = {'organization': organization}
-            if organization.private and not Membership.objects.filter(user=request.user,
-                                                                      organization=organization,
-                                                                      approved=True).count():
-                # Organization is private and a membership does not exists with the user. Show membership request prompt.
-                pass
-            else:
+            if not organization.isPrivate or Membership.objects.filter(user=request.user,
+                                                                       organization=organization,
+                                                                       approved=True).count():
                 # Organization is viewable. Display its pages.
                 content.update({'pagesData': buildOrganizationPagesData(organization)})
 

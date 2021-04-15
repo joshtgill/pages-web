@@ -16,8 +16,8 @@
                 <div class="toggle">
                     <h4>Make private</h4>
                     <label class="switch">
-                        <input type="checkbox" name="private"
-                            {% if request.user.profile.organization.private %}
+                        <input type="checkbox" name="isPrivate"
+                            {% if request.user.profile.organization.isPrivate %}
                                 checked
                             {% endif %}
                         >

@@ -86,7 +86,7 @@
                                         </div>
                                     </a>
                                     <div class="actions">
-                                        {% if membership.organization.private %}
+                                        {% if membership.organization.isPrivate %}
                                             <a onclick="confirmationPopup.display(`Cancel your membership with <b>{{ membership.organization.name }}</b>?
                                                                                    <br><br>This organization is private, so you will lose access to its Pages.`,
                                                                                   'Cancel membership',

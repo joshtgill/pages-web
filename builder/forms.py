@@ -27,7 +27,7 @@ class DeletePageForm(forms.Form):
 
 class EditOrganizationForm(forms.Form):
     name = forms.CharField()
-    private = forms.BooleanField(required=False)
+    isPrivate = forms.BooleanField(required=False)
 
 
 class DeleteOrganizationForm(forms.Form):

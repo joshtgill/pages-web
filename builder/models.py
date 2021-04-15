@@ -16,12 +16,12 @@ class NewOrganizationRequest(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
-    private = models.BooleanField(default=False)
+    isPrivate = models.BooleanField(default=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # SET_NULL? Orphan Organization?
 
     def deserialize(self, data):
         self.name = data['name']
-        self.private = data['private']
+        self.isPrivate = data['isPrivate']
 
 
 class PageListing(models.Model):
