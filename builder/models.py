@@ -57,7 +57,6 @@ class Page(models.Model):
                     sheetItem = SheetItem(page=self)
 
                 sheetItem.deserialize(postData, i)
-                sheetItem.save()
         elif postData.get('pageType')[0] == 'Event':
             event = None
             try:
@@ -66,8 +65,6 @@ class Page(models.Model):
                 event = Event(page=self)
 
             event.deserialize(postData)
-            event.save()
-
 
     def serialize(self, recursive=True):
         data = model_to_dict(self)
@@ -98,6 +95,7 @@ class SheetItem(models.Model):
         self.description = postData.get('description')[postDataIndex]
         self.price = postData.get('price')[postDataIndex] if postData.get('price')[postDataIndex] else None
         self.location = postData.get('location')[postDataIndex]
+        self.save()
 
         if postData.get('selectedDays')[postDataIndex] or RepeatingOccurence.objects.filter(sheetItem=self).exists():
             repeatingOccurence = None
@@ -109,7 +107,6 @@ class SheetItem(models.Model):
             except ObjectDoesNotExist:
                 repeatingOccurence = RepeatingOccurence(sheetItem=self)
             repeatingOccurence.deserialize(postData, postDataIndex)
-            repeatingOccurence.save()
         elif postData.get('startDatetime')[postDataIndex] or SingleOccurence.objects.filter(sheetItem=self).exists():
             singleOccurence = None
             try:
@@ -120,7 +117,6 @@ class SheetItem(models.Model):
             except ObjectDoesNotExist:
                 singleOccurence = SingleOccurence(sheetItem=self)
             singleOccurence.deserialize(postData, postDataIndex)
-            singleOccurence.save()
 
     def serialize(self):
         data = model_to_dict(self)
@@ -151,6 +147,7 @@ class Event(models.Model):
         self.description = postData.get('description')[0]
         self.location = postData.get('location')[0]
         self.attendanceIsPublic = ('attendanceIsPublic' in postData)
+        self.save()
 
         if postData.get('selectedDays')[0] or RepeatingOccurence.objects.filter(event=self).exists():
             repeatingOccurence = None
@@ -162,7 +159,6 @@ class Event(models.Model):
             except ObjectDoesNotExist:
                 repeatingOccurence = RepeatingOccurence(event=self)
             repeatingOccurence.deserialize(postData)
-            repeatingOccurence.save()
         else:
             singleOccurence = None
             try:
@@ -173,7 +169,6 @@ class Event(models.Model):
             except ObjectDoesNotExist:
                 singleOccurence = SingleOccurence(event=self)
             singleOccurence.deserialize(postData)
-            singleOccurence.save()
 
     def serialize(self):
         data = model_to_dict(self)
@@ -215,6 +210,7 @@ class SingleOccurence(models.Model):
     def deserialize(self, postData, postDataIndex=0):
         self.startDatetime = postData.get('startDatetime')[postDataIndex]
         self.endDatetime = postData.get('endDatetime')[postDataIndex]
+        self.save()
 
     def serialize(self):
         return model_to_dict(self)
@@ -249,6 +245,7 @@ class RepeatingOccurence(models.Model):
         self.endTime = postData.get('endTime')[postDataIndex]
         self.startDate = postData.get('startDate')[postDataIndex]
         self.endDate = postData.get('endDate')[postDataIndex]
+        self.save()
 
     def serialize(self):
         return model_to_dict(self)

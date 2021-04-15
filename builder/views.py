@@ -88,7 +88,6 @@ def build(request):
     except ValueError:
         page = Page(organization=request.user.profile.organization)
     page.deserialize(pagePostData)
-    page.save()
 
     return redirect('/create/manage/')
 
