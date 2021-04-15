@@ -27,7 +27,7 @@ def explore(request):
                                                                        organization=organization,
                                                                        approved=True).count():
                 # Organization is viewable. Display its pages.
-                content.update({'pagesData': buildOrganizationPagesData(organization)})
+                content.update({'pagesData': Page.objects.filter(organization=organization)})
 
             return render(request, 'view_organization.html', content)
 
@@ -36,11 +36,10 @@ def explore(request):
 
     requestMembershipForm = RequestMembershipForm(request.POST)
     if requestMembershipForm.is_valid():
-        # Membership request was submitted. Record it.
-        membership = Membership(user=request.user,
-                                organization=Organization.objects.get(id=requestMembershipForm.cleaned_data['organizationIdToRequestMembership']),
-                                relatedDate=datetime.date.today())
-        membership.save()
+        # Create a membership request
+        Membership.create(Organization.objects.get(id=requestMembershipForm.cleaned_data['organizationIdToRequestMembership']),
+                          request.user,
+                          False)
         return redirect('/profile/')
 
     eventAttendanceForm = EventAttendanceForm(request.POST)
@@ -48,23 +47,6 @@ def explore(request):
         return redirect('/profile/')
 
     event = Event.objects.get(id=eventAttendanceForm.cleaned_data['eventId'])
-
-    event.acceptees.remove(request.user)
-    event.declinees.remove(request.user)
-
-    if eventAttendanceForm.cleaned_data['status']:
-        event.acceptees.add(request.user)
-    else:
-        event.declinees.add(request.user)
-
-    event.save()
+    event.updateAttendance(request.user, eventAttendanceForm.cleaned_data['status'])
 
     return redirect('/explore/?organization={}&page={}'.format(event.page.organization.name, event.page.id))
-
-
-def buildOrganizationPagesData(organization):
-    organizationPagesData = []
-    for page in Page.objects.filter(organization=organization):
-        organizationPagesData.append({'id': page.id, 'name': page.name})
-
-    return organizationPagesData

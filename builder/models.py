@@ -1,5 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.auth.models import User
+import django.contrib.auth as djangoAuth
+import uuid
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import model_to_dict
@@ -7,6 +10,54 @@ from django.forms.models import model_to_dict
 
 LENGTH_SHORT = 30
 LENGTH_MEDIUM = 100
+
+
+def create(self, request, email, password, passwordConfirm, firstName, lastName):
+    if User.objects.filter(email=email).exists() or password != passwordConfirm:
+        return False
+
+    self.username = uuid.uuid4()
+    self.email = email
+    self.password = password
+    self.firstName = firstName
+    self.lastName = lastName
+    self.save()
+
+    profile = Profile(user=self)
+    profile.save()
+
+    djangoAuth.login(request, self)
+
+    return True
+User.add_to_class('create', create)
+
+def login(self, request, email, password):
+    username = None
+    try:
+        username = User.objects.get(email=email).username
+    except ObjectDoesNotExist:
+        return False
+
+    self = djangoAuth.authenticate(request, username=username, password=password)
+    if not self:
+        return False
+
+    djangoAuth.login(request, self)
+
+    return True
+User.add_to_class('login', login)
+
+def changeEmail(self, newEmail, newEmailConfirm):
+    if newEmail == newEmailConfirm:
+        self.email = newEmail
+        self.save()
+User.add_to_class('changeEmail', changeEmail)
+
+def deletee(self, request):
+    djangoAuth.logout(request)
+    self.delete()
+    pass
+User.add_to_class('deletee', deletee)
 
 
 class NewOrganizationRequest(models.Model):
@@ -19,9 +70,33 @@ class Organization(models.Model):
     isPrivate = models.BooleanField(default=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # SET_NULL? Orphan Organization?
 
+    def create(self, approvedRequest):
+        self.name = approvedRequest.name
+        self.isPrivate = False
+        self.owner = approvedRequest.applicant
+        self.save()
+
+        # Create the membership
+        Membership().create(self, approvedRequest.applicant, True)
+
+        # Owner is always member
+        approvedRequest.applicant.profile.organization = self
+        approvedRequest.applicant.profile.save()
+
+        # Delete the fulfilled request
+        approvedRequest.delete()
+
+    def getPagesData(self):
+        pagesData = []
+        for page in Page.objects.filter(organization=self)[:settings.MAX_DASHBOARD_LIST_ENTRIES]:
+            pagesData.append(page.serialize(False))
+
+        return pagesData
+
     def deserialize(self, data):
         self.name = data['name']
         self.isPrivate = data['isPrivate']
+        self.save()
 
 
 class PageListing(models.Model):
@@ -143,6 +218,17 @@ class Event(models.Model):
 
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
+    def updateAttendance(self, user, status):
+        self.acceptees.remove(user)
+        self.declinees.remove(user)
+
+        if status:
+            self.acceptees.add(user)
+        else:
+            self.declinees.add(user)
+
+        self.save()
+
     def deserialize(self, postData):
         self.description = postData.get('description')[0]
         self.location = postData.get('location')[0]
@@ -258,7 +344,24 @@ class Profile(models.Model):
 
 
 class Membership(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     relatedDate = models.DateField()
     approved = models.BooleanField(default=False)
+
+    def create(self, organization, user, approved):
+        if Membership.objects.filter(organization=organization, user=user).exists():
+            return False
+
+        self.organization = organization
+        self.user = user
+        self.relatedDate = datetime.date.today()
+        self.approved = approved
+        self.save()
+
+        return True
+
+    def approve(self):
+        self.approved = True
+        self.relatedDate = datetime.date.today()
+        self.save()

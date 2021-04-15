@@ -24,23 +24,15 @@ def createAccount(request):
     if not createAccountForm.is_valid():
         return redirect('/create-account/')
 
-    email = createAccountForm.cleaned_data['email']
-    if User.objects.filter(email=email):
+    user = User()
+    isSuccesful = user.create(request,
+                              createAccountForm.cleaned_data['email'],
+                              createAccountForm.cleaned_data['password'],
+                              createAccountForm.cleaned_data['repeatPassword'],
+                              createAccountForm.cleaned_data['firstName'],
+                              createAccountForm.cleaned_data['lastName'])
+    if not isSuccesful:
         return redirect('/create-account/')
-
-    password = createAccountForm.cleaned_data['password']
-    if password != createAccountForm.cleaned_data['repeatPassword']:
-        return redirect('/create-account/')
-
-    user = User.objects.create_user(uuid.uuid4(), email, password)
-    user.first_name = createAccountForm.cleaned_data['firstName']
-    user.last_name = createAccountForm.cleaned_data['lastName']
-    user.save()
-    profile = Profile()
-    profile.user = user
-    profile.save()
-
-    djangoAuth.login(request, user)
 
     return redirect('/profile/')
 
@@ -53,17 +45,9 @@ def login(request):
     if not loginForm.is_valid():
         return redirect('/login/')
 
-    username = ''
-    try:
-        username = User.objects.get(email=loginForm.cleaned_data['email']).username
-    except ObjectDoesNotExist:
+    isSuccessful = User().login(request, loginForm.cleaned_data['email'], loginForm.cleaned_data['password'])
+    if not isSuccessful:
         return redirect('/login/')
-
-    loginUser = djangoAuth.authenticate(request, username=username, password=loginForm.cleaned_data['password'])
-    if not loginUser:
-        return redirect('/login/')
-
-    djangoAuth.login(request, loginUser)
 
     return redirect('/profile/')
 
@@ -79,11 +63,7 @@ def profile(request):
 
     changeEmailForm = ChangeEmailForm(request.POST)
     if changeEmailForm.is_valid():
-        newEmail = changeEmailForm.cleaned_data['newEmail']
-        newEmailConfirm = changeEmailForm.cleaned_data['newEmailConfirm']
-        if newEmail == newEmailConfirm:
-            request.user.email = newEmail
-            request.user.save()
+        request.user.changeEmail(changeEmailForm.cleaned_data['newEmail'], changeEmailForm.cleaned_data['newEmailConfirm'])
         return redirect('/profile/')
 
     cancelMembershipForm = CancelMembershipForm(request.POST)
@@ -98,9 +78,7 @@ def profile(request):
 
     deleteAccountForm = DeleteAccountForm(request.POST)
     if deleteAccountForm.is_valid():
-        deleteUsername = request.user.username
-        djangoAuth.logout(request)
-        User.objects.get(username=deleteUsername).delete()
+        request.user.deletee(request)
         return redirect('/login/')
 
     return redirect('/profile/')
@@ -108,8 +86,7 @@ def profile(request):
 
 @staff_member_required
 def staff(request):
-    organizations = Organization.objects.all()
-    content = {'organizations': organizations[:settings.MAX_DASHBOARD_LIST_ENTRIES]}
+    content = {'organizations': Organization.objects.all()[:settings.MAX_DASHBOARD_LIST_ENTRIES]}
 
     if request.method == 'GET':
         content.update({'newOrganizationRequests': NewOrganizationRequest.objects.all()[:settings.MAX_DASHBOARD_LIST_ENTRIES]})
@@ -117,32 +94,15 @@ def staff(request):
 
     deleteOrganizationForm = DeleteOrganizationForm(request.POST)
     if deleteOrganizationForm.is_valid():
-        organizations.get(id=deleteOrganizationForm.cleaned_data['organizationIdToDelete']).delete()
+        Organization.objects.all().get(id=deleteOrganizationForm.cleaned_data['organizationIdToDelete']).delete()
         return redirect('/staff/')
 
     approveNewOrganizationRequestForm = ApproveNewOrganizationRequestForm(request.POST)
     if approveNewOrganizationRequestForm.is_valid():
-        newOrganizationRequest = NewOrganizationRequest.objects.get(id=approveNewOrganizationRequestForm.cleaned_data['newOrganizationRequestIdToApprove'])
-
-        # Create organization
-        organization = Organization(name=newOrganizationRequest.name, owner=newOrganizationRequest.applicant)
-        organization.save()
-
-        # Assign organization to user
-        newOrganizationRequest.applicant.profile.organization = organization
-        newOrganizationRequest.applicant.profile.save()
-
-        # Create membership
-        Membership(user=newOrganizationRequest.applicant, organization=organization, relatedDate=datetime.date.today(), approved=True).save()
-
-        # Delete organization request
-        newOrganizationRequest.delete()
+        Organization().create(NewOrganizationRequest.objects.get(id=approveNewOrganizationRequestForm.cleaned_data['newOrganizationRequestIdToApprove']))
 
     denyNewOrganizationRequestForm = DenyNewOrganizationRequestForm(request.POST)
     if denyNewOrganizationRequestForm.is_valid():
-        newOrganizationRequest = NewOrganizationRequest.objects.get(id=denyNewOrganizationRequestForm.cleaned_data['newOrganizationRequestIdToDeny'])
-
-        # Delete organization request
-        newOrganizationRequest.delete()
+        NewOrganizationRequest.objects.get(id=denyNewOrganizationRequestForm.cleaned_data['newOrganizationRequestIdToDeny']).delete()
 
     return redirect('/staff/')

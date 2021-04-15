@@ -23,13 +23,7 @@ def selectOrganization(request):
     if not selectOrganizationForm.is_valid():
         return redirect('/create/select/')
 
-    organization = Organization.objects.get(id=selectOrganizationForm.cleaned_data['ids'])
-    request.user.profile.organization = organization
-    if not Membership.objects.filter(user=request.user, organization=organization).exists():
-        membership = Membership(user=request.user, organization=organization, relatedDate=datetime.date.today(), approved=True)
-        membership.save()
-
-    request.user.profile.save()
+    Membership().create(Organization.objects.get(id=selectOrganizationForm.cleaned_data['ids']), request.user, True)
 
     return redirect('/create/')
 
@@ -43,9 +37,7 @@ def requestNewOrganization(request):
     if not requestNewOrganizationForm.is_valid():
         return redirect('/create/request/')
 
-    newOrganizationRequest = NewOrganizationRequest(name=requestNewOrganizationForm.cleaned_data['name'])
-    newOrganizationRequest.applicant = request.user
-    newOrganizationRequest.save()
+    NewOrganizationRequest(name=requestNewOrganizationForm.cleaned_data['name'], applicant=request.user).save()
 
     return redirect('/profile/')
 
@@ -67,8 +59,7 @@ def build(request):
         pageId = buildForm.cleaned_data['idd']
         if pageId and Page.objects.filter(organization=request.user.profile.organization, id=pageId).exists():
             # Page ID is provided and belongs to active organization. Load Page builder with existing data.
-            pageData = Page.objects.get(id=pageId).serialize()
-            content.update({'pageData': pageData})
+            content.update({'pageData': Page.objects.get(id=pageId).serialize()})
         else:
             # Invalid Page ID is provided with respect to organization. Load empty Page builder.
             content.update({'pageData': {'typee': pageType}})
@@ -96,7 +87,7 @@ def build(request):
 def manageOrganization(request):
     if request.method == 'GET':
         content = {'numOrganizationsMemberships': len(Membership.objects.filter(organization=request.user.profile.organization, approved=True)),
-                   'activePagesData': buildOrganizationsPagesData(request.user.profile.organization),
+                   'activePagesData': request.user.profile.organization.getPagesData(),
                    'memberRequests': Membership.objects.filter(approved=False)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
                    'organizationMembers': Membership.objects.filter(organization=request.user.profile.organization, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES]}
         return render(request, 'manage_organization.html', content)
@@ -114,10 +105,7 @@ def manageOrganization(request):
 
     approveMembershipForm = ApproveMembershipForm(request.POST)
     if approveMembershipForm.is_valid():
-        membership = Membership.objects.get(id=approveMembershipForm.cleaned_data['membershipIdToApprove'])
-        membership.relatedDate = datetime.date.today()
-        membership.approved = True
-        membership.save()
+        Membership.objects.get(id=approveMembershipForm.cleaned_data['membershipIdToApprove']).approve()
         return redirect('/create/manage/')
 
     denyMembershipForm = DenyMembershipForm(request.POST)
@@ -132,21 +120,12 @@ def manageOrganization(request):
     return redirect('/create/manage/')
 
 
-def buildOrganizationsPagesData(organization):
-    organizationsPagesData = []
-    for page in Page.objects.filter(organization=organization)[:settings.MAX_DASHBOARD_LIST_ENTRIES]:
-        organizationsPagesData.append(page.serialize(False))
-
-    return organizationsPagesData
-
-
 @login_required
 def editOrganization(request):
     if request.method == 'POST':
         editOrganizationForm = EditOrganizationForm(request.POST)
         if editOrganizationForm.is_valid():
             request.user.profile.organization.deserialize(editOrganizationForm.cleaned_data)
-            request.user.profile.organization.save()
         return redirect('/create/manage/')
 
     return render(request, 'edit_organization.html')
