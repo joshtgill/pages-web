@@ -23,35 +23,33 @@
                 </div>
             </form>
 
-            {% if request.user in pageData.event.acceptees %}
-                <div class="user-status">
-                    <h3>You <b>are</b> attending this event.</h3>
-                </div>
-            {% elif request.user in pageData.event.declinees %}
-                <div class="user-status">
-                    <h3>You <b>are not</b> attending this event.</h3>
-                </div>
-            {% endif %}
-
             {% if pageData.event.attendanceIsPublic %}
                 <div class="user-list-container">
-                    <h3>Attending</h3>
+                    {% if request.user.get_full_name in pageData.event.acceptees %}
+                        <h3><b>Attending</b> - You are attending this event</h3>
+                    {% else %}
+                        <h3><b>Attending</b></h3>
+                    {% endif %}
                     <div class="user-list">
-                        {% for user in pageData.event.acceptees %}
+                        {% for fullName in pageData.event.acceptees %}
                             <div class="item">
                                 <img src="{% static 'images/earth.png' %}" alt="earth">
-                                <h4>{{ user.fullName }}</h4>
+                                <h4>{{ fullName }}</h4>
                             </div>
                         {% endfor %}
                     </div>
                 </div>
                 <div class="user-list-container">
-                    <h3>Not attending</h3>
+                    {% if request.user.get_full_name in pageData.event.declinees %}
+                        <h3><b>Not attending</b> - You are not attending this event</h3>
+                    {% else %}
+                        <h3><b>Not attending</b></h3>
+                    {% endif %}
                     <div class="user-list">
-                        {% for user in pageData.event.declinees %}
+                        {% for fullName in pageData.event.declinees %}
                             <div class="item">
                                 <img src="{% static 'images/earth.png' %}" alt="earth">
-                                <h4>{{ user.fullName }}</h4>
+                                <h4>{{ fullName }}</h4>
                             </div>
                         {% endfor %}
                     </div>
@@ -69,7 +67,7 @@
             <h3>Attending</h3>
             {% if pageData.event.acceptees %}
                 <div class="list">
-                    {% for user in pageData.event.acceptees %}
+                    {% for fullName in pageData.event.acceptees %}
                         {% if forloop.counter == pageData.event.acceptees|length %}
                         <div class="element" style="flex-direction: row; margin-bottom: 5px;">
                         {% else %}
@@ -78,7 +76,7 @@
                             <div class="info" style="cursor: auto">
                                 <div class="iconname">
                                     <img src="{% static 'images/earth.png' %}" alt="earth">
-                                    <h4>{{ user.fullName }}</h4>
+                                    <h4>{{ fullName }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +101,7 @@
             <h3>Not attending</h3>
             {% if pageData.event.declinees %}
                 <div class="list">
-                    {% for user in pageData.event.declinees %}
+                    {% for fullName in pageData.event.declinees %}
                         {% if forloop.counter == pageData.event.declinees|length %}
                         <div class="element" style="flex-direction: row; margin-bottom: 5px;">
                         {% else %}
@@ -112,7 +110,7 @@
                             <div class="info" style="cursor: auto">
                                 <div class="iconname">
                                     <img src="{% static 'images/earth.png' %}" alt="earth">
-                                    <h4>{{ user.fullName }}</h4>
+                                    <h4>{{ fullName }}</h4>
                                 </div>
                             </div>
                         </div>

@@ -152,7 +152,7 @@ class Page(models.Model):
                 itemsData.append(sheetItem.serialize())
             data.update({'items': itemsData})
         elif self.typee == 'Event':
-            data.update({'event': Event.objects.get(page=self).serialize})
+            data.update({'event': Event.objects.get(page=self).serialize()})
 
         return data
 
@@ -274,13 +274,13 @@ class Event(models.Model):
         del data['acceptees']
         accepteesData = []
         for acceptee in self.acceptees.all():
-            accepteesData.append({'fullName': acceptee.get_full_name()})
+            accepteesData.append(acceptee.get_full_name())
         data.update({'acceptees': accepteesData})
 
         del data['declinees']
         declineesData = []
         for declinee in self.declinees.all():
-            declineesData.append({'fullName': declinee.get_full_name()})
+            declineesData.append(declinee.get_full_name())
         data.update({'declinees': declineesData})
 
         return data
