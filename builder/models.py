@@ -19,8 +19,8 @@ def create(self, request, email, password, passwordConfirm, firstName, lastName)
     self.username = uuid.uuid4()
     self.email = email
     self.password = password
-    self.firstName = firstName
-    self.lastName = lastName
+    self.first_name = firstName
+    self.last_name = lastName
     self.save()
 
     profile = Profile(user=self)
