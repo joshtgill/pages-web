@@ -343,23 +343,28 @@ class Profile(models.Model):
     organization = models.ForeignKey(Organization, null=True, on_delete=models.SET_NULL)
 
 
+class MembershipManager(models.Manager):
+    def create(self, organization, user, approved):
+        if self.filter(organization=organization, user=user).exists():
+            return False
+
+        self.create(organization=organization,
+                    user=user,
+                    relatedDate=datetime.date.today(),
+                    approved=approved)
+
+        return True
+
+    def delete(self, id):
+        self.get(id=id).delete()
+
 class Membership(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     relatedDate = models.DateField()
     approved = models.BooleanField(default=False)
 
-    def create(self, organization, user, approved):
-        if Membership.objects.filter(organization=organization, user=user).exists():
-            return False
-
-        self.organization = organization
-        self.user = user
-        self.relatedDate = datetime.date.today()
-        self.approved = approved
-        self.save()
-
-        return True
+    objects = MembershipManager()
 
     def approve(self):
         self.approved = True
