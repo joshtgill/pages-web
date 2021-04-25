@@ -153,6 +153,27 @@ body {
     font-weight: normal;
 }
 
+.content .banner {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0;
+    background-color: rgb(240, 240, 240);
+}
+
+.content .banner img {
+    width: 50px;
+    margin-bottom: 10px;
+}
+
+.content .banner h1 {
+    margin: 0;
+    font-size: 40px;
+    color: rgb(40, 40, 40);
+}
+
 .content h2 {
     width: 95vw;
     max-width: 1100px;
@@ -404,6 +425,21 @@ body {
 @media only screen and (min-width: 580px) {
     .top-nav .left {
         display: block;
+    }
+
+    .content .banner {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .content .banner img {
+        width: 60px;
+        margin: 0 0 0 20px;
+    }
+
+    .content .banner h1 {
+        margin-left: 20px;
+        font-size: 60px;
     }
 
     .stats-bar {

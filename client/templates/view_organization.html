@@ -43,8 +43,10 @@
             {% include 'core.html' %}
 
             <div class="content">
-                <h1>{{ organization.name }}</h1>
-                <h2>View this organization's pages.</h2>
+                <div class="banner">
+                    <img src="{% static 'images/earth.png' %}">
+                    <h1>{{ organization.name }}</h1>
+                </div>
                 <div class="pages">
                     {% for pageData in pagesData %}
                         <a href="{% url 'explore' %}?organization=L3Harris&page={{ pageData.id }}">
