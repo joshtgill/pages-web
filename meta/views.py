@@ -17,54 +17,63 @@ def home(request):
 
 
 def createAccount(request):
+    content = {'createAccountForm': CreateAccountForm()}
+
     if request.method == 'GET':
-        return render(request, 'create_account.html', {'createAccountForm': CreateAccountForm()})
+        return render(request, 'create_account.html', content)
 
     createAccountForm = CreateAccountForm(request.POST)
     if not createAccountForm.is_valid():
         return redirect('/create-account/')
 
     user = User()
-    isSuccesful = user.create(request,
-                              createAccountForm.cleaned_data['email'],
-                              createAccountForm.cleaned_data['password'],
-                              createAccountForm.cleaned_data['repeatPassword'],
-                              createAccountForm.cleaned_data['firstName'],
-                              createAccountForm.cleaned_data['lastName'])
-    if not isSuccesful:
-        return redirect('/create-account/')
+    error = user.create(request,
+                        createAccountForm.cleaned_data['email'],
+                        createAccountForm.cleaned_data['password'],
+                        createAccountForm.cleaned_data['repeatPassword'],
+                        createAccountForm.cleaned_data['firstName'],
+                        createAccountForm.cleaned_data['lastName'])
+    if error:
+        content.update({'error': error})
+        return render(request, 'create_account.html', content)
 
     return redirect('/profile/')
 
 
 def login(request):
+    content = {'loginForm': LoginForm()}
+
     if request.method == 'GET':
-        return render(request, 'login.html', {'loginForm': LoginForm()})
+        return render(request, 'login.html', content)
 
     loginForm = LoginForm(request.POST)
     if not loginForm.is_valid():
         return redirect('/login/')
 
-    isSuccessful = User().login(request, loginForm.cleaned_data['email'], loginForm.cleaned_data['password'])
-    if not isSuccessful:
-        return redirect('/login/')
+    error = User().login(request, loginForm.cleaned_data['email'], loginForm.cleaned_data['password'])
+    if error:
+        print(error)
+        content.update({'error': error})
+        return render(request, 'login.html', content)
 
     return redirect('/profile/')
 
 
 @login_required
 def profile(request):
-    if request.method == 'GET':
-        content = {'pendingMemberships': Membership.objects.filter(user=request.user, approved=False)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-                   'memberships': Membership.objects.filter(user=request.user, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-                   'changeEmailForm': ChangeEmailForm()}
+    content = {'pendingMemberships': Membership.objects.filter(user=request.user, approved=False)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
+               'memberships': Membership.objects.filter(user=request.user, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
+               'changeEmailForm': ChangeEmailForm()}
 
+    if request.method == 'GET':
         return render(request, 'profile.html', content)
 
     changeEmailForm = ChangeEmailForm(request.POST)
     if changeEmailForm.is_valid():
-        request.user.changeEmail(changeEmailForm.cleaned_data['newEmail'], changeEmailForm.cleaned_data['newEmailConfirm'])
-        return redirect('/profile/')
+        error = request.user.changeEmail(changeEmailForm.cleaned_data['newEmail'], changeEmailForm.cleaned_data['newEmailConfirm'])
+        if error:
+            content.update({'error': error})
+        return render(request, 'profile.html', content)
 
     cancelMembershipForm = CancelMembershipForm(request.POST)
     if cancelMembershipForm.is_valid():

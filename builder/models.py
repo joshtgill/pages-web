@@ -13,8 +13,11 @@ LENGTH_MEDIUM = 100
 
 
 def create(self, request, email, password, passwordConfirm, firstName, lastName):
-    if User.objects.filter(email=email).exists() or password != passwordConfirm:
-        return False
+    if User.objects.filter(email=email).exists():
+        return {'error': {'message': 'Failed to create account - an account with the email \'{}\' already exists.'.format(email),
+                          'link': {'path': '/login/', 'text': 'Login'}}}
+    elif password != passwordConfirm:
+        return {'error': {'message': 'Failed to create account - passwords did not match'}}
 
     self.username = uuid.uuid4()
     self.email = email
@@ -28,7 +31,7 @@ def create(self, request, email, password, passwordConfirm, firstName, lastName)
 
     djangoAuth.login(request, self)
 
-    return True
+    return None
 User.add_to_class('create', create)
 
 def login(self, request, email, password):
@@ -36,21 +39,26 @@ def login(self, request, email, password):
     try:
         username = User.objects.get(email=email).username
     except ObjectDoesNotExist:
-        return False
+        return {'error': {'message': 'Failed to login - an account with the email \'{}\' does not exist.'.format(email),
+                          'link': {'path': '/create-account/', 'text': 'Create an account'}}}
 
     self = djangoAuth.authenticate(request, username=username, password=password)
     if not self:
-        return False
+        return {'error': {'message': 'Failed to login - incorrect password'}}
 
     djangoAuth.login(request, self)
 
-    return True
+    return None
 User.add_to_class('login', login)
 
 def changeEmail(self, newEmail, newEmailConfirm):
-    if newEmail == newEmailConfirm:
-        self.email = newEmail
-        self.save()
+    if newEmail != newEmailConfirm:
+        return {'error': {'message': 'Failed to change email - emails did not match'}}
+
+    self.email = newEmail
+    self.save()
+
+    return None
 User.add_to_class('changeEmail', changeEmail)
 
 def deletee(self, request):

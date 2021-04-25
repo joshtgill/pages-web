@@ -29,3 +29,16 @@
         {% endif %}
     </div>
 </div>
+
+<div class="error" id="errorContainer">
+    <h1 id="errorMessage"></h1>
+    <a id="errorLink"></a>
+</div>
+
+<script src="{% static 'scripts/error.js' %}"></script>
+
+{% if error %}
+    <script>
+        error.display({{ error|safe }});
+    </script>
+{% endif %}

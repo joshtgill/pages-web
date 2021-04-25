@@ -138,3 +138,4 @@ LOGIN_URL = '/login/'
 
 # Custom settings
 MAX_DASHBOARD_LIST_ENTRIES = 3
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
