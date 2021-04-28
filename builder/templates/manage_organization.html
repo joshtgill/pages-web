@@ -30,6 +30,7 @@
                         <h3><b>Members:</b>{{ numOrganizationsMemberships }}</h3>
                     </div>
                 </div>
+                <a href="{% url 'explore' %}?organization={{ request.user.profile.organization.name }}">View organization</a>
                 <a href="{% url 'edit_organization' %}">Edit organization</a>
             </div>
             <div class="dashboard" style="max-width: 850px">

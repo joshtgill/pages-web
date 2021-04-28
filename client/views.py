@@ -27,7 +27,7 @@ def explore(request):
                                                                        organization=organization,
                                                                        approved=True).count():
                 # Organization is viewable. Display its pages.
-                content.update({'pagesData': Page.objects.filter(organization=organization)})
+                content.update({'pages': Page.objects.filter(organization=organization)})
 
             return render(request, 'view_organization.html', content)
 

@@ -3,9 +3,8 @@
     <head>
         <title>{{ organization.name }}</title>
 
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/view_organization.css' %}">
     </head>
-    {% if not pagesData %}
+    {% if not pages %}
         <body onload="confirmationPopup.display(`{{ organization.name }} requires approval to view its Pages.
                                                  <br><br>Would you like to request approval?`,
                                                 'Request',
@@ -41,20 +40,46 @@
     {% else %}
         <body>
             {% include 'core.html' %}
+            <link rel="stylesheet" type="text/css" href="{% static 'styles/view_organization.css' %}">
 
-            <div class="content">
-                <div class="banner">
-                    <img src="{% static 'images/earth.png' %}">
+            <div class="banner">
+                <img src="{% static 'images/earth.png' %}">
+                <div class="info">
                     <h1>{{ organization.name }}</h1>
+                    <div class="details">
+                        <h2>Owned by <b>{{ organization.owner.get_full_name }}</b></h2>
+                    </div>
                 </div>
-                <div class="pages">
-                    {% for pageData in pagesData %}
-                        <a href="{% url 'explore' %}?organization=L3Harris&page={{ pageData.id }}">
-                            <div class="page">
-                                <h1 name="name">{{ pageData.name }}</h1>
-                            </div>
-                        </a>
-                    {% endfor %}
+            </div>
+            <div class="content">
+                <p>Paragraphs are the building blocks of papers. Many students define paragraphs in terms of length: a paragraph is a group of at least five sentences, a paragraph is half a page long, etc. In reality, though, the unity and coherence of ideas among sentences is what constitutes a paragraph..</p>
+                <div class="pages-container">
+                    <div class="header">
+                        <h3>Pages</h3>
+                        <h4>({{ pages|length }} total)</h4>
+                    </div>
+                    <div class="pages">
+                        <div class="spacer">
+                            &nbsp;
+                        </div>
+                        {% for page in pages %}
+                            <a href="{% url 'explore' %}?organization=L3Harris&page={{ page.id }}">
+                                <h3 name="name">{{ page.name }}</h3>
+                                <h4>Created <i>{{ page.dateCreated }}</i></h4>
+                                <hr>
+                                <p>
+                                    {% if page.description %}
+                                        {{ page.description }}
+                                    {% else %}
+                                        No description available.
+                                    {% endif %}
+                                </p>
+                            </a>
+                        {% endfor %}
+                        <div class="spacer">
+                            &nbsp;
+                        </div>
+                    </div>
                 </div>
             </div>
         </body>

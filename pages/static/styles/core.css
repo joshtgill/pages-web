@@ -153,7 +153,7 @@ body {
     font-weight: normal;
 }
 
-.content .banner {
+.banner {
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -163,15 +163,31 @@ body {
     background-color: rgb(240, 240, 240);
 }
 
-.content .banner img {
+.banner img {
     width: 50px;
     margin-bottom: 10px;
 }
 
-.content .banner h1 {
+.banner .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.banner .info h1 {
     margin: 0;
-    font-size: 40px;
-    color: rgb(40, 40, 40);
+    font-size: 35px;
+    font-weight: normal;
+}
+
+.banner .info .details {
+    display: flex;
+    margin: 5px 0 0 2px;
+}
+
+.banner .info .details h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: normal;
 }
 
 .content h2 {
@@ -427,19 +443,21 @@ body {
         display: block;
     }
 
-    .content .banner {
+    .banner {
         flex-direction: row;
-        justify-content: flex-start;
     }
 
-    .content .banner img {
+    .banner img {
         width: 60px;
         margin: 0 0 0 20px;
     }
 
-    .content .banner h1 {
+    .banner .info {
         margin-left: 20px;
-        font-size: 60px;
+    }
+
+    .banner .info h1 {
+        font-size: 40px;
     }
 
     .stats-bar {
