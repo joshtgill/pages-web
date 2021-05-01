@@ -43,7 +43,9 @@
             <link rel="stylesheet" type="text/css" href="{% static 'styles/view_organization.css' %}">
 
             <div class="banner">
-                <img src="{% static 'images/earth.png' %}">
+                <div class="img-container">
+                    <img src="{% static 'images/logo.png' %}">
+                </div>
                 <div class="info">
                     <h1>{{ organization.name }}</h1>
                     <div class="details">
@@ -63,7 +65,7 @@
                             &nbsp;
                         </div>
                         {% for page in pages %}
-                            <a href="{% url 'explore' %}?organization=L3Harris&page={{ page.id }}">
+                            <a href="{% url 'explore' %}?organization={{ organization.name }}&page={{ page.id }}">
                                 <h3 name="name">{{ page.name }}</h3>
                                 <h4>Created <i>{{ page.dateCreated }}</i></h4>
                                 <hr>
