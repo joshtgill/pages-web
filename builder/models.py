@@ -10,6 +10,7 @@ from django.forms.models import model_to_dict
 
 LENGTH_SHORT = 30
 LENGTH_MEDIUM = 100
+LENGTH_LONG= 300
 
 
 def create(self, request, email, password, passwordConfirm, firstName, lastName):
@@ -75,6 +76,7 @@ class NewOrganizationRequest(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
+    description = models.CharField(max_length=LENGTH_LONG)
     isPrivate = models.BooleanField(default=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # SET_NULL? Orphan Organization?
 
@@ -103,6 +105,7 @@ class Organization(models.Model):
 
     def deserialize(self, data):
         self.name = data['name']
+        self.description = data['description']
         self.isPrivate = data['isPrivate']
         self.save()
 

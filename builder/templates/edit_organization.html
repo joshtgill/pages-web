@@ -20,8 +20,9 @@
             <form method="POST">
                 {% csrf_token %}
                 <input name="name" placeholder="Organization name" autocomplete="off" value="{{ request.user.profile.organization.name }}">
+                <textarea name="description" placeholder="Description" rows="5">{{ request.user.profile.organization.description }}</textarea>
                 <div class="toggle">
-                    <h4>Make private</h4>
+                    <h4>Private</h4>
                     <label class="switch">
                         <input type="checkbox" name="isPrivate"
                             {% if request.user.profile.organization.isPrivate %}
