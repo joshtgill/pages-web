@@ -2,14 +2,21 @@
     {% load static %}
     <head>
         <title>Edit organization</title>
-
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/edit_organization.css' %}">
     </head>
     <body>
         {% include 'core.html' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/edit_organization.css' %}">
+
+        <div class="banner">
+            <div class="img-container">
+                <img src="{% static 'images/logo.png' %}">
+            </div>
+            <div class="info">
+                <h1>{{ request.user.profile.organization.name }} <j>(editor)</j></h1>
+            </div>
+        </div>
 
         <div class="content">
-            <h1>Edit organization</h1>
             <form method="POST">
                 {% csrf_token %}
                 <input name="name" placeholder="Organization name" autocomplete="off" value="{{ request.user.profile.organization.name }}">
