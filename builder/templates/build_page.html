@@ -2,11 +2,14 @@
     {% load static %}
     <head>
         <title>Build {{ pageData.typee }} </title>
-
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/build_page.css' %}">
     </head>
     <body>
         {% include 'core.html' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/build_page.css' %}">
+
+        <div class="mini-banner">
+            <a href="{% url 'explore' %}?organization={{ request.user.profile.organization.name  }}">{{ request.user.profile.organization.name  }}</a>
+        </div>
 
         <div class="content">
             {% if pageData.typee|first|upper in 'AEIOU' %}
