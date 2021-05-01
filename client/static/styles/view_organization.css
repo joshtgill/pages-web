@@ -57,6 +57,11 @@
     font-weight: normal;
 }
 
+.banner .info a {
+    margin-left: 2px;
+    color: rgb(255, 255, 255);
+}
+
 .content .pages-container {
     width: 100%;
     display: flex;
