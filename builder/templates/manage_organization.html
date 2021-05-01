@@ -2,15 +2,25 @@
     {% load static %}
     <head>
         <title>Manage organization</title>
-
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/manage_organization.css' %}">
     </head>
     <body>
         {% include 'core.html' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/manage_organization.css' %}">
+
+        <div class="banner">
+            <div class="img-container">
+                <img src="{% static 'images/logo.png' %}">
+            </div>
+            <div class="info">
+                <h1>{{ request.user.profile.organization.name }} <j>(manager)</j></h1>
+                <h2>
+                    <a href="{% url 'explore' %}?organization={{ request.user.profile.organization.name  }}">View</a> |
+                    <a href="{% url 'edit_organization' %}">Edit</a>
+                </h2>
+            </div>
+        </div>
 
         <div class="content">
-            <h1>Manage {{ request.user.profile.organization.name }}</h1>
-
             <div class="stats-container">
                 <div class="stats-bar">
                     <div class="item">
@@ -30,8 +40,6 @@
                         <h3><b>Members:</b>{{ numOrganizationsMemberships }}</h3>
                     </div>
                 </div>
-                <a href="{% url 'explore' %}?organization={{ request.user.profile.organization.name }}">View organization</a>
-                <a href="{% url 'edit_organization' %}">Edit organization</a>
             </div>
             <div class="dashboard" style="max-width: 850px">
                 <div class="item" style="margin-top: 3vh">

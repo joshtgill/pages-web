@@ -48,12 +48,12 @@
                 </div>
                 <div class="info">
                     <h1>{{ organization.name }}</h1>
-                    <div class="details">
-                        <h2>Owned by <b>{{ organization.owner.get_full_name }}</b>
+                    <h2>
+                        Owned by <b>{{ organization.owner.get_full_name }}</b>
                         {% if request.user.profile.organization == organization %}
-                            &nbsp-&nbsp <a href="{% url 'manage_organization' %}">Manage</a></h2>
+                            &nbsp-&nbsp <a href="{% url 'manage_organization' %}">Manage</a>
                         {% endif %}
-                    </div>
+                    </h2>
                 </div>
             </div>
             <div class="content">
