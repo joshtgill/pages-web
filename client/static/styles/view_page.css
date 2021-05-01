@@ -1,3 +1,36 @@
+.top-nav {
+    background-color: rgb(225, 225, 225);
+    background-color: rgb(11, 68, 55);
+}
+
+.top-nav .left a {
+    color: rgb(255, 255, 255);
+}
+
+.top-nav .center a {
+    color: rgb(255, 255, 255);
+}
+
+.mini-banner {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    color: rgb(255, 255, 255);
+    background-color: rgb(240, 240, 240);
+    background-color: rgb(20, 77, 64);
+}
+
+.mini-banner a {
+    margin: 0;
+    font-size: 20px;
+    font-weight: normal;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
 .content {
     justify-content: space-between;
 }

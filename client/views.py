@@ -12,7 +12,8 @@ def explore(request):
         pageForm = PageForm(request.GET)
         if pageForm.is_valid():
             # Render the organization's Page.
-            return render(request, 'view_page.html', {'pageData': Page.objects.get(id=pageForm.cleaned_data['page']).serialize()})
+            return render(request, 'view_page.html', {'organizationName': pageForm.cleaned_data['organization'],
+                                                      'pageData': Page.objects.get(id=pageForm.cleaned_data['page']).serialize()})
 
         organizationForm = OrganizationForm(request.GET)
         if organizationForm.is_valid():

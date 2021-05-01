@@ -1,12 +1,15 @@
 <html>
     {% load static %}
     <head>
-        <title>View {{ pageData.type }}</title>
-
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/view_page.css' %}">
+        <title>{{ pageData.name }} | {{ organizationName }}</title>
     </head>
     <body>
         {% include 'core.html' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/view_page.css' %}">
+
+        <div class="mini-banner">
+            <a href="{% url 'explore' %}?organization={{ organizationName }}">{{ organizationName }}</a>
+        </div>
 
         <div class="content">
             {% if pageData.typee == 'Sheet' %}
