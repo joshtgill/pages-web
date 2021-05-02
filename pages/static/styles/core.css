@@ -203,11 +203,27 @@ body {
 }
 
 .mini-banner a {
-    margin: 0;
+    margin-bottom: 20px;
     font-size: 20px;
     font-weight: normal;
     text-decoration: none;
     color: rgb(255, 255, 255);
+}
+
+.mini-banner .actions {
+    display: flex;
+    margin-bottom: 6px;
+}
+
+.mini-banner .actions button {
+    margin: 0 10px;
+    padding: 7px 20px;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 20px;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .content {
@@ -501,6 +517,20 @@ body {
 
     .banner .info h2 {
         margin-left: 2px;
+    }
+
+    .mini-banner {
+        flex-direction: row;
+    }
+
+    .mini-banner a {
+        margin: 7px 0;
+    }
+
+    .mini-banner .actions {
+        position: absolute;
+        right: 0;
+        margin: 0;
     }
 
     .stats-bar {

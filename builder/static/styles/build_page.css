@@ -170,28 +170,6 @@
     max-width: 200px;
 }
 
-.content form .actions {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 5vh 0 0 0;
-}
-
-.content form .actions button {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.content form .actions #savePageButton {
-    color: rgb(255, 255, 255);
-    background-color: rgb(30, 30, 30);
-}
-
-.content form .actions #deletePageButton {
-    background-color: rgb(235, 70, 70);
-}
-
 @media only screen and (min-width: 580px) {
     .content .header {
         justify-content: left;

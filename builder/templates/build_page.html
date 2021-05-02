@@ -9,6 +9,14 @@
 
         <div class="mini-banner">
             <a href="{% url 'explore' %}?organization={{ request.user.profile.organization.name  }}">{{ request.user.profile.organization.name  }}</a>
+            <div class="actions">
+                <button onclick="document.getElementById('pageForm').submit();">Save</button>
+                <button onclick="confirmationPopup.display(`Permanently delete <b>{{ pageData.name }}</b>
+                                                            from {{ request.user.profile.organization.name }}?`,
+                                                           'Delete',
+                                                           'pageIdToDelete',
+                                                           {{ pageData.id }})">Delete</button>
+            </div>
         </div>
 
         <div class="content">
@@ -29,17 +37,6 @@
                 {% elif pageData.typee == 'Event' %}
                     {% include 'pages/build_event.html' %}
                 {% endif %}
-                <div class="actions">
-                    <button class="action-button" id="savePageButton" type="submit">Save {{ pageData.typee }}</button>
-                    {% if pageData.id %}
-                        <button class="action-button" id="deletePageButton" type="button"
-                                onclick="confirmationPopup.display(`Permanently delete <b>{{ pageData.name }}</b>
-                                                                    from {{ request.user.profile.organization.name }}?`,
-                                                                   'Delete',
-                                                                   'pageIdToDelete',
-                                                                   {{ pageData.id }})">Delete {{ pageData.typee }}</button>
-                    {% endif %}
-                </div>
             </form>
             <form id="deletePageForm" method="POST">
                 {% csrf_token %}
