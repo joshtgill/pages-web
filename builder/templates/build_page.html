@@ -23,6 +23,7 @@
                 <input type="hidden" name="pageType" value="{{ pageData.typee }}">
 
                 <input id="pageNameInput" name="pageName" placeholder="{{ pageData.typee }} name" autocomplete="off" value="{{ pageData.name }}" required>
+                <textarea id="pageExplanationTextArea" name="pageExplanation" placeholder="Explanation (optional)" rows="3">{{ pageData.explanation }}</textarea>
                 {% if pageData.typee == 'Sheet' %}
                     {% include 'pages/build_sheet.html' %}
                 {% elif pageData.typee == 'Event' %}

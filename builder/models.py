@@ -117,6 +117,7 @@ class PageListing(models.Model):
 
 class Page(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
+    explanation = models.CharField(max_length=LENGTH_LONG)
     typee = models.CharField(max_length=LENGTH_SHORT)
     dateCreated = models.DateField()
 
@@ -124,6 +125,7 @@ class Page(models.Model):
 
     def deserialize(self, postData):
         self.name = postData.get('pageName')[0]
+        self.description = postData.get('pageExplanation')[0]
         self.typee = postData.get('pageType')[0]
         self.dateCreated = datetime.date.today()
         self.save()
