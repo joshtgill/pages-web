@@ -6,31 +6,6 @@ a {
     color: rgb(0, 123, 224);
 }
 
-.page-actions {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.page-actions button {
-    width: 80vw;
-    max-width: 300px;
-    height: 50px;
-    min-height: 50px;
-    margin: 1vh 10px;
-    font-size: 20px;
-    color: rgb(255, 255, 255);
-    border: none;
-    border-radius: 50px;
-    background-color: rgb(30, 30, 30);
-    outline: none;
-    cursor: pointer;
-}
-
-.page-actions #redButton {
-    background-color: rgb(235, 70, 70);
-}
-
 .action-button {
     width: 80vw;
     max-width: 300px;
@@ -190,6 +165,24 @@ body {
     color: rgb(255, 255, 255);
 }
 
+.banner .actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.banner .actions button {
+    margin: 0 10px;
+    padding: 7px 20px;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 20px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
 .mini-banner {
     width: 100vw;
     display: flex;
@@ -203,7 +196,7 @@ body {
 }
 
 .mini-banner a {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     font-size: 20px;
     font-weight: normal;
     text-decoration: none;
@@ -212,13 +205,14 @@ body {
 
 .mini-banner .actions {
     display: flex;
+    margin-top: 10px;
     margin-bottom: 6px;
 }
 
 .mini-banner .actions button {
     margin: 0 10px;
     padding: 7px 20px;
-    font-size: 20px;
+    font-size: 16px;
     color: rgb(255, 255, 255);
     border: 2px solid rgb(255, 255, 255);
     border-radius: 20px;
@@ -517,6 +511,14 @@ body {
 
     .banner .info h2 {
         margin-left: 2px;
+    }
+
+    .banner .actions {
+        width: unset;
+        position: absolute;
+        right: 0;
+        margin: 0;
+        align-self: flex-end;
     }
 
     .mini-banner {
