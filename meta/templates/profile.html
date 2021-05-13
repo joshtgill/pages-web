@@ -2,19 +2,33 @@
     {% load static %}
     <head>
         <title>Profile</title>
-
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/profile.css' %}">
     </head>
     <body>
         {% include 'core.html' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/profile.css' %}">
+
+        <div class="banner">
+            <div class="info">
+                <div class="img-container">
+                    <img style="width: 100%" src="{% static 'images/earth.png' %}">
+                </div>
+                <div class="details">
+                    <h1>{{ request.user.get_full_name }}</h1>
+                </div>
+            </div>
+            <div class="actions">
+                <button onclick="confirmationPopup.display('Logout of account associated with <b>{{ request.user.email }}</b>?',
+                                                           'Logout',
+                                                           'logout',
+                                                           'True')">Logout</button>
+                <button onclick="confirmationPopup.display(`Delete <b>{{ request.user.profile.organization.name }}`,
+                                                           'Delete',
+                                                           'deleteOrganization',
+                                                           'True')">Delete account</button>
+            </div>
+        </div>
 
         <div class="content">
-            {% if request.user.profile.organization %}
-                <img src="{% static 'images/earth.png' %}" alt="earth">
-            {% else %}
-                <img src="{% static 'images/cliff.png' %}" alt="cliff">
-            {% endif %}
-            <h2 style="font-size: 30px">{{ request.user.get_full_name }}</h2>
             <div class="stats-bar" style="margin-top: 3vh">
                 <div class="item">
                     <h3><b>Email: </b>{{ request.user.email }}</h3>
@@ -115,20 +129,6 @@
                         </div>
                     {% endif %}
                 </div>
-            </div>
-            <div class="account-actions">
-                <button class="action-button"
-                        onclick="confirmationPopup.display('Logout of account associated with <b>{{ request.user.email }}</b>?',
-                                                           'Logout',
-                                                           'logout',
-                                                           'True')">Logout</button>
-                <button class="action-button" id="deleteAccountButton"
-                        onclick="confirmationPopup.display(`This will permanently delete the account associated
-                                                            with <br><br><b>{{ request.user.email }}</b><br><br>
-                                                            All data will be lost and this action cannot be undone.`,
-                                                           'Delete',
-                                                           'deleteAccount',
-                                                           'True')">Delete account</button>
             </div>
         </div>
 

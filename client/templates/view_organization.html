@@ -43,17 +43,19 @@
             <link rel="stylesheet" type="text/css" href="{% static 'styles/view_organization.css' %}">
 
             <div class="banner">
-                <div class="img-container">
-                    <img src="{% static 'images/logo.png' %}">
-                </div>
                 <div class="info">
-                    <h1>{{ organization.name }}</h1>
-                    <h2>
-                        Owned by <b>{{ organization.owner.get_full_name }}</b>
-                        {% if request.user.profile.organization == organization %}
-                            &nbsp-&nbsp <a href="{% url 'manage_organization' %}">Manage</a>
-                        {% endif %}
-                    </h2>
+                    <div class="img-container">
+                        <img src="{% static 'images/logo.png' %}">
+                    </div>
+                    <div class="details">
+                        <h1>{{ organization.name }}</h1>
+                        <h2>
+                            Owned by <b>{{ organization.owner.get_full_name }}</b>
+                            {% if request.user.profile.organization == organization %}
+                                &nbsp-&nbsp <a href="{% url 'manage_organization' %}">Manage</a>
+                            {% endif %}
+                        </h2>
+                    </div>
                 </div>
             </div>
             <div class="content">

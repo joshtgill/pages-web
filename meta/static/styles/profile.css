@@ -1,6 +1,42 @@
-.content img {
-    width: 100px;
-    margin-top: 3vh;
+
+.top-nav {
+    background-color: rgb(240, 240, 240);
+}
+
+.banner {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(30, 30, 30);
+    background-color: rgb(240, 240, 240);
+}
+
+.banner .info {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 4vh 0 4vh 0;
+}
+
+.banner .info .img-container {
+    width: 130px;
+    height: 130px;
+    margin: auto;
+}
+
+.banner .info .details {
+    margin: auto;
+}
+
+.banner .info .details h1 {
+    margin-top: 10px;
+    font-size: 33px;
+}
+
+.banner .actions button {
+    color: rgb(30, 30, 30);
+    border-color: rgb(30, 30, 30);
 }
 
 .content h1 {
@@ -74,18 +110,6 @@
     align-items: center;
 }
 
-.content .account-actions {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 4vmin 0 0 0;
-}
-
-.content .account-actions #deleteAccountButton {
-    background-color: rgb(235, 70, 70);
-}
-
 @media only screen and (min-width: 820px) {
     .content .details {
         margin-left: 110px;
@@ -101,6 +125,10 @@
 }
 
 @media only screen and (min-width: 580px) {
+    .banner .info .details {
+        margin-top: 20px;
+    }
+
     .content .details .detail-container {
         flex-direction: row;
     }
