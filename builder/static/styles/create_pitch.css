@@ -32,7 +32,8 @@
     height: 400px;
     margin: 3vh 2vw 3vh 2vw;
     border-radius: 10px;
-    border: 1px solid rgb(200, 200, 200);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     transition: 0.5s;
 }
 

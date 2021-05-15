@@ -49,6 +49,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgb(250, 250, 252);
 }
 
 .top-nav a {
@@ -237,6 +238,7 @@ body {
     flex: 1;
     overflow: auto;
     overflow-x: hidden;
+    background-color: rgb(250, 250, 252);
 }
 
 .content h1 {
@@ -263,8 +265,9 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     padding: 10px 0;
-    border: 1px solid rgb(200, 200, 200);
     border-radius: 15px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 .stats-bar .item {
@@ -307,8 +310,9 @@ body {
     display: flex;
     flex-direction: column;
     margin: 4vh auto 0 auto;
-    border: 1px solid rgb(200, 200, 200);
-    border-radius: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: rgb(255, 255, 255);
 }
 
 .dashboard .item h3 {
