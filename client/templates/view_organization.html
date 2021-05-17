@@ -40,6 +40,7 @@
     {% else %}
         <body>
             {% include 'core.html' %}
+            {% include 'dashboard.html' %}
             <link rel="stylesheet" type="text/css" href="{% static 'styles/view_organization.css' %}">
 
             <div class="banner">
@@ -58,6 +59,26 @@
                 </div>
             </div>
             <div class="content">
+                <div class="dashboard">
+                    <div class="item" style="max-width: 1000px; border-radius: 20px">
+                        <div class="stats">
+                            <div class="stat">
+                                <h4>Status</h4>
+                                <h5>
+                                    {% if request.user.profile.organization.isPrivate %}
+                                        Private
+                                    {% else %}
+                                        Public
+                                    {% endif %}
+                                </h5>
+                            </div>
+                            <div class="stat">
+                                <h4>Owned by</h4>
+                                <h5>{{ request.user.profile.organization.owner.get_full_name }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <p>{{ organization.description }}</p>
                 <div class="pages-container">
                     <div class="header">

@@ -11,6 +11,19 @@
     color: rgb(255, 255, 255);
 }
 
+.content .dashboard {
+    margin: 0;
+}
+
+.content p {
+    width: 90%;
+    max-width: 800px;
+    margin: 5vh 0;
+    text-align: center;
+    font-size: 20px;
+    line-height: 30px;
+}
+
 .content .pages-container {
     width: 100%;
     display: flex;
@@ -89,14 +102,6 @@
     height: 100%;
 }
 
-.content p {
-    width: 90%;
-    max-width: 800px;
-    text-align: center;
-    font-size: 20px;
-    line-height: 30px;
-}
-
 @media only screen and (min-width: 800px) {
     .content {
         flex-direction: column;
@@ -109,7 +114,6 @@
 
     .content .pages-container .header {
         justify-content: center;
-        margin: 3vh 0 0 0;
     }
 
     .content .pages-container .pages {
