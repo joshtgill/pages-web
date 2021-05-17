@@ -1,0 +1,193 @@
+.dashboard {
+    width: 100vw;
+    max-width: 1300px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 0 0 5vh 0;
+}
+
+.dashboard .item {
+    width: 92vw;
+    display: flex;
+    flex-direction: column;
+    margin: 4vh auto 0 auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: rgb(255, 255, 255);
+}
+
+.dashboard .item h3 {
+    margin: 25px 30px 15px 30px;
+    font-size: 20px;
+    font-weight: normal;
+    color: rgb(0, 0, 0);
+}
+
+.dashboard .item .stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dashboard .item .stats .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px 30px;
+    color: rgb(60, 60, 60);
+}
+
+.dashboard .item .stats .stat h4 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.dashboard .item .stats .stat h4 a {
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dashboard .item .stats .stat h5 {
+    margin: 5px 0 0 0;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.dashboard .item .list {
+    display: flex;
+    flex-direction: column;
+    margin: 0 30px 20px 30px;
+}
+
+.dashboard .item .list .element {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 20px 0 28px 0;
+}
+
+.dashboard .item .list .element .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    color: rgb(30, 30, 30);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dashboard .item .list .element .info h4 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: normal;
+    color: rgb(60, 60, 60);
+}
+
+.dashboard .item .list .element .info .iconname {
+    display: flex;
+    align-items: center;
+}
+
+.dashboard .item .list .element .info .iconname img {
+    width: 25px;
+    height: 25px;
+    margin: 0;
+}
+
+.dashboard .item .list .element .info .iconname h4 {
+    margin: 0 0 0 10px;
+    font-size: 22px;
+}
+
+.dashboard .item .list .element .info h5 {
+    margin: 8px 10px 0 0;
+    font-size: 18px;
+    font-weight: normal;
+    color: rgb(100, 100, 100);
+}
+
+.dashboard .item .list .element .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.dashboard .item .list .element .actions a {
+    display: flex;
+    align-items: center;
+    margin: auto 15px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.dashboard .item .list hr {
+    width: 100%;
+    margin: 0 auto 0 auto;
+    border-top: 1px solid rgb(230, 230, 230);
+}
+
+.dashboard .empty-list {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.dashboard .empty-list h4 {
+    margin: 15px 5px 30px 5px;
+    font-size: 20px;
+    font-weight: normal;
+    color: rgb(100, 100, 100);
+}
+
+.dashboard .empty-list a {
+    margin: 0 3px;
+    font-size: 19.5px;
+}
+
+.dashboard .item .footer {
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgb(200, 200, 200);
+}
+
+.dashboard .item .footer h4 {
+    margin: 0 0 0 20px;
+    font-size: 20px;
+    font-weight: normal;
+    color: rgb(0, 0, 0);
+}
+
+.dashboard .item .footer a {
+    margin: 0 20px 0 0;
+    font-size: 20px;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+.dashboard .vertical {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+@media only screen and (min-width: 580px) {
+    .dashboard .item .list .element {
+        flex-direction: row;
+    }
+
+    .dashboard .item .list .element .actions {
+        margin-top: 0;
+    }
+
+    .dashboard .item .list .element .actions a {
+        margin: 0 0 0 25px;
+    }
+}

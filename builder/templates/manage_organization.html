@@ -5,6 +5,7 @@
     </head>
     <body>
         {% include 'core.html' %}
+        {% include 'dashboard.html' %}
         <link rel="stylesheet" type="text/css" href="{% static 'styles/manage_organization.css' %}">
 
         <div class="banner">
@@ -37,28 +38,30 @@
         </div>
 
         <div class="content">
-            <div class="stats-container">
-                <div class="stats-bar">
-                    <div class="item">
-                        <h3>
-                            <b>Status:</b>
-                            {% if request.user.profile.organization.isPrivate %}
-                                Private
-                            {% else %}
-                                Public
-                            {% endif %}
-                        </h3>
-                    </div>
-                    <div class="item">
-                        <h3><b>Owner:</b>{{ request.user.profile.organization.owner.get_full_name }}</h3>
-                    </div>
-                    <div class="item">
-                        <h3><b>Members:</b>{{ numOrganizationsMemberships }}</h3>
+            <div class="dashboard" style="max-width: 1500px">
+                <div class="item" style="max-width: 1000px; border-radius: 20px">
+                    <div class="stats">
+                        <div class="stat">
+                            <h4>Status</h4>
+                            <h5>
+                                {% if request.user.profile.organization.isPrivate %}
+                                    Private
+                                {% else %}
+                                    Public
+                                {% endif %}
+                            </h5>
+                        </div>
+                        <div class="stat">
+                            <h4>Owned by</h4>
+                            <h5>{{ request.user.profile.organization.owner.get_full_name }}</h5>
+                        </div>
+                        <div class="stat">
+                            <h4>Members</h4>
+                            <h5>{{ numOrganizationsMemberships }}</h5>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="dashboard" style="max-width: 850px">
-                <div class="item" style="margin-top: 3vh">
+                <div class="item" style="max-width: 800px">
                     <h3>Active pages</h3>
                     {% if activePagesData %}
                         <div class="list">
@@ -70,14 +73,14 @@
                                 {% endif %}
                                     <div class="info" style="cursor: auto">
                                         <h4>{{ activePageData.name }}</h4>
-                                        <h5>Created <i>{{ activePageData.dateCreated }}</i></h5>
+                                        <h5>{{ activePageData.typee }}, created <i>{{ activePageData.dateCreated }}</i></h5>
                                     </div>
                                     <div class="actions">
                                         <a href="{% url 'explore' %}?organization={{ request.user.profile.organization.name }}&page={{ activePageData.id }}">
-                                            View
+                                            VIEW
                                         </a>
                                         <a href="{% url 'build' %}?typee={{ activePageData.typee }}&idd={{ activePageData.id }}">
-                                            Edit
+                                            EDIT
                                         </a>
                                     </div>
                                 </div>
@@ -99,94 +102,88 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="item" style="max-width: 400px">
-                    <h3>Member requests</h3>
-                    {% if memberRequests %}
-                        <div class="list">
-                            {% for memberRequest in memberRequests %}
-                                {% if forloop.counter == memberRequests|length %}
-                                <div class="element" style="margin-bottom: 5px">
-                                {% else %}
-                                <div class="element">
-                                {% endif %}
-                                    <div class="info" style="cursor: auto">
-                                        <div class="iconname">
-                                            <img src="{% static 'images/earth.png' %}" alt="earth">
-                                            <h4>{{ memberRequest.user.get_full_name }}</h4>
+                <div class="vertical">
+                    <div class="item" style="max-width: 500px">
+                        <h3>Member requests</h3>
+                        {% if memberRequests %}
+                            <div class="list">
+                                {% for memberRequest in memberRequests %}
+                                    <div class="element" style="margin-bottom: 5px">
+                                        <div class="info" style="cursor: auto">
+                                            <div class="iconname">
+                                                <img src="{% static 'images/earth.png' %}" alt="earth">
+                                                <h4>{{ memberRequest.user.get_full_name }}</h4>
+                                            </div>
+                                        </div>
+                                        <div class="actions">
+                                            <a onclick="confirmationPopup.display(`Approve <b>{{ memberRequest.user.get_full_name }}</b>
+                                                                                as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
+                                                                                'Approve',
+                                                                                'membershipIdToApprove',
+                                                                                {{ memberRequest.id }})">Approve</a>
+                                            <a onclick="confirmationPopup.display(`Deny <b>{{ memberRequest.user.get_full_name }}</b>
+                                                                                as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
+                                                                                'Deny',
+                                                                                'membershipIdToDeny',
+                                                                                {{ memberRequest.id }})">Deny</a>
                                         </div>
                                     </div>
-                                    <div class="actions">
-                                        <a onclick="confirmationPopup.display(`Approve <b>{{ memberRequest.user.get_full_name }}</b>
-                                                                               as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
-                                                                              'Approve',
-                                                                              'membershipIdToApprove',
-                                                                              {{ memberRequest.id }})">Approve</a>
-                                        <a onclick="confirmationPopup.display(`Deny <b>{{ memberRequest.user.get_full_name }}</b>
-                                                                               as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
-                                                                              'Deny',
-                                                                              'membershipIdToDeny',
-                                                                              {{ memberRequest.id }})">Deny</a>
-                                    </div>
+                                    {% if forloop.counter < memberRequests|length %}
+                                        <hr>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% if memberRequests|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
+                                <div class="footer">
+                                    <h4>{{ memberRequests|length }} total</h4>
+                                    <a href="{% url 'home' %}">View all ></a>
                                 </div>
-                                {% if forloop.counter < memberRequests|length %}
-                                    <hr>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        {% if memberRequests|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
-                            <div class="footer">
-                                <h4>{{ memberRequests|length }} total</h4>
-                                <a href="{% url 'home' %}">View all ></a>
+                            {% endif %}
+                        {% else %}
+                            <div class="empty-list">
+                                <h4>No requests</h4>
                             </div>
                         {% endif %}
-                    {% else %}
-                        <div class="empty-list">
-                            <h4>No requests</h4>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="item" style="max-width: 350px">
-                    <h3>Members</h3>
-                    {% if organizationMembers %}
-                        <div class="list">
-                            {{ revokeMembershipConfirmationPopupData|json_script:"revokeMembershipConfirmationPopupData" }}
-                            {% for organizationMember in organizationMembers %}
-                                {% if forloop.counter == organizationMembers|length %}
-                                <div class="element" style="flex-direction: row; margin-bottom: 5px;">
-                                {% else %}
-                                <div class="element" style="flex-direction: row">
-                                {% endif %}
-                                    <div class="info" style="cursor: auto">
-                                        <div class="iconname">
-                                            <img src="{% static 'images/earth.png' %}" alt="earth">
-                                            <h4>{{ organizationMember.user.get_full_name }}</h4>
+                    </div>
+                    <div class="item" style="max-width: 500px">
+                        <h3>Members</h3>
+                        {% if organizationMembers %}
+                            <div class="list">
+                                {{ revokeMembershipConfirmationPopupData|json_script:"revokeMembershipConfirmationPopupData" }}
+                                {% for organizationMember in organizationMembers %}
+                                    <div class="element" style="flex-direction: row; margin-bottom: 5px;">
+                                        <div class="info" style="cursor: auto">
+                                            <div class="iconname">
+                                                <img src="{% static 'images/earth.png' %}" alt="earth">
+                                                <h4>{{ organizationMember.user.get_full_name }}</h4>
+                                            </div>
+                                        </div>
+                                        <div class="actions" style="margin-top: 0">
+                                            <a style="margin: 0"
+                                            onclick="confirmationPopup.display(`Revoke <b>{{ organizationMember.user.get_full_name }}</b>
+                                                                                as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
+                                                                                'Revoke',
+                                                                                'membershipIdToRevoke',
+                                                                                {{ organizationMember.id }})" >REVOKE</a>
                                         </div>
                                     </div>
-                                    <div class="actions" style="margin-top: 0">
-                                        <a style="margin: 0"
-                                           onclick="confirmationPopup.display(`Revoke <b>{{ organizationMember.user.get_full_name }}</b>
-                                                                               as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
-                                                                              'Revoke',
-                                                                              'membershipIdToRevoke',
-                                                                              {{ organizationMember.id }})" >Revoke</a>
-                                    </div>
+                                    {% if forloop.counter < organizationMembers|length %}
+                                        <hr>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% if organizationMembers|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
+                                <div class="footer">
+                                    <h4>{{ organizationMembers|length }} total</h4>
+                                    <a href="{% url 'home' %}">View all ></a>
                                 </div>
-                                {% if forloop.counter < organizationMembers|length %}
-                                    <hr>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        {% if organizationMembers|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
-                            <div class="footer">
-                                <h4>{{ organizationMembers|length }} total</h4>
-                                <a href="{% url 'home' %}">View all ></a>
+                            {% endif %}
+                        {% else %}
+                            <div class="empty-list">
+                                <h4>No members</h4>
                             </div>
                         {% endif %}
-                    {% else %}
-                        <div class="empty-list">
-                            <h4>No members</h4>
-                        </div>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

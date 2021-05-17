@@ -7,6 +7,7 @@
     </head>
     <body>
         {% include 'core.html' %}
+        {% include 'dashboard.html' %}
 
         <div class="content">
             <h1>Staff</h1>
@@ -31,7 +32,7 @@
                                                                                as an organization?`,
                                                                               'Delete',
                                                                               'organizationIdToDelete',
-                                                                              {{ organization.id }})">Delete</a>
+                                                                              {{ organization.id }})">DELETE</a>
                                         </a>
                                     </div>
                                 </div>
@@ -71,12 +72,12 @@
                                                                                to be an organization?`,
                                                                               'Approve',
                                                                               'newOrganizationRequestIdToApprove',
-                                                                              {{ newOrganizationRequest.id }})">Approve</a>
+                                                                              {{ newOrganizationRequest.id }})">APPROVE</a>
                                         <a onclick="confirmationPopup.display(`Deny <b>{{ newOrganizationRequest.name }}</b>
                                                                                to be an organization?`,
                                                                               'Deny',
                                                                               'newOrganizationRequestIdToDeny',
-                                                                              {{ newOrganizationRequest.id }})">Deny</a>
+                                                                              {{ newOrganizationRequest.id }})">DENY</a>
                                     </div>
                                 </div>
                                 {% if forloop.counter < newOrganizationRequests|length %}

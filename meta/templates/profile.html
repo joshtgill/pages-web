@@ -5,6 +5,7 @@
     </head>
     <body>
         {% include 'core.html' %}
+        {% include 'dashboard.html' %}
         <link rel="stylesheet" type="text/css" href="{% static 'styles/profile.css' %}">
 
         <div class="banner">
@@ -29,22 +30,24 @@
         </div>
 
         <div class="content">
-            <div class="stats-bar" style="margin-top: 3vh">
-                <div class="item">
-                    <h3><b>Email: </b>{{ request.user.email }}</h3>
-                    <a onclick="changeEmailPopup.display()">Change email</a>
-                </div>
-                {% if request.user.profile.organization %}
-                    <div class="item">
-                        <h3><b>Organization: </b>{{ request.user.profile.organization.name }}</h3>
-                        <a href="{% url 'manage_organization' %}">Manage organization</a>
-                    </div>
-                {% endif %}
-            </div>
             {% if request.user.is_staff %}
                 <a href="{% url 'staff' %}">Staff page</a>
             {% endif %}
             <div class="dashboard" style="max-width: 900px">
+                <div class="item" style="max-width: 1000px; border-radius: 20px">
+                    <div class="stats">
+                        <div class="stat">
+                            <h4>Email - <a onclick="changeEmailPopup.display()">change</a></h4>
+                            <h5>
+                                {{ request.user.email }}
+                            </h5>
+                        </div>
+                        <div class="stat">
+                            <h4>Organization - <a href="{% url 'manage_organization' %}">manage</a></h4>
+                            <h5>{{ request.user.profile.organization.name }}</h5>
+                        </div>
+                    </div>
+                </div>
                 <div class="item" style="max-width: 400px">
                     <h3>Pending Memberships</h3>
                     {% if pendingMemberships %}
