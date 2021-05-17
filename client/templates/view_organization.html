@@ -61,7 +61,12 @@
             <div class="content">
                 <div class="dashboard">
                     <div class="item" style="max-width: 1000px; border-radius: 20px">
+                        {% comment %} <p>{{ organization.description }}</p> {% endcomment %}
                         <div class="stats">
+                            <div class="stat">
+                                <h4>Description</h4>
+                                <h5>{{ organization.description }}</h5>
+                            </div>
                             <div class="stat">
                                 <h4>Status</h4>
                                 <h5>
@@ -79,7 +84,6 @@
                         </div>
                     </div>
                 </div>
-                <p>{{ organization.description }}</p>
                 <div class="pages-container">
                     <div class="header">
                         <h3>Pages</h3>
