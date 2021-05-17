@@ -88,12 +88,6 @@
                                 {% endif %}
                             {% endfor%}
                         </div>
-                        {% if activePagesData|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
-                            <div class="footer">
-                                <h4>{{ activePagesData|length }} total</h4>
-                                <a href="{% url 'home' %}">View all ></a>
-                            </div>
-                        {% endif %}
                     {% else %}
                         <div class="empty-list">
                             <h4>No Pages.</h4>
@@ -132,12 +126,6 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                            {% if memberRequests|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
-                                <div class="footer">
-                                    <h4>{{ memberRequests|length }} total</h4>
-                                    <a href="{% url 'home' %}">View all ></a>
-                                </div>
-                            {% endif %}
                         {% else %}
                             <div class="empty-list">
                                 <h4>No requests</h4>
@@ -171,12 +159,6 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                            {% if organizationMembers|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
-                                <div class="footer">
-                                    <h4>{{ organizationMembers|length }} total</h4>
-                                    <a href="{% url 'home' %}">View all ></a>
-                                </div>
-                            {% endif %}
                         {% else %}
                             <div class="empty-list">
                                 <h4>No members</h4>

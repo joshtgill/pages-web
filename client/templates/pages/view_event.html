@@ -85,12 +85,6 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                {% if pageData.event.acceptees|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
-                    <div class="footer">
-                        <h4>{{ pageData.event.acceptees|length }} total</h4>
-                        <a href="{% url 'home' %}">View all ></a>
-                    </div>
-                {% endif %}
             {% else %}
                 <div class="empty-list">
                     <h4>No attendees</h4>
@@ -119,12 +113,6 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                {% if pageData.event.declinees|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
-                    <div class="footer">
-                        <h4>{{ pageData.event.declinees|length }} total</h4>
-                        <a href="{% url 'home' %}">View all ></a>
-                    </div>
-                {% endif %}
             {% else %}
                 <div class="empty-list">
                     <h4>No attendees</h4>

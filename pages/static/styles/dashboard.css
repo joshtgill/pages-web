@@ -150,28 +150,6 @@
     font-size: 19.5px;
 }
 
-.dashboard .item .footer {
-    height: 45px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid rgb(200, 200, 200);
-}
-
-.dashboard .item .footer h4 {
-    margin: 0 0 0 20px;
-    font-size: 20px;
-    font-weight: normal;
-    color: rgb(0, 0, 0);
-}
-
-.dashboard .item .footer a {
-    margin: 0 20px 0 0;
-    font-size: 20px;
-    text-decoration: none;
-    color: rgb(0, 0, 0);
-}
-
 .dashboard .vertical {
     display: flex;
     flex-direction: column;

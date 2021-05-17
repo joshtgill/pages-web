@@ -73,12 +73,6 @@
                                 </div>
                             {% endfor %}
                         </div>
-                        {% if pendingMemberships|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
-                            <div class="footer">
-                                <h4>{{ pendingMemberships|length }} total</h4>
-                                <a href="{% url 'home' %}">View all ></a>
-                            </div>
-                        {% endif %}
                     {% else %}
                         <div class="empty-list">
                             <h4>No pending memberships</h4>
@@ -120,12 +114,6 @@
                                 </div>
                             {% endfor %}
                         </div>
-                        {% if memberships|length > settings.MAX_DASHBOARD_LIST_ENTRIES %}
-                            <div class="footer">
-                                <h4>{{ memberships|length }} total</h4>
-                                <a href="{% url 'home' %}">View all ></a>
-                            </div>
-                        {% endif %}
                     {% else %}
                         <div class="empty-list">
                             <h4>No memberships</h4>
