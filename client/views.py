@@ -38,9 +38,9 @@ def explore(request):
     requestMembershipForm = RequestMembershipForm(request.POST)
     if requestMembershipForm.is_valid():
         # Create a membership request
-        Membership().create(Organization.objects.get(id=requestMembershipForm.cleaned_data['organizationIdToRequestMembership']),
-                            request.user,
-                            False)
+        Membership.objects.create(Organization.objects.get(id=requestMembershipForm.cleaned_data['organizationIdToRequestMembership']),
+                                  request.user,
+                                  False)
         return redirect('/profile/')
 
     eventAttendanceForm = EventAttendanceForm(request.POST)

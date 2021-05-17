@@ -113,12 +113,12 @@
                                                                                 as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
                                                                                 'Approve',
                                                                                 'membershipIdToApprove',
-                                                                                {{ memberRequest.id }})">Approve</a>
+                                                                                {{ memberRequest.id }})">APPROVE</a>
                                             <a onclick="confirmationPopup.display(`Deny <b>{{ memberRequest.user.get_full_name }}</b>
                                                                                 as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
                                                                                 'Deny',
                                                                                 'membershipIdToDeny',
-                                                                                {{ memberRequest.id }})">Deny</a>
+                                                                                {{ memberRequest.id }})">DENY</a>
                                         </div>
                                     </div>
                                     {% if forloop.counter < memberRequests|length %}

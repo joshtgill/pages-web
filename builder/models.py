@@ -361,7 +361,7 @@ class MembershipManager(models.Manager):
         if self.filter(organization=organization, user=user).exists():
             return False
 
-        self.create(organization=organization,
+        super().create(organization=organization,
                     user=user,
                     relatedDate=datetime.date.today(),
                     approved=approved)
