@@ -213,8 +213,8 @@ body {
 
 .mini-banner .actions {
     display: flex;
-    margin-top: 10px;
-    margin-bottom: 6px;
+    align-self: flex-end;
+    margin: 10px 0 5px 0;
 }
 
 .mini-banner .actions button {
@@ -363,15 +363,14 @@ body {
 
     .mini-banner {
         flex-direction: row;
+        justify-content: space-between;
     }
 
     .mini-banner a {
-        margin: 7px 0;
+        margin: 0 0 0 10px;
     }
 
     .mini-banner .actions {
-        position: absolute;
-        right: 0;
         margin: 0;
     }
 }

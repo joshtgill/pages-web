@@ -15,24 +15,22 @@
                 </div>
                 <div class="details">
                     <h1>{{ request.user.profile.organization.name }} <j>(manager)</j></h1>
-                    <h2>
-                        <a href="{% url 'explore' %}?organization={{ request.user.profile.organization.name  }}">View</a> |
-                        <a href="{% url 'edit_organization' %}">Edit</a>
-                    </h2>
                 </div>
             </div>
             <div class="actions">
+                <button onclick="location.href='{% url 'explore' %}?organization={{ request.user.profile.organization.name  }}';">View</button>
+                <button onclick="location.href='{% url 'edit_organization' %}';">Edit</button>
                 {% if request.user.profile.organization.owner == request.user %}
-                    <button onclick="confirmationPopup.display(`Leave <b>{{ request.user.profile.organization.name }}`,
-                                                            'Leave',
-                                                            'leaveOrganization',
-                                                            'True')">Leave</button>
-                {% else %}
                     <button id="redButton"
                             onclick="confirmationPopup.display(`Delete <b>{{ request.user.profile.organization.name }}`,
                                                             'Delete',
                                                             'deleteOrganization',
                                                             'True')">Delete</button>
+                {% else %}
+                    <button onclick="confirmationPopup.display(`Leave <b>{{ request.user.profile.organization.name }}`,
+                                                            'Leave',
+                                                            'leaveOrganization',
+                                                            'True')">Leave</button>
                 {% endif %}
             </div>
         </div>

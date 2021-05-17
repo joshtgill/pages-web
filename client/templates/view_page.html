@@ -10,6 +10,11 @@
 
         <div class="mini-banner">
             <a href="{% url 'explore' %}?organization={{ organizationName }}">{{ organizationName }}</a>
+            {% if request.user.profile.organization.id == pageData.organization %}
+                <div class="actions">
+                    <button onclick="location.href='{% url 'build' %}?typee={{ pageData.typee }}&idd={{ pageData.id }}'">Edit</button>
+                </div>
+            {% endif %}
         </div>
 
         <div class="content">
