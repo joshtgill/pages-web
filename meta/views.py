@@ -61,8 +61,8 @@ def login(request):
 
 @login_required
 def profile(request):
-    content = {'pendingMemberships': Membership.objects.filter(user=request.user, approved=False)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-               'memberships': Membership.objects.filter(user=request.user, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
+    content = {'pendingMemberships': Membership.objects.filter(user=request.user, approved=False),
+               'memberships': Membership.objects.filter(user=request.user, approved=True),
                'changeEmailForm': ChangeEmailForm()}
 
     if request.method == 'GET':
@@ -95,10 +95,10 @@ def profile(request):
 
 @staff_member_required
 def staff(request):
-    content = {'organizations': Organization.objects.all()[:settings.MAX_DASHBOARD_LIST_ENTRIES]}
+    content = {'organizations': Organization.objects.all()}
 
     if request.method == 'GET':
-        content.update({'newOrganizationRequests': NewOrganizationRequest.objects.all()[:settings.MAX_DASHBOARD_LIST_ENTRIES]})
+        content.update({'newOrganizationRequests': NewOrganizationRequest.objects.all()})
         return render(request, 'staff.html', content)
 
     deleteOrganizationForm = DeleteOrganizationForm(request.POST)

@@ -54,14 +54,10 @@
                             <h4>Owned by</h4>
                             <h5>{{ request.user.profile.organization.owner.get_full_name }}</h5>
                         </div>
-                        <div class="stat">
-                            <h4>Members</h4>
-                            <h5>{{ numOrganizationsMemberships }}</h5>
-                        </div>
                     </div>
                 </div>
                 <div class="item" style="max-width: 800px">
-                    <h3>Active pages</h3>
+                    <h3>Active pages <j>- {{ activePagesData|length }} total</j></h3>
                     {% if activePagesData %}
                         <div class="list">
                             {% for activePageData in activePagesData %}
@@ -97,7 +93,7 @@
                 </div>
                 <div class="vertical">
                     <div class="item" style="max-width: 500px">
-                        <h3>Member requests</h3>
+                        <h3>Member requests <j>- {{ memberRequests|length }} total</h3>
                         {% if memberRequests %}
                             <div class="list">
                                 {% for memberRequest in memberRequests %}
@@ -133,7 +129,7 @@
                         {% endif %}
                     </div>
                     <div class="item" style="max-width: 500px">
-                        <h3>Members</h3>
+                        <h3>Members <j>- {{ organizationMembers|length }} total</h3>
                         {% if organizationMembers %}
                             <div class="list">
                                 {{ revokeMembershipConfirmationPopupData|json_script:"revokeMembershipConfirmationPopupData" }}

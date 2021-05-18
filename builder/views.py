@@ -86,10 +86,9 @@ def build(request):
 @login_required
 def manageOrganization(request):
     if request.method == 'GET':
-        content = {'numOrganizationsMemberships': len(Membership.objects.filter(organization=request.user.profile.organization, approved=True)),
-                   'activePagesData': request.user.profile.organization.getPagesData(),
-                   'memberRequests': Membership.objects.filter(approved=False)[:settings.MAX_DASHBOARD_LIST_ENTRIES],
-                   'organizationMembers': Membership.objects.filter(organization=request.user.profile.organization, approved=True)[:settings.MAX_DASHBOARD_LIST_ENTRIES]}
+        content = {'activePagesData': request.user.profile.organization.getPagesData(),
+                   'memberRequests': Membership.objects.filter(approved=False),
+                   'organizationMembers': Membership.objects.filter(organization=request.user.profile.organization, approved=True)}
         return render(request, 'manage_organization.html', content)
 
     leaveOrganizationForm = LeaveOrganizationForm(request.POST)

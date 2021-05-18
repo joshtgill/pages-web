@@ -25,6 +25,11 @@
     color: rgb(0, 0, 0);
 }
 
+.dashboard .item h3 j {
+    font-size: 16px;
+    color: rgb(100, 100, 100);
+}
+
 .dashboard .item .stats {
     display: flex;
     flex-wrap: wrap;
@@ -121,7 +126,7 @@
     display: flex;
     align-items: center;
     margin: auto 15px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     text-decoration: none;
     letter-spacing: 1px;
@@ -155,7 +160,8 @@
 .dashboard .vertical {
     display: flex;
     flex-direction: column;
-    margin: auto;
+    justify-content: flex-start;
+    margin: 0 auto;
 }
 
 @media only screen and (min-width: 580px) {

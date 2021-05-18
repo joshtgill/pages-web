@@ -98,7 +98,7 @@ class Organization(models.Model):
 
     def getPagesData(self):
         pagesData = []
-        for page in Page.objects.filter(organization=self)[:settings.MAX_DASHBOARD_LIST_ENTRIES]:
+        for page in Page.objects.filter(organization=self):
             pagesData.append(page.serialize(False))
 
         return pagesData
