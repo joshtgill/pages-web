@@ -61,7 +61,6 @@
             <div class="content">
                 <div class="dashboard">
                     <div class="item" style="max-width: 1000px; border-radius: 20px">
-                        {% comment %} <p>{{ organization.description }}</p> {% endcomment %}
                         <div class="stats">
                             <div class="stat">
                                 <h4>Description</h4>
@@ -87,7 +86,7 @@
                 <div class="pages-container">
                     <div class="header">
                         <h3>Pages</h3>
-                        <h4>({{ pages|length }} total)</h4>
+                        <h4>&nbsp- {{ pages|length }} total</h4>
                     </div>
                     <div class="pages">
                         <div class="spacer">
@@ -96,8 +95,7 @@
                         {% for page in pages %}
                             <a href="{% url 'explore' %}?organization={{ organization.name }}&page={{ page.id }}">
                                 <h3 name="name">{{ page.name }}</h3>
-                                <h4>Created <i>{{ page.dateCreated }}</i></h4>
-                                <hr>
+                                <h4>{{ page.typee }}, created <i>{{ page.dateCreated }}</i></h4>
                                 <p>
                                     {% if page.explanation %}
                                         {{ page.explanation }}

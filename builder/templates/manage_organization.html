@@ -40,6 +40,10 @@
             <div class="dashboard" style="max-width: 1500px">
                 <div class="item" style="max-width: 1000px; border-radius: 20px">
                     <div class="stats">
+                         <div class="stat">
+                            <h4>Description</h4>
+                            <h5>{{ request.user.profile.organization.description }}</h5>
+                        </div>
                         <div class="stat">
                             <h4>Status</h4>
                             <h5>

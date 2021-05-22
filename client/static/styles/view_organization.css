@@ -12,21 +12,8 @@
 }
 
 .content .dashboard {
-    margin-bottom: 5vmin;
+    margin-bottom: 4vh;
 }
-
-.content .dashboard .item .stats {
-    padding-bottom: 10px;
-}
-
-/* .content p {
-    width: 90%;
-    max-width: 800px;
-    margin: 5vh 0;
-    text-align: center;
-    font-size: 20px;
-    line-height: 30px;
-} */
 
 .content .pages-container {
     width: 100%;
@@ -38,26 +25,29 @@
 .content .pages-container .header {
     display: flex;
     align-items: baseline;
-    margin: 0 4vw;
+    margin: 0 calc(4vmin + 2px);
 }
 
 .content .pages-container .header h3 {
     margin: 0;
-    font-size: 35px;
+    font-size: 26px;
     font-weight: normal;
 }
 
 .content .pages-container .header h4 {
-    margin: 0 0 0 10px;
-    font-size: 20px;
+    margin: 0;
+    font-size: 16px;
     font-weight: normal;
+    color: rgb(100, 100, 100);
 }
 
 .content .pages-container .pages {
     width: 100%;
+    max-width: 1600px;
     display: flex;
-    margin-top: 1vh;
+    margin-top: 20px;
     overflow: auto;
+    align-self: center;
 }
 
 .content .pages-container .pages a {
@@ -67,9 +57,9 @@
     flex-shrink: 0;
     flex-direction: column;
     align-items: center;
-    margin: 2vh 4vw;
-    color: rgb(30, 30, 30);
-    border-radius: 5px;
+    margin: 0 4vmin 4vh 4vmin;
+    color: rgb(60, 60, 60);
+    border-radius: 10px;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     outline: none;
@@ -80,25 +70,22 @@
 
 .content .pages-container .pages a h3 {
     margin: 30px 0 0 0;
-    font-size: 30px;
+    font-size: 26px;
     font-weight: normal;
 }
 
 .content .pages-container .pages a h4 {
-    margin: 0;
+    margin: 8px 0 0 0;
     font-size: 18px;
     font-weight: normal;
-}
-
-.content .pages-container .pages a hr {
-    width: 40%;
-    margin: 15px 0;
-    color: rgb(230, 230, 230);
+    color: rgb(100, 100, 100);
 }
 
 .content .pages-container .pages a p {
-    margin: 0 30px 35px 30px;
-    font-size: 20px;
+    margin: 20px 30px 35px 30px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 28px;
 }
 
 .content .pages-container .pages .spacer {

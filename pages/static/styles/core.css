@@ -1,5 +1,5 @@
 html {
-    color: rgb(30, 30, 30);
+    color: rgb(60, 60, 60);
 }
 
 a {
@@ -130,8 +130,8 @@ body {
 }
 
 .banner .info .img-container {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -141,7 +141,7 @@ body {
 }
 
 .banner .info .img-container img {
-    width: 50px;
+    width: 40px;
 }
 
 .banner .info .details {
