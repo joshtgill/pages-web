@@ -55,7 +55,7 @@ def build(request):
         if not PageListing.objects.filter(name=pageType).exists():
             return redirect('/create/build/')
 
-        content = {}
+        content = {'defaultExplanation': Page().determineExplanation(pageType)}
         pageId = buildForm.cleaned_data['idd']
         if pageId and Page.objects.filter(organization=request.user.profile.organization, id=pageId).exists():
             # Page ID is provided and belongs to active organization. Load Page builder with existing data.

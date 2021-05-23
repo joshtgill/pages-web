@@ -125,8 +125,8 @@ class Page(models.Model):
 
     def deserialize(self, postData):
         self.name = postData.get('pageName')[0]
-        self.description = postData.get('pageExplanation')[0]
         self.typee = postData.get('pageType')[0]
+        self.explanation = self.determineExplanation(self.typee, postData.get('pageExplanation')[0])
         self.dateCreated = datetime.date.today()
         self.save()
 
@@ -153,6 +153,17 @@ class Page(models.Model):
                 event = Event(page=self)
 
             event.deserialize(postData)
+
+    def determineExplanation(self, postType, postExplanation=''):
+        if postExplanation:
+            return postExplanation
+
+        if postType == 'Sheet':
+            return 'View this Sheet and its items.'
+        elif postType == 'Event':
+            return 'View this Event and respond with your attendance.'
+
+        return postExplanation
 
     def serialize(self, recursive=True):
         data = model_to_dict(self)
