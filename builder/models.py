@@ -159,9 +159,9 @@ class Page(models.Model):
             return postExplanation
 
         if postType == 'Sheet':
-            return 'View this Sheet and its items.'
+            return 'View the contents of this Sheet.'
         elif postType == 'Event':
-            return 'View this Event and respond with your attendance.'
+            return 'View this Event and update your attendance status.'
 
         return postExplanation
 

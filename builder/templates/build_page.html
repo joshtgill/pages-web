@@ -31,12 +31,14 @@
                 <input type="hidden" name="pageType" value="{{ pageData.typee }}">
 
                 <input id="pageNameInput" name="pageName" placeholder="{{ pageData.typee }} name" autocomplete="off" value="{{ pageData.name }}" required>
+                <div class="explanation-container">
                     {% if pageData.explanation != defaultExplanation %}
                         <textarea id="pageExplanationTextArea" name="pageExplanation" placeholder="{{ defaultExplanation }}" rows="3">{{ pageData.explanation }}</textarea>
                     {% else %}
                         <textarea id="pageExplanationTextArea" name="pageExplanation" placeholder="{{ defaultExplanation }}" rows="3"></textarea>
                     {% endif %}
-                </textarea>
+                    <h5>Page explanation. <a>What's this?</a></h5>
+                </div>
                 {% if pageData.typee == 'Sheet' %}
                     {% include 'pages/build_sheet.html' %}
                 {% elif pageData.typee == 'Event' %}

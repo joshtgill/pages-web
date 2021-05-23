@@ -35,9 +35,28 @@
     margin: 1vh 0;
 }
 
-.content form #pageExplanationTextArea {
+.content form .explanation-container {
+    width: 100%;
     max-width: 700px;
+    display: flex;
+    flex-direction: column;
     margin: 1vh 0;
+}
+
+.content form .explanation-container h5 {
+    align-self: flex-end;
+    margin: 10px 0 0 0;
+    font-size: 17px;
+    font-weight: normal;
+    color: rgb(100, 100, 100);
+}
+
+.content form .explanation-container h5 a {
+    cursor: pointer;
+}
+
+.content form .explanation-container #pageExplanationTextArea {
+    width: 100%;
 }
 
 .field-container {
