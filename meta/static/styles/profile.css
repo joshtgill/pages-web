@@ -1,145 +1,73 @@
 
 .top-nav {
-    background-color: rgb(250, 250, 252);
+    background-color: transparent;
+}
+
+.top-nav .right {
+    display: none;
 }
 
 .banner {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: rgb(30, 30, 30);
-    background-color: rgb(250, 250, 252);
-}
-
-.banner .info {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 4vh 0 4vh 0;
-}
-
-.banner .info .img-container {
-    width: 130px;
-    height: 130px;
-    margin: auto;
-}
-
-.banner .info .details {
-    margin: auto;
-}
-
-.banner .info .details h1 {
-    margin-top: 10px;
-    font-size: 33px;
+    color: rgb(60, 60, 60);
+    background-color: rgb(242, 242, 244);
 }
 
 .banner .actions button {
-    color: rgb(30, 30, 30);
-    border-color: rgb(30, 30, 30);
+    color: rgb(60, 60, 60);
+    border-color: rgb(60, 60, 60);
 }
 
-.content h1 {
-    margin: 2vh 0 0 0;
-    font-size: 30px;
-    font-weight: normal;
-    text-align: center;
+body {
+    background: linear-gradient(to bottom right, rgb(250, 250, 252), rgb(238, 248, 255));
 }
 
-.content a {
-    margin: 10px 0 0 0;
-    font-size: 18px;
-    font-weight: normal;
-    text-align: center;
+.content {
+    background: transparent;
 }
 
-.content .details {
-    width: 100%;
-    max-width: 700px;
+.content .dashboard .profile {
     display: flex;
     flex-direction: column;
-    text-align: center;
-    margin: 3vh 0 1vh 0;
-    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0 10px 0;
 }
 
-.content .details a:visited {
+.content .dashboard .profile img {
+    width: 120px;
+}
+
+.content .dashboard .profile h3 {
+    margin-bottom: 0;
+    font-size: 30px;
+    font-weight: normal;
+}
+
+.content .dashboard .profile a {
+    margin-top: 7px;
+    font-size: 18px;
     text-decoration: none;
 }
 
-.content .details .detail-container {
+.content .dashboard .item .profile-actions {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 0 0 0;
+    align-self: flex-end;
+    margin: 20px 8px;
 }
 
-.content .details .detail-container .detail {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-radius: 40px;
-    background-color: rgb(240, 240, 240);
-}
-
-.content .details .detail-container .detail h3 {
-    margin: 0 0 0 20px;
-    font-size: 20px;
-    font-weight: normal;
-}
-
-.content .details .detail-container .detail h4 {
-    margin: 0 20px 0 0;
-    font-size: 20px;
-    font-weight: normal;
-    color: rgb(70, 70, 70);
-}
-
-.content .details .detail-container a {
-    width: 100px;
-    margin: 10px 0 0 0;
+.content .dashboard .item .profile-actions button {
+    margin: 0 10px;
+    padding: 7px 20px;
     font-size: 16px;
+    color: rgb(60, 60, 60);
+    border: 2px solid rgb(60, 60, 60);
+    border-radius: 20px;
+    background-color: transparent;
     cursor: pointer;
-    text-decoration: underline;
+    outline: none;
 }
 
-.content .details .links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@media only screen and (min-width: 820px) {
-    .content .details {
-        margin-left: 110px;
-    }
-
-    .content .details a {
-        margin-right: 110px;
-    }
-
-    .content .details .detail-container .detail {
-        width: calc(100% - 110px);
-    }
-}
-
-@media only screen and (min-width: 580px) {
-    .banner .info .details {
-        margin-top: 20px;
-    }
-
-    .content .details .detail-container {
-        flex-direction: row;
-    }
-
-    .content .details .detail-container a {
-        margin: 0 0 0 10px;
-        text-align: left;
-    }
-
-    .content .account-actions button {
-        margin-left: 5px;
-        margin-right: 5px;
-    }
+.content .dashboard .item .profile-actions button:focus,
+.content .dashboard .item .profile-actions button:active {
+    -webkit-tap-highlight-color: transparent;
 }

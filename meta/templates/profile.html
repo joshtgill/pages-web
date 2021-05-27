@@ -8,33 +8,22 @@
         {% include 'dashboard.html' %}
         <link rel="stylesheet" type="text/css" href="{% static 'styles/profile.css' %}">
 
-        <div class="banner">
-            <div class="info">
-                <div class="img-container">
-                    <img style="width: 100%" src="{% static 'images/earth.png' %}">
-                </div>
-                <div class="details">
-                    <h1>{{ request.user.get_full_name }}</h1>
+        {% if request.user.is_staff %}
+            <div class="message-container">
+                <div class="message">
+                    <h1>Looks like you have access to the staff page!</h1>
+                    <a href="{% url 'staff' %}">View it</a>
                 </div>
             </div>
-            <div class="actions">
-                <button onclick="confirmationPopup.display('Logout of account associated with <b>{{ request.user.email }}</b>?',
-                                                           'Logout',
-                                                           'logout',
-                                                           'True')">Logout</button>
-                <button onclick="confirmationPopup.display(`Delete <b>{{ request.user.profile.organization.name }}`,
-                                                           'Delete',
-                                                           'deleteOrganization',
-                                                           'True')">Delete account</button>
-            </div>
-        </div>
-
+        {% endif %}
         <div class="content">
-            {% if request.user.is_staff %}
-                <a href="{% url 'staff' %}">Staff page</a>
-            {% endif %}
-            <div class="dashboard" style="max-width: 900px">
-                <div class="item" style="max-width: 1000px; border-radius: 20px">
+            <div class="dashboard" style="max-width: 900px;">
+                <div class="item" style="max-width: 850px; border-radius: 20px; margin-top: 2vmax">
+                    <div class="profile">
+                        <img src="{% static 'images/earth.png' %}">
+                        <h3>{{ request.user.get_full_name }}</h3>
+
+                    </div>
                     <div class="stats">
                         <div class="stat">
                             <h4>Email - <a onclick="changeEmailPopup.display()">change</a></h4>
@@ -42,10 +31,23 @@
                                 {{ request.user.email }}
                             </h5>
                         </div>
-                        <div class="stat">
-                            <h4>Organization - <a href="{% url 'manage_organization' %}">manage</a></h4>
-                            <h5>{{ request.user.profile.organization.name }}</h5>
-                        </div>
+                        {% if request.user.profile.organization %}
+                                <div class="stat">
+                                    <h4>Organization - <a href="{% url 'manage_organization' %}">manage</a></h4>
+                                    <h5>{{ request.user.profile.organization.name }}</h5>
+                                </div>
+                        {% endif %}
+                    </div>
+                    <div class="profile-actions">
+                        <button onclick="confirmationPopup.display('Logout of the account associated with <b>{{ request.user.email }}</b>?',
+                                                                   'Logout',
+                                                                   'logout',
+                                                                   'True')">Logout</button>
+                        <button onclick="confirmationPopup.display(`Delete the account associated with <b>{{ request.user.email }}</b>?
+                                                                    <br><br>This action cannot be undone.<br>`,
+                                                                   'Delete',
+                                                                   'deleteOrganization',
+                                                                   'True')">Delete account</button>
                     </div>
                 </div>
                 <div class="item" style="max-width: 400px">
@@ -102,13 +104,13 @@
                                                                                    <br><br>This organization is private, so you will lose access to its Pages.`,
                                                                                   'Cancel membership',
                                                                                   'membershipIdToCancel',
-                                                                                  {{ membership.id }})">Cancel</a>
+                                                                                  {{ membership.id }})">CANCEL</a>
                                         {% else %}
                                             <a onclick="confirmationPopup.display(`Cancel your membership with <b>{{ membership.organization.name }}</b>?
                                                                                    <br><br>This organization is public, so you will still have access to its Pages.`,
                                                                                   'Cancel membership',
                                                                                   'membershipIdToCancel',
-                                                                                  {{ membership.id }})">Cancel</a>
+                                                                                  {{ membership.id }})">CANCEL</a>
                                         {% endif %}
                                     </div>
                                 </div>

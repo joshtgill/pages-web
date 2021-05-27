@@ -51,6 +51,7 @@
 
 .dashboard .item .stats .stat h4 a {
     font-size: 18px;
+    font-weight: normal;
     text-decoration: none;
     cursor: pointer;
 }
