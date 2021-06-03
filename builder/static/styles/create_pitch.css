@@ -1,65 +1,82 @@
-.content .create-options {
+.content .header {
+    width: 92vw;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    margin: 4vh 0 0 0;
+    justify-content: center;
 }
 
-.content .create-options h3 {
-    margin: 5px 0 5px 0;
-    font-size: 22px;
+.content .header h1 {
+    margin: 5vh 0 2vh 0;
+    text-align: center;
+    font-size: 60px;
     font-weight: normal;
 }
 
-.content .create-options a {
-    margin: 5px 20px 5px 20px;
-    font-size: 22px;
+.content .header h2 {
+    margin: 15px 0 0 0;
+    text-align: center;
+    font-size: 25px;
+    font-weight: normal;
+    line-height: 35px;
 }
 
-.content .examples {
+.content a {
+    margin: 6vh 0;
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.content .examples-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content .examples-container h1 {
+    margin: 0 0 2vh 0;
+    font-weight: normal;
+}
+
+.content .examples-container .examples {
     width: 100%;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 3vh 0 10vh 0;
+    margin: 0 0 10vh 0;
 }
 
-.content .examples .example {
-    width: 80vw;
-    max-width: 360px;
-    height: 400px;
-    margin: 3vh 2vw 3vh 2vw;
-    border-radius: 10px;
+.content .examples-container .examples .example {
+    width: 92vw;
+    max-width: 700px;
+    margin: 2vh 1vw;
+    padding: 30px 0;
+    border-radius: 20px;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     transition: 0.5s;
 }
 
-.content .examples .example h1 {
-    margin: 20px 0 0 0;
-    font-size: 25px;
+.content .examples-container .examples .example h1 {
+    margin: 0 0 20px 20px;
+    font-size: 30px;
+    font-weight: normal;
 }
 
-.content .examples .example hr {
-    width: 70px;
-    color: rgb(255, 255, 255);
-}
-
-.content .examples .example ul {
+.content .examples-container .examples .example ul {
     margin-top: 15px;
     margin-right: 2vh;
     font-size: 18px;
 }
 
-.content .examples .example ul li {
+.content .examples-container .examples .example ul li {
     margin-top: 10px;
     line-height: 28px;
 }
 
 @media only screen and (min-width: 580px) {
-    .content .create-options {
-        flex-direction: row;
+    .content .examples-container .examples .example {
+        height: 170px;
     }
 }

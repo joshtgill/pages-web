@@ -3,60 +3,58 @@
         <title>Create</title>
 
         {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/create_pitch.css' %}">
     </head>
     <body>
         {% include 'core.html' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/create_pitch.css' %}">
 
         <div class="content">
-            <h1>Let's create.</h1>
-            <h2>We handle the technology, you handle the content.<br>
-                Reach your audience easier than ever with the apps you want.</h2>
-            <div class="create-options">
-                {% if request.user.profile.organization %}
-                    <a href="{% url 'build' %}">Get started</a>
-                    <h3>- or -</h3>
-                    <a href="{% url 'manage_organization' %}">Manage organization</a>
-                {% else %}
-                    <a href="{% url 'select_organization' %}">Get started</a>
-                {% endif %}
+            <div class="header">
+                <h1>Get connected. <i>Seriously.</i></h1>
+                <h2>Pages enables seamless interaction between an organization and its audience.</h2>
+                <h2>That audience may be a valued customer base, dedicated team, or engaged student body.</h2>
+                <h2>The possibilities are endless, you just have to get started.</h2>
             </div>
-            <div class="examples">
-                <div class="example">
-                    <h1>Business</h1>
-                    <hr>
-                    <ul>
-                        <li>Display menus, inventory, and contact information.</li>
-                        <li>Place pickup and takeout orders.</li>
-                        <li>Seamless remote and in-person payment with supported digital wallets.</li>
-                    </ul>
-                </div>
-                <div class="example">
-                    <h1>Enterprise</h1>
-                    <hr>
-                    <ul>
-                        <li>Fluid communication to your employees with alerts, messaging, and polls.</li>
-                        <li>Secure remote and physical authentication including badge access.</li>
-                        <li>Plan and facilitate remote and in-person meetings.</li>
-                    </ul>
-                </div>
-                <div class="example">
-                    <h1>University</h1>
-                    <hr>
-                    <ul>
-                        <li>Offer robust pages for majors, classes, and clubs.</li>
-                        <li>Display academic status' and standing.</li>
-                        <li>Immediately communicate events and information.</li>
-                    </ul>
-                </div>
-                <div class="example">
-                    <h1>Community</h1>
-                    <hr>
-                    <ul>
-                        <li>Advertise local events and small businesses.</li>
-                        <li>Communicate vital information affecting your community.</li>
-                        <li>Easily gather census results.</li>
-                    </ul>
+            {% if request.user.profile.organization %}
+                <a href="{% url 'build' %}">LET'S GO</a>
+            {% else %}
+                <a href="{% url 'select_organization' %}">LET'S GO</a>
+            {% endif %}
+            <div class="examples-container">
+                <h1>Who uses Pages?</h1>
+                <div class="examples">
+                    <div class="example">
+                        <h1>Business</h1>
+                        <ul>
+                            <li>Display menus, inventory, and contact information.</li>
+                            <li>Place pickup and takeout orders.</li>
+                            <li>Seamless remote and in-person payment with supported digital wallets.</li>
+                        </ul>
+                    </div>
+                    <div class="example">
+                        <h1>Enterprise</h1>
+                        <ul>
+                            <li>Fluid communication to your employees with alerts, messaging, and polls.</li>
+                            <li>Secure remote and physical authentication including badge access.</li>
+                            <li>Plan and facilitate remote and in-person meetings.</li>
+                        </ul>
+                    </div>
+                    <div class="example">
+                        <h1>University</h1>
+                        <ul>
+                            <li>Offer robust pages for majors, classes, and clubs.</li>
+                            <li>Display academic status' and standing.</li>
+                            <li>Immediately communicate events and information.</li>
+                        </ul>
+                    </div>
+                    <div class="example">
+                        <h1>Community</h1>
+                        <ul>
+                            <li>Advertise local events and small businesses.</li>
+                            <li>Communicate vital information affecting your community.</li>
+                            <li>Easily gather census results.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
