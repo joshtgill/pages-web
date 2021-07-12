@@ -11,20 +11,27 @@
             <a href="{% url 'explore' %}?organization={{ request.user.profile.organization.name  }}">{{ request.user.profile.organization.name  }}</a>
             <div class="actions">
                 <button onclick="document.getElementById('pageForm').submit();">Save</button>
-                <button onclick="confirmationPopup.display(`Permanently delete <b>{{ pageData.name }}</b>
-                                                            from {{ request.user.profile.organization.name }}?`,
-                                                           'Delete',
-                                                           'pageIdToDelete',
-                                                           {{ pageData.id }})">Delete</button>
+                {% if pageData.id %}
+                    <button onclick="confirmationPopup.display(`Permanently delete <b>{{ pageData.name }}</b>
+                                                                from {{ request.user.profile.organization.name }}?`,
+                                                            'Delete',
+                                                            'pageIdToDelete',
+                                                            {{ pageData.id }})">Delete</button>
+                {% else %}
+                    <button onclick="location.href='{% url 'build' %}'">Cancel</button>
+                {% endif %}
             </div>
         </div>
 
         <div class="content">
-            {% if pageData.typee|first|upper in 'AEIOU' %}
-                <h1>Build an {{ pageData.typee }}</h1>
-            {% else %}
-                <h1>Build a {{ pageData.typee }}</h1>
-            {% endif %}
+            <div class="header">
+                {% if pageData.typee|first|upper in 'AEIOU' %}
+                    <h1>Build an {{ pageData.typee }}</h1>
+                {% else %}
+                    <h1>Build a {{ pageData.typee }}</h1>
+                {% endif %}
+            </div>
+
             <form id="pageForm" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="pageId" value="{{ pageData.id }}">
