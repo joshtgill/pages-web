@@ -1,8 +1,8 @@
 <html>
+    {% load core_tags %}
     {% load static %}
     <head>
-        <title>{{ organization.name }}</title>
-
+        <title>{{ "View org"|buildPageTitle }}</title>
     </head>
     {% if not pages %}
         <body onload="confirmationPopup.display(`{{ organization.name }} requires approval to view its Pages.

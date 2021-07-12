@@ -1,8 +1,8 @@
 <html>
+    {% load core_tags %}
+    {% load static %}
     <head>
-        <title>Create</title>
-
-        {% load static %}
+        <title>{{ "Create"|buildPageTitle }}</title>
     </head>
     <body>
         {% include 'core.html' %}

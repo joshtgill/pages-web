@@ -1,7 +1,8 @@
 <html>
+    {% load core_tags %}
     {% load static %}
     <head>
-        <title>Request</title>
+        <title>{{ "Org request"|buildPageTitle }}</title>
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/request_new_organization.css' %}">
     </head>

@@ -1,13 +1,13 @@
 <html>
+    {% load core_tags %}
     {% load static %}
     <head>
-        <title>Staff</title>
-
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/staff.css' %}">
+        <title>{{ "Staff"|buildPageTitle }}</title>
     </head>
     <body>
         {% include 'core.html' %}
         {% include 'dashboard.html' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/login_create_account.css' %}">
 
         <div class="content">
             <h1>Staff</h1>

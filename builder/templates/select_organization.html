@@ -1,7 +1,8 @@
 <html>
+    {% load core_tags %}
     {% load static %}
     <head>
-        <title>Select organization</title>
+        <title>{{ "Select org"|buildPageTitle }}</title>
 
         <link rel="stylesheet" type="text/css" href="{% static 'styles/select_organization.css' %}">
     </head>

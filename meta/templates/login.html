@@ -1,12 +1,12 @@
 <html>
+    {% load core_tags %}
+    {% load static %}
     <head>
-        <title>Login</title>
-
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/login_create_account.css' %}">
+        <title>{{ "Login"|buildPageTitle }}</title>
     </head>
     <body>
         {% include 'core.html' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/login_create_account.css' %}">
 
         <div class="content">
             <h1>Hello there.</h1>

@@ -1,7 +1,8 @@
 <html>
+    {% load core_tags %}
     {% load static %}
     <head>
-        <title>Build</title>
+        <title>{{ "Select page"|buildPageTitle }}</title>
     </head>
     <body>
         {% include 'core.html' %}

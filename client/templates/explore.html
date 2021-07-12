@@ -1,8 +1,9 @@
 <html>
+    {% load core_tags %}
+    {% load static %}
     <head>
-        <title>Explore</title>
+        <title>{{ "Explore"|buildPageTitle }}</title>
 
-        {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'styles/explore.css' %}">
     </head>
     <body>
