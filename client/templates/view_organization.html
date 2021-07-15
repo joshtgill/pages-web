@@ -43,7 +43,7 @@
             {% include 'dashboard.html' %}
             <link rel="stylesheet" type="text/css" href="{% static 'styles/view_organization.css' %}">
 
-            <div class="banner">
+            <div id="banner" class="banner">
                 <div class="info">
                     <div class="img-container">
                         <img src="{% static 'images/logo.png' %}">
@@ -58,8 +58,8 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="content">
-                <div class="dashboard">
+            <div class="content" id="content">
+                <div class="dashboard" id="dashboardd">
                     <div class="item" style="max-width: 1000px; border-radius: 20px">
                         <div class="stats">
                             <div class="stat">
@@ -113,6 +113,8 @@
             </div>
         </body>
     {% endif %}
+
+    <script src="{% static 'scripts/banner.js' %}"></script>
 
     {% include 'base_popup.html' %}
     {% include 'confirmation_popup.html' %}

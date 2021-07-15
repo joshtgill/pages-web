@@ -116,7 +116,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px 0 13px 0;
+    padding: 13px 0 13px 0;
     color: rgb(255, 255, 255);
     background-color: rgb(240, 240, 240);
     background-color: rgb(20, 77, 64);
@@ -180,9 +180,83 @@ body {
 }
 
 .banner .actions button {
-    margin: 0 10px;
+    margin: 0 5px;
     padding: 7px 20px;
     font-size: 16px;
+    color: rgb(255, 255, 255);
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 20px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.banner-condensed {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0 13px 0;
+    color: rgb(255, 255, 255);
+    background-color: rgb(240, 240, 240);
+    background-color: rgb(20, 77, 64);
+}
+
+.banner-condensed .info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 0 5px 0;
+}
+
+.banner-condensed .info .img-container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.banner-condensed .info .img-container img {
+    height: 60%;
+}
+
+.banner-condensed .info .details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.banner-condensed .info .details h1 {
+    margin: 0;
+    text-align: center;
+    font-size: 25px;
+    font-weight: normal;
+}
+
+.banner-condensed .info .details h2 {
+    align-self: flex-end;
+    margin: 3px 0 0 0;
+    text-align: right;
+    font-size: 18px;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.banner-condensed .actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.banner-condensed .actions button {
+    margin: 0 5px;
+    padding: 7px 20px;
+    font-size: 15px;
     color: rgb(255, 255, 255);
     border: 2px solid rgb(255, 255, 255);
     border-radius: 20px;
@@ -367,6 +441,14 @@ body {
         right: 0;
         margin: 0;
         align-self: flex-end;
+    }
+
+    .banner .actions button {
+        margin: 0 10px;
+    }
+
+    .banner-condensed .actions button {
+        margin: 0 10px;
     }
 
     .mini-banner {

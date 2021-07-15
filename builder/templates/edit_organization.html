@@ -8,7 +8,7 @@
         {% include 'core.html' %}
         <link rel="stylesheet" type="text/css" href="{% static 'styles/edit_organization.css' %}">
 
-        <div class="banner">
+        <div id="banner" class="banner">
             <div class="info">
                 <div class="img-container">
                     <img src="{% static 'images/logo.png' %}">
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="content">
+        <div id="content" class="content">
             <form id="editOrganizationForm" method="POST">
                 {% csrf_token %}
                 <input name="name" placeholder="Organization name" autocomplete="off" value="{{ request.user.profile.organization.name }}">
@@ -42,4 +42,7 @@
             <form>
         </div>
     </body>
+
+    <script src="{% static 'scripts/banner.js' %}"></script>
+
 </html>
