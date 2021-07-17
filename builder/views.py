@@ -91,6 +91,11 @@ def manageOrganization(request):
                    'organizationMembers': Membership.objects.filter(organization=request.user.profile.organization, approved=True)}
         return render(request, 'manage_organization.html', content)
 
+    deletePageForm = DeletePageForm(request.POST)
+    if deletePageForm.is_valid():
+        Page.objects.get(id=deletePageForm.cleaned_data['pageIdToDelete']).delete()
+        return redirect('/create/manage/')
+
     leaveOrganizationForm = LeaveOrganizationForm(request.POST)
     if leaveOrganizationForm.is_valid() and request.user.profile.organization.owner != request.user:
         request.user.profile.organization = None

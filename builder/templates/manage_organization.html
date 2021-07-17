@@ -25,14 +25,14 @@
                 {% if request.user.profile.organization.owner == request.user %}
                     <button id="redButton"
                             onclick="confirmationPopup.display(`Delete <b>{{ request.user.profile.organization.name }}`,
-                                                            'Delete',
-                                                            'deleteOrganization',
-                                                            'True')">Delete</button>
+                                                               'Delete',
+                                                               'deleteOrganization',
+                                                               'True')">Delete</button>
                 {% else %}
                     <button onclick="confirmationPopup.display(`Leave <b>{{ request.user.profile.organization.name }}`,
-                                                            'Leave',
-                                                            'leaveOrganization',
-                                                            'True')">Leave</button>
+                                                               'Leave',
+                                                               'leaveOrganization',
+                                                               'True')">Leave</button>
                 {% endif %}
             </div>
         </div>
@@ -86,6 +86,13 @@
                                         <a href="{% url 'build' %}?typee={{ activePageData.typee }}&idd={{ activePageData.id }}">
                                             EDIT
                                         </a>
+                                        <a onclick="confirmationPopup.display(`Delete <b>{{ activePageData.name }}</b> from this organization?<br><br>
+                                                                               The page will no longer be accesissble to {{ request.user.profile.organization.name }}'s users.`,
+                                                                              `Delete`,
+                                                                              `pageIdToDelete`,
+                                                                              {{ activePageData.id }})">
+                                            DELETE
+                                        </a>
                                     </div>
                                 </div>
                                 {% if forloop.counter < activePagesData|length %}
@@ -115,15 +122,15 @@
                                         </div>
                                         <div class="actions">
                                             <a onclick="confirmationPopup.display(`Approve <b>{{ memberRequest.user.get_full_name }}</b>
-                                                                                as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
-                                                                                'Approve',
-                                                                                'membershipIdToApprove',
-                                                                                {{ memberRequest.id }})">APPROVE</a>
+                                                                                   as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
+                                                                                  'Approve',
+                                                                                  'membershipIdToApprove',
+                                                                                  {{ memberRequest.id }})">APPROVE</a>
                                             <a onclick="confirmationPopup.display(`Deny <b>{{ memberRequest.user.get_full_name }}</b>
-                                                                                as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
-                                                                                'Deny',
-                                                                                'membershipIdToDeny',
-                                                                                {{ memberRequest.id }})">DENY</a>
+                                                                                   as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
+                                                                                  'Deny',
+                                                                                  'membershipIdToDeny',
+                                                                                  {{ memberRequest.id }})">DENY</a>
                                         </div>
                                     </div>
                                     {% if forloop.counter < memberRequests|length %}
@@ -154,9 +161,9 @@
                                             <a style="margin: 0"
                                             onclick="confirmationPopup.display(`Revoke <b>{{ organizationMember.user.get_full_name }}</b>
                                                                                 as a member of <b>{{ request.user.profile.organization.name }}</b>?`,
-                                                                                'Revoke',
-                                                                                'membershipIdToRevoke',
-                                                                                {{ organizationMember.id }})" >REVOKE</a>
+                                                                               'Revoke',
+                                                                               'membershipIdToRevoke',
+                                                                               {{ organizationMember.id }})" >REVOKE</a>
                                         </div>
                                     </div>
                                     {% if forloop.counter < organizationMembers|length %}
