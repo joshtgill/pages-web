@@ -1,3 +1,7 @@
+.content .heading h2 {
+    margin-top: 0;
+}
+
 .content form {
     width: 90vw;
     max-width: 500px;
@@ -33,10 +37,6 @@
 }
 
 @media only screen and (min-width: 580px) {
-    .content form input {
-        margin: 1.5vh 0 1.5vh 0;
-    }
-
     .content form .firstlast-name {
         flex-direction: row;
         justify-content: space-between;
