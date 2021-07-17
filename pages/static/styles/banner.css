@@ -14,12 +14,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
 }
 
 .banner .info .img-container {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,7 +28,7 @@
 }
 
 .banner .info .img-container img {
-    width: 40px;
+    width: 50%;
 }
 
 .banner .info .details {
@@ -196,6 +195,7 @@
 
     .banner .info {
         flex-direction: row;
+        margin-bottom: 5px;
     }
 
     .banner .info .img-container {

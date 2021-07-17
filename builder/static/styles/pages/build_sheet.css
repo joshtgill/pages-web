@@ -59,6 +59,7 @@
 .content form #addItemButton {
     width: 50px;
     height: 50px;
+    padding-bottom: 5px;
     font-size: 30px;
     color: rgb(30, 30, 30);
     background-color: rgb(230, 230, 230);
