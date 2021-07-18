@@ -114,6 +114,7 @@ class Organization(models.Model):
 class PageListing(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     description = models.CharField(max_length=LENGTH_MEDIUM)
+    color = models.CharField(max_length=LENGTH_SHORT)
 
 
 class Page(models.Model):

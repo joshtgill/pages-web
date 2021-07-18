@@ -18,11 +18,7 @@
             <div class="dashboard">
                 {% for pageListing in pageListings %}
                     <a class="item" href="{% url 'build' %}?typee={{ pageListing.name }}">
-                        <div class="background"
-                            {% if pageListing.name == 'Event' %}
-                                style="background-color: rgb(176, 219, 242)"
-                            {% endif %}
-                        >
+                        <div class="background" style="background-color: {{ pageListing.color }}">
                         </div>
                         <div class="info">
                             <h1>{{ pageListing.name }}</h1>
