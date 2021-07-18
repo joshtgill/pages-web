@@ -1,3 +1,4 @@
+from typing import Type
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -137,14 +138,17 @@ class Page(models.Model):
             except ValueError:
                 pass
 
-            for i in range(len(postData.get('id'))):
-                sheetItem = None
-                try:
-                    sheetItem = SheetItem.objects.get(id=int(postData.get('id')[i]))
-                except ObjectDoesNotExist:
-                    sheetItem = SheetItem(page=self)
+            try:
+                for i in range(len(postData.get('id'))):
+                    sheetItem = None
+                    try:
+                        sheetItem = SheetItem.objects.get(id=int(postData.get('id')[i]))
+                    except ObjectDoesNotExist:
+                        sheetItem = SheetItem(page=self)
 
-                sheetItem.deserialize(postData, i)
+                    sheetItem.deserialize(postData, i)
+            except TypeError:
+                pass
         elif postData.get('pageType')[0] == 'Event':
             event = None
             try:
