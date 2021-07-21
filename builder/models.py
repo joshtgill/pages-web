@@ -70,6 +70,16 @@ def deletee(self, request):
 User.add_to_class('deletee', deletee)
 
 
+class ColorField(models.Model):
+    red = models.PositiveSmallIntegerField()
+    green = models.PositiveSmallIntegerField()
+    blue = models.PositiveSmallIntegerField()
+    alpha = models.FloatField()
+
+    def serialize(self):
+        return 'rgb({}, {}, {})'.format(self.red, self.green, self.blue)
+
+
 class NewOrganizationRequest(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     applicant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -114,7 +124,7 @@ class Organization(models.Model):
 class PageListing(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     description = models.CharField(max_length=LENGTH_MEDIUM)
-    color = models.CharField(max_length=LENGTH_SHORT)
+    color = models.ForeignKey(ColorField, on_delete=models.CASCADE)
 
 
 class Page(models.Model):
