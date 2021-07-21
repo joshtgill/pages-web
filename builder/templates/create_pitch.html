@@ -18,7 +18,7 @@
             {% if request.user.profile.organization %}
                 <a href="{% url 'build' %}">LET'S GO</a>
             {% else %}
-                <a href="{% url 'select_organization' %}">LET'S GO</a>
+                <a href="{% url 'register_organization' %}">LET'S GO</a>
             {% endif %}
             <div class="examples-container">
                 <h1>Who uses Pages?</h1>

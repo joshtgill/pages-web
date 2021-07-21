@@ -50,40 +50,40 @@
                     {% endif %}
                 </div>
                 <div class="item" style="max-width: 600px">
-                    <h3>New organization requests</h3>
-                    {% if newOrganizationRequests %}
+                    <h3>Unapproved organizations</h3>
+                    {% if unapprovedOrganizations %}
                         <div class="list">
-                            {% for newOrganizationRequest in newOrganizationRequests %}
-                                {% if forloop.counter == newOrganizationRequests|length %}
+                            {% for unapprovedOrganization in unapprovedOrganizations %}
+                                {% if forloop.counter == unapprovedOrganizations|length %}
                                 <div class="element" style="margin-bottom: 5px">
                                 {% else %}
                                 <div class="element">
                                 {% endif %}
                                     <div class="info" style="cursor: auto">
-                                        <h4>{{ newOrganizationRequest.name }}</h4>
-                                        <h5>from <i>{{ newOrganizationRequest.applicant.get_full_name }}</i></h5>
+                                        <h4>{{ unapprovedOrganization.name }}</h4>
+                                        <h5>from <i>{{ unapprovedOrganization.owner.get_full_name }}</i></h5>
                                     </div>
                                     <div class="actions">
-                                        <a onclick="confirmationPopup.display(`Approve <b>{{ newOrganizationRequest.name }}</b>
-                                                                               to be an organization?`,
+                                        <a onclick="confirmationPopup.display(`Approve <b>{{ unapprovedOrganization.name }}</b>
+                                                                               as an organization?`,
                                                                               'Approve',
-                                                                              'newOrganizationRequestIdToApprove',
-                                                                              {{ newOrganizationRequest.id }})">APPROVE</a>
-                                        <a onclick="confirmationPopup.display(`Deny <b>{{ newOrganizationRequest.name }}</b>
-                                                                               to be an organization?`,
+                                                                              'organizationIdToApprove',
+                                                                              {{ unapprovedOrganization.id }})">APPROVE</a>
+                                        <a onclick="confirmationPopup.display(`Deny <b>{{ unapprovedOrganization.name }}</b>
+                                                                               as an organization?`,
                                                                               'Deny',
-                                                                              'newOrganizationRequestIdToDeny',
-                                                                              {{ newOrganizationRequest.id }})">DENY</a>
+                                                                              'organizationIdToDeny',
+                                                                              {{ unapprovedOrganization.id }})">DENY</a>
                                     </div>
                                 </div>
-                                {% if forloop.counter < newOrganizationRequests|length %}
+                                {% if forloop.counter < unapprovedOrganizations|length %}
                                     <hr>
                                 {% endif %}
                             {% endfor %}
                         </div>
                     {% else %}
                         <div class="empty-list">
-                            <h4>No requests</h4>
+                            <h4>All caught up!</h4>
                         </div>
                     {% endif %}
                 </div>

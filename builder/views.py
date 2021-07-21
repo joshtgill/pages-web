@@ -29,15 +29,18 @@ def selectOrganization(request):
 
 
 @login_required
-def requestNewOrganization(request):
+def registerOrganization(request):
     if request.method == 'GET':
-        return render(request, 'request_new_organization.html', {'requestNewOrganizationForm': RequestNewOrganizationForm()})
+        return render(request, 'register_organization.html', {'registerOrganizationForm': RegisterOrganizationForm()})
 
-    requestNewOrganizationForm = RequestNewOrganizationForm(request.POST)
-    if not requestNewOrganizationForm.is_valid():
-        return redirect('/create/request/')
+    registerOrganizationForm = RegisterOrganizationForm(request.POST)
+    if not registerOrganizationForm.is_valid():
+        return redirect('/create/register/')
 
-    NewOrganizationRequest(name=requestNewOrganizationForm.cleaned_data['name'], applicant=request.user).save()
+    Organization.objects.create(registerOrganizationForm.cleaned_data['name'],
+                                registerOrganizationForm.cleaned_data['headquarters'],
+                                registerOrganizationForm.cleaned_data['description'],
+                                request.user)
 
     return redirect('/profile/')
 

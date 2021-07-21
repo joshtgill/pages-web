@@ -1,0 +1,32 @@
+<html>
+    {% load core_tags %}
+    {% load static %}
+    <head>
+        <title>{{ "Register org"|buildPageTitle }}</title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/register_organization.css' %}">
+    </head>
+    <body>
+        {% include 'core.html' %}
+
+        <div class="content">
+            <div class="heading">
+                <h1>Go time.</h1>
+                <h2>Before you can truly connect with your audience, we need some info about your organization.</h2>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <input name="name" placeholder="Organization's name" autocomplete="off" required>
+                <div class="headquarters-container">
+                    <input name="headquarters" placeholder="Whereabout?" autocomplete="off">
+                    <h1>This can be a specific address, a general city/state, or nothing at all.</h1>
+                    <h1>Additional locations can always be added later.</h1>
+                </div>
+                <textarea name="description" placeholder="Describe this organization" rows=4 required></textarea>
+                <button class="action-button">Register</button>
+                <h3>For our user's safety and confidence, we review all new organizations.<br>
+                    If an organization does not meet our <a>terms</a>, it may be removed.</h3>
+            </form>
+        </div>
+    </body>
+</html>

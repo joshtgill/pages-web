@@ -2,7 +2,6 @@ from django import forms
 
 
 class SelectOrganizationForm(forms.Form):
-
     def __init__(self, *args, **kwargs):
         self.choices = [(organization.id, organization.name) for organization in kwargs.pop('organizations')]
         super(SelectOrganizationForm, self).__init__(*args, **kwargs)
@@ -10,10 +9,10 @@ class SelectOrganizationForm(forms.Form):
         self.fields['ids'] = forms.ChoiceField(label='', choices=self.choices, required=True)
 
 
-class RequestNewOrganizationForm(forms.Form):
-    name = forms.CharField(label='',
-                           widget=forms.TextInput(attrs={'placeholder': 'Organization name', 'autocomplete': 'off'}),
-                           max_length=100)
+class RegisterOrganizationForm(forms.Form):
+    name = forms.CharField()
+    headquarters = forms.CharField()
+    description = forms.CharField()
 
 
 class BuildForm(forms.Form):

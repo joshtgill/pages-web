@@ -80,32 +80,30 @@ class ColorField(models.Model):
         return 'rgb({}, {}, {})'.format(self.red, self.green, self.blue)
 
 
-class NewOrganizationRequest(models.Model):
-    name = models.CharField(max_length=LENGTH_SHORT)
-    applicant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class OrganizationManager(models.Manager):
+    def create(self, name, headquarters, description, owner):
+        organization = super().create(name=name,
+                                      headquarters=headquarters,
+                                      description=description,
+                                      owner=owner)
+
+        # Create the membership and set organization
+        Membership.objects.create(organization, owner, True)
+        owner.profile.organization = organization
+        owner.profile.save()
+
+        return True
 
 
 class Organization(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
+    headquarters = models.CharField(max_length=LENGTH_MEDIUM)
     description = models.CharField(max_length=LENGTH_LONG)
     isPrivate = models.BooleanField(default=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # SET_NULL? Orphan Organization?
+    approved = models.BooleanField(default=False)
 
-    def create(self, approvedRequest):
-        self.name = approvedRequest.name
-        self.isPrivate = False
-        self.owner = approvedRequest.applicant
-        self.save()
-
-        # Create the membership
-        Membership().create(self, approvedRequest.applicant, True)
-
-        # Owner is always member
-        approvedRequest.applicant.profile.organization = self
-        approvedRequest.applicant.profile.save()
-
-        # Delete the fulfilled request
-        approvedRequest.delete()
+    objects = OrganizationManager()
 
     def getPagesData(self):
         pagesData = []
@@ -113,6 +111,10 @@ class Organization(models.Model):
             pagesData.append(page.serialize(False))
 
         return pagesData
+
+    def approve(self):
+        self.approved = True
+        self.save()
 
     def deserialize(self, data):
         self.name = data['name']
@@ -388,9 +390,9 @@ class MembershipManager(models.Manager):
             return False
 
         super().create(organization=organization,
-                    user=user,
-                    relatedDate=datetime.date.today(),
-                    approved=approved)
+                       user=user,
+                       relatedDate=datetime.date.today(),
+                       approved=approved)
 
         return True
 

@@ -6,7 +6,7 @@ import django.contrib.auth as djangoAuth
 from django.core.exceptions import ObjectDoesNotExist
 from builder.models import Profile
 from django.contrib.admin.views.decorators import staff_member_required
-from builder.models import Organization, NewOrganizationRequest, Membership
+from builder.models import Organization, Membership
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 import datetime
@@ -98,7 +98,7 @@ def staff(request):
     content = {'organizations': Organization.objects.all()}
 
     if request.method == 'GET':
-        content.update({'newOrganizationRequests': NewOrganizationRequest.objects.all()})
+        content.update({'unapprovedOrganizations': Organization.objects.filter(approved=False)})
         return render(request, 'staff.html', content)
 
     deleteOrganizationForm = DeleteOrganizationForm(request.POST)
@@ -106,12 +106,12 @@ def staff(request):
         Organization.objects.all().get(id=deleteOrganizationForm.cleaned_data['organizationIdToDelete']).delete()
         return redirect('/staff/')
 
-    approveNewOrganizationRequestForm = ApproveNewOrganizationRequestForm(request.POST)
-    if approveNewOrganizationRequestForm.is_valid():
-        Organization().create(NewOrganizationRequest.objects.get(id=approveNewOrganizationRequestForm.cleaned_data['newOrganizationRequestIdToApprove']))
+    approveOrganizationForm = ApproveOrganizationForm(request.POST)
+    if approveOrganizationForm.is_valid():
+        Organization.objects.get(id=approveOrganizationForm.cleaned_data['organizationIdToApprove']).approve()
 
-    denyNewOrganizationRequestForm = DenyNewOrganizationRequestForm(request.POST)
-    if denyNewOrganizationRequestForm.is_valid():
-        NewOrganizationRequest.objects.get(id=denyNewOrganizationRequestForm.cleaned_data['newOrganizationRequestIdToDeny']).delete()
+    denyOrganizationForm = DenyOrganizationForm(request.POST)
+    if denyOrganizationForm.is_valid():
+        Organization.objects.get(id=denyOrganizationForm.cleaned_data['organizationIdToDeny']).delete()
 
     return redirect('/staff/')

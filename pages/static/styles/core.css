@@ -25,7 +25,7 @@ input, textarea {
     padding: 10px;
     font-size: 25px;
     font-family: Roboto;
-    color: rgb(30, 30, 30);
+    color: rgb(60, 60, 60);
     border-radius: 10px;
     background-color: rgb(240, 240, 240);
     border: none;
@@ -166,7 +166,8 @@ body {
 }
 
 .content .heading h2 {
-    margin: 5px 0 0 0;
+    max-width: 1000px;
+    margin: 5px 0;
     text-align: center;
     font-size: 25px;
     font-weight: normal;

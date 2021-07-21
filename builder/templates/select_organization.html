@@ -3,22 +3,23 @@
     {% load static %}
     <head>
         <title>{{ "Select org"|buildPageTitle }}</title>
-
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/select_organization.css' %}">
     </head>
     <body>
         {% include 'core.html' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/select_organization.css' %}">
 
         <div class="content">
-            <h1>Select an organization</h1>
-            <h2>Looks like you're not part of an organization.<br>
-                Select an organization below, or send a request for a new one of your own.</h2>
+            <div class="heading">
+                <h1>Select an organization</h1>
+                <h2>Looks like you're not part of an organization.</h2>
+                <h2>Select an organization below, or send a request for a new one of your own.</h2>
+            </div>
             <form action="" method="POST">
                 {% csrf_token %}
                 {{ selectOrganizationForm }}
                 <button class="action-button" type="submit">Select</button>
             </form>
-            <h3>- or -</h3>
+            <h1>- or -</h1>
             <a href="{% url 'request_new_organization' %}">Request a new organization</a>
         </div>
     </body>
