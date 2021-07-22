@@ -1,0 +1,11 @@
+- Example page on left side of Page page
+- Add my organization page
+- Packages - targetted groups of pages (i.e a College package)
+- Show Page details in preview
+- Create a 'helper' popup (i.e describe the Page explanation)
+- Create pitch: Complain about current ways
+
+App ideas:
+- Poll app. Ability to push poll to members.
+- Provide ability for restaurants to have menu on TV
+- League schedule (need more robust Sheet)

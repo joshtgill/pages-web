@@ -1,5 +1,5 @@
 # Python cache
 __pycache__
 
-# Local files
-local/
+# Virtual environment
+/misc/pages-venv
