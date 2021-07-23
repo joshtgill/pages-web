@@ -1,4 +1,5 @@
 .content .dashboard {
+    max-width: 1400px;
     margin-top: 5vh;
     align-items: center;
 }
@@ -7,7 +8,7 @@
     height: 450px;
     align-items: center;
     max-width: 325px;
-    margin: 3vh 3vw;
+    margin: 3vh 3vw 6vmin 3vw;
     text-decoration: none;
 }
 

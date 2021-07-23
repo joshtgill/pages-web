@@ -61,6 +61,77 @@
     width: 100%;
 }
 
+.content form .items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 3vh 0 1vh 0;
+}
+
+.content form .items .item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.content form .items .item .actions {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.content form .items .item .actions .field-options {
+    height: 100%;
+    display: flex;
+}
+
+.content form .items .item .actions .field-options button {
+    width: 50px;
+    min-width: 50px;
+    margin: 0 15px 0 0;
+    font-size: 25px;
+    border-radius: 10px;
+    background-color: rgb(240, 240, 240);
+    text-decoration: none;
+}
+
+.content form .items .item .actions .field-options button img {
+    width: 25px;
+    margin: 0;
+}
+
+.content form .items .item .actions button {
+    font-size: 20px;
+    color: rgb(30, 30, 30);
+    background-color: rgb(250, 250, 252);
+    text-decoration: underline;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.content form .items hr {
+    width: 100%;
+    margin: 6vh auto 4vh auto;
+}
+
+.content form #addItemButton {
+    width: 50px;
+    height: 50px;
+    padding-bottom: 5px;
+    font-size: 30px;
+    color: rgb(30, 30, 30);
+    background-color: rgb(230, 230, 230);
+    border: none;
+    border-radius: 50px;
+    outline: none;
+    cursor: pointer;
+}
+
 .field-container {
     width: 100%;
     display: flex;
@@ -91,6 +162,14 @@
 
 #title-field-container {
     max-width: 400px;
+}
+
+#removeFieldButton {
+    margin-top: 5px;
+}
+
+#removeFieldButton img {
+    margin: 0;
 }
 
 #price-field-container {
@@ -194,6 +273,10 @@
 @media only screen and (min-width: 580px) {
     .content .header {
         justify-content: left;
+    }
+
+    .content form .items .item button {
+        flex-grow: 0;
     }
 
     #datetime-field-container {

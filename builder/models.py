@@ -170,6 +170,24 @@ class Page(models.Model):
                 event = Event(page=self)
 
             event.deserialize(postData)
+        elif postData.get('pageType')[0] == 'Checklist':
+            try:
+                for itemId in postData.get('itemIdsToDelete')[0].split('|'):
+                    ChecklistItem.objects.get(id=itemId).delete()
+            except ValueError:
+                pass
+
+            try:
+                for i in range(len(postData.get('id'))):
+                    checklistItem = None
+                    try:
+                        checklistItem = ChecklistItem.objects.get(id=int(postData.get('id')[i]))
+                    except ObjectDoesNotExist:
+                        checklistItem = ChecklistItem(page=self)
+
+                    checklistItem.deserialize(postData, i)
+            except TypeError:
+                pass
 
     def determineExplanation(self, postType, postExplanation=''):
         if postExplanation:
@@ -179,6 +197,8 @@ class Page(models.Model):
             return 'View the contents of this Sheet.'
         elif postType == 'Event':
             return 'View this Event and update your attendance status.'
+        elif postType == 'Checklist':
+            return 'View this Checklist\'s items and update your progress.'
 
         return postExplanation
 
@@ -194,6 +214,11 @@ class Page(models.Model):
             data.update({'items': itemsData})
         elif self.typee == 'Event':
             data.update({'event': Event.objects.get(page=self).serialize()})
+        elif self.typee == 'Checklist':
+            itemsData = []
+            for checklistItem in ChecklistItem.objects.filter(page=self):
+                itemsData.append(checklistItem.serialize())
+            data.update({'items': itemsData})
 
         return data
 
@@ -323,6 +348,23 @@ class Event(models.Model):
         for declinee in self.declinees.all():
             declineesData.append(declinee.get_full_name())
         data.update({'declinees': declineesData})
+
+        return data
+
+
+class ChecklistItem(models.Model):
+    text = models.CharField(max_length=LENGTH_LONG)
+    description = models.CharField(max_length=LENGTH_LONG)
+
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+
+    def deserialize(self, postData, postDataIndex):
+        self.text = postData.get('text')[postDataIndex]
+        self.description = postData.get('description')[postDataIndex]
+        self.save()
+
+    def serialize(self):
+        data = model_to_dict(self)
 
         return data
 

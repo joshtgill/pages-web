@@ -51,6 +51,8 @@
                     {% include 'pages/build_sheet.html' %}
                 {% elif pageData.typee == 'Event' %}
                     {% include 'pages/build_event.html' %}
+                {% elif pageData.typee == 'Checklist' %}
+                    {% include 'pages/build_checklist.html' %}
                 {% endif %}
             </form>
             <form id="deletePageForm" method="POST">

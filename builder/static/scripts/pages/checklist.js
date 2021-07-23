@@ -1,4 +1,4 @@
-class Sheet {
+class Checklist {
     constructor(div, dataIdentifier=null) {
         this.container = div;
         this.items = [];
@@ -27,9 +27,9 @@ class Sheet {
             this.container.appendChild(seperatorAbove);
         }
 
-        var sheetItem = new SheetItem(this, data);
-        this.items.push(sheetItem);
-        this.container.appendChild(sheetItem.getContainer());
+        var checklistItem = new ChecklistItem(this, data);
+        this.items.push(checklistItem);
+        this.container.appendChild(checklistItem.getContainer());
     }
 
     removeItem(item) {
@@ -53,16 +53,14 @@ class Sheet {
     }
 }
 
-class SheetItem {
+class ChecklistItem {
     constructor(sheet, data) {
         this.sheet = sheet;
 
         this.id = Object.keys(data).length ? data['id'] : -1;
-        this.fields = [new TextInputField('title', 'Title', data['title']),
-                       new TextAreaField(data['description']),
-                       new PriceField(true, data['price']),
-                       new LocationField(true, data['location']),
-                       new DatetimeField(true, data['singleOccurence'], data['repeatingOccurence'])];
+        console.log(data['description'])
+        this.fields = [new TextInputField('text', 'Item text', data['text']),
+                       new TextAreaField(true, data['description'])];
 
         this.container = null;
         this.buildContainer();

@@ -56,6 +56,7 @@ class BaseField {
 
     buildRemoveFieldButton() {
         var removeFieldButton = document.createElement('button');
+        removeFieldButton.id = 'removeFieldButton'
         removeFieldButton.type = 'button';
         var thiss = this;
         removeFieldButton.onclick = function() {
@@ -80,7 +81,8 @@ class BaseField {
     }
 
     disable() {
-        var inputs = this.container.querySelectorAll('input');
+        var inputs = this.container.querySelectorAll('input, textarea');
+        console.log(inputs);
         for (var i = 0; i < inputs.length; ++i) {
             inputs[i].value = '';
             inputs[i].required = false;
@@ -90,9 +92,9 @@ class BaseField {
 
 
 class TextInputField extends BaseField {
-    constructor(...args) {
+    constructor(name, placeholder, ...args) {
         var template = `
-            <input type="text" name="title" placeholder="Title" autocomplete="off">
+            <input type="text" name="${name}" placeholder="${placeholder}" autocomplete="off">
         `
         super(template, false, args);
     }
@@ -107,16 +109,25 @@ class TextInputField extends BaseField {
 
 
 class TextAreaField extends BaseField {
-    constructor(...args) {
+    constructor(isOptional, ...args) {
         var template = `
             <textarea name="description" rows=3 placeholder="Description"></textarea>
         `
-        super(template, false, args);
+        super(template, isOptional, args);
+    }
+
+    buildButton() {
+        super.buildButton();
+        this.button.innerHTML = '<img src="/static/images/text.png" alt="text icon">';
     }
 
     detailContainer() {
         if (this.hasPrimaryValues()) {
             this.container.querySelector('textarea').value = this.values[0];
+        }
+
+        if (this.isOptional) {
+            this.container.appendChild(super.buildRemoveFieldButton());
         }
     }
 }
