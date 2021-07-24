@@ -1,0 +1,115 @@
+#priceFieldContainer {
+    max-width: 250px;
+    flex-wrap: nowrap;
+}
+
+#locationFieldContainer {
+    max-width: 500px;
+    flex-wrap: nowrap;
+    align-self: flex-start;
+}
+
+#datetimeFieldContainer {
+    justify-content: space-between;
+    align-items: space-between;
+}
+
+#datetimeFieldContainer .datetime-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2vh;
+}
+
+#datetimeFieldContainer img {
+    margin: 0;
+}
+
+#datetimeFieldContainer img button {
+    margin: 0;
+}
+
+#datetimeFieldContainer .datetime-range {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+#datetimeFieldContainer .datetime-range input {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 20px;
+}
+
+#datetimeFieldContainer h3 {
+    margin: 10px;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+#datetimeFieldContainer .datetime-repeat {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#datetimeFieldContainer .datetime-repeat .days {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#datetimeFieldContainer .datetime-repeat .days button {
+    width: 48px;
+    height: 48px;
+    margin: 0 20px 10px 0;
+    padding-top: 2px;
+    font-size: 20px;
+    text-decoration: none;
+    border: none;
+    border-radius: 40px;
+    background-color: rgb(240, 240, 240);
+    outline: none;
+}
+
+#datetimeFieldContainer .datetime-repeat .times {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#datetimeFieldContainer .datetime-repeat .times input {
+    margin: 1vh 0;
+    font-size: 20px;
+}
+
+#datetimeFieldContainer .datetime-repeat .times input[type=time] {
+    max-width: 150px;
+}
+
+#datetimeFieldContainer .datetime-repeat .times input[type=date] {
+    max-width: 200px;
+}
+
+@media only screen and (min-width: 580px) {
+    #datetimeFieldContainer {
+        justify-content: flex-start;
+    }
+
+    #datetimeFieldContainer input {
+        max-width: 300px;
+    }
+
+    #datetimeFieldContainer .datetime-repeat .days {
+        justify-content: flex-start;
+    }
+
+    #datetimeFieldContainer .datetime-repeat .times {
+        justify-content: flex-start;
+    }
+}

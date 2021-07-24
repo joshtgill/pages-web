@@ -163,13 +163,23 @@ class Page(models.Model):
             except TypeError:
                 pass
         elif postData.get('pageType')[0] == 'Event':
-            event = None
             try:
-                event = Event.objects.get(page=self)
-            except ObjectDoesNotExist:
-                event = Event(page=self)
+                for itemId in postData.get('itemIdsToDelete')[0].split('|'):
+                    Event.objects.get(id=itemId).delete()
+            except ValueError:
+                pass
 
-            event.deserialize(postData)
+            try:
+                for i in range(len(postData.get('id'))):
+                    event = None
+                    try:
+                        event = Event.objects.get(id=int(postData.get('id')[i]))
+                    except ObjectDoesNotExist:
+                        event = Event(page=self)
+
+                    event.deserialize(postData)
+            except TypeError:
+                pass
         elif postData.get('pageType')[0] == 'Checklist':
             try:
                 for itemId in postData.get('itemIdsToDelete')[0].split('|'):
@@ -213,7 +223,10 @@ class Page(models.Model):
                 itemsData.append(sheetItem.serialize())
             data.update({'items': itemsData})
         elif self.typee == 'Event':
-            data.update({'event': Event.objects.get(page=self).serialize()})
+            itemsData = []
+            for eventItem in Event.objects.filter(page=self):
+                itemsData.append(eventItem.serialize())
+            data.update({'items': itemsData})
         elif self.typee == 'Checklist':
             itemsData = []
             for checklistItem in ChecklistItem.objects.filter(page=self):

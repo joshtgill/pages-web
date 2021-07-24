@@ -7,6 +7,9 @@
     <body>
         {% include 'core.html' %}
         <link rel="stylesheet" type="text/css" href="{% static 'styles/build_page.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/builder/fields.css' %}">
+        <script src="{% static 'scripts/pages.js' %}"></script>
+        <script src="{% static 'scripts/fields.js' %}"></script>
 
         <div class="mini-banner">
             <a href="{% url 'explore' %}?organization={{ request.user.profile.organization.name  }}">{{ request.user.profile.organization.name  }}</a>
@@ -47,13 +50,24 @@
                     {% endif %}
                     <h5>Page explanation. <a>What's this?</a></h5>
                 </div>
+
+                <div id="items" class="items"></div>
+
                 {% if pageData.typee == 'Sheet' %}
-                    {% include 'pages/build_sheet.html' %}
+                    <link rel="stylesheet" type="text/css" href="{% static 'styles/builder/sheet_item.css' %}">
+                    <button id="addItemButton" type="button" onclick="page.addItem()">+</button>
                 {% elif pageData.typee == 'Event' %}
-                    {% include 'pages/build_event.html' %}
+                    {% comment "" %}CONFIG WILL FIX{% endcomment %}
+                    <link rel="stylesheet" type="text/css" href="{% static 'styles/builder/event_item.css' %}">
                 {% elif pageData.typee == 'Checklist' %}
-                    {% include 'pages/build_checklist.html' %}
+                    <link rel="stylesheet" type="text/css" href="{% static 'styles/builder/checklist_item.css' %}">
+                    <button id="addItemButton" type="button" onclick="page.addItem()">+</button>
                 {% endif %}
+
+                {{ pageData.items|json_script:"itemsData" }}
+                <script>
+                    page = new Page({{pageData.typee}}Item, 'itemsData');
+                </script>
             </form>
             <form id="deletePageForm" method="POST">
                 {% csrf_token %}

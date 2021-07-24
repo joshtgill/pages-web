@@ -65,7 +65,7 @@ def build(request):
             content.update({'pageData': Page.objects.get(id=pageId).serialize()})
         else:
             # Invalid Page ID is provided with respect to organization. Load empty Page builder.
-            content.update({'pageData': {'typee': pageType}})
+            content.update({'pageData': {'typee': pageType, 'items': {}}})
 
         return render(request, 'build_page.html', content)
 

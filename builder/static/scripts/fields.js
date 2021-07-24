@@ -82,7 +82,6 @@ class BaseField {
 
     disable() {
         var inputs = this.container.querySelectorAll('input, textarea');
-        console.log(inputs);
         for (var i = 0; i < inputs.length; ++i) {
             inputs[i].value = '';
             inputs[i].required = false;
@@ -100,7 +99,7 @@ class TextInputField extends BaseField {
     }
 
     detailContainer() {
-        this.container.id = 'title-field-container';
+        this.container.id = 'titleFieldContainer';
         if (this.hasPrimaryValues()) {
             this.container.querySelector('input').value = this.values[0];
         }
@@ -148,7 +147,7 @@ class LocationField extends BaseField {
     }
 
     detailContainer() {
-        this.container.id = 'location-field-container';
+        this.container.id = 'locationFieldContainer';
 
         if (this.hasPrimaryValues()) {
             this.container.querySelector('input').value = this.values[0];
@@ -212,7 +211,7 @@ class DatetimeField extends BaseField {
     }
 
     detailContainer() {
-        this.container.id = 'datetime-field-container';
+        this.container.id = 'datetimeFieldContainer';
 
         if (this.isOptional) {
             this.container.querySelector('.datetime-header').appendChild(this.buildRemoveFieldButton());
@@ -335,7 +334,7 @@ class PriceField extends BaseField {
     }
 
     detailContainer() {
-        this.container.id = 'price-field-container';
+        this.container.id = 'priceFieldContainer';
         this.container.appendChild(super.buildRemoveFieldButton());
 
         if (this.hasPrimaryValues()) {

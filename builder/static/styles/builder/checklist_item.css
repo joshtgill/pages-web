@@ -1,0 +1,4 @@
+.content form .items .item #titleFieldContainer {
+    width: 100%;
+    max-width: unset;
+}

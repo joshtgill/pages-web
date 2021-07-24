@@ -4,6 +4,7 @@
 - Show Page details in preview
 - Create a 'helper' popup (i.e describe the Page explanation)
 - Create pitch: Complain about current ways
+- Page config!!
 
 App ideas:
 - Poll app. Ability to push poll to members.
