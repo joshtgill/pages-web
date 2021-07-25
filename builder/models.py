@@ -123,7 +123,7 @@ class Organization(models.Model):
         self.save()
 
 
-class PageListing(models.Model):
+class PageInfo(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     description = models.CharField(max_length=LENGTH_MEDIUM)
     color = models.ForeignKey(ColorField, on_delete=models.CASCADE)

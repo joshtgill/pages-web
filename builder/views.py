@@ -52,10 +52,10 @@ def build(request):
 
         if not buildForm.is_valid():
             # Page type isn't provided, list available Pages
-            return render(request, 'select_page_type.html', {'pageListings': PageListing.objects.all()})
+            return render(request, 'select_page_type.html', {'pageListings': PageInfo.objects.all()})
 
         pageType = buildForm.cleaned_data['typee']
-        if not PageListing.objects.filter(name=pageType).exists():
+        if not PageInfo.objects.filter(name=pageType).exists():
             return redirect('/create/build/')
 
         content = {'defaultExplanation': Page().determineExplanation(pageType)}
