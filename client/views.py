@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from builder.models import Organization, Page, SheetItem, Event, Membership, SingleOccurence, RepeatingOccurence
+from builder.models import Organization, Page, SheetItem, EventItem, Membership, SingleOccurence, RepeatingOccurence
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
 from django.contrib.auth.decorators import login_required
@@ -47,7 +47,7 @@ def explore(request):
     if not eventAttendanceForm.is_valid():
         return redirect('/profile/')
 
-    event = Event.objects.get(id=eventAttendanceForm.cleaned_data['eventId'])
-    event.updateAttendance(request.user, eventAttendanceForm.cleaned_data['status'])
+    eventItem = EventItem.objects.get(id=eventAttendanceForm.cleaned_data['eventId'])
+    eventItem.updateAttendance(request.user, eventAttendanceForm.cleaned_data['status'])
 
-    return redirect('/explore/?organization={}&page={}'.format(event.page.organization.name, event.page.id))
+    return redirect('/explore/?organization={}&page={}'.format(eventItem.page.organization.name, eventItem.page.id))

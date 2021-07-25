@@ -165,19 +165,19 @@ class Page(models.Model):
         elif postData.get('pageType')[0] == 'Event':
             try:
                 for itemId in postData.get('itemIdsToDelete')[0].split('|'):
-                    Event.objects.get(id=itemId).delete()
+                    EventItem.objects.get(id=itemId).delete()
             except ValueError:
                 pass
 
             try:
                 for i in range(len(postData.get('id'))):
-                    event = None
+                    eventItem = None
                     try:
-                        event = Event.objects.get(id=int(postData.get('id')[i]))
+                        eventItem = EventItem.objects.get(id=int(postData.get('id')[i]))
                     except ObjectDoesNotExist:
-                        event = Event(page=self)
+                        eventItem = EventItem(page=self)
 
-                    event.deserialize(postData)
+                    eventItem.deserialize(postData)
             except TypeError:
                 pass
         elif postData.get('pageType')[0] == 'Checklist':
@@ -224,7 +224,7 @@ class Page(models.Model):
             data.update({'items': itemsData})
         elif self.typee == 'Event':
             itemsData = []
-            for eventItem in Event.objects.filter(page=self):
+            for eventItem in EventItem.objects.filter(page=self):
                 itemsData.append(eventItem.serialize())
             data.update({'items': itemsData})
         elif self.typee == 'Checklist':
@@ -288,7 +288,7 @@ class SheetItem(models.Model):
         return data
 
 
-class Event(models.Model):
+class EventItem(models.Model):
     description = models.CharField(max_length=LENGTH_MEDIUM)
     location = models.CharField(max_length=LENGTH_MEDIUM, null=True)
     attendanceIsPublic = models.BooleanField(default=False)
@@ -314,38 +314,38 @@ class Event(models.Model):
         self.attendanceIsPublic = ('attendanceIsPublic' in postData)
         self.save()
 
-        if postData.get('selectedDays')[0] or RepeatingOccurence.objects.filter(event=self).exists():
+        if postData.get('selectedDays')[0] or RepeatingOccurence.objects.filter(eventItem=self).exists():
             repeatingOccurence = None
             try:
-                repeatingOccurence = RepeatingOccurence.objects.get(event=self)
+                repeatingOccurence = RepeatingOccurence.objects.get(eventItem=self)
                 if not postData.get('selectedDays')[0]:
                     repeatingOccurence.delete()
                     return
             except ObjectDoesNotExist:
-                repeatingOccurence = RepeatingOccurence(event=self)
+                repeatingOccurence = RepeatingOccurence(eventItem=self)
             repeatingOccurence.deserialize(postData)
         else:
             singleOccurence = None
             try:
-                singleOccurence = SingleOccurence.objects.get(event=self)
+                singleOccurence = SingleOccurence.objects.get(eventItem=self)
                 if not postData.get('startDatetime')[0] and not postData.get('endDatetime')[0]:
                     singleOccurence.delete()
                     return
             except ObjectDoesNotExist:
-                singleOccurence = SingleOccurence(event=self)
+                singleOccurence = SingleOccurence(eventItem=self)
             singleOccurence.deserialize(postData)
 
     def serialize(self):
         data = model_to_dict(self)
 
         try:
-            singleOccurence = SingleOccurence.objects.get(event=self)
+            singleOccurence = SingleOccurence.objects.get(eventItem=self)
             data.update({'singleOccurence': singleOccurence.serialize()})
         except ObjectDoesNotExist:
             pass
 
         try:
-            repeatingOccurence = RepeatingOccurence.objects.get(event=self)
+            repeatingOccurence = RepeatingOccurence.objects.get(eventItem=self)
             data.update({'repeatingOccurence': repeatingOccurence.serialize()})
         except ObjectDoesNotExist:
             pass
@@ -387,7 +387,7 @@ class SingleOccurence(models.Model):
     endDatetime = models.DateTimeField()
 
     sheetItem = models.ForeignKey(SheetItem, null=True, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
+    eventItem = models.ForeignKey(EventItem, null=True, on_delete=models.CASCADE)
 
     def deserialize(self, postData, postDataIndex=0):
         self.startDatetime = postData.get('startDatetime')[postDataIndex]
@@ -412,7 +412,7 @@ class RepeatingOccurence(models.Model):
     endDate = models.DateField()
 
     sheetItem = models.ForeignKey(SheetItem, null=True, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
+    eventItem = models.ForeignKey(EventItem, null=True, on_delete=models.CASCADE)
 
     def deserialize(self, postData, postDataIndex=0):
         selectedDays = postData.get('selectedDays')[postDataIndex].split('|')
