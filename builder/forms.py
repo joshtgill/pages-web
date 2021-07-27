@@ -16,7 +16,7 @@ class RegisterOrganizationForm(forms.Form):
 
 
 class BuildForm(forms.Form):
-    typee = forms.CharField()
+    type = forms.CharField()
     idd = forms.IntegerField(required=False)
 
 

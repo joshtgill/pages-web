@@ -52,20 +52,20 @@ def build(request):
 
         if not buildForm.is_valid():
             # Page type isn't provided, list available Pages
-            return render(request, 'select_page_type.html', {'pageListings': PageInfo.objects.all()})
+            return render(request, 'select_page_type.html', {'pageInfos': PageInfo.objects.all()})
 
-        pageType = buildForm.cleaned_data['typee']
-        if not PageInfo.objects.filter(name=pageType).exists():
+        pageInfo = PageInfo.objects.get(type=buildForm.cleaned_data['type'])
+        if not pageInfo:
             return redirect('/create/build/')
 
-        content = {'defaultExplanation': Page().determineExplanation(pageType)}
+        content = {'defaultExplanation': pageInfo.defaultExplanation, 'pageInfos': PageInfo.objects.all() }
         pageId = buildForm.cleaned_data['idd']
         if pageId and Page.objects.filter(organization=request.user.profile.organization, id=pageId).exists():
             # Page ID is provided and belongs to active organization. Load Page builder with existing data.
             content.update({'pageData': Page.objects.get(id=pageId).serialize()})
         else:
             # Invalid Page ID is provided with respect to organization. Load empty Page builder.
-            content.update({'pageData': {'typee': pageType, 'items': {}}})
+            content.update({'pageData': {'info': pageInfo, 'items': {}}})
 
         return render(request, 'build_page.html', content)
 

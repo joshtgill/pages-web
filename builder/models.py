@@ -124,114 +124,63 @@ class Organization(models.Model):
 
 
 class PageInfo(models.Model):
-    name = models.CharField(max_length=LENGTH_SHORT)
+    type = models.CharField(max_length=LENGTH_SHORT)
     description = models.CharField(max_length=LENGTH_MEDIUM)
     color = models.ForeignKey(ColorField, on_delete=models.CASCADE)
+    defaultExplanation = models.CharField(max_length=LENGTH_LONG)
+    hasSingleItem = models.BooleanField()
+
+    def getItemObject(self):
+        return eval('{}Item'.format(self.type))
 
 
 class Page(models.Model):
     name = models.CharField(max_length=LENGTH_SHORT)
     explanation = models.CharField(max_length=LENGTH_LONG)
-    typee = models.CharField(max_length=LENGTH_SHORT)
     dateCreated = models.DateField()
+    info = models.ForeignKey(PageInfo, on_delete=models.CASCADE)
 
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
     def deserialize(self, postData):
         self.name = postData.get('pageName')[0]
-        self.typee = postData.get('pageType')[0]
-        self.explanation = self.determineExplanation(self.typee, postData.get('pageExplanation')[0])
+        self.explanation = self.determineExplanation(postData.get('pageExplanation')[0])
         self.dateCreated = datetime.date.today()
         self.save()
 
-        if postData.get('pageType')[0] == 'Sheet':
-            try:
-                for itemId in postData.get('itemIdsToDelete')[0].split('|'):
-                    SheetItem.objects.get(id=itemId).delete()
-            except ValueError:
-                pass
+        Item = self.info.getItemObject()
 
-            try:
-                for i in range(len(postData.get('id'))):
-                    sheetItem = None
-                    try:
-                        sheetItem = SheetItem.objects.get(id=int(postData.get('id')[i]))
-                    except ObjectDoesNotExist:
-                        sheetItem = SheetItem(page=self)
+        try:
+            for itemId in postData.get('itemIdsToDelete')[0].split('|'):
+                Item.objects.get(id=itemId).delete()
+        except ValueError:
+            pass
 
-                    sheetItem.deserialize(postData, i)
-            except TypeError:
-                pass
-        elif postData.get('pageType')[0] == 'Event':
-            try:
-                for itemId in postData.get('itemIdsToDelete')[0].split('|'):
-                    EventItem.objects.get(id=itemId).delete()
-            except ValueError:
-                pass
+        try:
+            for i in range(len(postData.get('id'))):
+                item = None
+                try:
+                    item = Item.objects.get(id=int(postData.get('id')[i]))
+                except ObjectDoesNotExist:
+                    item = Item(page=self)
 
-            try:
-                for i in range(len(postData.get('id'))):
-                    eventItem = None
-                    try:
-                        eventItem = EventItem.objects.get(id=int(postData.get('id')[i]))
-                    except ObjectDoesNotExist:
-                        eventItem = EventItem(page=self)
+                item.deserialize(postData, i)
+        except TypeError:
+            pass
 
-                    eventItem.deserialize(postData)
-            except TypeError:
-                pass
-        elif postData.get('pageType')[0] == 'Checklist':
-            try:
-                for itemId in postData.get('itemIdsToDelete')[0].split('|'):
-                    ChecklistItem.objects.get(id=itemId).delete()
-            except ValueError:
-                pass
-
-            try:
-                for i in range(len(postData.get('id'))):
-                    checklistItem = None
-                    try:
-                        checklistItem = ChecklistItem.objects.get(id=int(postData.get('id')[i]))
-                    except ObjectDoesNotExist:
-                        checklistItem = ChecklistItem(page=self)
-
-                    checklistItem.deserialize(postData, i)
-            except TypeError:
-                pass
-
-    def determineExplanation(self, postType, postExplanation=''):
-        if postExplanation:
-            return postExplanation
-
-        if postType == 'Sheet':
-            return 'View the contents of this Sheet.'
-        elif postType == 'Event':
-            return 'View this Event and update your attendance status.'
-        elif postType == 'Checklist':
-            return 'View this Checklist\'s items and update your progress.'
-
-        return postExplanation
+    def determineExplanation(self, postExplanation=''):
+        return postExplanation if postExplanation else self.info.defaultExplanation
 
     def serialize(self, recursive=True):
         data = model_to_dict(self)
+        data.update({'info': model_to_dict(self.info)})
         if not recursive:
             return data
 
-        if self.typee == 'Sheet':
-            itemsData = []
-            for sheetItem in SheetItem.objects.filter(page=self):
-                itemsData.append(sheetItem.serialize())
-            data.update({'items': itemsData})
-        elif self.typee == 'Event':
-            itemsData = []
-            for eventItem in EventItem.objects.filter(page=self):
-                itemsData.append(eventItem.serialize())
-            data.update({'items': itemsData})
-        elif self.typee == 'Checklist':
-            itemsData = []
-            for checklistItem in ChecklistItem.objects.filter(page=self):
-                itemsData.append(checklistItem.serialize())
-            data.update({'items': itemsData})
+        itemsData = []
+        for item in self.info.getItemObject().objects.filter(page=self):
+            itemsData.append(item.serialize())
+        data.update({'items': itemsData})
 
         return data
 

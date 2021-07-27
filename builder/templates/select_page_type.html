@@ -16,12 +16,12 @@
                 <h2>Don't worry, you can always come back to create as many as you want.</h2>
             </div>
             <div class="dashboard">
-                {% for pageInfo in pageListings %}
-                    <a class="item" href="{% url 'build' %}?typee={{ pageInfo.name }}">
+                {% for pageInfo in pageInfos %}
+                    <a class="item" href="{% url 'build' %}?type={{ pageInfo.type }}">
                         <div class="background" style="background-color: {{ pageInfo.color.serialize }}">
                         </div>
                         <div class="info">
-                            <h1>{{ pageInfo.name }}</h1>
+                            <h1>{{ pageInfo.type }}</h1>
                             <p>{{ pageInfo.description }}</p>
                         </div>
                     </a>

@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=30)),
                 ('dateCreated', models.DateField()),
-                ('typee', models.CharField(max_length=30)),
+                ('type', models.CharField(max_length=30)),
                 ('organization', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='builder.organization')),
             ],
         ),

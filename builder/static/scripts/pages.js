@@ -1,6 +1,7 @@
 class Page {
-    constructor(Item, dataIdentifier=null) {
+    constructor(Item, dataIdentifier=null, hasSingleItem) {
         this.Item = Item;
+        this.hasSingleItem = hasSingleItem == 'True' ? true : false;
         this.container = document.getElementById('items');
         this.items = [];
         this.separators = [];
@@ -13,10 +14,16 @@ class Page {
         this.container.appendChild(this.itemIdsToDeleteInput);
 
         if (dataIdentifier) {
+            // Add existing items
             var itemsData = JSON.parse(document.getElementById(dataIdentifier).textContent);
             for (var index in itemsData) {
                 this.addItem(itemsData[index]);
             }
+        }
+
+        if (this.items.length == 0 && this.hasSingleItem) {
+            // Add lone item
+            this.addItem();
         }
     }
 

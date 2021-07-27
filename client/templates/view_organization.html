@@ -95,7 +95,7 @@
                         {% for page in pages %}
                             <a href="{% url 'explore' %}?organization={{ organization.name }}&page={{ page.id }}">
                                 <h3 name="name">{{ page.name }}</h3>
-                                <h4>{{ page.typee }}, created <i>{{ page.dateCreated }}</i></h4>
+                                <h4>{{ page.info.type }}, created <i>{{ page.dateCreated }}</i></h4>
                                 <p>
                                     {% if page.explanation %}
                                         {{ page.explanation }}

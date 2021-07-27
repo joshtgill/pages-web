@@ -29,19 +29,19 @@
 
         <div class="content">
             <div class="heading">
-                {% if pageData.typee|first|upper in 'AEIOU' %}
-                    <h1>Build an {{ pageData.typee }}</h1>
+                {% if pageData.info.type|first|upper in 'AEIOU' %}
+                    <h1>Build an {{ pageData.info.type }}</h1>
                 {% else %}
-                    <h1>Build a {{ pageData.typee }}</h1>
+                    <h1>Build a {{ pageData.info.type }}</h1>
                 {% endif %}
             </div>
 
             <form id="pageForm" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="pageId" value="{{ pageData.id }}">
-                <input type="hidden" name="pageType" value="{{ pageData.typee }}">
+                <input type="hidden" name="pageType" value="{{ pageData.info.type }}">
 
-                <input id="pageNameInput" name="pageName" placeholder="{{ pageData.typee }} name" autocomplete="off" value="{{ pageData.name }}" required>
+                <input id="pageNameInput" name="pageName" placeholder="{{ pageData.info.type }} name" autocomplete="off" value="{{ pageData.name }}" required>
                 <div class="explanation-container">
                     {% if pageData.explanation != defaultExplanation %}
                         <textarea id="pageExplanationTextArea" name="pageExplanation" placeholder="{{ defaultExplanation }}" rows="3">{{ pageData.explanation }}</textarea>
@@ -53,20 +53,16 @@
 
                 <div id="items" class="items"></div>
 
-                {% if pageData.typee == 'Sheet' %}
-                    <link rel="stylesheet" type="text/css" href="{% static 'styles/builder/sheet_item.css' %}">
-                    <button id="addItemButton" type="button" onclick="page.addItem()">+</button>
-                {% elif pageData.typee == 'Event' %}
-                    {% comment "" %}CONFIG WILL FIX{% endcomment %}
-                    <link rel="stylesheet" type="text/css" href="{% static 'styles/builder/event_item.css' %}">
-                {% elif pageData.typee == 'Checklist' %}
-                    <link rel="stylesheet" type="text/css" href="{% static 'styles/builder/checklist_item.css' %}">
+                {% with "styles/builder/"|add:pageData.info.type|lower|add:"_item.css" as pageItemStylesheet %}
+                    <link rel="stylesheet" type="text/css" href="{% static pageItemStylesheet %}">
+                {% endwith %}
+                {% if not pageData.info.hasSingleItem %}
                     <button id="addItemButton" type="button" onclick="page.addItem()">+</button>
                 {% endif %}
 
                 {{ pageData.items|json_script:"itemsData" }}
                 <script>
-                    page = new Page({{pageData.typee}}Item, 'itemsData');
+                    page = new Page({{ pageData.info.type }}Item, 'itemsData', '{{ pageData.info.hasSingleItem }}');
                 </script>
             </form>
             <form id="deletePageForm" method="POST">
