@@ -20,104 +20,45 @@
     margin-bottom: 4vh;
 }
 
-.content .pages-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-self: flex-start;
+.content #pageDashboard {
+    margin-top: 40px;
+    max-width: 1400px;
 }
 
-.content .pages-container .header {
-    display: flex;
-    align-items: baseline;
-    margin: 0 calc(4vmin + 2px);
-}
-
-.content .pages-container .header h3 {
-    margin: 0;
-    font-size: 26px;
-    font-weight: normal;
-}
-
-.content .pages-container .header h4 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: normal;
-    color: rgb(100, 100, 100);
-}
-
-.content .pages-container .pages {
-    width: 100%;
-    max-width: 1600px;
-    display: flex;
-    margin-top: 20px;
-    overflow: auto;
-    align-self: center;
-}
-
-.content .pages-container .pages a {
-    width: 300px;
-    height: 350px;
-    display: flex;
-    flex-shrink: 0;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 4vmin 4vh 4vmin;
-    color: rgb(60, 60, 60);
-    border-radius: 10px;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-    outline: none;
-    cursor: pointer;
+.content .dashboard #pageItem {
+    max-width: 325px;
+    height: 425px;
+    margin: 3vh 3vw 6vmin 3vw;
     text-decoration: none;
-    transition: 0.5s;
 }
 
-.content .pages-container .pages a h3 {
-    margin: 30px 0 0 0;
-    font-size: 26px;
+.content .dashboard .item .background {
+    width: 100%;
+    height: 70px;
+    align-self: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.content .dashboard .item .info {
+    margin: 15px 30px 0 20px;
+    color: rgb(60, 60, 60);
+    text-decoration: none;
+}
+
+.content .dashboard .item .info h1 {
+    margin: 15px 0 10px 0;
+    font-size: 35px;
     font-weight: normal;
 }
 
-.content .pages-container .pages a h4 {
-    margin: 8px 0 0 0;
+.content .dashboard .item .info h2 {
+    margin: 0;
     font-size: 18px;
     font-weight: normal;
-    color: rgb(100, 100, 100);
 }
 
-.content .pages-container .pages a p {
-    margin: 20px 30px 35px 30px;
-    text-align: center;
+.content .dashboard .item .info p {
+    margin: 15px 0 0 0;
     font-size: 18px;
-    line-height: 28px;
-}
-
-.content .pages-container .pages .spacer {
-    width: 1vmax;
-    height: 100%;
-}
-
-@media only screen and (min-width: 800px) {
-    .content {
-        flex-direction: column;
-    }
-
-    .content .pages-container {
-        width: 100%;
-        min-width: 500px;
-    }
-
-    .content .pages-container .header {
-        justify-content: center;
-    }
-
-    .content .pages-container .pages {
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .content .pages-container .pages .spacer {
-        display: none;
-    }
+    line-height: 30px;
 }

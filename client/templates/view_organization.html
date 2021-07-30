@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="content" id="content">
-                <div class="dashboard" id="dashboardd">
+                <div class="dashboard">
                     <div class="item" style="max-width: 1000px; border-radius: 20px">
                         <div class="stats">
                             <div class="stat">
@@ -83,32 +83,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="pages-container">
-                    <div class="header">
-                        <h3>Pages</h3>
-                        <h4>&nbsp- {{ pages|length }} total</h4>
-                    </div>
-                    <div class="pages">
-                        <div class="spacer">
-                            &nbsp;
-                        </div>
-                        {% for page in pages %}
-                            <a href="{% url 'explore' %}?organization={{ organization.name }}&page={{ page.id }}">
-                                <h3 name="name">{{ page.name }}</h3>
-                                <h4>{{ page.info.type }}, created <i>{{ page.dateCreated }}</i></h4>
-                                <p>
-                                    {% if page.explanation %}
-                                        {{ page.explanation }}
-                                    {% else %}
-                                        No explanation available.
-                                    {% endif %}
-                                </p>
-                            </a>
-                        {% endfor %}
-                        <div class="spacer">
-                            &nbsp;
-                        </div>
-                    </div>
+                <div class="dashboard" id="pageDashboard">
+                    {% for page in pages %}
+                        <a class="item" id="pageItem" href="{% url 'explore' %}?organization={{ organization.name }}&page={{ page.id }}">
+                            <div class="background" style="background-color: {{ page.info.color.serialize }}"></div>
+                            <div class="info">
+                                <h1>{{ page.name }}</h1>
+                                <h2>{{ page.info.type }}, created <i>{{ page.dateCreated }}</i></h2>
+                                <p>{{ page.explanation }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
         </body>
