@@ -4,7 +4,10 @@
 <link rel="stylesheet" type="text/css" href="{% static 'styles/pages/view_sheet.css' %}">
 
 <div class="viewer-container">
-    <h1>{{ pageData.name }}</h1>
+    <div class="heading">
+        <h1>{{ pageData.name }}</h1>
+        <h2>{{ pageData.info.type }}, created <i>{{ pageData.dateCreated }}</i></h2>
+    </div>
     <div class="viewer">
         {% for item in pageData.items %}
             <div class="item">
