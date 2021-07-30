@@ -68,7 +68,7 @@ class SheetItem {
 
         this.id = Object.keys(data).length ? data['id'] : -1;
         this.fields = [new TextInputField('title', 'Title', data['title']),
-                       new TextAreaField(data['description']),
+                       new TextAreaField(false, data['description']),
                        new PriceField(true, data['price']),
                        new LocationField(true, data['location']),
                        new DatetimeField(true, data['singleOccurence'], data['repeatingOccurence'])];
