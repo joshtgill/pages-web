@@ -129,10 +129,17 @@ def manageOrganization(request):
 
 @login_required
 def editOrganization(request):
-    if request.method == 'POST':
-        editOrganizationForm = EditOrganizationForm(request.POST)
-        if editOrganizationForm.is_valid():
-            request.user.profile.organization.deserialize(editOrganizationForm.cleaned_data)
-        return redirect('/create/manage/')
+    if request.method == 'GET':
+        print(request.user.profile.organization.color)
+        return render(request, 'edit_organization.html', {'colorOptions': ColorField.objects.filter(label='ORGANIZATION')})
 
-    return render(request, 'edit_organization.html')
+    print(request.POST)
+
+    editOrganizationForm = EditOrganizationForm(request.POST)
+    if editOrganizationForm.is_valid():
+        request.user.profile.organization.deserialize(editOrganizationForm.cleaned_data)
+    else:
+        print('josh')
+
+    return redirect('/create/manage/')
+

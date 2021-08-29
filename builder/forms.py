@@ -28,6 +28,7 @@ class EditOrganizationForm(forms.Form):
     name = forms.CharField()
     description = forms.CharField()
     isPrivate = forms.BooleanField(required=False)
+    colorId = forms.IntegerField()
 
 
 class DeleteOrganizationForm(forms.Form):

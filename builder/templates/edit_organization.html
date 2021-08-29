@@ -7,6 +7,7 @@
     <body>
         {% include 'core.html' %}
         <link rel="stylesheet" type="text/css" href="{% static 'styles/edit_organization.css' %}">
+        <script src="{% static 'scripts/edit_organization.js' %}"></script>
 
         <div id="banner" class="banner">
             <div class="info">
@@ -28,16 +29,34 @@
                 {% csrf_token %}
                 <input name="name" placeholder="Organization name" autocomplete="off" value="{{ request.user.profile.organization.name }}">
                 <textarea name="description" placeholder="Description" rows="5">{{ request.user.profile.organization.description }}</textarea>
-                <div class="toggle">
-                    <h4>Private</h4>
-                    <label class="switch">
-                        <input type="checkbox" name="isPrivate"
-                            {% if request.user.profile.organization.isPrivate %}
-                                checked
-                            {% endif %}
-                        >
-                        <span class="slider"></span>
-                    </label>
+                <div class="toggle-container">
+                    <div class="toggle">
+                        <h4>Private</h4>
+                        <label class="switch">
+                            <input type="checkbox" name="isPrivate"
+                                {% if request.user.profile.organization.isPrivate %}
+                                    checked
+                                {% endif %}
+                            >
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <h1>A private organization allows only pre-approved members to view its Pages.</h1>
+                </div>
+                <div class="colors-container">
+                    <h1>Primary color</h1>
+                    <input type="hidden" id="organizationColorInput" name="colorId">
+                    <div class="colors" id="colors">
+                        {% for colorOption in colorOptions %}
+                            <div class="color-container" id="colorContainer{{ colorOption.id }}">
+                                <button class="color" type="button" value="{{ colorOption.id }}" onclick="selectColorOption(this.parentElement)"
+                                        style="background-color: {{ colorOption.serialize }}"></button>
+                            </div>
+                        {% endfor %}
+                        <script>
+                            selectColorOption(document.getElementById('colorContainer{{ request.user.profile.organization.color.id }}'));
+                        </script>
+                    </div>
                 </div>
             <form>
         </div>

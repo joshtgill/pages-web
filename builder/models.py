@@ -6,6 +6,7 @@ import django.contrib.auth as djangoAuth
 import uuid
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.deletion import SET_DEFAULT
 from django.forms.models import model_to_dict
 
 
@@ -75,6 +76,7 @@ class ColorField(models.Model):
     green = models.PositiveSmallIntegerField()
     blue = models.PositiveSmallIntegerField()
     alpha = models.FloatField()
+    label = models.CharField(max_length=LENGTH_SHORT)
 
     def serialize(self):
         return 'rgb({}, {}, {})'.format(self.red, self.green, self.blue)
@@ -102,6 +104,7 @@ class Organization(models.Model):
     isPrivate = models.BooleanField(default=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # SET_NULL? Orphan Organization?
     approved = models.BooleanField(default=False)
+    color = models.ForeignKey(ColorField, default=8, on_delete=SET_DEFAULT)
 
     objects = OrganizationManager()
 
@@ -120,6 +123,8 @@ class Organization(models.Model):
         self.name = data['name']
         self.description = data['description']
         self.isPrivate = data['isPrivate']
+        self.color = ColorField.objects.get(id=data['colorId'])
+
         self.save()
 
 
